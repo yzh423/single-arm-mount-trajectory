@@ -20,6 +20,7 @@ from factory_bimanual.piperx_recommended import (
     load_recommended_config,
     world_mount_for_family,
 )
+from factory_bimanual.mount_orientation import mount_quaternions
 from factory_bimanual.recommended_follow import RecommendedFollowRunner
 from factory_bimanual.registration import RigidTaskRegistration, register_task
 from factory_bimanual.robot_contracts import ROBOT_CONTRACTS
@@ -59,6 +60,56 @@ def parse_args(argv=None):
     )
     parser.add_argument("--no-video", action="store_true")
     return parser.parse_args(argv)
+
+
+def candidate_rank_key(metrics):
+    """Return the audit-preserving lexicographic score for mount candidates."""
+
+    return (
+        float(metrics["strict_coverage"]),
+        float(metrics["retimed_coverage"]),
+        -float(metrics["maximum_normalized_error"]),
+        float(metrics["collision_free_coverage"]),
+        float(metrics["fixed_time_coverage"]),
+        -float(metrics["execution_duration_s"]),
+    )
+
+
+def scene_mount_kwargs(mount, task, *, table_height_m):
+    """Translate an audited world mount into scene-builder arguments."""
+
+    yaw = mount.yaw_deg
+    quaternion = None
+    representation = "yaw_deg"
+    if mount.mode not in ("upright_table", "baseline_frozen"):
+        target_center = np.mean(np.vstack([
+            np.asarray(task.left_position_m, dtype=float),
+            np.asarray(task.right_position_m, dtype=float),
+        ]), axis=0)
+        quaternion = mount_quaternions(
+            mount.mode, mount.xy, target_center, yaw)
+        yaw = {"left": 0.0, "right": 0.0}
+        representation = "quaternion_wxyz"
+    kwargs = {
+        "table_height_m": float(table_height_m),
+        "mount_xy_m": mount.xy,
+        "mount_yaw_deg": yaw,
+        "mount_adapter_height_m": (
+            float(mount.shared_base_z_m) - float(table_height_m)),
+        "mount_quaternion_wxyz": quaternion,
+        "mount_support_mode": (
+            None if mount.mode == "baseline_frozen" else mount.mode),
+    }
+    evidence = {
+        "coordinate_domain": mount.coordinate_domain,
+        "orientation_representation": representation,
+        "yaw_deg": mount.yaw_deg,
+        "quaternion_wxyz": (
+            None if quaternion is None
+            else {side: list(quaternion[side]) for side in ("left", "right")}
+        ),
+    }
+    return kwargs, evidence
 
 
 def _slerp_wxyz(time_s, quaternion_wxyz, target_time_s):
@@ -523,21 +574,15 @@ def run(options):
         registration.rotation_world_from_vr,
         registration.translation_world_m,
     )
-    if mount.mode != "upright_table":
-        raise ValueError(
-            "the evidence render currently targets the PDF's upright Fold_Box mount"
-        )
     output_dir = Path(options.output_dir).resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
     stem = f"{family.date}_{family.task}_{options.source_take}_complete_follow"
     scene = output_dir / f"{stem}.scene.xml"
+    scene_kwargs, mount_orientation_evidence = scene_mount_kwargs(
+        mount, task, table_height_m=TABLE_HEIGHT_M)
     manifest = build_same_model_scene(
         ROBOT_CONTRACTS["piperx"], mount.base_distance_m, scene,
-        table_height_m=TABLE_HEIGHT_M,
-        mount_xy_m=mount.xy,
-        mount_yaw_deg={"left": 0.0, "right": 0.0},
-        mount_adapter_height_m=mount.shared_base_z_m - TABLE_HEIGHT_M,
-        mount_support_mode=mount.mode,
+        **scene_kwargs,
     )
     model = mujoco.MjModel.from_xml_path(str(scene))
     calibration = CalibrationArtifact.read(CALIBRATION_PATH)
@@ -575,6 +620,7 @@ def run(options):
     summary["source"]["sha256"] = hashlib.sha256(
         source_path.read_bytes()
     ).hexdigest()
+    summary["mount"].update(mount_orientation_evidence)
     summary["scene_manifest"] = asdict(manifest)
     summary_path = output_dir / f"{stem}.summary.json"
     trajectory_path = output_dir / f"{stem}.trajectory.npz"

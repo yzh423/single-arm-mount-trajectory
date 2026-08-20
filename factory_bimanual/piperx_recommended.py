@@ -91,6 +91,11 @@ class WorldMount:
     right_xyz_m: np.ndarray
     shared_base_z_m: float
     source_take: str
+    left_yaw_deg: float = 0.0
+    right_yaw_deg: float = 0.0
+    coordinate_domain: str = "registered_world"
+    selection_method: str = (
+        "PDF recommended shared base with rigid task registration")
 
     @property
     def base_distance_m(self) -> float:
@@ -103,13 +108,20 @@ class WorldMount:
             "right": self.right_xyz_m[:2].tolist(),
         }
 
+    @property
+    def yaw_deg(self) -> dict[str, float]:
+        return {
+            "left": float(self.left_yaw_deg),
+            "right": float(self.right_yaw_deg),
+        }
+
     def as_scene_mount(self) -> dict:
         return {
             "family": self.family.key,
             "morphology": self.morphology,
             "mode": self.mode,
             "xy": self.xy,
-            "yaw": {"left": 0.0, "right": 0.0},
+            "yaw": self.yaw_deg,
             "shared_base_z_m": self.shared_base_z_m,
             "base_z_m": {
                 "left": float(self.left_xyz_m[2]),
@@ -117,7 +129,8 @@ class WorldMount:
             },
             "base_distance_m": self.base_distance_m,
             "source_take": self.source_take,
-            "selection_method": "PDF recommended shared base with rigid task registration",
+            "coordinate_domain": self.coordinate_domain,
+            "selection_method": self.selection_method,
         }
 
 

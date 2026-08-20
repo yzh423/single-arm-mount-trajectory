@@ -6,10 +6,14 @@ import numpy as np
 from scripts.run_piperx_recommended_v31 import (
     _fraction_true,
     build_summary,
+    candidate_rank_key,
     parse_args,
     resample_task_60hz,
+    scene_mount_kwargs,
     smooth_follow_targets,
 )
+from factory_bimanual.piperx_recommended import WorldMount
+from factory_bimanual.task_family import TaskFamily
 
 
 def _task():
@@ -124,3 +128,58 @@ def test_build_summary_reports_exact_strict_thresholds_and_mode_counts():
         "HOLD": 1,
         "RECOVER": 1,
     }
+
+
+def _mount(mode):
+    return WorldMount(
+        family=TaskFamily.parse("8-11/Seal_Bag"),
+        morphology="humanoid_pole",
+        mode=mode,
+        left_xyz_m=np.asarray([-0.3, 0.2, 1.1]),
+        right_xyz_m=np.asarray([-0.2, -0.4, 1.1]),
+        shared_base_z_m=1.1,
+        source_take="161504",
+        left_yaw_deg=-15.0,
+        right_yaw_deg=20.0,
+    )
+
+
+def test_horizontal_forward_scene_mount_uses_explicit_base_quaternions():
+    task = _task()
+
+    kwargs, evidence = scene_mount_kwargs(
+        _mount("horizontal_forward"), task, table_height_m=0.75)
+
+    assert set(kwargs["mount_quaternion_wxyz"]) == {"left", "right"}
+    assert kwargs["mount_yaw_deg"] == {"left": 0.0, "right": 0.0}
+    assert kwargs["mount_support_mode"] == "horizontal_forward"
+    assert evidence["orientation_representation"] == "quaternion_wxyz"
+    assert evidence["coordinate_domain"] == "registered_world"
+
+
+def test_upright_scene_mount_retains_explicit_yaw():
+    kwargs, evidence = scene_mount_kwargs(
+        _mount("upright_table"), _task(), table_height_m=0.75)
+
+    assert kwargs["mount_quaternion_wxyz"] is None
+    assert kwargs["mount_yaw_deg"] == {"left": -15.0, "right": 20.0}
+    assert evidence["orientation_representation"] == "yaw_deg"
+
+
+def test_candidate_ranking_never_trades_strict_coverage_for_collision():
+    lower_coverage_collision_free = {
+        "strict_coverage": 0.99,
+        "retimed_coverage": 1.0,
+        "maximum_normalized_error": 0.5,
+        "collision_free_coverage": 1.0,
+        "fixed_time_coverage": 1.0,
+        "execution_duration_s": 20.0,
+    }
+    full_coverage_with_collisions = {
+        **lower_coverage_collision_free,
+        "strict_coverage": 1.0,
+        "collision_free_coverage": 0.8,
+    }
+
+    assert candidate_rank_key(full_coverage_with_collisions) > candidate_rank_key(
+        lower_coverage_collision_free)
