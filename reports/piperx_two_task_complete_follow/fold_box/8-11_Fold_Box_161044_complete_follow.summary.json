@@ -1,0 +1,216 @@
+{
+  "schema": "piperx-complete-follow-v2",
+  "robot": "piperx_dual",
+  "source": {
+    "path": "E:\\YZH123123\\single-arm-mount\\data\\factory\\8-11\\Fold_Box\\handheld_20260811_161044.csv",
+    "frames_60hz": 1061,
+    "duration_s": 17.656955542,
+    "target_basis": "registered_resampled_raw",
+    "sha256": "98ac81447effe2d447058c952990d46d4f11d2f1fefade41bcbd8e8df4ae782d"
+  },
+  "mount": {
+    "family": "8-11/Fold_Box",
+    "morphology": "bottom_table",
+    "mode": "upright_table",
+    "xy": {
+      "left": [
+        -0.24857021833998647,
+        0.429238866791272
+      ],
+      "right": [
+        -0.34857021833998647,
+        -0.17076113320872802
+      ]
+    },
+    "yaw": {
+      "left": 0.0,
+      "right": 0.0
+    },
+    "shared_base_z_m": 0.7570900119999999,
+    "base_z_m": {
+      "left": 0.7570900119999999,
+      "right": 0.7570900119999999
+    },
+    "base_distance_m": 0.6082762530298219,
+    "source_take": "161044",
+    "coordinate_domain": "registered_world",
+    "selection_method": "PDF recommended shared base with rigid task registration",
+    "orientation_representation": "yaw_deg",
+    "yaw_deg": {
+      "left": 0.0,
+      "right": 0.0
+    },
+    "quaternion_wxyz": null
+  },
+  "tool_frame": {
+    "policy": "task-scoped strict representative-pose feasibility probe",
+    "left_offset_quaternion_wxyz": [
+      -0.3613509602073844,
+      -0.4847196269264313,
+      0.5645815842017055,
+      -0.5618896703177548
+    ],
+    "right_offset_quaternion_wxyz": [
+      0.780555891018832,
+      0.573195699076422,
+      -0.23581314832726274,
+      0.08106386761112261
+    ],
+    "selection": "continuous strict representative-pose feasibility probes (left SLERP 0.40, right SLERP 0.70 toward the secondary feasible wrist branch)"
+  },
+  "acceptance": {
+    "position_tolerance_mm": 1.0,
+    "orientation_tolerance_deg": 0.5,
+    "per_joint_branch_guard_rad": 0.3
+  },
+  "protocol": {
+    "anchor_restarts": 40,
+    "warm_start_iterations": 200,
+    "global_rescue": "failed side only; collision may expand both sides",
+    "maximum_candidates_per_side": 8,
+    "failure_policy": "no source pose dropped; lossless retiming",
+    "side_state_machines": "independent until paired collision coordination",
+    "target_conditioning": {
+      "method": "disabled; exact registered 60 Hz target",
+      "enabled": false,
+      "position_deviation_limit_mm": 0.0,
+      "orientation_deviation_limit_deg": 0.0,
+      "measured_max_position_deviation_mm": 0.0,
+      "measured_max_orientation_deviation_deg": 0.0
+    },
+    "dls": {
+      "damping": 0.3,
+      "maximum_step_rad": 0.3,
+      "position_error_clip_m": 0.05,
+      "orientation_error_clip_rad": 0.3
+    },
+    "execution_frames": 1062,
+    "inserted_transition_frames": 1,
+    "cycle_delay_s": 56.62815711853482,
+    "time_scale": 4.203162870829468,
+    "retiming_method": "lossless local segment stretching with explicit branch transitions",
+    "retimed_duration_s": 74.28511266053482,
+    "dynamic_limits": {
+      "maximum_velocity_rad_s": 1.0,
+      "maximum_acceleration_rad_s2": 4.0,
+      "measured_execution_maximum_velocity_rad_s": 1.000000000000047,
+      "measured_execution_maximum_acceleration_rad_s2": 4.000000000001243
+    }
+  },
+  "metrics": {
+    "complete_source_pose_coverage": 1.0,
+    "complete_source_pose_frames": 1061,
+    "fixed_time_synchronous_coverage": 0.000942507068803016,
+    "fixed_time_synchronous_frames": 1,
+    "original_time_velocity_edge_coverage": 0.38301886792452833,
+    "original_time_velocity_edges": 406,
+    "original_time_acceleration_knot_coverage": 0.011310084825636193,
+    "original_time_acceleration_knots": 12,
+    "original_time_maximum_velocity_rad_s": 22.67952899766683,
+    "original_time_maximum_acceleration_rad_s2": 2175.658795565766,
+    "retimed_execution_dynamic_limits_passed": false,
+    "unreached_source_pose_frames": 0,
+    "collision_frames": 71,
+    "collision_free_strict_coverage": 0.9330819981149858,
+    "execution_collision_frames": 72,
+    "global_rescue_frames": {
+      "left": 73,
+      "right": 73
+    },
+    "left_position_error_mm": {
+      "mean": 0.8347280080824108,
+      "max": 0.9998883027376858
+    },
+    "right_position_error_mm": {
+      "mean": 0.8608828705594208,
+      "max": 0.9999113872403158
+    },
+    "left_orientation_error_deg": {
+      "mean": 0.06171883724528372,
+      "max": 0.4972299018281761
+    },
+    "right_orientation_error_deg": {
+      "mean": 0.04030676116988097,
+      "max": 0.49584575399266334
+    },
+    "reached_only": {
+      "left_max_position_mm": 0.9998883027376858,
+      "right_max_position_mm": 0.9999113872403158,
+      "left_max_orientation_deg": 0.4972299018281761,
+      "right_max_orientation_deg": 0.49584575399266334
+    }
+  },
+  "scene_manifest": {
+    "robot": "piperx",
+    "source_urdf": "E:\\YZH123123\\single-arm-mount\\third_party\\official_robot_models\\piperx\\PiperX.urdf",
+    "output_xml": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_two_task_complete_follow\\fold_box\\8-11_Fold_Box_161044_complete_follow.scene.xml",
+    "spacing_m": 0.6082762530298219,
+    "table_height_m": 0.75,
+    "left_base_position": [
+      -0.24857021833998647,
+      0.429238866791272,
+      0.7570900119999999
+    ],
+    "right_base_position": [
+      -0.34857021833998647,
+      -0.17076113320872802,
+      0.7570900119999999
+    ],
+    "left_joint_names": [
+      "left_joint1",
+      "left_joint2",
+      "left_joint3",
+      "left_joint4",
+      "left_joint5",
+      "left_joint6"
+    ],
+    "right_joint_names": [
+      "right_joint1",
+      "right_joint2",
+      "right_joint3",
+      "right_joint4",
+      "right_joint5",
+      "right_joint6"
+    ]
+  },
+  "video": {
+    "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_two_task_complete_follow\\fold_box\\8-11_Fold_Box_161044_complete_follow.mp4",
+    "decode_check": {
+      "frame_count": 2230,
+      "fps": 30.0,
+      "duration_s": 74.3,
+      "width": 1280,
+      "height": 720
+    },
+    "qa_frames": [
+      "E:\\YZH123123\\single-arm-mount\\reports\\piperx_two_task_complete_follow\\fold_box\\qa_start.png",
+      "E:\\YZH123123\\single-arm-mount\\reports\\piperx_two_task_complete_follow\\fold_box\\qa_middle.png",
+      "E:\\YZH123123\\single-arm-mount\\reports\\piperx_two_task_complete_follow\\fold_box\\qa_end.png"
+    ],
+    "renderer": "MuJoCo 3.3.0 offscreen, official PiperX meshes",
+    "timeline_domain": "execution",
+    "state_sampling": "linear interpolation between retimed execution knots"
+  },
+  "artifacts": {
+    "trajectory_npz": {
+      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_two_task_complete_follow\\fold_box\\8-11_Fold_Box_161044_complete_follow.trajectory.npz",
+      "sha256": "c77a1f1a0ba70dbb0c18ff5f37aaa673f5f89ea218f05f2a49af0c8e983875f7",
+      "size_bytes": 606376
+    },
+    "scene_xml": {
+      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_two_task_complete_follow\\fold_box\\8-11_Fold_Box_161044_complete_follow.scene.xml",
+      "sha256": "309ebe46ec1247bbfafc98aa88dca1eb216fde6d67ed5e48c59edf7b148d16c8",
+      "size_bytes": 19883
+    },
+    "video_mp4": {
+      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_two_task_complete_follow\\fold_box\\8-11_Fold_Box_161044_complete_follow.mp4",
+      "sha256": "29c37ad052a36eb6ca1dd1145b6b8c200bb3423d09d9b7224337538e768be508",
+      "size_bytes": 13038401
+    },
+    "video_provenance_json": {
+      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_two_task_complete_follow\\fold_box\\8-11_Fold_Box_161044_complete_follow.provenance.json",
+      "sha256": "6d1d66c2257b35df6b4bfe4664450a9910ff316cefe5bd174a9dba108f7237d3",
+      "size_bytes": 2386964
+    }
+  }
+}

@@ -1,0 +1,110 @@
+{
+  "schema": "piperx-two-task-complete-follow-v1",
+  "acceptance": {
+    "position_tolerance_mm": 1.0,
+    "orientation_tolerance_deg": 0.5
+  },
+  "tasks": [
+    {
+      "task": "Fold_Box",
+      "family": "8-11/Fold_Box",
+      "take": "161044",
+      "source_frames": 1061,
+      "pose_frames": 1061,
+      "pose_coverage": 1.0,
+      "fixed_time_frames": 1,
+      "fixed_time_coverage": 0.000942507068803016,
+      "collision_frames": 71,
+      "collision_free_coverage": 0.9330819981149858,
+      "source_duration_s": 17.656955542,
+      "execution_duration_s": 74.28511266053482,
+      "cycle_delay_s": 56.62815711853482,
+      "maximum_velocity_rad_s": 1.000000000000047,
+      "maximum_acceleration_rad_s2": 4.000000000001243,
+      "left_max_position_mm": 0.9998883027376858,
+      "right_max_position_mm": 0.9999113872403158,
+      "left_max_orientation_deg": 0.4972299018281761,
+      "right_max_orientation_deg": 0.49584575399266334,
+      "video_frames": 2230,
+      "video_fps": 30.0,
+      "video_duration_s": 74.3,
+      "summary": "reports/piperx_two_task_complete_follow/fold_box/8-11_Fold_Box_161044_complete_follow.summary.json",
+      "summary_sha256": "7cfaa2042d7339be831fe2bd3d24367c96928cbd0c9e28fd31ed6d2a43aa3e72",
+      "artifacts": {
+        "trajectory_npz": {
+          "path": "reports/piperx_two_task_complete_follow/fold_box/8-11_Fold_Box_161044_complete_follow.trajectory.npz",
+          "sha256": "c77a1f1a0ba70dbb0c18ff5f37aaa673f5f89ea218f05f2a49af0c8e983875f7",
+          "size_bytes": 606376
+        },
+        "scene_xml": {
+          "path": "reports/piperx_two_task_complete_follow/fold_box/8-11_Fold_Box_161044_complete_follow.scene.xml",
+          "sha256": "309ebe46ec1247bbfafc98aa88dca1eb216fde6d67ed5e48c59edf7b148d16c8",
+          "size_bytes": 19883
+        },
+        "video_mp4": {
+          "path": "reports/piperx_two_task_complete_follow/fold_box/8-11_Fold_Box_161044_complete_follow.mp4",
+          "sha256": "29c37ad052a36eb6ca1dd1145b6b8c200bb3423d09d9b7224337538e768be508",
+          "size_bytes": 13038401
+        },
+        "video_provenance_json": {
+          "path": "reports/piperx_two_task_complete_follow/fold_box/8-11_Fold_Box_161044_complete_follow.provenance.json",
+          "sha256": "6d1d66c2257b35df6b4bfe4664450a9910ff316cefe5bd174a9dba108f7237d3",
+          "size_bytes": 2386964
+        }
+      }
+    },
+    {
+      "task": "Seal_Bag",
+      "family": "8-11/Seal_Bag",
+      "take": "161504",
+      "source_frames": 1757,
+      "pose_frames": 1757,
+      "pose_coverage": 1.0,
+      "fixed_time_frames": 1,
+      "fixed_time_coverage": 0.0005691519635742744,
+      "collision_frames": 17,
+      "collision_free_coverage": 0.9903244166192373,
+      "source_duration_s": 29.261361125,
+      "execution_duration_s": 100.63257243597134,
+      "cycle_delay_s": 71.37121131097135,
+      "maximum_velocity_rad_s": 1.000000000000042,
+      "maximum_acceleration_rad_s2": 4.000000000000869,
+      "left_max_position_mm": 0.9999677299452707,
+      "right_max_position_mm": 0.9999740220458779,
+      "left_max_orientation_deg": 0.49880442389887164,
+      "right_max_orientation_deg": 0.4928648903942305,
+      "video_frames": 3020,
+      "video_fps": 30.0,
+      "video_duration_s": 100.63333333333334,
+      "summary": "reports/piperx_two_task_complete_follow/seal_bag/8-11_Seal_Bag_161504_complete_follow.summary.json",
+      "summary_sha256": "fbabc718b6640e32650c1155ba98cf816edd6011f783e0a7569208107314c53e",
+      "artifacts": {
+        "trajectory_npz": {
+          "path": "reports/piperx_two_task_complete_follow/seal_bag/8-11_Seal_Bag_161504_complete_follow.trajectory.npz",
+          "sha256": "0ce3891d70175c24184bd80f5abdd41ef70c92a20d435cd3b27fb66ab1521b30",
+          "size_bytes": 1001263
+        },
+        "scene_xml": {
+          "path": "reports/piperx_two_task_complete_follow/seal_bag/8-11_Seal_Bag_161504_complete_follow.scene.xml",
+          "sha256": "45cae4c2d3eb74e718c27c42148abfa57cb1436ce80da97dd355e73117079d7e",
+          "size_bytes": 19927
+        },
+        "video_mp4": {
+          "path": "reports/piperx_two_task_complete_follow/seal_bag/8-11_Seal_Bag_161504_complete_follow.mp4",
+          "sha256": "e530121b2b47508f293a10a05bc498ed7c44880e3b69a33e4dc1560b9e3a8084",
+          "size_bytes": 16744547
+        },
+        "video_provenance_json": {
+          "path": "reports/piperx_two_task_complete_follow/seal_bag/8-11_Seal_Bag_161504_complete_follow.provenance.json",
+          "sha256": "87d275492587abc377dd477c706449cb5875b8f9df4f3ca45d1aef96ee50a68f",
+          "size_bytes": 3400541
+        }
+      }
+    }
+  ],
+  "interpretation": {
+    "complete_follow": "all registered raw 60 Hz poses reached after lossless retiming",
+    "fixed_time": "same poses under original source timestamps",
+    "collision": "independent MuJoCo state and swept incoming-edge audit; not a hardware safety approval"
+  }
+}
