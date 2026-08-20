@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "source_algorithm": "GoodGoodArmDayDayUp-Learning/doosan_teleop easy_ik.py and mpc_pvt.py",
+  "profiles": {
+    "xarm6": {"dof": 6, "joint_velocity_rad_s": [3.14, 3.14, 3.14, 3.14, 3.14, 3.14]},
+    "franka_panda": {"dof": 7, "joint_velocity_rad_s": [2.175, 2.175, 2.175, 2.175, 2.61, 2.61, 2.61]},
+    "i2rt_yam": {"dof": 6, "joint_velocity_rad_s": [3.14, 3.14, 3.14, 3.14, 3.14, 3.14]},
+    "piperx": {"dof": 6, "joint_velocity_rad_s": [3.0, 3.0, 3.0, 3.0, 3.0, 3.0]},
+    "ur5": {"dof": 6, "joint_velocity_rad_s": [3.141592653589793, 3.141592653589793, 3.141592653589793, 3.141592653589793, 3.141592653589793, 3.141592653589793]}
+  }
+}

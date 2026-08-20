@@ -1,0 +1,6 @@
+source_root: ../GoodGoodArmDayDayUp-Learning/data/data
+output_root: data/processed/local_pose_benchmark
+audit_output: reports/single_arm/data_cleaning_audit.json
+cleaning:
+  maximum_internal_repair_samples: 3
+  exclude_invalid_fraction: 0.20

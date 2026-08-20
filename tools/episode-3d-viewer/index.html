@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <title>Episode 3D 轨迹查看器</title>
+  <script src="vendor/papaparse.min.js"></script>
+  <script src="vendor/plotly.min.js"></script>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #172026;
+      --muted: #66737d;
+      --surface: #f7f8f6;
+      --panel: #ffffff;
+      --border: #d8ded9;
+      --accent: #0d6b57;
+      --accent-soft: #e3f1ec;
+      --danger: #9c2f28;
+      --danger-soft: #f8e8e6;
+      --radius: 8px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--surface);
+      color: var(--ink);
+      font-family: Inter, "Segoe UI", "Microsoft YaHei", sans-serif;
+    }
+    header {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 22px 28px 18px;
+      border-bottom: 1px solid var(--border);
+      background: var(--panel);
+    }
+    h1 { margin: 0; font-size: clamp(20px, 2.4vw, 30px); letter-spacing: -.025em; }
+    header p { margin: 6px 0 0; color: var(--muted); font-size: 14px; }
+    .privacy { white-space: nowrap; color: var(--accent); font-size: 13px; font-weight: 600; }
+    main {
+      display: grid;
+      grid-template-columns: minmax(250px, 320px) minmax(0, 1fr);
+      min-height: calc(100vh - 91px);
+    }
+    aside { padding: 20px; border-right: 1px solid var(--border); background: var(--panel); }
+    #drop-zone {
+      display: grid;
+      place-items: center;
+      min-height: 150px;
+      padding: 20px;
+      border: 1px dashed #91a29a;
+      border-radius: var(--radius);
+      background: #fbfcfa;
+      text-align: center;
+      transition: border-color .15s, background .15s;
+    }
+    #drop-zone.dragging { border-color: var(--accent); background: var(--accent-soft); }
+    #drop-zone strong { display: block; margin-bottom: 5px; font-size: 15px; }
+    #drop-zone span { color: var(--muted); font-size: 13px; }
+    input[type="file"] { position: absolute; inline-size: 1px; block-size: 1px; opacity: 0; }
+    .button-row { display: flex; gap: 8px; margin-top: 14px; }
+    button, .file-button {
+      min-height: 38px;
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--panel);
+      color: var(--ink);
+      font: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .file-button { flex: 1; display: inline-grid; place-items: center; background: var(--accent); color: white; border-color: var(--accent); }
+    button:hover, .file-button:hover { filter: brightness(.97); }
+    button:focus-visible, .file-button:focus-visible { outline: 3px solid #8cc9ba; outline-offset: 2px; }
+    aside h2 { margin: 24px 0 10px; font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+    #file-list { display: grid; gap: 8px; }
+    .file-card { padding: 10px 12px; border: 1px solid var(--border); border-radius: 6px; background: #fff; }
+    .file-card strong { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13px; }
+    .file-card span { display: block; margin-top: 4px; color: var(--muted); font-size: 12px; }
+    #error-list:empty { display: none; }
+    #error-list { margin-top: 14px; padding: 10px 12px; border: 1px solid #edc6c2; border-radius: 6px; background: var(--danger-soft); color: var(--danger); font-size: 12px; }
+    .workspace { position: relative; min-width: 0; min-height: 620px; background: #fff; }
+    #plot { width: 100%; height: calc(100vh - 92px); min-height: 620px; }
+    #empty-state {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: grid;
+      place-content: center;
+      padding: 32px;
+      text-align: center;
+      pointer-events: none;
+    }
+    #empty-state .axes { font: 700 32px/1 ui-monospace, monospace; color: #98a59f; letter-spacing: 4px; }
+    #empty-state h2 { margin: 18px 0 6px; font-size: 18px; }
+    #empty-state p { margin: 0; color: var(--muted); font-size: 14px; }
+    #point-status { min-height: 34px; margin-top: 12px; color: var(--muted); font-size: 12px; line-height: 1.5; }
+    [hidden] { display: none !important; }
+    @media (max-width: 760px) {
+      header { align-items: start; padding: 18px; }
+      .privacy { display: none; }
+      main { display: block; }
+      aside { border-right: 0; border-bottom: 1px solid var(--border); }
+      #drop-zone { min-height: 112px; }
+      .workspace, #plot { min-height: 520px; height: 65vh; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>Episode 3D 轨迹查看器</h1>
+      <p>检查双臂 controller / TCP 的空间运动轨迹</p>
+    </div>
+    <div class="privacy">本地解析 · 数据不会上传</div>
+  </header>
+  <main>
+    <aside aria-label="轨迹文件与控制">
+      <div id="drop-zone" tabindex="0" role="button" aria-controls="csv-input">
+        <div><strong>拖入 Episode CSV</strong><span>支持一次选择多个文件</span></div>
+      </div>
+      <input id="csv-input" type="file" accept=".csv,text/csv" multiple>
+      <div class="button-row">
+        <label for="csv-input" class="file-button" tabindex="0">选择 CSV</label>
+        <button id="reset-camera" type="button" disabled>重置视角</button>
+      </div>
+      <div id="parse-status" role="status" aria-live="polite"></div>
+      <h2>已载入文件</h2>
+      <div id="file-list"><span style="color:var(--muted);font-size:13px">尚未载入</span></div>
+      <div id="error-list" role="alert" aria-live="assertive"></div>
+      <div id="point-status" role="status" aria-live="polite">点击轨迹可查看采样点。</div>
+    </aside>
+    <section class="workspace" aria-label="三维轨迹图">
+      <div id="empty-state">
+        <div class="axes">X Y Z</div>
+        <h2>等待轨迹数据</h2>
+        <p>上传 CSV 后，可拖动旋转、滚轮缩放、图例隐藏轨迹。</p>
+      </div>
+      <div id="plot"></div>
+    </section>
+  </main>
+
+  <script>
+    const GROUPS = [
+      { key: "right_controller", label: "右手 Controller", color: "#d45b45" },
+      { key: "right_tcp", label: "右臂 TCP", color: "#e19a28" },
+      { key: "left_controller", label: "左手 Controller", color: "#247aa5" },
+      { key: "left_tcp", label: "左臂 TCP", color: "#0d8068" }
+    ];
+    // Explicit schema keys make support easy to audit.
+    const SUPPORTED_X_COLUMNS = [
+      "right_controller_pos_x", "right_tcp_pos_x",
+      "left_controller_pos_x", "left_tcp_pos_x"
+    ];
+    const MAX_RENDER_POINTS = 12000;
+    const DASHES = ["solid", "dash", "dot", "dashdot"];
+    const input = document.getElementById("csv-input");
+    const dropZone = document.getElementById("drop-zone");
+    const plot = document.getElementById("plot");
+    const fileList = document.getElementById("file-list");
+    const errorList = document.getElementById("error-list");
+    const emptyState = document.getElementById("empty-state");
+    const parseStatus = document.getElementById("parse-status");
+    const pointStatus = document.getElementById("point-status");
+    const resetButton = document.getElementById("reset-camera");
+    let currentTraces = [];
+    let summaries = [];
+    let errors = [];
+
+    function sampleIndices(length) {
+      if (length <= MAX_RENDER_POINTS) return Array.from({ length }, (_, i) => i);
+      const stride = (length - 1) / (MAX_RENDER_POINTS - 1);
+      return Array.from({ length: MAX_RENDER_POINTS }, (_, i) => Math.round(i * stride));
+    }
+
+    function parseFile(file, fileIndex) {
+      return new Promise(resolve => {
+        Papa.parse(file, {
+          header: true,
+          dynamicTyping: true,
+          skipEmptyLines: "greedy",
+          complete(result) {
+            const fields = result.meta.fields || [];
+            const rows = result.data || [];
+            const traces = [];
+            for (const group of GROUPS) {
+              const columns = ["x", "y", "z"].map(axis => `${group.key}_pos_${axis}`);
+              if (!columns.every(column => fields.includes(column))) continue;
+              const valid = rows.map((row, index) => ({ row, index })).filter(({ row }) =>
+                columns.every(column => Number.isFinite(Number(row[column])))
+              );
+              const indices = sampleIndices(valid.length);
+              const selected = indices.map(index => valid[index]);
+              if (!selected.length) continue;
+              traces.push({
+                type: "scatter3d",
+                mode: "lines",
+                name: `${file.name} · ${group.label}`,
+                x: selected.map(({ row }) => Number(row[columns[0]])),
+                y: selected.map(({ row }) => Number(row[columns[1]])),
+                z: selected.map(({ row }) => Number(row[columns[2]])),
+                customdata: selected.map(({ row, index }) => [row.t, index, file.name, group.label]),
+                hovertemplate: "%{customdata[2]}<br>%{customdata[3]}<br>t=%{customdata[0]:.3f}s<br>x=%{x:.4f}<br>y=%{y:.4f}<br>z=%{z:.4f}<extra></extra>",
+                line: { color: group.color, width: 5, dash: DASHES[fileIndex % DASHES.length] }
+              });
+            }
+            const times = rows.map(row => Number(row.t)).filter(Number.isFinite);
+            const frames = rows.map(row => row.coordinate_frame).filter(Boolean);
+            const duration = times.length > 1 ? times[times.length - 1] - times[0] : 0;
+            const parseErrors = result.errors.filter(item => item.code !== "UndetectableDelimiter");
+            resolve({
+              traces,
+              summary: { name: file.name, rows: rows.length, duration, frame: frames[0] || "未知", groups: traces.length },
+              error: traces.length ? (parseErrors.length ? `${file.name}: 忽略 ${parseErrors.length} 个格式问题` : null) : `${file.name}: No usable XYZ trajectories`
+            });
+          },
+          error(reason) { resolve({ traces: [], summary: null, error: `${file.name}: ${reason.message || reason}` }); }
+        });
+      });
+    }
+
+    function renderSidebar() {
+      fileList.innerHTML = summaries.length ? summaries.map(item => `
+        <div class="file-card">
+          <strong title="${escapeHtml(item.name)}">${escapeHtml(item.name)}</strong>
+          <span>${item.rows.toLocaleString()} 点 · ${item.duration.toFixed(2)} 秒 · ${escapeHtml(item.frame)}</span>
+          <span>${item.groups} 条可用轨迹</span>
+        </div>`).join("") : '<span style="color:var(--muted);font-size:13px">尚未载入</span>';
+      errorList.innerHTML = errors.map(item => `<div>${escapeHtml(item)}</div>`).join("");
+    }
+
+    function escapeHtml(value) {
+      const node = document.createElement("span");
+      node.textContent = String(value);
+      return node.innerHTML;
+    }
+
+    async function loadFiles(files) {
+      const csvFiles = Array.from(files).filter(file => file.name.toLowerCase().endsWith(".csv"));
+      currentTraces = []; summaries = []; errors = [];
+      parseStatus.textContent = csvFiles.length ? `正在解析 ${csvFiles.length} 个文件…` : "请选择 CSV 文件。";
+      const results = await Promise.all(csvFiles.map(parseFile));
+      results.forEach(result => {
+        currentTraces.push(...result.traces);
+        if (result.summary) summaries.push(result.summary);
+        if (result.error) errors.push(result.error);
+      });
+      renderSidebar();
+      emptyState.hidden = currentTraces.length > 0;
+      resetButton.disabled = currentTraces.length === 0;
+      parseStatus.textContent = currentTraces.length ? `已绘制 ${currentTraces.length} 条轨迹。` : "未找到可绘制轨迹。";
+      Plotly.react(plot, currentTraces, {
+        margin: { l: 0, r: 0, t: 32, b: 0 },
+        paper_bgcolor: "#ffffff",
+        plot_bgcolor: "#ffffff",
+        legend: { orientation: "h", x: 0.02, y: 1.02, bgcolor: "rgba(255,255,255,.85)" },
+        scene: {
+          aspectmode: "data",
+          xaxis: { title: "X (m)", gridcolor: "#e3e7e4", zerolinecolor: "#aab5af" },
+          yaxis: { title: "Y (m)", gridcolor: "#e3e7e4", zerolinecolor: "#aab5af" },
+          zaxis: { title: "Z (m)", gridcolor: "#e3e7e4", zerolinecolor: "#aab5af" },
+          bgcolor: "#fbfcfa"
+        },
+        uirevision: "episode-view"
+      }, { responsive: true, displaylogo: false, scrollZoom: true });
+    }
+
+    Plotly.newPlot(plot, [], {
+      margin: { l: 0, r: 0, t: 0, b: 0 },
+      paper_bgcolor: "#ffffff",
+      scene: { aspectmode: "data", bgcolor: "#fbfcfa" }
+    }, { responsive: true, displaylogo: false, scrollZoom: true });
+
+    input.addEventListener("change", event => loadFiles(event.target.files));
+    dropZone.addEventListener("click", () => input.click());
+    dropZone.addEventListener("keydown", event => {
+      if (event.key === "Enter" || event.key === " ") { event.preventDefault(); input.click(); }
+    });
+    ["dragenter", "dragover"].forEach(type => dropZone.addEventListener(type, event => {
+      event.preventDefault(); dropZone.classList.add("dragging");
+    }));
+    ["dragleave", "drop"].forEach(type => dropZone.addEventListener(type, event => {
+      event.preventDefault(); dropZone.classList.remove("dragging");
+    }));
+    dropZone.addEventListener("drop", event => loadFiles(event.dataTransfer.files));
+    resetButton.addEventListener("click", () => Plotly.relayout(plot, { "scene.camera": null }));
+    plot.on("plotly_click", event => {
+      const point = event.points[0];
+      const meta = point.customdata;
+      pointStatus.textContent = `${meta[2]} · ${meta[3]} · 第 ${meta[1] + 1} 点 · t=${Number(meta[0]).toFixed(3)}s · (${point.x.toFixed(4)}, ${point.y.toFixed(4)}, ${point.z.toFixed(4)})`;
+    });
+  </script>
+</body>
+</html>

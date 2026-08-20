@@ -29,6 +29,8 @@ class DLSConfig:
     step_scale: float
     maximum_step_rad: float
     max_iterations: int
+    position_error_clip_m: float
+    orientation_error_clip_rad: float
 
 
 @dataclass(frozen=True)
@@ -63,6 +65,9 @@ class RecommendedMountSpec:
     left_p_base_m: tuple[float, float, float]
     right_p_base_m: tuple[float, float, float]
     source_take: str
+    left_tool_offset_quaternion_wxyz: tuple[float, float, float, float] | None
+    right_tool_offset_quaternion_wxyz: tuple[float, float, float, float] | None
+    tool_offset_selection: str | None
 
 
 @dataclass(frozen=True)
@@ -130,6 +135,16 @@ def _xyz(value, name: str) -> tuple[float, float, float]:
     return tuple(float(item) for item in array)
 
 
+def _optional_quaternion(value, name: str):
+    if value is None:
+        return None
+    array = np.asarray(value, dtype=float)
+    if (array.shape != (4,) or np.any(~np.isfinite(array)) or
+            not np.isclose(np.linalg.norm(array), 1.0, atol=1e-10)):
+        raise ValueError(f"{name} must be a normalized finite quaternion")
+    return tuple(float(item) for item in array)
+
+
 def load_recommended_config(path: Path = DEFAULT_CONFIG_PATH) -> PiperXRecommendedConfig:
     payload = json.loads(Path(path).read_text(encoding="utf-8"))
     if payload.get("schema") != "piperx-recommended-v3.1":
@@ -149,6 +164,11 @@ def load_recommended_config(path: Path = DEFAULT_CONFIG_PATH) -> PiperXRecommend
         _positive(dls_payload["step_scale"], "DLS step scale"),
         _positive(dls_payload["maximum_step_rad"], "DLS maximum step"),
         int(dls_payload["max_iterations"]),
+        _positive(dls_payload["position_error_clip_m"], "position error clip"),
+        _positive(
+            dls_payload["orientation_error_clip_rad"],
+            "orientation error clip",
+        ),
     )
     execution_payload = payload["execution"]
     execution = ExecutionConfig(
@@ -187,6 +207,18 @@ def load_recommended_config(path: Path = DEFAULT_CONFIG_PATH) -> PiperXRecommend
             left_p_base_m=_xyz(record["left_p_base_m"], f"{key} left base"),
             right_p_base_m=_xyz(record["right_p_base_m"], f"{key} right base"),
             source_take=str(record["source_take"]),
+            left_tool_offset_quaternion_wxyz=_optional_quaternion(
+                record.get("left_tool_offset_quaternion_wxyz"),
+                f"{key} left tool offset",
+            ),
+            right_tool_offset_quaternion_wxyz=_optional_quaternion(
+                record.get("right_tool_offset_quaternion_wxyz"),
+                f"{key} right tool offset",
+            ),
+            tool_offset_selection=(
+                None if record.get("tool_offset_selection") is None
+                else str(record["tool_offset_selection"])
+            ),
         )
     anchor_restarts = int(payload["anchor_restarts"])
     if anchor_restarts != 40:

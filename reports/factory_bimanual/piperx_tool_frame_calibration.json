@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "robot": "piperx",
+  "tasks": [
+    "fold_box",
+    "seal_bag"
+  ],
+  "source_fingerprints": {
+    "fold_box": "9fa01021eb4914902aa0d66bcaf4460b889962f7fc80f68b16809bbce02bdb60",
+    "seal_bag": "d500c9a124a5e6f55a505a197f1a0e1db8912d470eac178aa4aec46d07e43c52"
+  },
+  "left_offset_quaternion_wxyz": [
+    0.06162841671621935,
+    -0.09229595564125727,
+    0.7044160264027587,
+    -0.701057384649978
+  ],
+  "right_offset_quaternion_wxyz": [
+    0.6988771263155324,
+    0.10756747795195007,
+    -0.7069385089210125,
+    0.015425453138743089
+  ],
+  "left_axis_rotation_index": 1,
+  "right_axis_rotation_index": 10,
+  "left_local_xyz_deg": [
+    0.0,
+    -12.5,
+    -2.5
+  ],
+  "right_local_xyz_deg": [
+    10.0,
+    0.0,
+    -7.5
+  ],
+  "metrics": {
+    "synchronous_strict_coverage": 0.775,
+    "longest_failure_run_frames": 2,
+    "connectable_safe_branch_ratio": 0.275,
+    "minimum_singularity_margin": 0.04182918815641931,
+    "minimum_joint_limit_margin_rad": 2.220446049250313e-16,
+    "mean_normalized_pose_error": 0.04557080355610333
+  }
+}

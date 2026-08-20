@@ -102,6 +102,18 @@ def test_strict_thresholds_and_funnel_are_not_relaxed():
     assert config.funnel.probe_keep == 12
     assert config.funnel.full_keep == 3
     assert config.funnel.probe_stride_frames == 60
+    assert config.dls.damping == 0.3
+    assert config.dls.max_iterations == 200
+    fold_box = config.mounts["8-11/Fold_Box"]
+    assert np.isclose(
+        np.linalg.norm(fold_box.left_tool_offset_quaternion_wxyz), 1.0)
+    assert np.isclose(
+        np.linalg.norm(fold_box.right_tool_offset_quaternion_wxyz), 1.0)
+    assert fold_box.tool_offset_selection == (
+        "continuous strict representative-pose feasibility probes "
+        "(left SLERP 0.40, right SLERP 0.70 toward the secondary "
+        "feasible wrist branch)"
+    )
 
 
 def test_unknown_family_is_explicit_error():

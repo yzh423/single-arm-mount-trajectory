@@ -93,6 +93,8 @@ class CandidateGeneratorConfig:
     damping: float = .04
     step_scale: float = .7
     maximum_step_rad: float = .18
+    position_error_clip_m: float = np.inf
+    orientation_error_clip_rad: float = np.inf
     max_iterations: int = 240
     dedup_rad: float = 1e-3
     maximum_candidates: int = 8
@@ -279,10 +281,23 @@ class MuJoCoCandidateGenerator:
         for _ in range(self.config.max_iterations):
             current_q = np.empty(4); mujoco.mju_mat2Quat(current_q, d.site_xmat[site])
             rot = _world_rotation_error(target_q, current_q, d.site_xmat[site])
-            err = np.r_[target_p - d.site_xpos[site],
-                        self.config.orientation_weight * rot]
-            if np.linalg.norm(err[:3]) <= self.config.position_tolerance_m and np.linalg.norm(err[3:]) <= self.config.orientation_tolerance_rad:
+            position_error = target_p - d.site_xpos[site]
+            weighted_rotation = self.config.orientation_weight * rot
+            if (np.linalg.norm(position_error) <= self.config.position_tolerance_m and
+                    np.linalg.norm(weighted_rotation) <= self.config.orientation_tolerance_rad):
                 break
+            position_clip = float(self.config.position_error_clip_m)
+            orientation_clip = float(self.config.orientation_error_clip_rad)
+            if position_clip <= 0.0 or orientation_clip <= 0.0:
+                raise ValueError("DLS error clips must be positive")
+            position_norm = float(np.linalg.norm(position_error))
+            rotation_norm = float(np.linalg.norm(weighted_rotation))
+            if position_norm > position_clip:
+                position_error = position_error * (position_clip/position_norm)
+            if rotation_norm > orientation_clip:
+                weighted_rotation = weighted_rotation * (
+                    orientation_clip/rotation_norm)
+            err = np.r_[position_error, weighted_rotation]
             mujoco.mj_jacSite(self.model, d, jp, jr, site)
             jac = np.vstack((jp[:, dids],
                              self.config.orientation_weight * jr[:, dids]))
@@ -616,13 +631,13 @@ class MuJoCoCandidateGenerator:
                         *item[0].tolist(),
                     ),
                 )
-                distinct_near_misses = []
-                for near_miss in near_misses:
-                    if all(np.linalg.norm(near_miss[0] - old[0]) >
-                           self.config.dedup_rad
-                           for old in distinct_near_misses):
-                        distinct_near_misses.append(near_miss)
-                for near_miss in distinct_near_misses[:fallback_count]:
+                # Keep the configured number of deterministic retries even
+                # when DLS converges several seeds to numerically near-identical
+                # boundary points.  SLSQP can take different active-set paths
+                # from sub-ulp seed differences, so pre-refinement de-duplication
+                # turns a robust retry budget into a single fragile attempt.
+                # Successful IK candidates are still de-duplicated below.
+                for near_miss in near_misses[:fallback_count]:
                     item = self._constrained_refine(
                         side, near_miss[0], target_p, target_q)
                     if item is None:

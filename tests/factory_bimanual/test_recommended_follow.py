@@ -69,4 +69,7 @@ def test_runner_propagates_pdf_dls_step_limit(tmp_path):
     runner = RecommendedFollowRunner(
         model, task, mapped, load_recommended_config())
 
-    assert runner.generator.config.maximum_step_rad == 0.18
+    assert runner.generator.config.maximum_step_rad == 0.30
+    assert runner.generator.config.max_iterations == 200
+    assert runner.generator.config.position_error_clip_m == 0.05
+    assert runner.generator.config.orientation_error_clip_rad == 0.3

@@ -1,0 +1,30 @@
+topology: doosan
+run_name: egodex_pareto_quick
+data:
+  path: C:\Users\KelvinLM\Documents\Codex\Doosan_Dual_Quest3\data\EgoDex\pose_only_test\egodex_pose_only_test.npz
+  train_frames: 32
+  validation_frames: 64
+  test_frames: 128
+  minimum_confidence: 0.8
+  seed: 750
+ik:
+  seeds: 8
+  iterations: 50
+  position_tolerance_m: 0.0025
+  orientation_tolerance_deg: 1.5
+search:
+  population: 8
+  generations: 8
+  elite_fraction: 0.2
+  checkpoint_every: 1
+  snapshot_interval_minutes: 60
+  device: cuda
+  dtype: float32
+constraints:
+  topology_tolerance_mm: 0.1
+  xarm_ur_motor_offset_m: 0.057
+  kinova_vendor_fraction: 0.45
+  collision_margin_m: 0.015
+  table_height_m: 0.0
+  collision_aware_branch_selection: false
+  collision_hard_constraint: false

@@ -7,10 +7,12 @@
     "branch_guard_rad": 0.3
   },
   "dls": {
-    "damping": 0.04,
-    "step_scale": 0.7,
-    "maximum_step_rad": 0.18,
-    "max_iterations": 120
+    "damping": 0.3,
+    "step_scale": 1.0,
+    "maximum_step_rad": 0.3,
+    "max_iterations": 200,
+    "position_error_clip_m": 0.05,
+    "orientation_error_clip_rad": 0.3
   },
   "anchor_restarts": 40,
   "execution": {
@@ -51,7 +53,10 @@
       "morphology": "bottom_table",
       "left_p_base_m": [0.15, 0.3, -0.683],
       "right_p_base_m": [0.05, -0.3, -0.683],
-      "source_take": "161044"
+      "source_take": "161044",
+      "left_tool_offset_quaternion_wxyz": [-0.3613509602073844, -0.4847196269264313, 0.5645815842017055, -0.5618896703177548],
+      "right_tool_offset_quaternion_wxyz": [0.780555891018832, 0.573195699076422, -0.23581314832726274, 0.08106386761112261],
+      "tool_offset_selection": "continuous strict representative-pose feasibility probes (left SLERP 0.40, right SLERP 0.70 toward the secondary feasible wrist branch)"
     },
     "8-11/Screw_Cap": {
       "morphology": "bottom_table",

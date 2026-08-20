@@ -4,6 +4,7 @@ from types import SimpleNamespace
 import numpy as np
 
 from scripts.run_piperx_recommended_v31 import (
+    _fraction_true,
     build_summary,
     parse_args,
     resample_task_60hz,
@@ -49,6 +50,13 @@ def test_parse_args_uses_pdf_recommended_fold_box_take():
     assert options.family == "8-11/Fold_Box"
     assert options.source_take == "161044"
     assert options.rate_hz == 60.0
+    assert options.maximum_candidates == 8
+    assert options.condition_targets is False
+    assert options.output_dir.name == "piperx_complete_follow"
+
+
+def test_empty_dynamic_knot_set_is_vacuously_within_limits():
+    assert _fraction_true(np.asarray([], dtype=bool)) == 1.0
 
 
 def test_smooth_follow_targets_is_bounded_for_position_and_orientation():

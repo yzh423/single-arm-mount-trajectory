@@ -1,0 +1,86 @@
+schema_version: 1
+robots:
+  doosan:
+    source_model: third_party/official_robot_models/doosan_m0609.urdf
+    model_format: urdf
+    base_link: base_link
+    flange_link: tool0
+    active_joints: [joint_1, joint_2, joint_3, joint_4, joint_5, joint_6]
+  xarm6:
+    source_model: third_party/official_robot_models/official_derived/xarm_description/xarm6_official.urdf
+    model_format: urdf
+    base_link: link_base
+    flange_link: link_tcp
+    active_joints: [joint1, joint2, joint3, joint4, joint5, joint6]
+  ur5:
+    source_model: third_party/official_robot_models/official_derived/ur_description2/ur5_official.urdf
+    model_format: urdf
+    base_link: base_link
+    flange_link: tool0
+    active_joints: [shoulder_pan_joint, shoulder_lift_joint, elbow_joint, wrist_1_joint, wrist_2_joint, wrist_3_joint]
+  kinova_gen3_lite:
+    source_model: third_party/official_robot_models/kinova/ros2_kortex-main/kortex_description/robots/gen3_lite.urdf
+    model_format: urdf
+    base_link: base_link
+    flange_link: tool_frame
+    active_joints: [joint_1, joint_2, joint_3, joint_4, joint_5, joint_6]
+  arx_x5:
+    source_model: third_party/official_robot_models/arx/ARX_Model-af6fe43c873008a85bce6195c0f2160f1a1c14ce/X5/X5A/urdf/X5A.urdf
+    model_format: urdf
+    base_link: base_link
+    flange_link: link6
+    active_joints: [joint1, joint2, joint3, joint4, joint5, joint6]
+  big_yam:
+    source_model: third_party/official_robot_models/i2rt/i2rt/robot_models/arm/big_yam/v1/big_yam.urdf
+    model_format: urdf
+    base_link: base
+    flange_link: gripper
+    source_tool_length_m: 0.130
+    active_joints: [joint1, joint2, joint3, joint4, joint5, joint6]
+  franka_panda:
+    source_model: third_party/official_robot_models/official_derived/franka_description/panda_official.urdf
+    model_format: urdf
+    base_link: panda_link0
+    flange_link: panda_hand_tcp
+    active_joints: [panda_joint1, panda_joint2, panda_joint3, panda_joint4, panda_joint5, panda_joint6, panda_joint7]
+  franka_panda_locked_j3:
+    source_model: third_party/official_robot_models/official_derived/franka_description/panda_official.urdf
+    model_format: urdf
+    base_link: panda_link0
+    flange_link: panda_hand_tcp
+    active_joints: [panda_joint1, panda_joint2, panda_joint3, panda_joint4, panda_joint5, panda_joint6, panda_joint7]
+    locked_joints_rad:
+      panda_joint3: [-0.0001, 0.0001]
+  i2rt_yam:
+    source_model: third_party/official_robot_models/i2rt/i2rt/robot_models/arm/yam/v1/yam_linear_4310_d405.urdf
+    model_format: urdf
+    base_link: base
+    flange_link: gripper
+    source_tool_length_m: 0.130
+    active_joints: [joint1, joint2, joint3, joint4, joint5, joint6]
+  nero:
+    source_model: third_party/official_robot_models/nero/urdf/nero.urdf
+    model_format: urdf
+    base_link: base_link
+    flange_link: gripper_base
+    source_tool_length_m: 0.130
+    active_joints: [joint1, joint2, joint3, joint4, joint5, joint6, joint7]
+  openarm:
+    source_model: third_party/official_robot_models/official_derived/openarm_description/openarm_v1_left_single.urdf
+    model_format: urdf
+    base_link: openarm_left_link0
+    flange_link: openarm_left_hand_tcp
+    active_joints: [openarm_left_joint1, openarm_left_joint2, openarm_left_joint3, openarm_left_joint4, openarm_left_joint5, openarm_left_joint6, openarm_left_joint7]
+  piperx:
+    source_model: third_party/official_robot_models/piperx/PiperX.urdf
+    model_format: urdf
+    base_link: base_link
+    flange_link: ee_frame
+    active_joints: [joint1, joint2, joint3, joint4, joint5, joint6]
+  willow:
+    source_model: third_party/official_robot_models/willow/urdf/Willow_mujoco.urdf
+    model_format: urdf
+    base_link: base_link
+    flange_link: link6
+    source_tool_length_m: 0.130
+    active_joints: [joint1, joint2, joint3, joint4, joint5, joint6]

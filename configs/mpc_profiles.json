@@ -1,0 +1,36 @@
+{
+  "xarm6": {
+    "task_tau": 0.055,
+    "damping": 0.02,
+    "singular_value_soft": 0.04,
+    "singularity_cost": 0.5,
+    "collision_cost": 250.0,
+    "collision_margin": 0.012
+  },
+  "kinova_gen3_lite": {
+    "task_tau": 0.055,
+    "damping": 0.02,
+    "singular_value_soft": 0.04,
+    "singularity_cost": 0.5,
+    "collision_cost": 500.0,
+    "collision_margin": 0.012
+  },
+  "ur5": {
+    "task_tau": 0.032,
+    "damping": 0.01,
+    "singular_value_soft": 0.08,
+    "singular_speed_floor": 0.08,
+    "singular_orientation_floor": 0.04,
+    "singularity_cost": 0.5,
+    "collision_cost": 800.0,
+    "collision_margin": 0.015
+  },
+  "doosan": {
+    "task_tau": 0.032,
+    "damping": 0.01,
+    "singular_value_soft": 0.04,
+    "singularity_cost": 0.5,
+    "collision_cost": 800.0,
+    "collision_margin": 0.015
+  }
+}
