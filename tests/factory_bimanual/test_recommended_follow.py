@@ -61,3 +61,12 @@ def test_execution_qpos_and_source_mapping_stay_aligned(tmp_path):
     assert result.execution_qpos.shape[1] == model.nq
     assert len(result.execution_qpos) == len(result.source_index)
     assert set(result.source_index.tolist()) == {0, 1, 2}
+
+
+def test_runner_propagates_pdf_dls_step_limit(tmp_path):
+    model, task, mapped = _static_piperx_task(tmp_path)
+
+    runner = RecommendedFollowRunner(
+        model, task, mapped, load_recommended_config())
+
+    assert runner.generator.config.maximum_step_rad == 0.18

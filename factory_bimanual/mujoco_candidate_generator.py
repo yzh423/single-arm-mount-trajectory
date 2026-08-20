@@ -92,6 +92,7 @@ class CandidateGeneratorConfig:
     orientation_tolerance_rad: float = np.deg2rad(1.5)
     damping: float = .04
     step_scale: float = .7
+    maximum_step_rad: float = .18
     max_iterations: int = 240
     dedup_rad: float = 1e-3
     maximum_candidates: int = 8
@@ -287,7 +288,10 @@ class MuJoCoCandidateGenerator:
                              self.config.orientation_weight * jr[:, dids]))
             dq = jac.T @ np.linalg.solve(
                 jac @ jac.T + self.config.damping ** 2 * np.eye(6), err)
-            dq = np.clip(dq, -.18, .18)
+            maximum_step = float(self.config.maximum_step_rad)
+            if not np.isfinite(maximum_step) or maximum_step <= 0.0:
+                raise ValueError("maximum_step_rad must be finite and positive")
+            dq = np.clip(dq, -maximum_step, maximum_step)
             d.qpos[qids] += self.config.step_scale * dq
             joint_ids = self.model.dof_jntid[dids]; ranges = self.model.jnt_range[joint_ids]
             limited = self.model.jnt_limited[joint_ids].astype(bool)

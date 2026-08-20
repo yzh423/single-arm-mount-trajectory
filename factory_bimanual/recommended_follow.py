@@ -94,6 +94,7 @@ class RecommendedFollowRunner:
             orientation_tolerance_rad=config.accept.orientation_tolerance_rad,
             damping=config.dls.damping,
             step_scale=config.dls.step_scale,
+            maximum_step_rad=config.dls.maximum_step_rad,
             max_iterations=config.dls.max_iterations,
             global_seed_count=config.anchor_restarts,
             maximum_candidates=self.maximum_candidates_per_side,
