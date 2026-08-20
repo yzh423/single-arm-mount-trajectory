@@ -5,6 +5,8 @@ import numpy as np
 
 from scripts.run_piperx_recommended_v31 import (
     _fraction_true,
+    _resolve_mount,
+    _resolve_tool_offsets,
     build_summary,
     candidate_rank_key,
     parse_args,
@@ -183,3 +185,51 @@ def test_candidate_ranking_never_trades_strict_coverage_for_collision():
 
     assert candidate_rank_key(full_coverage_with_collisions) > candidate_rank_key(
         lower_coverage_collision_free)
+
+
+def test_world_mount_override_is_explicit_and_preserves_yaw():
+    options = parse_args([
+        "--family", "8-11/Seal_Bag",
+        "--mount-mode", "upright_table",
+        "--mount-coordinate-domain", "registered_world",
+        "--left-base-xyz-m", "-0.37", "0.18", "0.85",
+        "--right-base-xyz-m", "-0.20", "-0.47", "0.85",
+        "--left-yaw-deg", "0",
+        "--right-yaw-deg", "30",
+    ])
+    base = _mount("horizontal_forward")
+
+    mount = _resolve_mount(
+        options, base,
+        registration_rotation=np.eye(3),
+        registration_translation_m=np.zeros(3),
+    )
+
+    assert mount.mode == "upright_table"
+    assert np.allclose(mount.left_xyz_m, [-0.37, 0.18, 0.85])
+    assert np.allclose(mount.right_xyz_m, [-0.20, -0.47, 0.85])
+    assert mount.yaw_deg == {"left": 0.0, "right": 30.0}
+    assert mount.selection_method == "explicit CLI mount override"
+
+
+def test_cli_tool_offsets_override_shared_calibration_per_task():
+    options = parse_args([
+        "--left-tool-offset-wxyz", "1", "0", "0", "0",
+        "--right-tool-offset-wxyz", "0", "1", "0", "0",
+    ])
+    spec = SimpleNamespace(
+        left_tool_offset_quaternion_wxyz=None,
+        right_tool_offset_quaternion_wxyz=None,
+    )
+    calibration = SimpleNamespace(
+        left_offset_quaternion_wxyz=(0.5, 0.5, 0.5, 0.5),
+        right_offset_quaternion_wxyz=(0.5, -0.5, 0.5, -0.5),
+    )
+
+    offsets, selection = _resolve_tool_offsets(options, spec, calibration)
+
+    assert offsets == {
+        "left": (1.0, 0.0, 0.0, 0.0),
+        "right": (0.0, 1.0, 0.0, 0.0),
+    }
+    assert selection == "explicit CLI task-specific fixed R_tool"

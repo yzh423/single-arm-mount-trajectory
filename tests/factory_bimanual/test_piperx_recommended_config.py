@@ -115,6 +115,27 @@ def test_strict_thresholds_and_funnel_are_not_relaxed():
         "feasible wrist branch)"
     )
 
+    seal_bag = config.mounts["8-11/Seal_Bag"]
+    assert seal_bag.mode == "upright_table"
+    assert seal_bag.coordinate_domain == "registered_world"
+    assert seal_bag.left_yaw_deg == 15.0
+    assert seal_bag.right_yaw_deg == 15.0
+    assert np.isclose(
+        np.linalg.norm(seal_bag.left_tool_offset_quaternion_wxyz), 1.0)
+    assert np.isclose(
+        np.linalg.norm(seal_bag.right_tool_offset_quaternion_wxyz), 1.0)
+
+
+def test_seal_bag_optimized_world_mount_is_not_registered_twice():
+    config = load_recommended_config(DEFAULT_CONFIG_PATH)
+    mount = world_mount_for_family(
+        config, TaskFamily("8-11", "Seal_Bag"),
+        np.eye(3), np.asarray([10.0, 20.0, 30.0]))
+
+    assert np.allclose(mount.left_xyz_m, [-0.35, 0.25, 0.81])
+    assert np.allclose(mount.right_xyz_m, [-0.30, -0.45, 0.81])
+    assert mount.yaw_deg == {"left": 15.0, "right": 15.0}
+
 
 def test_unknown_family_is_explicit_error():
     config = load_recommended_config(DEFAULT_CONFIG_PATH)

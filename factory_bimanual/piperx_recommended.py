@@ -68,6 +68,10 @@ class RecommendedMountSpec:
     left_tool_offset_quaternion_wxyz: tuple[float, float, float, float] | None
     right_tool_offset_quaternion_wxyz: tuple[float, float, float, float] | None
     tool_offset_selection: str | None
+    left_yaw_deg: float
+    right_yaw_deg: float
+    coordinate_domain: str
+    selection_method: str
 
 
 @dataclass(frozen=True)
@@ -148,6 +152,13 @@ def _xyz(value, name: str) -> tuple[float, float, float]:
     return tuple(float(item) for item in array)
 
 
+def _finite(value, name: str) -> float:
+    result = float(value)
+    if not np.isfinite(result):
+        raise ValueError(f"{name} must be finite")
+    return result
+
+
 def _optional_quaternion(value, name: str):
     if value is None:
         return None
@@ -211,7 +222,7 @@ def load_recommended_config(path: Path = DEFAULT_CONFIG_PATH) -> PiperXRecommend
     for key, record in payload["task_family_mounts"].items():
         family = TaskFamily.parse(key)
         morphology = str(record["morphology"])
-        mode = str(modes[morphology])
+        mode = str(record.get("mode", modes[morphology]))
         if mode not in valid_modes:
             raise ValueError(f"unsupported mount mode for {key}: {mode}")
         mounts[family.key] = RecommendedMountSpec(
@@ -232,7 +243,19 @@ def load_recommended_config(path: Path = DEFAULT_CONFIG_PATH) -> PiperXRecommend
                 None if record.get("tool_offset_selection") is None
                 else str(record["tool_offset_selection"])
             ),
+            left_yaw_deg=_finite(
+                record.get("left_yaw_deg", 0.0), f"{key} left yaw"),
+            right_yaw_deg=_finite(
+                record.get("right_yaw_deg", 0.0), f"{key} right yaw"),
+            coordinate_domain=str(record.get(
+                "coordinate_domain", "source_frame")),
+            selection_method=str(record.get(
+                "selection_method",
+                "PDF recommended shared base with rigid task registration")),
         )
+        if mounts[family.key].coordinate_domain not in {
+                "source_frame", "registered_world"}:
+            raise ValueError(f"unsupported coordinate domain for {key}")
     anchor_restarts = int(payload["anchor_restarts"])
     if anchor_restarts != 40:
         raise ValueError("recommended anchor restart count must remain 40")
@@ -273,8 +296,12 @@ def world_mount_for_family(
         raise ValueError("registration must contain a 3x3 rotation and 3-vector")
     if np.any(~np.isfinite(rotation)) or np.any(~np.isfinite(translation)):
         raise ValueError("registration must be finite")
-    left = rotation @ np.asarray(mount.left_p_base_m) + translation
-    right = rotation @ np.asarray(mount.right_p_base_m) + translation
+    if mount.coordinate_domain == "registered_world":
+        left = np.asarray(mount.left_p_base_m, dtype=float)
+        right = np.asarray(mount.right_p_base_m, dtype=float)
+    else:
+        left = rotation @ np.asarray(mount.left_p_base_m) + translation
+        right = rotation @ np.asarray(mount.right_p_base_m) + translation
     if not np.isclose(left[2], right[2], rtol=0.0, atol=1e-9):
         raise ValueError("recommended mount must retain a shared height after registration")
     shared_z = float(0.5 * (left[2] + right[2]))
@@ -289,4 +316,10 @@ def world_mount_for_family(
         right_xyz_m=right,
         shared_base_z_m=shared_z,
         source_take=mount.source_take,
+        left_yaw_deg=mount.left_yaw_deg,
+        right_yaw_deg=mount.right_yaw_deg,
+        coordinate_domain=(
+            "registered_world" if mount.coordinate_domain == "source_frame"
+            else mount.coordinate_domain),
+        selection_method=mount.selection_method,
     )

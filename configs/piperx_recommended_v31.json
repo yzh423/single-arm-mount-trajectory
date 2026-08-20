@@ -66,9 +66,17 @@
     },
     "8-11/Seal_Bag": {
       "morphology": "humanoid_pole",
-      "left_p_base_m": [-0.05, 0.05, -0.408],
-      "right_p_base_m": [-0.15, -0.25, -0.408],
-      "source_take": "161504"
+      "mode": "upright_table",
+      "coordinate_domain": "registered_world",
+      "left_p_base_m": [-0.35, 0.25, 0.81],
+      "right_p_base_m": [-0.30, -0.45, 0.81],
+      "left_yaw_deg": 15.0,
+      "right_yaw_deg": 15.0,
+      "source_take": "161504",
+      "left_tool_offset_quaternion_wxyz": [-0.44808077545998887, -0.6222603048694348, 0.33386256224781474, -0.5482257939720613],
+      "right_tool_offset_quaternion_wxyz": [0.668271140573136, 0.1299096862736367, -0.6822155458860867, 0.2666816548634613],
+      "tool_offset_selection": "task-specific fixed R_tool aligned at mounted joint-midpoint TCP home and verified against all 1757 registered raw 60 Hz poses",
+      "selection_method": "historical v4 upright mount selected after PDF/historical/three-orientation comparison; fixed R_tool refinement achieved 1757/1757 strict raw-pose coverage"
     },
     "8-11/WaterSoluble_AluminumPouch": {
       "morphology": "bottom_table",

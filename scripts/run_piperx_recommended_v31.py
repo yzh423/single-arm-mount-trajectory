@@ -17,6 +17,7 @@ from scipy.spatial.transform import Rotation, Slerp
 from factory_bimanual.artifacts import FrameDiagnostics
 from factory_bimanual.complete_follow import CompleteFollowRunner
 from factory_bimanual.piperx_recommended import (
+    WorldMount,
     load_recommended_config,
     world_mount_for_family,
 )
@@ -55,6 +56,21 @@ def parse_args(argv=None):
     parser.add_argument("--maximum-candidates", type=int, default=8)
     parser.add_argument("--max-frames", type=int)
     parser.add_argument(
+        "--mount-mode",
+        choices=("upright_table", "horizontal_wall", "horizontal_forward", "inverted"),
+    )
+    parser.add_argument(
+        "--mount-coordinate-domain",
+        choices=("registered_world", "source_frame"),
+        default="registered_world",
+    )
+    parser.add_argument("--left-base-xyz-m", type=float, nargs=3)
+    parser.add_argument("--right-base-xyz-m", type=float, nargs=3)
+    parser.add_argument("--left-yaw-deg", type=float)
+    parser.add_argument("--right-yaw-deg", type=float)
+    parser.add_argument("--left-tool-offset-wxyz", type=float, nargs=4)
+    parser.add_argument("--right-tool-offset-wxyz", type=float, nargs=4)
+    parser.add_argument(
         "--condition-targets", action="store_true",
         help="apply the report's optional bounded 5 mm / 1 deg SE(3) conditioning",
     )
@@ -73,6 +89,82 @@ def candidate_rank_key(metrics):
         float(metrics["fixed_time_coverage"]),
         -float(metrics["execution_duration_s"]),
     )
+
+
+def _resolve_mount(
+        options, base_mount, *, registration_rotation,
+        registration_translation_m):
+    """Apply an explicit, auditable mount override to a configured mount."""
+
+    left_override = options.left_base_xyz_m
+    right_override = options.right_base_xyz_m
+    if (left_override is None) != (right_override is None):
+        raise ValueError("left and right base overrides must be provided together")
+    left = np.asarray(base_mount.left_xyz_m, dtype=float).copy()
+    right = np.asarray(base_mount.right_xyz_m, dtype=float).copy()
+    selection_method = base_mount.selection_method
+    coordinate_domain = base_mount.coordinate_domain
+    if left_override is not None:
+        left = np.asarray(left_override, dtype=float)
+        right = np.asarray(right_override, dtype=float)
+        coordinate_domain = str(options.mount_coordinate_domain)
+        if coordinate_domain == "source_frame":
+            rotation = np.asarray(registration_rotation, dtype=float)
+            translation = np.asarray(registration_translation_m, dtype=float)
+            left = rotation @ left + translation
+            right = rotation @ right + translation
+            coordinate_domain = "registered_world_from_source_frame_override"
+        selection_method = "explicit CLI mount override"
+    if not np.isclose(left[2], right[2], atol=1e-9, rtol=0.0):
+        raise ValueError("mount override must use one shared base height")
+    return WorldMount(
+        family=base_mount.family,
+        morphology=base_mount.morphology,
+        mode=options.mount_mode or base_mount.mode,
+        left_xyz_m=left,
+        right_xyz_m=right,
+        shared_base_z_m=float(0.5 * (left[2] + right[2])),
+        source_take=base_mount.source_take,
+        left_yaw_deg=(
+            base_mount.left_yaw_deg if options.left_yaw_deg is None
+            else float(options.left_yaw_deg)),
+        right_yaw_deg=(
+            base_mount.right_yaw_deg if options.right_yaw_deg is None
+            else float(options.right_yaw_deg)),
+        coordinate_domain=coordinate_domain,
+        selection_method=selection_method,
+    )
+
+
+def _resolve_tool_offsets(options, mount_spec, calibration):
+    overrides = {
+        "left": options.left_tool_offset_wxyz,
+        "right": options.right_tool_offset_wxyz,
+    }
+    if (overrides["left"] is None) != (overrides["right"] is None):
+        raise ValueError("left and right tool offsets must be provided together")
+    if overrides["left"] is not None:
+        result = {}
+        for side in ("left", "right"):
+            value = np.asarray(overrides[side], dtype=float)
+            norm = float(np.linalg.norm(value))
+            if value.shape != (4,) or not np.isfinite(value).all() or norm < 1e-12:
+                raise ValueError(f"{side} tool offset must be a finite quaternion")
+            value = value / norm
+            result[side] = tuple(float(item) for item in value)
+        return result, "explicit CLI task-specific fixed R_tool"
+    result = {
+        "left": (
+            mount_spec.left_tool_offset_quaternion_wxyz
+            or calibration.left_offset_quaternion_wxyz),
+        "right": (
+            mount_spec.right_tool_offset_quaternion_wxyz
+            or calibration.right_offset_quaternion_wxyz),
+    }
+    selection = (
+        mount_spec.tool_offset_selection
+        or "locked shared PiperX calibration artifact")
+    return result, selection
 
 
 def scene_mount_kwargs(mount, task, *, table_height_m):
@@ -569,10 +661,15 @@ def run(options):
         resample_task_60hz(task, rate_hz=options.rate_hz),
         options.max_frames,
     )
-    mount = world_mount_for_family(
+    configured_mount = world_mount_for_family(
         config, family,
         registration.rotation_world_from_vr,
         registration.translation_world_m,
+    )
+    mount = _resolve_mount(
+        options, configured_mount,
+        registration_rotation=registration.rotation_world_from_vr,
+        registration_translation_m=registration.translation_world_m,
     )
     output_dir = Path(options.output_dir).resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -587,14 +684,8 @@ def run(options):
     model = mujoco.MjModel.from_xml_path(str(scene))
     calibration = CalibrationArtifact.read(CALIBRATION_PATH)
     mount_spec = config.mounts[family.key]
-    tool_offsets = {
-        "left": (
-            mount_spec.left_tool_offset_quaternion_wxyz
-            or calibration.left_offset_quaternion_wxyz),
-        "right": (
-            mount_spec.right_tool_offset_quaternion_wxyz
-            or calibration.right_offset_quaternion_wxyz),
-    }
+    tool_offsets, tool_offset_selection = _resolve_tool_offsets(
+        options, mount_spec, calibration)
     task, mapped_quaternions, conditioning_audit = (
         condition_complete_follow_targets(
             task, tool_offsets,
@@ -621,6 +712,7 @@ def run(options):
         source_path.read_bytes()
     ).hexdigest()
     summary["mount"].update(mount_orientation_evidence)
+    summary["tool_frame"]["selection"] = tool_offset_selection
     summary["scene_manifest"] = asdict(manifest)
     summary_path = output_dir / f"{stem}.summary.json"
     trajectory_path = output_dir / f"{stem}.trajectory.npz"

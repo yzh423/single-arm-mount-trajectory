@@ -48,7 +48,7 @@
 - 生成：`reports/piperx_two_task_complete_follow/search/*.summary.json`
 - 生成：`reports/piperx_two_task_complete_follow/two_task_experiment_log.json`
 
-1. Fold_Box 快跑：`E:\Anaconda\python.exe scripts/run_piperx_recommended_v31.py --family 8-11/Fold_Box --source-take 161044 --output-dir reports/piperx_two_task_complete_follow/fold_box --no-video`。
+1. Fold_Box 快跑：`E:\Anaconda\python.exe -m scripts.run_piperx_recommended_v31 --family 8-11/Fold_Box --source-take 161044 --output-dir reports/piperx_two_task_complete_follow/fold_box --no-video`。
 2. 验证 Fold_Box 严格覆盖和重定时执行均为 1061/1061；若不一致，用已有最终 NPZ 逐字段定位首次差异后修复。
 3. Seal_Bag PDF 构型快跑，保存基线而不只保留最优结果。
 4. 运行优化器，逐轮读取候选 summary；若严格覆盖未达 100%，根据左右侧失败分布、关节限位、翻腕 rescue 和碰撞分布缩小下一轮 mount 邻域。
