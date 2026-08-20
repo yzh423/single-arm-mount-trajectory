@@ -259,3 +259,12 @@ def test_scheduler_rejects_non_monotonic_source_time():
             PERIODIC,
             schedule_config(),
         )
+
+
+def test_candidate_can_carry_bimanual_wrist_signature_override():
+    pair = CandidateFrame(
+        q=np.zeros(12), branch_index=101,
+        position_error_m=0.0, orientation_error_rad=0.0,
+        wrist_signature_value=(0, 0, 1, -1),
+    )
+    assert pair.wrist_signature == (0, 0, 1, -1)

@@ -160,6 +160,7 @@ class CandidateFrame:
     orientation_error_rad: float
     wrist_risk: float = 0.0
     joint_limit_margin_rad: float = np.inf
+    wrist_signature_value: tuple[int, ...] | None = None
 
     def __post_init__(self) -> None:
         q = np.asarray(self.q, dtype=float)
@@ -175,9 +176,16 @@ class CandidateFrame:
             raise ValueError("candidate errors and wrist risk must be finite and non-negative")
         if np.isnan(self.joint_limit_margin_rad):
             raise ValueError("candidate joint margin may not be NaN")
+        if self.wrist_signature_value is not None:
+            signature = tuple(int(value) for value in self.wrist_signature_value)
+            if not signature or any(value not in (-1, 0, 1) for value in signature):
+                raise ValueError("wrist signature values must be -1, 0, or 1")
+            object.__setattr__(self, "wrist_signature_value", signature)
 
     @property
-    def wrist_signature(self) -> tuple[int, int]:
+    def wrist_signature(self) -> tuple[int, ...]:
+        if self.wrist_signature_value is not None:
+            return self.wrist_signature_value
         return wrist_branch_signature(self.q)
 
 
@@ -213,8 +221,8 @@ class RescueEvent:
     transition_frames: int
     from_branch_index: int
     to_branch_index: int
-    from_wrist_signature: tuple[int, int]
-    to_wrist_signature: tuple[int, int]
+    from_wrist_signature: tuple[int, ...]
+    to_wrist_signature: tuple[int, ...]
     recovery_q: np.ndarray
     maximum_joint_delta_rad: float
     wrist_delta_norm_rad: float
@@ -270,12 +278,24 @@ def _candidate_rank(
     )
     return (
         float(np.max(np.abs(delta), initial=0.0)),
-        float(np.linalg.norm(delta[-3:])),
+        float(np.linalg.norm(_wrist_delta_components(delta))),
         candidate.wrist_risk,
         normalized_pose,
         -candidate.joint_limit_margin_rad,
         int(candidate.branch_index),
     )
+
+
+def _wrist_delta_components(delta: np.ndarray) -> np.ndarray:
+    """Return wrist deltas for one arm or concatenated six-DOF arm blocks."""
+
+    delta = np.asarray(delta, dtype=float)
+    if len(delta) >= 6 and len(delta) % 6 == 0:
+        return np.concatenate([
+            delta[start + 3:start + 6]
+            for start in range(0, len(delta), 6)
+        ])
+    return delta[-min(3, len(delta)):]
 
 
 def _follow_candidates(
@@ -452,7 +472,8 @@ def schedule_rescue_v31(
             to_wrist_signature=target.wrist_signature,
             recovery_q=target.q.copy(),
             maximum_joint_delta_rad=float(np.max(np.abs(delta), initial=0.0)),
-            wrist_delta_norm_rad=float(np.linalg.norm(delta[-3:])),
+            wrist_delta_norm_rad=float(np.linalg.norm(
+                _wrist_delta_components(delta))),
             predicted_follow_frames=predicted,
             seam_error_rad=float(np.max(np.abs(path[-1] - target.q), initial=0.0)),
             cycle_delay_s=delay,
@@ -572,7 +593,8 @@ def schedule_rescue_v31(
                     recovery_q=target.q.copy(),
                     maximum_joint_delta_rad=float(
                         np.max(np.abs(delta), initial=0.0)),
-                    wrist_delta_norm_rad=float(np.linalg.norm(delta[-3:])),
+                    wrist_delta_norm_rad=float(np.linalg.norm(
+                        _wrist_delta_components(delta))),
                     predicted_follow_frames=predicted,
                     seam_error_rad=float(
                         np.max(np.abs(path[-1] - target.q), initial=0.0)),
