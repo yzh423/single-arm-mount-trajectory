@@ -1,20 +1,52 @@
 # single-arm-mount
 
-PiperX 推荐流程的第一条有用调用是一条端到端复现命令，而不是直接构造某个库类型：`python -m scripts.run_piperx_recommended_v31` 读取完整双臂工厂 CSV，以同一个刚体变换注册左右目标，选择任务族对应的 PDF mount 和固定工具坐标旋转，把完整轨迹重采样到 60 Hz，然后在严格 1 mm / 0.5° 门内运行逐臂 warm-start、必要时全局分支恢复、双臂候选配对和无损局部动力学重定时。默认目标基准是注册并重采样后的 raw 位姿；Savitzky–Golay SE(3) 条件化只有显式传入 `--condition-targets` 才会启用。
+PiperX 推荐流程已经同时覆盖 Fold_Box 161044 和 Seal_Bag 161504。`python -m scripts.run_piperx_recommended_v31` 读取完整双臂工厂 CSV，以同一个刚体变换注册左右目标，选择任务级 mount 和固定工具坐标旋转，把完整轨迹重采样到 60 Hz，然后在严格 1 mm / 0.5° 门内运行逐臂 warm-start、必要时全局分支恢复、翻腕候选配对和无损局部动力学重定时。默认目标基准是注册并重采样后的 raw 位姿；Savitzky-Golay SE(3) 条件化只有显式传入 `--condition-targets` 才会启用。
 
 项目把“完全 follow”拆成四个可分别审计的结论：每个 raw 源位姿最终是否严格到达、是否仍在原 60 Hz 时刻到达、重定时执行是否满足关节速度/加速度限制、状态与扫掠边是否无碰撞。运行器输出 JSON、NPZ、MuJoCo 场景、官方 PiperX 网格 MP4 与逐帧 provenance；PDF 构建器重新核对源文件哈希、FK 误差、动力学、碰撞计数和视频终点绑定后才生成报告。`factory_bimanual` 承载这条可审计执行链，`design_optimization` 提供更广的 mount、形态、IK、碰撞、Pareto 与实时控制研究工具。
 
 ```powershell
 python -m scripts.run_piperx_recommended_v31 `
   --family 8-11/Fold_Box `
-  --source-take 161044
+  --source-take 161044 `
+  --output-dir reports/piperx_two_task_complete_follow/fold_box
+
+python -m scripts.run_piperx_recommended_v31 `
+  --family 8-11/Seal_Bag `
+  --source-take 161504 `
+  --output-dir reports/piperx_two_task_complete_follow/seal_bag
+
+python -m scripts.validate_piperx_two_task_bundle `
+  --bundle-root reports/piperx_two_task_complete_follow
 ```
 
-这条默认命令复现 `8-11/Fold_Box` 的 `161044` take，并生成完整证据包和 30 fps 真实 MuJoCo 渲染视频。首次运行先安装依赖：
+这三条命令分别复现两个任务并重新校验整个发布包。首次运行先安装依赖：
 
 ```powershell
 python -m pip install -r requirements.txt
 ```
+
+## 双任务发布结果
+
+同一条证据链把“原始位姿能否严格到达”“原时间戳能否执行”“重定时后能否执行”和“是否无碰撞”分别记账。两个任务合计 2818 个 raw 60 Hz 位姿全部满足 1 mm / 0.5°；原时序都只有首帧满足全部动力学条件，因此正式视频使用受限重定时后的执行时间轴。
+
+| 任务 | 严格 raw 位姿 | 固定原时序 | 重定时执行 | 无碰撞严格覆盖 | 视频 |
+|---|---:|---:|---:|---:|---:|
+| Fold_Box 161044 | 1061/1061，100% | 1/1061 | 74.285113 s | 990/1061，93.31% | 2230 帧，74.3 s |
+| Seal_Bag 161504 | 1757/1757，100% | 1/1757 | 100.632572 s | 1740/1757，99.03% | 3020 帧，100.633 s |
+
+Seal_Bag 的 PDF `horizontal_forward` 基线在第 0 帧不可达。最终方案采用历史构型对比中表现更好的直立挂载，左 base `[-0.35, 0.25, 0.81] m`、右 base `[-0.30, -0.45, 0.81] m`、yaw `15°/15°`，并使用一对整轨迹固定的任务级 `R_tool`。这对旋转只定义 source-hand 到 robot-TCP 的坐标约定，不逐帧改目标，也不启用轨迹平滑。
+
+优先从这些最终工件开始检查：
+
+- [双任务严格完全跟随实验报告](reports/piperx_two_task_complete_follow/PiperX双任务严格完全跟随实验报告.pdf)
+- [双任务机器可读 manifest](reports/piperx_two_task_complete_follow/two_task_manifest.json)
+- [双任务汇总 CSV](reports/piperx_two_task_complete_follow/two_task_summary.csv)
+- [检测与优化实验日志](reports/piperx_two_task_complete_follow/two_task_experiment_log.json)
+- [Fold_Box 真实 MuJoCo 视频](reports/piperx_two_task_complete_follow/fold_box/8-11_Fold_Box_161044_complete_follow.mp4)
+- [Seal_Bag 真实 MuJoCo 视频](reports/piperx_two_task_complete_follow/seal_bag/8-11_Seal_Bag_161504_complete_follow.mp4)
+- [Fold_Box summary](reports/piperx_two_task_complete_follow/fold_box/8-11_Fold_Box_161044_complete_follow.summary.json) 与 [Seal_Bag summary](reports/piperx_two_task_complete_follow/seal_bag/8-11_Seal_Bag_161504_complete_follow.summary.json)
+
+> **Caution:** 100% 严格位姿覆盖不是无碰撞或真机许可。Fold_Box 仍有 71 个碰撞审计帧，Seal_Bag 仍有 17 个；上真机前必须重新规划这些状态与扫掠入边，并重新验证完整覆盖。
 
 ## 复现 raw-target 完全跟随
 
@@ -151,7 +183,7 @@ python -m scripts.run_piperx_recommended_v31 --condition-targets --no-video
 
 ## 建立 mount、工具坐标与真实场景
 
-从 PDF mount 到 MuJoCo 世界场景需要两步固定变换：先把报告中的 source-frame 基座对通过任务 registration 映射到世界系，再把 source-hand 四元数通过任务级固定 `R_tool` 映射到 PiperX TCP 约定。
+从 mount 到 MuJoCo 世界场景需要先确认坐标域。PDF 的 source-frame 基座对通过任务 registration 映射到世界系；已经由优化实验锁定的 `registered_world` 基座直接进入场景。随后把 source-hand 四元数通过任务级固定 `R_tool` 映射到 PiperX TCP 约定。
 
 ```python
 import numpy as np
@@ -179,7 +211,7 @@ print(mount.as_scene_mount())
 
 复现实验需要从一份配置同时取得验收门、DLS 参数、执行约束、mount 漏斗和任务级安装记录。发布配置由 `DEFAULT_CONFIG_PATH` 定位，`PiperXRecommendedConfig` 聚合 `StrictAcceptConfig`、`DLSConfig`、`ExecutionConfig`、`MountFunnelConfig` 与 `RecommendedMountSpec`；`WorldMount.base_distance_m`、`xy` 和 `as_scene_mount` 再把注册后的安装结果交给场景与 summary。frame-0 的 anchor restarts 固定为 40，loader 会拒绝其他值，从而锁定复现实验预算。
 
-> **Caution:** PDF mount 必须先经过任务刚体注册，且左右基座注册后必须保持同一高度。配置中的 source-frame 坐标不能直接当作 MuJoCo 世界坐标。
+> **Caution:** `source_frame` mount 必须先经过任务刚体注册，且左右基座注册后必须保持同一高度。Seal_Bag 的最终记录明确标成 `registered_world`，不得再次注册；loader 会按 `coordinate_domain` 区分两者。
 
 ### 固定工具坐标
 

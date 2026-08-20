@@ -1,0 +1,102 @@
+{
+  "schema": "piperx-two-task-experiment-log-v1",
+  "date": "2026-08-20",
+  "acceptance": {
+    "position_tolerance_mm": 1.0,
+    "orientation_tolerance_deg": 0.5,
+    "target_basis": "registered raw trajectory resampled to 60 Hz without conditioning"
+  },
+  "fold_box_regression": {
+    "family": "8-11/Fold_Box",
+    "take": "161044",
+    "result": "complete",
+    "strict_pose_frames": "1061/1061",
+    "fixed_time_frames": "1/1061",
+    "collision_frames": 71
+  },
+  "seal_bag_iterations": [
+    {
+      "iteration": 0,
+      "label": "PDF horizontal_forward baseline",
+      "change": "PDF humanoid-pole mount and shared calibration",
+      "result": "infeasible",
+      "first_failure_frame_60hz": 0,
+      "failure_side": "left"
+    },
+    {
+      "iteration": 1,
+      "label": "historical upright baseline",
+      "change": "left [-0.37, 0.18, 0.85], right [-0.20, -0.47, 0.85], yaw 0/30 deg",
+      "result": "infeasible",
+      "first_failure_frame_60hz": 124,
+      "failure_side": "right"
+    },
+    {
+      "iteration": 2,
+      "label": "historical v4 upright mount",
+      "change": "left [-0.35, 0.25, 0.81], right [-0.30, -0.45, 0.81], yaw 15/15 deg; shared calibration",
+      "result": "infeasible",
+      "first_failure_frame_60hz": 735,
+      "failure_side": "right"
+    },
+    {
+      "iteration": 3,
+      "label": "right Y boundary refinement",
+      "change": "right base Y -0.450 to -0.475 m",
+      "result": "infeasible",
+      "first_failure_frame_60hz": 737,
+      "failure_side": "right"
+    },
+    {
+      "iteration": 4,
+      "label": "right Y plus shared Z refinement",
+      "change": "right Y -0.475 m and shared Z 0.810 to 0.790 m",
+      "result": "infeasible",
+      "first_failure_frame_60hz": 93,
+      "failure_side": "left"
+    },
+    {
+      "iteration": 5,
+      "label": "right Y over-travel",
+      "change": "right base Y -0.525 m",
+      "result": "infeasible",
+      "first_failure_frame_60hz": 269,
+      "failure_side": "right"
+    },
+    {
+      "iteration": 6,
+      "label": "right XY half-step",
+      "change": "right base [-0.3125, -0.500, 0.810] m",
+      "result": "infeasible",
+      "first_failure_frame_60hz": 385,
+      "failure_side": "right"
+    },
+    {
+      "iteration": 7,
+      "label": "task-specific fixed R_tool",
+      "change": "return to historical v4 upright mount; align each source tool frame once to the mounted joint-midpoint TCP home; no per-frame target editing",
+      "result": "complete",
+      "strict_pose_frames": "1757/1757",
+      "fixed_time_frames": "1/1757",
+      "collision_frames": 17,
+      "collision_free_coverage": 0.9903244166192373
+    },
+    {
+      "iteration": 8,
+      "label": "flip-branch budget ablation",
+      "change": "maximum candidates per side 8 to 16",
+      "result": "no improvement",
+      "strict_pose_frames": "1757/1757",
+      "collision_frames": 17,
+      "execution_duration_s": 100.63257243597134
+    }
+  ],
+  "selection_rule": [
+    "strict raw-pose coverage",
+    "retimed execution coverage",
+    "maximum normalized pose error margin",
+    "collision-free coverage",
+    "fixed-time coverage",
+    "execution duration"
+  ]
+}
