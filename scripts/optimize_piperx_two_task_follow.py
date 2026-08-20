@@ -179,11 +179,11 @@ def _candidate_from_world_mount(name, mount, origin):
 
 
 def seal_bag_seed_candidates(configured_mount):
-    """Known report candidates plus the registered PDF recommendation."""
+    """Configured incumbent plus known historical upright candidates."""
 
     return [
         _candidate_from_world_mount(
-            "pdf_horizontal_forward", configured_mount, "pdf_v31"),
+            "configured_mount", configured_mount, "configured"),
         MountCandidate(
             "historical_upright", "upright_table",
             (-0.37, 0.18, 0.85), (-0.20, -0.47, 0.85),
