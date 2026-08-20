@@ -2,8 +2,11 @@ import numpy as np
 import pytest
 
 from factory_bimanual.rescue_v31 import (
+    CandidateFrame,
+    RescueScheduleConfig,
     StrictGate,
     minimum_jerk_transition,
+    schedule_rescue_v31,
     shortest_joint_delta,
     trapezoidal_transition_time,
     wrist_branch_signature,
@@ -84,3 +87,175 @@ def test_minimum_jerk_hits_recovery_branch_with_zero_seam():
 def test_minimum_jerk_requires_start_and_end_frames(frames):
     with pytest.raises(ValueError, match="at least two"):
         minimum_jerk_transition(np.zeros(6), np.ones(6), frames)
+
+
+PERIODIC = np.zeros(6, dtype=bool)
+
+
+def candidate(
+    value=0.0,
+    *,
+    branch=0,
+    wrist4=None,
+    wrist5=0.0,
+    position_error_m=0.0002,
+    orientation_error_deg=0.1,
+    wrist_risk=0.0,
+    joint_margin=0.5,
+):
+    q = np.full(6, float(value))
+    q[3] = float(value if wrist4 is None else wrist4)
+    q[4] = float(wrist5)
+    return CandidateFrame(
+        q=q,
+        branch_index=branch,
+        position_error_m=position_error_m,
+        orientation_error_rad=np.deg2rad(orientation_error_deg),
+        wrist_risk=wrist_risk,
+        joint_limit_margin_rad=joint_margin,
+    )
+
+
+def schedule_config(**changes):
+    values = {
+        "gate": StrictGate(0.001, np.deg2rad(0.5), 0.30),
+        "velocity_rad_s": 1.0,
+        "acceleration_rad_s2": 4.0,
+        "settle_s": 0.1,
+        "decision_s": 0.015,
+        "source_rate_hz": 60.0,
+        "dwell_frames": 18,
+        "lookahead_frames": 120,
+        "early_trigger_frames": 0,
+    }
+    values.update(changes)
+    return RescueScheduleConfig(**values)
+
+
+def test_nonterminal_hold_resumes_from_last_command():
+    layers = [(candidate(0.0),), (), (candidate(0.1),)]
+    result = schedule_rescue_v31(
+        layers,
+        np.arange(3) / 60.0,
+        PERIODIC,
+        schedule_config(dwell_frames=99),
+    )
+    assert result.state.tolist() == ["FOLLOW", "HOLD", "FOLLOW"]
+    assert np.allclose(result.command_q[1], result.command_q[0])
+    assert result.source_accepted.tolist() == [True, False, True]
+
+
+def test_mode_a_intercepts_future_target_and_counts_drops():
+    layers = [(candidate(0.0),), ()]
+    layers.extend([()] * 48)
+    layers.append((candidate(0.0, branch=7, wrist4=0.4),))
+    layers.extend([(candidate(0.0, branch=7, wrist4=0.4),)] * 4)
+
+    result = schedule_rescue_v31(
+        layers,
+        np.arange(len(layers)) / 60.0,
+        PERIODIC,
+        schedule_config(dwell_frames=0),
+    )
+
+    event = result.events[0]
+    assert event.mode == "A"
+    assert event.start_frame == 1
+    assert event.end_frame == 50
+    assert np.array_equal(result.source_command_q[event.end_frame], event.recovery_q)
+    assert event.seam_error_rad <= 1e-12
+    assert result.dropped_source_frames == event.transition_frames == 49
+    assert result.cycle_delay_s == 0.0
+
+
+def test_mode_b_preserves_source_frames_and_adds_cycle_delay():
+    layers = [
+        (candidate(0.0),),
+        (candidate(0.0, branch=8, wrist4=0.4),),
+        (candidate(0.0, branch=8, wrist4=0.42),),
+    ]
+    result = schedule_rescue_v31(
+        layers,
+        np.arange(len(layers)) / 60.0,
+        PERIODIC,
+        schedule_config(dwell_frames=0, lookahead_frames=1),
+    )
+    assert result.events[0].mode == "B"
+    assert set(result.source_index.tolist()) == {0, 1, 2}
+    assert result.source_accepted.tolist() == [True, True, True]
+    assert result.dropped_source_frames == 0
+    assert result.cycle_delay_s > 0
+
+
+def test_dwell_prevents_immediate_second_branch_jump():
+    layers = [
+        (candidate(0.0),),
+        (candidate(0.0, branch=2, wrist4=0.4),),
+        (candidate(0.0, branch=3, wrist4=-0.4),),
+    ]
+    result = schedule_rescue_v31(
+        layers,
+        np.arange(3) / 60.0,
+        PERIODIC,
+        schedule_config(dwell_frames=18, lookahead_frames=1),
+    )
+    assert [event.start_frame for event in result.events] == [1]
+    assert not result.source_accepted[2]
+
+
+def test_follow_never_changes_wrist_branch_without_rescue_event():
+    layers = [
+        (candidate(0.0),),
+        (candidate(0.0, branch=4, wrist4=0.2),),
+    ]
+    result = schedule_rescue_v31(
+        layers,
+        np.arange(2) / 60.0,
+        PERIODIC,
+        schedule_config(dwell_frames=0, lookahead_frames=1),
+    )
+    assert result.state[1] != "FOLLOW"
+    assert len(result.events) == 1
+    assert result.events[0].from_wrist_signature != result.events[0].to_wrist_signature
+
+
+def test_early_trigger_switches_before_current_branch_is_lost():
+    layers = [
+        (candidate(0.0, branch=0),),
+        (
+            candidate(0.05, branch=0),
+            candidate(0.0, branch=9, wrist4=0.4),
+        ),
+        (
+            candidate(0.10, branch=0),
+            candidate(0.0, branch=9, wrist4=0.42),
+        ),
+        (candidate(0.0, branch=9, wrist4=0.44),),
+        (candidate(0.0, branch=9, wrist4=0.46),),
+    ]
+    result = schedule_rescue_v31(
+        layers,
+        np.arange(len(layers)) / 60.0,
+        PERIODIC,
+        schedule_config(
+            dwell_frames=0,
+            lookahead_frames=4,
+            early_trigger_frames=2,
+            velocity_rad_s=10.0,
+            acceleration_rad_s2=40.0,
+            settle_s=0.0,
+            decision_s=0.0,
+        ),
+    )
+    assert result.events[0].start_frame == 1
+    assert result.events[0].trigger == "early_intercept"
+
+
+def test_scheduler_rejects_non_monotonic_source_time():
+    with pytest.raises(ValueError, match="strictly increasing"):
+        schedule_rescue_v31(
+            [(candidate(),), (candidate(0.1),)],
+            np.array([0.0, 0.0]),
+            PERIODIC,
+            schedule_config(),
+        )
