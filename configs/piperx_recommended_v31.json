@@ -1,0 +1,117 @@
+{
+  "schema": "piperx-recommended-v3.1",
+  "source_report": "双臂IK跟随方案四臂四种安装位姿报告.pdf",
+  "accept": {
+    "position_tolerance_m": 0.001,
+    "orientation_tolerance_deg": 0.5,
+    "branch_guard_rad": 0.3
+  },
+  "dls": {
+    "damping": 0.04,
+    "step_scale": 0.7,
+    "maximum_step_rad": 0.18,
+    "max_iterations": 120
+  },
+  "anchor_restarts": 40,
+  "execution": {
+    "maximum_velocity_rad_s": 1.0,
+    "maximum_acceleration_rad_s2": 4.0,
+    "settle_time_s": 0.1,
+    "decision_time_s": 0.015,
+    "source_rate_hz": 60.0,
+    "dwell_frames": 18,
+    "lookahead_frames": 120
+  },
+  "mount_funnel": {
+    "coarse_xy_step_m": 0.1,
+    "bottom_z_offset_m": 0.15,
+    "workspace_samples": 512,
+    "workspace_radius_quantile": 0.99,
+    "orientation_cone_m": 0.12,
+    "coarse_stride_frames": 10,
+    "anchor_keep": 150,
+    "probe_keep": 12,
+    "probe_stride_frames": 60,
+    "full_keep": 3
+  },
+  "mount_modes": {
+    "baseline_frozen": "baseline_frozen",
+    "bottom_table": "upright_table",
+    "humanoid_pole": "horizontal_forward",
+    "top_hanging": "inverted"
+  },
+  "task_family_mounts": {
+    "8-11/AluminumFoilPouch_BoxPackaging": {
+      "morphology": "bottom_table",
+      "left_p_base_m": [0.15, 0.25, -0.696],
+      "right_p_base_m": [0.15, -0.15, -0.696],
+      "source_take": "160555"
+    },
+    "8-11/Fold_Box": {
+      "morphology": "bottom_table",
+      "left_p_base_m": [0.15, 0.3, -0.683],
+      "right_p_base_m": [0.05, -0.3, -0.683],
+      "source_take": "161044"
+    },
+    "8-11/Screw_Cap": {
+      "morphology": "bottom_table",
+      "left_p_base_m": [-0.05, 0.05, -1.022],
+      "right_p_base_m": [0.15, -0.15, -1.022],
+      "source_take": "162818"
+    },
+    "8-11/Seal_Bag": {
+      "morphology": "humanoid_pole",
+      "left_p_base_m": [-0.05, 0.05, -0.408],
+      "right_p_base_m": [-0.15, -0.25, -0.408],
+      "source_take": "161504"
+    },
+    "8-11/WaterSoluble_AluminumPouch": {
+      "morphology": "bottom_table",
+      "left_p_base_m": [0.3, 0.3, -0.709],
+      "right_p_base_m": [0.2, -0.2, -0.709],
+      "source_take": "160040"
+    },
+    "8-12/Bag_BoxPacking": {
+      "morphology": "bottom_table",
+      "left_p_base_m": [1.2, 0.65, -0.358],
+      "right_p_base_m": [0.7, 0.75, -0.358],
+      "source_take": "110914"
+    },
+    "8-12/Fold_Box": {
+      "morphology": "bottom_table",
+      "left_p_base_m": [1.1, 0.7, -0.354],
+      "right_p_base_m": [0.7, 0.8, -0.354],
+      "source_take": "111132"
+    },
+    "8-12/InsertIntoBottle": {
+      "morphology": "bottom_table",
+      "left_p_base_m": [-0.8, -1.1, -0.741],
+      "right_p_base_m": [-0.4, -0.5, -0.741],
+      "source_take": "112858"
+    },
+    "8-12/InsertSmallPackageIntoMachine": {
+      "morphology": "humanoid_pole",
+      "left_p_base_m": [-0.05, -0.1, -0.537],
+      "right_p_base_m": [-0.25, 0.5, -0.537],
+      "source_take": "111812"
+    },
+    "8-12/PackIntoBox": {
+      "morphology": "bottom_table",
+      "left_p_base_m": [-0.1, -0.55, -0.781],
+      "right_p_base_m": [0.2, 0.05, -0.781],
+      "source_take": "112524"
+    },
+    "8-12/PourRawMaterial": {
+      "morphology": "humanoid_pole",
+      "left_p_base_m": [-0.35, -0.45, -0.258],
+      "right_p_base_m": [-0.25, 0.05, -0.258],
+      "source_take": "111542"
+    },
+    "8-12/PutIntoBox": {
+      "morphology": "humanoid_pole",
+      "left_p_base_m": [-0.2, -0.05, -0.735],
+      "right_p_base_m": [0.1, 0.15, -0.735],
+      "source_take": "113250"
+    }
+  }
+}
