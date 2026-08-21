@@ -340,6 +340,11 @@ def _fraction_true(values):
     return 1.0 if not mask.size else float(np.mean(mask))
 
 
+def _dynamic_limits_passed(measured, limit):
+    tolerance = max(1e-12, 1e-9*float(limit))
+    return bool(float(measured) <= float(limit) + tolerance)
+
+
 def build_summary(
     result,
     *,
@@ -577,10 +582,14 @@ def build_complete_summary(
             "original_time_maximum_acceleration_rad_s2": float(np.max(
                 np.abs(result.source_acceleration_rad_s2), initial=0.0)),
             "retimed_execution_dynamic_limits_passed": bool(
-                result.maximum_velocity_rad_s
-                <= config.execution.maximum_velocity_rad_s + 1e-12
-                and result.maximum_acceleration_rad_s2
-                <= config.execution.maximum_acceleration_rad_s2 + 1e-12
+                _dynamic_limits_passed(
+                    result.maximum_velocity_rad_s,
+                    config.execution.maximum_velocity_rad_s,
+                )
+                and _dynamic_limits_passed(
+                    result.maximum_acceleration_rad_s2,
+                    config.execution.maximum_acceleration_rad_s2,
+                )
             ),
             "unreached_source_pose_frames": int(np.count_nonzero(~reached)),
             "collision_frames": int(np.count_nonzero(

@@ -4,6 +4,7 @@ from types import SimpleNamespace
 import numpy as np
 
 from scripts.run_piperx_recommended_v31 import (
+    _dynamic_limits_passed,
     _fraction_true,
     _resolve_mount,
     _resolve_tool_offsets,
@@ -38,6 +39,12 @@ def _task():
         left_gripper_angle_rad=None,
         right_gripper_angle_rad=None,
     )
+
+
+def test_dynamic_limit_audit_accepts_machine_precision_roundoff_only():
+    assert _dynamic_limits_passed(1.0 + 4e-13, 1.0)
+    assert _dynamic_limits_passed(4.0 + 2e-12, 4.0)
+    assert not _dynamic_limits_passed(4.00001, 4.0)
 
 
 def test_resample_task_60hz_preserves_endpoints_and_unit_quaternions():
