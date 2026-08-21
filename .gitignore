@@ -31,7 +31,13 @@ runs/
 # The research workspace contains multi-gigabyte corpora and robot libraries.
 # This repository publishes the one exact PiperX reproduction bundle only.
 /Assets/
-/videos/
+/videos/*
+!/videos/single_arm/
+/videos/single_arm/*
+!/videos/single_arm/thirteen_arm_open_box_30s.mp4
+!/videos/single_arm/thirteen_arm_open_box_3d_30s.mp4
+!/videos/single_arm/per_arm_task_manifest.json
+!/videos/single_arm/strict_video_job_manifest.json
 /data/*
 !/data/factory/
 /data/factory/*
@@ -46,8 +52,8 @@ runs/
 
 /third_party/*
 !/third_party/official_robot_models/
-/third_party/official_robot_models/*
-!/third_party/official_robot_models/piperx/
+!/third_party/official_robot_models/**
+/third_party/**/.git/
 
 /reports/*
 !/reports/README.md
@@ -75,9 +81,18 @@ runs/
 !/reports/factory_bimanual/
 /reports/factory_bimanual/*
 !/reports/factory_bimanual/piperx_tool_frame_calibration.json
+!/reports/single_arm/
+/reports/single_arm/*
+!/reports/single_arm/mount_ik_fidelity_pilot/
+/reports/single_arm/mount_ik_fidelity_pilot/*
+!/reports/single_arm/mount_ik_fidelity_pilot/pdf/
+/reports/single_arm/mount_ik_fidelity_pilot/pdf/*
+!/reports/single_arm/mount_ik_fidelity_pilot/pdf/mount_ik_fidelity_pilot_report.pdf
+!/reports/single_arm/ten_arm_two_single_tasks_handbook_fixed_4096/
+/reports/single_arm/ten_arm_two_single_tasks_handbook_fixed_4096/*
+!/reports/single_arm/ten_arm_two_single_tasks_handbook_fixed_4096/ten_arm_fixed_vs_legacy_report.pdf
 !/reports/piperx_two_task_complete_follow/
 /reports/piperx_two_task_complete_follow/*
-!/reports/piperx_two_task_complete_follow/PiperX双任务严格完全跟随实验报告.pdf
 !/reports/piperx_two_task_complete_follow/two_task_manifest.json
 !/reports/piperx_two_task_complete_follow/two_task_summary.csv
 !/reports/piperx_two_task_complete_follow/two_task_experiment_log.json
@@ -103,3 +118,8 @@ runs/
 !/reports/piperx_two_task_complete_follow/seal_bag/qa_start.png
 !/reports/piperx_two_task_complete_follow/seal_bag/qa_middle.png
 !/reports/piperx_two_task_complete_follow/seal_bag/qa_end.png
+
+# Local source/reference reports intentionally excluded from GitHub.
+/单轨迹优化分析.pdf
+/Seal_Bag 轨迹上 PiperX 双臂三种安装构型的跟随能力对比 - 飞书云文档.pdf
+/双臂IK跟随方案四臂四种安装位姿报告.pdf

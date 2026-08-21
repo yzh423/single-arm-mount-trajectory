@@ -1,0 +1,2605 @@
+{
+  "count": 325,
+  "videos": [
+    {
+      "robot": "arx_x5",
+      "task": "cap-left",
+      "path": "videos/thirteen_arm/per_arm_task/arx_x5/cap-left.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "d14c5d37cf408f5ba64fa27a7c6ad68b3df28e420d1d087d35b51effba570d35"
+    },
+    {
+      "robot": "arx_x5",
+      "task": "fold-towel-dual",
+      "path": "videos/thirteen_arm/per_arm_task/arx_x5/fold-towel-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "d965036e6baae12b4a83d05c2bef62b5de8d782b605d7ec6dce3634443a20ff3"
+    },
+    {
+      "robot": "arx_x5",
+      "task": "fold-tower-left-right",
+      "path": "videos/thirteen_arm/per_arm_task/arx_x5/fold-tower-left-right.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "adf132e8f93482751adbfbdbde2a843c7f18d2d40c2e207d1fc3043c2ed3e70b"
+    },
+    {
+      "robot": "arx_x5",
+      "task": "in-case-left",
+      "path": "videos/thirteen_arm/per_arm_task/arx_x5/in-case-left.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "e191c2ceefd5d1399f25b1e28d7ee95b0977ebc7721cc9a6559f24b69ef57297"
+    },
+    {
+      "robot": "arx_x5",
+      "task": "open-box",
+      "path": "videos/thirteen_arm/per_arm_task/arx_x5/open-box.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "cf5a9e5aae6cb45a6638d42a7d8021b272ad1f0657bbd321efb87ff7d525e33f"
+    },
+    {
+      "robot": "arx_x5",
+      "task": "open-box-2",
+      "path": "videos/thirteen_arm/per_arm_task/arx_x5/open-box-2.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "f3fce33dc2184f404cf9eeb1c59fc9d5ef40c2bc1516b2221851d6fbdc652bf9"
+    },
+    {
+      "robot": "arx_x5",
+      "task": "open-box-3",
+      "path": "videos/thirteen_arm/per_arm_task/arx_x5/open-box-3.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "04591ddabe7f634d8e8dc7480722001d73c1720ac27cad5d2c3ea773f9804ca9"
+    },
+    {
+      "robot": "arx_x5",
+      "task": "open-cover",
+      "path": "videos/thirteen_arm/per_arm_task/arx_x5/open-cover.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "4ee08ba8576d2161ecc5734e395d92b45de04abde2733ac129b2d46df425b211"
+    },
+    {
+      "robot": "arx_x5",
+      "task": "open-delivery-dual",
+      "path": "videos/thirteen_arm/per_arm_task/arx_x5/open-delivery-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "75eb245241d93703d55cefd82432e0751171d46eceb21300623300d3e4e49909"
+    },
+    {
+      "robot": "arx_x5",
+      "task": "open-tube-cap-dual",
+      "path": "videos/thirteen_arm/per_arm_task/arx_x5/open-tube-cap-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "a7aff80fcd8db0f103bc362b909b1c499f079878e6ef52de4a274f58c53fe937"
+    },
+    {
+      "robot": "arx_x5",
+      "task": "package-big-dual",
+      "path": "videos/thirteen_arm/per_arm_task/arx_x5/package-big-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "31b51fce5151916a4c6b987c5c43dc3c7125f4ce09bf0bd7b2ee8a9b8da66374"
+    },
+    {
+      "robot": "arx_x5",
+      "task": "package-dual",
+      "path": "videos/thirteen_arm/per_arm_task/arx_x5/package-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "305f3312e6acc96041fdacb3a938a7e56ffbc1ec368034fad9bcd44e1df24478"
+    },
+    {
+      "robot": "arx_x5",
+      "task": "pick-and-place",
+      "path": "videos/thirteen_arm/per_arm_task/arx_x5/pick-and-place.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "4895b33c92a7b851bdcc96adf9636ce97bd8fb4cb15a21160d59044f6e4416a4"
+    },
+    {
+      "robot": "arx_x5",
+      "task": "pick-from-high-left",
+      "path": "videos/thirteen_arm/per_arm_task/arx_x5/pick-from-high-left.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "eb7d0cbfd8f0561da340c17158b4584ebba7b0fd5b953701993d66a4437fc061"
+    },
+    {
+      "robot": "arx_x5",
+      "task": "pick-right-left",
+      "path": "videos/thirteen_arm/per_arm_task/arx_x5/pick-right-left.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "65129bd280b5ef74ecc958f106aaabe857f9d9c4f92a210979e63a14222a9f5f"
+    },
+    {
+      "robot": "arx_x5",
+      "task": "plug-in-out",
+      "path": "videos/thirteen_arm/per_arm_task/arx_x5/plug-in-out.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "70f6bf69306b6ab9aa1baa8db04a6edeea88175bb2a8a9d491b6d650946fb985"
+    },
+    {
+      "robot": "arx_x5",
+      "task": "pour-water",
+      "path": "videos/thirteen_arm/per_arm_task/arx_x5/pour-water.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "116fb825d91c633600cb240a64e4b6a977ae31dceecff6705e195a133f62f6a7"
+    },
+    {
+      "robot": "arx_x5",
+      "task": "roll-tower",
+      "path": "videos/thirteen_arm/per_arm_task/arx_x5/roll-tower.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "6014c7530e2ab82827d27fab3c6257547a226a92789b30395d475136908c60b4"
+    },
+    {
+      "robot": "arx_x5",
+      "task": "seal-bag",
+      "path": "videos/thirteen_arm/per_arm_task/arx_x5/seal-bag.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "c1a856204e23b12d93a54e7df270482fd93f5684c59929df1b3bd61a19dddea1"
+    },
+    {
+      "robot": "arx_x5",
+      "task": "stick-battery",
+      "path": "videos/thirteen_arm/per_arm_task/arx_x5/stick-battery.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "0d5042b8adf4df361268dee26cf78ef493b7fe8f81e78e2e9fce3e25141e2bb7"
+    },
+    {
+      "robot": "arx_x5",
+      "task": "toss-high",
+      "path": "videos/thirteen_arm/per_arm_task/arx_x5/toss-high.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "dce2265443b66998e7d56d7af39e991e2ddcb6b2b6899d1cd3e6d2024a5eea72"
+    },
+    {
+      "robot": "arx_x5",
+      "task": "tube",
+      "path": "videos/thirteen_arm/per_arm_task/arx_x5/tube.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "fa70c4855ae2b02dfea6c12cfa22fe9c3b286f99aa4631acc913e1156a01f401"
+    },
+    {
+      "robot": "arx_x5",
+      "task": "tube-left-random",
+      "path": "videos/thirteen_arm/per_arm_task/arx_x5/tube-left-random.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "0dbe2570e43facc171a250bb5557191022340302de08468c3ad0dbb2be7e28e0"
+    },
+    {
+      "robot": "arx_x5",
+      "task": "tube-left-upright",
+      "path": "videos/thirteen_arm/per_arm_task/arx_x5/tube-left-upright.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "a6eda08730cef45ac05ba9efaebb5425248911a35fd97e39ab856865bacf308e"
+    },
+    {
+      "robot": "arx_x5",
+      "task": "undo-the-knot",
+      "path": "videos/thirteen_arm/per_arm_task/arx_x5/undo-the-knot.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "119d176b1a36034f941b509491cd18bfed95ee0d6b001e47aeecc1187e08659b"
+    },
+    {
+      "robot": "big_yam",
+      "task": "cap-left",
+      "path": "videos/thirteen_arm/per_arm_task/big_yam/cap-left.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "2d2fa6001bfe829f05d59355bc9dd32596443708bf638ac290993f4d5f049589"
+    },
+    {
+      "robot": "big_yam",
+      "task": "fold-towel-dual",
+      "path": "videos/thirteen_arm/per_arm_task/big_yam/fold-towel-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "965c1522a6c64007958ba3bd01fd286e1a82c6473f4d2e6c20692e799608d2bc"
+    },
+    {
+      "robot": "big_yam",
+      "task": "fold-tower-left-right",
+      "path": "videos/thirteen_arm/per_arm_task/big_yam/fold-tower-left-right.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "076d9847885ff2129f65d3aa5a38f625aa0f8dbf84b5e9c8538404d09eb5219c"
+    },
+    {
+      "robot": "big_yam",
+      "task": "in-case-left",
+      "path": "videos/thirteen_arm/per_arm_task/big_yam/in-case-left.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "8bda3e6c8831bf30f311b5be7e3b85436ce052df45df2742e732ce275c80103a"
+    },
+    {
+      "robot": "big_yam",
+      "task": "open-box",
+      "path": "videos/thirteen_arm/per_arm_task/big_yam/open-box.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "c51726acb99510664ba2fd882d11698056d30ced8fe27310863ed7f67e004bfa"
+    },
+    {
+      "robot": "big_yam",
+      "task": "open-box-2",
+      "path": "videos/thirteen_arm/per_arm_task/big_yam/open-box-2.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "23eabe96f8c5607605c59d3424a75770b2bcefd9a64b52eb1596d975a7e6313e"
+    },
+    {
+      "robot": "big_yam",
+      "task": "open-box-3",
+      "path": "videos/thirteen_arm/per_arm_task/big_yam/open-box-3.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "4c03c54ff44217e85fe9b23545fe2290374a7c2c34a0f90e083f810f25ea2aa7"
+    },
+    {
+      "robot": "big_yam",
+      "task": "open-cover",
+      "path": "videos/thirteen_arm/per_arm_task/big_yam/open-cover.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "d200c1849254aac4d77a435bdfbb64d237a9f7764d42904cbb53a9b636f4f3fb"
+    },
+    {
+      "robot": "big_yam",
+      "task": "open-delivery-dual",
+      "path": "videos/thirteen_arm/per_arm_task/big_yam/open-delivery-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "848c4c02981aa2802379edf47c32e7923de938b4ac3d7e7f755ca804be0a3d60"
+    },
+    {
+      "robot": "big_yam",
+      "task": "open-tube-cap-dual",
+      "path": "videos/thirteen_arm/per_arm_task/big_yam/open-tube-cap-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "65f2f0076477e827bbbad87fb6568a370131fa78a0a20b01a9a013012aeee3d2"
+    },
+    {
+      "robot": "big_yam",
+      "task": "package-big-dual",
+      "path": "videos/thirteen_arm/per_arm_task/big_yam/package-big-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "dd458068e7c75c2858c2d3baaef552754ba44840a5cb217d4a7345f692213f93"
+    },
+    {
+      "robot": "big_yam",
+      "task": "package-dual",
+      "path": "videos/thirteen_arm/per_arm_task/big_yam/package-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "15e1880a087289a18b79fef853b5b0d0f08ac80308641dca0c4134d303f915b6"
+    },
+    {
+      "robot": "big_yam",
+      "task": "pick-and-place",
+      "path": "videos/thirteen_arm/per_arm_task/big_yam/pick-and-place.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "da125931507b1ebc59016f017fbb789afb9fff52bacba4528db4768f0e8a66fa"
+    },
+    {
+      "robot": "big_yam",
+      "task": "pick-from-high-left",
+      "path": "videos/thirteen_arm/per_arm_task/big_yam/pick-from-high-left.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "ce206082f443d9bb63963ad29ebf9a71403c432c6515400aeb032e502ae785c2"
+    },
+    {
+      "robot": "big_yam",
+      "task": "pick-right-left",
+      "path": "videos/thirteen_arm/per_arm_task/big_yam/pick-right-left.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "b88b93be30ebd9c19efed66cd164e362e35c78955bb0b929f12dbb6ab0810b03"
+    },
+    {
+      "robot": "big_yam",
+      "task": "plug-in-out",
+      "path": "videos/thirteen_arm/per_arm_task/big_yam/plug-in-out.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "b331471f8c1f962269503c970a8e225fbff8efa39a76b599eb8b37ed830763d8"
+    },
+    {
+      "robot": "big_yam",
+      "task": "pour-water",
+      "path": "videos/thirteen_arm/per_arm_task/big_yam/pour-water.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "c4720e4949a344083bef64a5bf7cf7b5ea739af58239710d1ecc6970e4877bd0"
+    },
+    {
+      "robot": "big_yam",
+      "task": "roll-tower",
+      "path": "videos/thirteen_arm/per_arm_task/big_yam/roll-tower.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "c0bfbe3e7d70281440b968b10c0b0dc9829827554166576033dba5b617e68c20"
+    },
+    {
+      "robot": "big_yam",
+      "task": "seal-bag",
+      "path": "videos/thirteen_arm/per_arm_task/big_yam/seal-bag.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "8f24ef34143dc5fc2b77250a7c8f13d713d91823b9a0cc5fb68996ac4bf4bd23"
+    },
+    {
+      "robot": "big_yam",
+      "task": "stick-battery",
+      "path": "videos/thirteen_arm/per_arm_task/big_yam/stick-battery.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "d107335fac57af3648feea2e9403cd39d6ac5c5e9ffe67469dd2e3c52b31fe05"
+    },
+    {
+      "robot": "big_yam",
+      "task": "toss-high",
+      "path": "videos/thirteen_arm/per_arm_task/big_yam/toss-high.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "87cc54e98963afe544c4418439a56ead7a83ce264637cdf13fcdf3910de47870"
+    },
+    {
+      "robot": "big_yam",
+      "task": "tube",
+      "path": "videos/thirteen_arm/per_arm_task/big_yam/tube.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "2858c897bd26130ec52cf26aa2e3e8a671387eaa1140d75828ed887755e47e53"
+    },
+    {
+      "robot": "big_yam",
+      "task": "tube-left-random",
+      "path": "videos/thirteen_arm/per_arm_task/big_yam/tube-left-random.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "73e7391ffaac832d943ff4f20c4db6063cfcd94b05aea899e7eb02c734845f9f"
+    },
+    {
+      "robot": "big_yam",
+      "task": "tube-left-upright",
+      "path": "videos/thirteen_arm/per_arm_task/big_yam/tube-left-upright.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "3cfa54ae5ee2cb0acd661f3976fafb2bd4c7d35dc9218810ac9c4ccc59592c75"
+    },
+    {
+      "robot": "big_yam",
+      "task": "undo-the-knot",
+      "path": "videos/thirteen_arm/per_arm_task/big_yam/undo-the-knot.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "3b0a0ac016f353deff9f5aaa260745c4d8c4017697b6fb553dbebe9f73d14c93"
+    },
+    {
+      "robot": "doosan",
+      "task": "cap-left",
+      "path": "videos/thirteen_arm/per_arm_task/doosan/cap-left.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "937f54802ce769161c8a2eaa26b01c28807fe466f6fd69784818c348df271657"
+    },
+    {
+      "robot": "doosan",
+      "task": "fold-towel-dual",
+      "path": "videos/thirteen_arm/per_arm_task/doosan/fold-towel-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "6d4593d6e44967d6673c4ec9721e3a707fdb96d4bd835ba73f75cac2539bb01a"
+    },
+    {
+      "robot": "doosan",
+      "task": "fold-tower-left-right",
+      "path": "videos/thirteen_arm/per_arm_task/doosan/fold-tower-left-right.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "fbbf9c693515c61d7d3f64dfca2199b870e71c75b6b1d65d80743330d0bf67bb"
+    },
+    {
+      "robot": "doosan",
+      "task": "in-case-left",
+      "path": "videos/thirteen_arm/per_arm_task/doosan/in-case-left.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "5b1d8330e021663ff3290b6c1c8b3d3c66fd1cc53527601c42e880fca9f6989b"
+    },
+    {
+      "robot": "doosan",
+      "task": "open-box",
+      "path": "videos/thirteen_arm/per_arm_task/doosan/open-box.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "71117546f03f27abd2e7af36f88e2d30247b8736206a6bee2c3cdcd6a3663685"
+    },
+    {
+      "robot": "doosan",
+      "task": "open-box-2",
+      "path": "videos/thirteen_arm/per_arm_task/doosan/open-box-2.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "e32546b372bedebe105203121a65040ad47baedf344dec4115392cc205556ee8"
+    },
+    {
+      "robot": "doosan",
+      "task": "open-box-3",
+      "path": "videos/thirteen_arm/per_arm_task/doosan/open-box-3.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "8159946cb5fac4ce8464c314b6a41737a2653cda9f574148e729d5e8f85e912f"
+    },
+    {
+      "robot": "doosan",
+      "task": "open-cover",
+      "path": "videos/thirteen_arm/per_arm_task/doosan/open-cover.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "e102ccc78c95deb6809d6aa79f829e81fe59250b29f805888573268209176192"
+    },
+    {
+      "robot": "doosan",
+      "task": "open-delivery-dual",
+      "path": "videos/thirteen_arm/per_arm_task/doosan/open-delivery-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "ea2186f94b95d9ef3d4a206be01867af38526e89d4c837b44527782711def2dc"
+    },
+    {
+      "robot": "doosan",
+      "task": "open-tube-cap-dual",
+      "path": "videos/thirteen_arm/per_arm_task/doosan/open-tube-cap-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "4162e612e62c6ea0537d63ab8c0db18b6877116322adac76072692a9f2f5a7dc"
+    },
+    {
+      "robot": "doosan",
+      "task": "package-big-dual",
+      "path": "videos/thirteen_arm/per_arm_task/doosan/package-big-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "772bf26c0f3f15486f9c80fd81da469fa2207b7f9a706d8ee291cde5edb55c3c"
+    },
+    {
+      "robot": "doosan",
+      "task": "package-dual",
+      "path": "videos/thirteen_arm/per_arm_task/doosan/package-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "fe02c52b66857cc80fcc5e5385677da8a15a0230d55df0a587bd5fa15a6006ef"
+    },
+    {
+      "robot": "doosan",
+      "task": "pick-and-place",
+      "path": "videos/thirteen_arm/per_arm_task/doosan/pick-and-place.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "db9388bde54ec82439df4c675f8aa02154720ad6aaf734d642104db08c5e1b22"
+    },
+    {
+      "robot": "doosan",
+      "task": "pick-from-high-left",
+      "path": "videos/thirteen_arm/per_arm_task/doosan/pick-from-high-left.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "fbe939f328df1c2359eb4eee6a90fe61b431e1fc72d07a3ae85c52430cb0cd76"
+    },
+    {
+      "robot": "doosan",
+      "task": "pick-right-left",
+      "path": "videos/thirteen_arm/per_arm_task/doosan/pick-right-left.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "e70d6098293b7018166f5815e30c6015f867d31a0c040856281ae3ae49667850"
+    },
+    {
+      "robot": "doosan",
+      "task": "plug-in-out",
+      "path": "videos/thirteen_arm/per_arm_task/doosan/plug-in-out.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "b0f4fab30f5a89cffda6f3a092b30146111fe005c443606c3d5f91d1ea78640c"
+    },
+    {
+      "robot": "doosan",
+      "task": "pour-water",
+      "path": "videos/thirteen_arm/per_arm_task/doosan/pour-water.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "fa397ad1db0fd28827b201ab4f13703d11bfe62eb6740297d8e79dede33193ae"
+    },
+    {
+      "robot": "doosan",
+      "task": "roll-tower",
+      "path": "videos/thirteen_arm/per_arm_task/doosan/roll-tower.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "6c5088c03ea72b1829824f543c9b9be40cd08e1acf944e4ce04268f78a48849b"
+    },
+    {
+      "robot": "doosan",
+      "task": "seal-bag",
+      "path": "videos/thirteen_arm/per_arm_task/doosan/seal-bag.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "cdf57be54e04fb3c1f67585ee750b030702369b5ad963ca505c4763c8a19d923"
+    },
+    {
+      "robot": "doosan",
+      "task": "stick-battery",
+      "path": "videos/thirteen_arm/per_arm_task/doosan/stick-battery.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "b59417d0df20a5261ca4a54149123d688db7484e7e584d09c24c9f6468951213"
+    },
+    {
+      "robot": "doosan",
+      "task": "toss-high",
+      "path": "videos/thirteen_arm/per_arm_task/doosan/toss-high.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "f8f7f5613763d78c0278af3c5fd457f79ecf3ede2f392c118ec61480aae30b29"
+    },
+    {
+      "robot": "doosan",
+      "task": "tube",
+      "path": "videos/thirteen_arm/per_arm_task/doosan/tube.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "5a84468cc2cfb48f3b7a9c32da3260ac35db79caeeb92ae76bcec9133ff40ba3"
+    },
+    {
+      "robot": "doosan",
+      "task": "tube-left-random",
+      "path": "videos/thirteen_arm/per_arm_task/doosan/tube-left-random.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "dde336d4c8d90c52c5bb3041614579ae8d1199dcfe0c808b767f9a7154a7e4ce"
+    },
+    {
+      "robot": "doosan",
+      "task": "tube-left-upright",
+      "path": "videos/thirteen_arm/per_arm_task/doosan/tube-left-upright.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "b0f01b3f4de7e9eb6d84c55404566ceaeb58bdfb5ed252be187424fafa5b9b75"
+    },
+    {
+      "robot": "doosan",
+      "task": "undo-the-knot",
+      "path": "videos/thirteen_arm/per_arm_task/doosan/undo-the-knot.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "4cac15bf6a476643bc471f8c4a786addbe73b436bee69d29836ad5157c53038d"
+    },
+    {
+      "robot": "franka_panda",
+      "task": "cap-left",
+      "path": "videos/thirteen_arm/per_arm_task/franka_panda/cap-left.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "a9ad23c94c2c22766fe4d60718c5b46eb27c5e22afd80f20180eb74b59e18189"
+    },
+    {
+      "robot": "franka_panda",
+      "task": "fold-towel-dual",
+      "path": "videos/thirteen_arm/per_arm_task/franka_panda/fold-towel-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "76c3990eaf1cc1b7c6f8914527c3e583cb98b1123a76c580f518a6a6512b33cc"
+    },
+    {
+      "robot": "franka_panda",
+      "task": "fold-tower-left-right",
+      "path": "videos/thirteen_arm/per_arm_task/franka_panda/fold-tower-left-right.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "c26273ba05728092a120215141f6d9941eb3ac304776d9e630911ffefc9fbe3d"
+    },
+    {
+      "robot": "franka_panda",
+      "task": "in-case-left",
+      "path": "videos/thirteen_arm/per_arm_task/franka_panda/in-case-left.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "c2cd0b66ed5cd2f1daf4a8db8f1f6938383c1f4a6eab140ad431fcb29a680eaa"
+    },
+    {
+      "robot": "franka_panda",
+      "task": "open-box",
+      "path": "videos/thirteen_arm/per_arm_task/franka_panda/open-box.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "e4fd2fbb059727a8b1c6405d84facd7c55ca1333666ddc9e1a8fbd5752dd8eda"
+    },
+    {
+      "robot": "franka_panda",
+      "task": "open-box-2",
+      "path": "videos/thirteen_arm/per_arm_task/franka_panda/open-box-2.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "70e833f11708e5301b68d6e5d182bbac7b7f1385b47f872a39842047f6c57cff"
+    },
+    {
+      "robot": "franka_panda",
+      "task": "open-box-3",
+      "path": "videos/thirteen_arm/per_arm_task/franka_panda/open-box-3.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "720a2a9684924c602be262086f72b86390d053b07d19e97f6f092b3fb1894988"
+    },
+    {
+      "robot": "franka_panda",
+      "task": "open-cover",
+      "path": "videos/thirteen_arm/per_arm_task/franka_panda/open-cover.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "45a329f35a438e38afa8358db40147fb891f171fbbb974ae4b6da1a3ca352ef5"
+    },
+    {
+      "robot": "franka_panda",
+      "task": "open-delivery-dual",
+      "path": "videos/thirteen_arm/per_arm_task/franka_panda/open-delivery-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "81728ec7eab87214366271f48c5e39e6530af5d156a851264bab35fcd38e9d56"
+    },
+    {
+      "robot": "franka_panda",
+      "task": "open-tube-cap-dual",
+      "path": "videos/thirteen_arm/per_arm_task/franka_panda/open-tube-cap-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "584b2f256081f5eccf858fa6c161ec43087bbfe5b8ae53f72c922a4020ddbf97"
+    },
+    {
+      "robot": "franka_panda",
+      "task": "package-big-dual",
+      "path": "videos/thirteen_arm/per_arm_task/franka_panda/package-big-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "9f43dfc73f79f8be5228e07a16640dd407a1141f71df2bba7e0abadac0c0807b"
+    },
+    {
+      "robot": "franka_panda",
+      "task": "package-dual",
+      "path": "videos/thirteen_arm/per_arm_task/franka_panda/package-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "b1422a65b6ebedab007f1d4e925964fe61dcf0ec210b5e701c09c31068b114ca"
+    },
+    {
+      "robot": "franka_panda",
+      "task": "pick-and-place",
+      "path": "videos/thirteen_arm/per_arm_task/franka_panda/pick-and-place.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "bd401a4eb22f94abf6de7e995ef838ffa62813f91e63ae9ed3ef454d8e77850b"
+    },
+    {
+      "robot": "franka_panda",
+      "task": "pick-from-high-left",
+      "path": "videos/thirteen_arm/per_arm_task/franka_panda/pick-from-high-left.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "45e48a6235d1fab555bcbd1fa10906c38694b32e03710b860e6e905addbb2c7b"
+    },
+    {
+      "robot": "franka_panda",
+      "task": "pick-right-left",
+      "path": "videos/thirteen_arm/per_arm_task/franka_panda/pick-right-left.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "8e2b3c57da5b58c26054ccd03086e824dda34ee9554ea68c080d936b5d6c06f0"
+    },
+    {
+      "robot": "franka_panda",
+      "task": "plug-in-out",
+      "path": "videos/thirteen_arm/per_arm_task/franka_panda/plug-in-out.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "d5107806fc22aa2a31617f1e31750d102441d4c549eec7de70a0b8b88ab6b4e3"
+    },
+    {
+      "robot": "franka_panda",
+      "task": "pour-water",
+      "path": "videos/thirteen_arm/per_arm_task/franka_panda/pour-water.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "694c722545259cd779c38e4344abb70e96746af7511ec0c1c5e3027abb98856b"
+    },
+    {
+      "robot": "franka_panda",
+      "task": "roll-tower",
+      "path": "videos/thirteen_arm/per_arm_task/franka_panda/roll-tower.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "8329c1675b417ccb9ca4d5c50be80ca3a3fdf30b50e5ed8d80253debe93263fb"
+    },
+    {
+      "robot": "franka_panda",
+      "task": "seal-bag",
+      "path": "videos/thirteen_arm/per_arm_task/franka_panda/seal-bag.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "370a1c873ff559fa9eddd409db0b8c2c8a0ae75b7d65b3b380c08e0628f61a03"
+    },
+    {
+      "robot": "franka_panda",
+      "task": "stick-battery",
+      "path": "videos/thirteen_arm/per_arm_task/franka_panda/stick-battery.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "32d3a189fb502bfd57778e8a7c4e5c6209cb26d8d48e640506a652c2bd066bd5"
+    },
+    {
+      "robot": "franka_panda",
+      "task": "toss-high",
+      "path": "videos/thirteen_arm/per_arm_task/franka_panda/toss-high.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "484ea8329cc2043e04bd6b5f993acb570ecd72beff3dd347779b047fa5b0f99f"
+    },
+    {
+      "robot": "franka_panda",
+      "task": "tube",
+      "path": "videos/thirteen_arm/per_arm_task/franka_panda/tube.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "d7d55106223b81fc5404261b4c248837c5f14519fcad186ce3195804a8e1d760"
+    },
+    {
+      "robot": "franka_panda",
+      "task": "tube-left-random",
+      "path": "videos/thirteen_arm/per_arm_task/franka_panda/tube-left-random.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "f6b2aa1e134b686f71383214b764c74c6fba431ee12d1cb89adc64d241e1148c"
+    },
+    {
+      "robot": "franka_panda",
+      "task": "tube-left-upright",
+      "path": "videos/thirteen_arm/per_arm_task/franka_panda/tube-left-upright.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "6f4c0dacaa2b81e5af52cae182dc2c2227e405a4292e50a6948d2448b738ce59"
+    },
+    {
+      "robot": "franka_panda",
+      "task": "undo-the-knot",
+      "path": "videos/thirteen_arm/per_arm_task/franka_panda/undo-the-knot.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "1c6ea1e59f6fb04bf586b61c969687b163c336c6d7b9a849d9048513d3125493"
+    },
+    {
+      "robot": "franka_panda_locked_j3",
+      "task": "cap-left",
+      "path": "videos/thirteen_arm/per_arm_task/franka_panda_locked_j3/cap-left.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "74048075f96aa8b4e1166695434694c804de7d8b68b802eee3eb8b9e2aea13ea"
+    },
+    {
+      "robot": "franka_panda_locked_j3",
+      "task": "fold-towel-dual",
+      "path": "videos/thirteen_arm/per_arm_task/franka_panda_locked_j3/fold-towel-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "13a5b4370d7b7ea10df391841656d73c20709d4ea372b38326f4dea75b94c6e9"
+    },
+    {
+      "robot": "franka_panda_locked_j3",
+      "task": "fold-tower-left-right",
+      "path": "videos/thirteen_arm/per_arm_task/franka_panda_locked_j3/fold-tower-left-right.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "db77607a686b7e328caddefba7cc384c94441d48b80de822d23777b5e30c4ab7"
+    },
+    {
+      "robot": "franka_panda_locked_j3",
+      "task": "in-case-left",
+      "path": "videos/thirteen_arm/per_arm_task/franka_panda_locked_j3/in-case-left.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "732ae55678a55b85a5c114a0db3203dc2a30b33ac62bdec047e94775df5f5eb5"
+    },
+    {
+      "robot": "franka_panda_locked_j3",
+      "task": "open-box",
+      "path": "videos/thirteen_arm/per_arm_task/franka_panda_locked_j3/open-box.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "ff0afd4acb358f245a4037d877911ef9a8aa1a77a47ded0746b47c46ee06ce2b"
+    },
+    {
+      "robot": "franka_panda_locked_j3",
+      "task": "open-box-2",
+      "path": "videos/thirteen_arm/per_arm_task/franka_panda_locked_j3/open-box-2.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "76759a5375f3ccd5a639e7a9fbc3e668d44c7ff12bbc97d0cb1f374a7f941bcf"
+    },
+    {
+      "robot": "franka_panda_locked_j3",
+      "task": "open-box-3",
+      "path": "videos/thirteen_arm/per_arm_task/franka_panda_locked_j3/open-box-3.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "ccb13f503664cb5fe584bc8f1f6866cc5bf34791d40079378c22a2cdb8e7d434"
+    },
+    {
+      "robot": "franka_panda_locked_j3",
+      "task": "open-cover",
+      "path": "videos/thirteen_arm/per_arm_task/franka_panda_locked_j3/open-cover.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "16b77b6ba2d61cc5789d2b629cffdbfbf2bb06411ff84f9aaf30e19584e32966"
+    },
+    {
+      "robot": "franka_panda_locked_j3",
+      "task": "open-delivery-dual",
+      "path": "videos/thirteen_arm/per_arm_task/franka_panda_locked_j3/open-delivery-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "7140f93d05bab5ee9a4261a14deb12d837bfae15670eff2501d3c198a5f01ca0"
+    },
+    {
+      "robot": "franka_panda_locked_j3",
+      "task": "open-tube-cap-dual",
+      "path": "videos/thirteen_arm/per_arm_task/franka_panda_locked_j3/open-tube-cap-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "f1e8c4eca149c44f873aefe4b740606c62c3e8c87b73299d8111914eb97f54d7"
+    },
+    {
+      "robot": "franka_panda_locked_j3",
+      "task": "package-big-dual",
+      "path": "videos/thirteen_arm/per_arm_task/franka_panda_locked_j3/package-big-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "1d06bea85e348b19380b239cf6b5e9c7813f1ebc31769f90586729d825e48ac3"
+    },
+    {
+      "robot": "franka_panda_locked_j3",
+      "task": "package-dual",
+      "path": "videos/thirteen_arm/per_arm_task/franka_panda_locked_j3/package-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "5f67092e320c533005e5509be691d57f6b086139a9fa8cbcf1cfc338e9a4a0aa"
+    },
+    {
+      "robot": "franka_panda_locked_j3",
+      "task": "pick-and-place",
+      "path": "videos/thirteen_arm/per_arm_task/franka_panda_locked_j3/pick-and-place.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "1b6b61c1333d6871e1ab9999382143ab02a8ba19d2062d5168ee233b9f7f9652"
+    },
+    {
+      "robot": "franka_panda_locked_j3",
+      "task": "pick-from-high-left",
+      "path": "videos/thirteen_arm/per_arm_task/franka_panda_locked_j3/pick-from-high-left.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "2e1747e96662a7f1c8af360c770a889a54ff4da7fda78cae17e9c4926bb7fbea"
+    },
+    {
+      "robot": "franka_panda_locked_j3",
+      "task": "pick-right-left",
+      "path": "videos/thirteen_arm/per_arm_task/franka_panda_locked_j3/pick-right-left.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "4a0a859702557d278bb1d6b0764f638a57f6861bc3659a7ee104b7b160152cc9"
+    },
+    {
+      "robot": "franka_panda_locked_j3",
+      "task": "plug-in-out",
+      "path": "videos/thirteen_arm/per_arm_task/franka_panda_locked_j3/plug-in-out.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "095957fa2ded8cacf5802b3f113583ab6f5c2638cf5c13558a132d33ae903591"
+    },
+    {
+      "robot": "franka_panda_locked_j3",
+      "task": "pour-water",
+      "path": "videos/thirteen_arm/per_arm_task/franka_panda_locked_j3/pour-water.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "7031d3a18f476040238e575e9b06c19bce23d29cc4333d2702d215784eac83f5"
+    },
+    {
+      "robot": "franka_panda_locked_j3",
+      "task": "roll-tower",
+      "path": "videos/thirteen_arm/per_arm_task/franka_panda_locked_j3/roll-tower.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "62898aec0cf1f15686b57b7901f4e606047aa11f5294684c9d367daa8ec78fe1"
+    },
+    {
+      "robot": "franka_panda_locked_j3",
+      "task": "seal-bag",
+      "path": "videos/thirteen_arm/per_arm_task/franka_panda_locked_j3/seal-bag.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "62b53ee3f9f743ca21419260961e4d4b6c3b9169d9da65246cda11048588ccba"
+    },
+    {
+      "robot": "franka_panda_locked_j3",
+      "task": "stick-battery",
+      "path": "videos/thirteen_arm/per_arm_task/franka_panda_locked_j3/stick-battery.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "51926cbcba6ba3e18e30a7e1f4de96baf8473e25b6b8d9317a458e73d2bc6167"
+    },
+    {
+      "robot": "franka_panda_locked_j3",
+      "task": "toss-high",
+      "path": "videos/thirteen_arm/per_arm_task/franka_panda_locked_j3/toss-high.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "9a4efeca4614ca87e17079f5b3ab0bdda4dee980b3505b720e7ecdda9d5edacc"
+    },
+    {
+      "robot": "franka_panda_locked_j3",
+      "task": "tube",
+      "path": "videos/thirteen_arm/per_arm_task/franka_panda_locked_j3/tube.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "401ec38fa431e3d15f98499138dae6d4a2396793bbc20a0762abf9bb1c9d7f47"
+    },
+    {
+      "robot": "franka_panda_locked_j3",
+      "task": "tube-left-random",
+      "path": "videos/thirteen_arm/per_arm_task/franka_panda_locked_j3/tube-left-random.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "1bce2de47491b574e77c881e72a5b85bc3a3b3be8e39b9bb5a1b15cf59989da9"
+    },
+    {
+      "robot": "franka_panda_locked_j3",
+      "task": "tube-left-upright",
+      "path": "videos/thirteen_arm/per_arm_task/franka_panda_locked_j3/tube-left-upright.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "95940e5396fae6973c4701a6e3a5ea449aa76f47d9d77505244110b80fffad08"
+    },
+    {
+      "robot": "franka_panda_locked_j3",
+      "task": "undo-the-knot",
+      "path": "videos/thirteen_arm/per_arm_task/franka_panda_locked_j3/undo-the-knot.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "13513e40af2aab5d08e22677fc37881710e7047f11da2e6cfdada3998117d22b"
+    },
+    {
+      "robot": "i2rt_yam",
+      "task": "cap-left",
+      "path": "videos/thirteen_arm/per_arm_task/i2rt_yam/cap-left.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "026c1740b899ca6917559c1a11188864acb1e2506552f8b959137e022deda1fa"
+    },
+    {
+      "robot": "i2rt_yam",
+      "task": "fold-towel-dual",
+      "path": "videos/thirteen_arm/per_arm_task/i2rt_yam/fold-towel-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "6531a68ec45aea759bb703fec8b95a7a2f457160dd44d4cc1e983ca29a670cc2"
+    },
+    {
+      "robot": "i2rt_yam",
+      "task": "fold-tower-left-right",
+      "path": "videos/thirteen_arm/per_arm_task/i2rt_yam/fold-tower-left-right.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "97c5cd12cf477f4f8e3e10f2dc243d3d5cff97de6d9b973574c280bb0c3e281e"
+    },
+    {
+      "robot": "i2rt_yam",
+      "task": "in-case-left",
+      "path": "videos/thirteen_arm/per_arm_task/i2rt_yam/in-case-left.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "634890a9d311fd6735c16efc63452ae622a6c1b303cd6f0b46f693538516c793"
+    },
+    {
+      "robot": "i2rt_yam",
+      "task": "open-box",
+      "path": "videos/thirteen_arm/per_arm_task/i2rt_yam/open-box.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "c914f5ed8ec298756566882b906a0d91ca56ed6ba4d9ef8ee61ab11eebd8219c"
+    },
+    {
+      "robot": "i2rt_yam",
+      "task": "open-box-2",
+      "path": "videos/thirteen_arm/per_arm_task/i2rt_yam/open-box-2.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "5c73c0ffb8d4c2ec80ca312c1f01eb2d3d68b560a18a310aa409cf278b00520c"
+    },
+    {
+      "robot": "i2rt_yam",
+      "task": "open-box-3",
+      "path": "videos/thirteen_arm/per_arm_task/i2rt_yam/open-box-3.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "d033b083894ea7633772e3e726e150f8694943ce164332266540b883fa8dbb10"
+    },
+    {
+      "robot": "i2rt_yam",
+      "task": "open-cover",
+      "path": "videos/thirteen_arm/per_arm_task/i2rt_yam/open-cover.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "e808b335c4c8c574a55e13da71e2fc3c823726f6f9ae7eaffd4d70d5ebd933ca"
+    },
+    {
+      "robot": "i2rt_yam",
+      "task": "open-delivery-dual",
+      "path": "videos/thirteen_arm/per_arm_task/i2rt_yam/open-delivery-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "70a1d8a6b62b1ed2b3d6f4ccb9f8defe8f0f5e004ec5d0a61791674c1908401b"
+    },
+    {
+      "robot": "i2rt_yam",
+      "task": "open-tube-cap-dual",
+      "path": "videos/thirteen_arm/per_arm_task/i2rt_yam/open-tube-cap-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "402af7e905693e1b2941c06ea7af83a34d2ec5b4bed448a1522be4e89e637130"
+    },
+    {
+      "robot": "i2rt_yam",
+      "task": "package-big-dual",
+      "path": "videos/thirteen_arm/per_arm_task/i2rt_yam/package-big-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "6817fad807771a19b4e5bab904bbffb110613173bc29f9e10d91be69f353ea13"
+    },
+    {
+      "robot": "i2rt_yam",
+      "task": "package-dual",
+      "path": "videos/thirteen_arm/per_arm_task/i2rt_yam/package-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "019d78db5a228b598ad69c08327bcf8b7bcef344770f0db771cdad1bbb460378"
+    },
+    {
+      "robot": "i2rt_yam",
+      "task": "pick-and-place",
+      "path": "videos/thirteen_arm/per_arm_task/i2rt_yam/pick-and-place.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "e04e75c0bba21768ae929923798dc99dcc58538e0bc1f009b70b6b76b10eb03e"
+    },
+    {
+      "robot": "i2rt_yam",
+      "task": "pick-from-high-left",
+      "path": "videos/thirteen_arm/per_arm_task/i2rt_yam/pick-from-high-left.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "c999f45d5be2deb632f456da1905fc7eb1bd187a1c2fc52e7278b6077766eca8"
+    },
+    {
+      "robot": "i2rt_yam",
+      "task": "pick-right-left",
+      "path": "videos/thirteen_arm/per_arm_task/i2rt_yam/pick-right-left.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "11d5193efaf39147721b10add9152ca51a288e5568450baeecf8daa78ba8faa8"
+    },
+    {
+      "robot": "i2rt_yam",
+      "task": "plug-in-out",
+      "path": "videos/thirteen_arm/per_arm_task/i2rt_yam/plug-in-out.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "a7b65e59557b606c8a23e9d726052e6acdd91525b2bc128490044d796fc29084"
+    },
+    {
+      "robot": "i2rt_yam",
+      "task": "pour-water",
+      "path": "videos/thirteen_arm/per_arm_task/i2rt_yam/pour-water.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "264a57c7b8682fb8dd6ed74f67183be194202ac3e6b30039f59d0d909c649a4b"
+    },
+    {
+      "robot": "i2rt_yam",
+      "task": "roll-tower",
+      "path": "videos/thirteen_arm/per_arm_task/i2rt_yam/roll-tower.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "d0a39d0cc3cbebb94a6cd206a1f6c21699eb51ad60af92fefae07a81b2c4b5a0"
+    },
+    {
+      "robot": "i2rt_yam",
+      "task": "seal-bag",
+      "path": "videos/thirteen_arm/per_arm_task/i2rt_yam/seal-bag.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "acac82b4e7e1c43b6d6e5b8ce770b287785cdb7d0e27d8205cd1c822aa129424"
+    },
+    {
+      "robot": "i2rt_yam",
+      "task": "stick-battery",
+      "path": "videos/thirteen_arm/per_arm_task/i2rt_yam/stick-battery.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "f1c42f3500c18319ddfc7ec8c7b9e00b16339efcee4791520516a4a313f64a48"
+    },
+    {
+      "robot": "i2rt_yam",
+      "task": "toss-high",
+      "path": "videos/thirteen_arm/per_arm_task/i2rt_yam/toss-high.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "75123fea0a59f9e49bb48e1c3fac2e1b3557862ab42b3542899c7b7f16e5006f"
+    },
+    {
+      "robot": "i2rt_yam",
+      "task": "tube",
+      "path": "videos/thirteen_arm/per_arm_task/i2rt_yam/tube.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "d458f9f3ed062ee2b4eb072a9a892b0b9ef7c8725849a69761ce0443d64f87bc"
+    },
+    {
+      "robot": "i2rt_yam",
+      "task": "tube-left-random",
+      "path": "videos/thirteen_arm/per_arm_task/i2rt_yam/tube-left-random.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "9fdb2778385db612625af8f049900995ca82cae5ed89cea1ff009c74c2389f1f"
+    },
+    {
+      "robot": "i2rt_yam",
+      "task": "tube-left-upright",
+      "path": "videos/thirteen_arm/per_arm_task/i2rt_yam/tube-left-upright.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "6277f668d1f915db15f5ace245cd4f38c8d899511bf32e8c8872d45ad43ea4a6"
+    },
+    {
+      "robot": "i2rt_yam",
+      "task": "undo-the-knot",
+      "path": "videos/thirteen_arm/per_arm_task/i2rt_yam/undo-the-knot.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "5f989aba9e6a2247ea6e1ae3de983a75330217b971452cb1294490053473c487"
+    },
+    {
+      "robot": "kinova_gen3_lite",
+      "task": "cap-left",
+      "path": "videos/thirteen_arm/per_arm_task/kinova_gen3_lite/cap-left.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "6e2bc3c5b0150956b43b6c203984b4c5efb3080c6e127054da59ae1c81932f40"
+    },
+    {
+      "robot": "kinova_gen3_lite",
+      "task": "fold-towel-dual",
+      "path": "videos/thirteen_arm/per_arm_task/kinova_gen3_lite/fold-towel-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "2a5fa21939bbd87b29dd10d5a0264e6464a0f781e4a95480a0726e2a67343a77"
+    },
+    {
+      "robot": "kinova_gen3_lite",
+      "task": "fold-tower-left-right",
+      "path": "videos/thirteen_arm/per_arm_task/kinova_gen3_lite/fold-tower-left-right.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "3b1d428eb9ff06bafb444e2054c217a91edbf6cd3b4e9812ccee43858ad9503d"
+    },
+    {
+      "robot": "kinova_gen3_lite",
+      "task": "in-case-left",
+      "path": "videos/thirteen_arm/per_arm_task/kinova_gen3_lite/in-case-left.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "c5f889f0f3bcabc2471d9143b4cd66fa9d68de56488f4f65a17e451ab5ed49d8"
+    },
+    {
+      "robot": "kinova_gen3_lite",
+      "task": "open-box",
+      "path": "videos/thirteen_arm/per_arm_task/kinova_gen3_lite/open-box.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "1f07b1561d9ba1d161356c3ba83fb7e2130436142f1693dfbbb5d15b7036f79c"
+    },
+    {
+      "robot": "kinova_gen3_lite",
+      "task": "open-box-2",
+      "path": "videos/thirteen_arm/per_arm_task/kinova_gen3_lite/open-box-2.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "c14e6469e3d72f7110bb707ceab3ae246b6ad6fb37a62cd7881a4f58b5a5067a"
+    },
+    {
+      "robot": "kinova_gen3_lite",
+      "task": "open-box-3",
+      "path": "videos/thirteen_arm/per_arm_task/kinova_gen3_lite/open-box-3.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "d18295b2686b50ebc45a0d356c8a39ed151ebed6856932662dd197a48c557804"
+    },
+    {
+      "robot": "kinova_gen3_lite",
+      "task": "open-cover",
+      "path": "videos/thirteen_arm/per_arm_task/kinova_gen3_lite/open-cover.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "c11ae703ed560cf32e42d476d5cf494e61b2e513cc26f423ef8d7afb02540306"
+    },
+    {
+      "robot": "kinova_gen3_lite",
+      "task": "open-delivery-dual",
+      "path": "videos/thirteen_arm/per_arm_task/kinova_gen3_lite/open-delivery-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "6ff6d0c930f8bec566b787a72b690b94e2abb1b05fca177c363bf01bb6cc65f3"
+    },
+    {
+      "robot": "kinova_gen3_lite",
+      "task": "open-tube-cap-dual",
+      "path": "videos/thirteen_arm/per_arm_task/kinova_gen3_lite/open-tube-cap-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "ffcfdd061ad40274525653fc1bf30c1a566dc10a3caa44855041019193b43365"
+    },
+    {
+      "robot": "kinova_gen3_lite",
+      "task": "package-big-dual",
+      "path": "videos/thirteen_arm/per_arm_task/kinova_gen3_lite/package-big-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "4aea3372184f9baa4f3b65e013ea5b0cb3342332fd27e0bdcfd3d18e03c6d6d8"
+    },
+    {
+      "robot": "kinova_gen3_lite",
+      "task": "package-dual",
+      "path": "videos/thirteen_arm/per_arm_task/kinova_gen3_lite/package-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "31d16452abd598c4d32b492f005e5236873b314e6931d537bf0d4d404eff0b74"
+    },
+    {
+      "robot": "kinova_gen3_lite",
+      "task": "pick-and-place",
+      "path": "videos/thirteen_arm/per_arm_task/kinova_gen3_lite/pick-and-place.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "944081f41a4eacbb3f5bebbbae0d7eec7327fb9bc4459c5e41ad40a5ef14e833"
+    },
+    {
+      "robot": "kinova_gen3_lite",
+      "task": "pick-from-high-left",
+      "path": "videos/thirteen_arm/per_arm_task/kinova_gen3_lite/pick-from-high-left.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "886d0eb450ba94579197c55d6f90e96db551647ac40c6a3f52f526b18820b8b4"
+    },
+    {
+      "robot": "kinova_gen3_lite",
+      "task": "pick-right-left",
+      "path": "videos/thirteen_arm/per_arm_task/kinova_gen3_lite/pick-right-left.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "e30cbd0dd4036e81e5fb7d1dca2536a06ec50078dd5b12d8df8c451c2b6a3775"
+    },
+    {
+      "robot": "kinova_gen3_lite",
+      "task": "plug-in-out",
+      "path": "videos/thirteen_arm/per_arm_task/kinova_gen3_lite/plug-in-out.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "b31aa6d9da1b0882f6e2a4af489e85de16bbcd6e5c67af389dc8621a6f10024b"
+    },
+    {
+      "robot": "kinova_gen3_lite",
+      "task": "pour-water",
+      "path": "videos/thirteen_arm/per_arm_task/kinova_gen3_lite/pour-water.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "79615a28cfd4ab4a13e08ebac1d54df93c395501c0dd194b352aa17f7b29f769"
+    },
+    {
+      "robot": "kinova_gen3_lite",
+      "task": "roll-tower",
+      "path": "videos/thirteen_arm/per_arm_task/kinova_gen3_lite/roll-tower.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "9ef41e7620f43b96139a90b5070e2c337fac97666139072e13f594575b608d03"
+    },
+    {
+      "robot": "kinova_gen3_lite",
+      "task": "seal-bag",
+      "path": "videos/thirteen_arm/per_arm_task/kinova_gen3_lite/seal-bag.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "090c2ba60f41a9d7bf5a95b750c2ff251acdc5db42e64839bc7cacd30167d355"
+    },
+    {
+      "robot": "kinova_gen3_lite",
+      "task": "stick-battery",
+      "path": "videos/thirteen_arm/per_arm_task/kinova_gen3_lite/stick-battery.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "7018cf8443756ae1fff5fda6c298172e6c3e4ee7b5ab5274a37af27ee750c7a5"
+    },
+    {
+      "robot": "kinova_gen3_lite",
+      "task": "toss-high",
+      "path": "videos/thirteen_arm/per_arm_task/kinova_gen3_lite/toss-high.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "a7efaab5778f18c574b0c4bb3db218d69eb2cbe6932e29a40ca43f73e0c56407"
+    },
+    {
+      "robot": "kinova_gen3_lite",
+      "task": "tube",
+      "path": "videos/thirteen_arm/per_arm_task/kinova_gen3_lite/tube.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "992f6cd13a37a7fed35f67bf3fdada04142cf5bfbe57f956819e7bf144cee09a"
+    },
+    {
+      "robot": "kinova_gen3_lite",
+      "task": "tube-left-random",
+      "path": "videos/thirteen_arm/per_arm_task/kinova_gen3_lite/tube-left-random.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "ce63769502b42b447fad2f60960956e527feb03eee91bc506b2a5bd065a6f095"
+    },
+    {
+      "robot": "kinova_gen3_lite",
+      "task": "tube-left-upright",
+      "path": "videos/thirteen_arm/per_arm_task/kinova_gen3_lite/tube-left-upright.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "3e2eb0a9d20204cda721183bf542034f426227a5b78943893a25bd24a0612624"
+    },
+    {
+      "robot": "kinova_gen3_lite",
+      "task": "undo-the-knot",
+      "path": "videos/thirteen_arm/per_arm_task/kinova_gen3_lite/undo-the-knot.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "294300f5acbdfa147f5e929bf3168e967643066cb4d4528fe417dab9cf450e2a"
+    },
+    {
+      "robot": "nero",
+      "task": "cap-left",
+      "path": "videos/thirteen_arm/per_arm_task/nero/cap-left.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "e6cd002c0b119bea697fdb524eee74916e617e9afb2f0646bd0645033d6baf6a"
+    },
+    {
+      "robot": "nero",
+      "task": "fold-towel-dual",
+      "path": "videos/thirteen_arm/per_arm_task/nero/fold-towel-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "885ef18ba40c7d323b07a697e9cd41877be411ac73c57d105334df7cd4fae1cc"
+    },
+    {
+      "robot": "nero",
+      "task": "fold-tower-left-right",
+      "path": "videos/thirteen_arm/per_arm_task/nero/fold-tower-left-right.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "63ba4fa93deef2c88bbb328d1b6506c685c41834538fb5d8d4d34d3e0d03bb18"
+    },
+    {
+      "robot": "nero",
+      "task": "in-case-left",
+      "path": "videos/thirteen_arm/per_arm_task/nero/in-case-left.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "5493e7abf27c4e7f52483c519467c86967d534cb4ecea464f78e2fcf7afb11f8"
+    },
+    {
+      "robot": "nero",
+      "task": "open-box",
+      "path": "videos/thirteen_arm/per_arm_task/nero/open-box.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "61234ac785716c73eff758f8cd1b7695d1fcf22ec97b263383de94a3f4a39594"
+    },
+    {
+      "robot": "nero",
+      "task": "open-box-2",
+      "path": "videos/thirteen_arm/per_arm_task/nero/open-box-2.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "65d57a41500ce66c9d49096c64ce86037220615bdf74ec5dcb4011769128fb1e"
+    },
+    {
+      "robot": "nero",
+      "task": "open-box-3",
+      "path": "videos/thirteen_arm/per_arm_task/nero/open-box-3.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "d823ed002ec427879467d9f531c220c88db7076b8e6ca1139ac21b849bb64495"
+    },
+    {
+      "robot": "nero",
+      "task": "open-cover",
+      "path": "videos/thirteen_arm/per_arm_task/nero/open-cover.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "23e34eb3f063f2231be50d0e65414ee0994f2631c4ecfe0a4b0ed687599aab43"
+    },
+    {
+      "robot": "nero",
+      "task": "open-delivery-dual",
+      "path": "videos/thirteen_arm/per_arm_task/nero/open-delivery-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "431634cb61eb3aaa65915e76bbbc4c80744581b9e2d8a9e9993aca9f5274b985"
+    },
+    {
+      "robot": "nero",
+      "task": "open-tube-cap-dual",
+      "path": "videos/thirteen_arm/per_arm_task/nero/open-tube-cap-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "f3117308257127700300a8c9727782031b05af6aac9f93d64708cc0c7f4c6fc0"
+    },
+    {
+      "robot": "nero",
+      "task": "package-big-dual",
+      "path": "videos/thirteen_arm/per_arm_task/nero/package-big-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "1d3130f9788c9a3f18f8eea3ffe75df039ba9f659b41ee7731754d2106df67a0"
+    },
+    {
+      "robot": "nero",
+      "task": "package-dual",
+      "path": "videos/thirteen_arm/per_arm_task/nero/package-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "ee848d258ff7e98567c8c360d664d69502bd529ecfc72549d803427d03fbab72"
+    },
+    {
+      "robot": "nero",
+      "task": "pick-and-place",
+      "path": "videos/thirteen_arm/per_arm_task/nero/pick-and-place.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "a6e5b23deae44a567f0064985fde966d7bf149561676c9bda4c69c44ef68b91e"
+    },
+    {
+      "robot": "nero",
+      "task": "pick-from-high-left",
+      "path": "videos/thirteen_arm/per_arm_task/nero/pick-from-high-left.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "dc38a063c5fd224304e557857104d0a167bb932f4957466392c4042aea232684"
+    },
+    {
+      "robot": "nero",
+      "task": "pick-right-left",
+      "path": "videos/thirteen_arm/per_arm_task/nero/pick-right-left.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "14cde6e85613713eb60156d3e621b891213e711074a894b3e699ca1e1c25653d"
+    },
+    {
+      "robot": "nero",
+      "task": "plug-in-out",
+      "path": "videos/thirteen_arm/per_arm_task/nero/plug-in-out.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "5e4c4e2f640028daa02ff8f68fa4519828bcd45345e74223ea9b1cb89fd48eeb"
+    },
+    {
+      "robot": "nero",
+      "task": "pour-water",
+      "path": "videos/thirteen_arm/per_arm_task/nero/pour-water.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "bf79e4c937e8ef64eeb05af5e186cbde09557f8eb18038ba5308321b06fa0cf9"
+    },
+    {
+      "robot": "nero",
+      "task": "roll-tower",
+      "path": "videos/thirteen_arm/per_arm_task/nero/roll-tower.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "3c1136fe18cc051822cdc87e0d5ce14a74695520d644c027e309ed7cf503a2c9"
+    },
+    {
+      "robot": "nero",
+      "task": "seal-bag",
+      "path": "videos/thirteen_arm/per_arm_task/nero/seal-bag.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "57c3be0ad6856729a79577168815370fab3ffebd8308f9553332dad3ef6d54d2"
+    },
+    {
+      "robot": "nero",
+      "task": "stick-battery",
+      "path": "videos/thirteen_arm/per_arm_task/nero/stick-battery.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "dac6143a98635175c76120be7a84e8518c9ee07f1004c8b9bc4b467dd786a46a"
+    },
+    {
+      "robot": "nero",
+      "task": "toss-high",
+      "path": "videos/thirteen_arm/per_arm_task/nero/toss-high.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "a0f29756dcb66bcd2724e5e47f17aa2a06b375181b8686e0ace65a196e35d4c2"
+    },
+    {
+      "robot": "nero",
+      "task": "tube",
+      "path": "videos/thirteen_arm/per_arm_task/nero/tube.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "dc3145c369dfaf3c81178067a19d3f8b58c286820ebe51aaf288c2e6e4889c7b"
+    },
+    {
+      "robot": "nero",
+      "task": "tube-left-random",
+      "path": "videos/thirteen_arm/per_arm_task/nero/tube-left-random.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "3485a4db002d41d81d98e9b7f30c6a4fb9d283c27e600287fa1d17562c2dca54"
+    },
+    {
+      "robot": "nero",
+      "task": "tube-left-upright",
+      "path": "videos/thirteen_arm/per_arm_task/nero/tube-left-upright.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "fd63e23a4d8ebacd452aee394c11d63a9a1985f9532faafd8068ea502dca970c"
+    },
+    {
+      "robot": "nero",
+      "task": "undo-the-knot",
+      "path": "videos/thirteen_arm/per_arm_task/nero/undo-the-knot.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "6f874779e27b8cb97795d455956cee7d69b5ee0642f9e1fdb7e31acd0ac81b45"
+    },
+    {
+      "robot": "openarm",
+      "task": "cap-left",
+      "path": "videos/thirteen_arm/per_arm_task/openarm/cap-left.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "6661bf469e08b827ae4b2999a9360e20addf244bc36cbdaac8b85ac96819a65d"
+    },
+    {
+      "robot": "openarm",
+      "task": "fold-towel-dual",
+      "path": "videos/thirteen_arm/per_arm_task/openarm/fold-towel-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "49f366215f16f54ef1d00a8bdf4ea6ea10da7bdd235e226e4425da295850210b"
+    },
+    {
+      "robot": "openarm",
+      "task": "fold-tower-left-right",
+      "path": "videos/thirteen_arm/per_arm_task/openarm/fold-tower-left-right.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "221d94fbb987cbea5ce7f627fc48dd0e1bdf1fbae14d3c7b200bd6f4173e2b12"
+    },
+    {
+      "robot": "openarm",
+      "task": "in-case-left",
+      "path": "videos/thirteen_arm/per_arm_task/openarm/in-case-left.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "0949a3d0eb6dcba3b544912844ef7241450ff7ea548da505029b23d95e70f479"
+    },
+    {
+      "robot": "openarm",
+      "task": "open-box",
+      "path": "videos/thirteen_arm/per_arm_task/openarm/open-box.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "627ba041f5ad85f9d8a8bca60ba883938d325bbaa61548f76899368b7d26e775"
+    },
+    {
+      "robot": "openarm",
+      "task": "open-box-2",
+      "path": "videos/thirteen_arm/per_arm_task/openarm/open-box-2.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "378a1d39328d901987733cfdf8e3f2ac5cf90cd422eb8d94ea044797ac1841fd"
+    },
+    {
+      "robot": "openarm",
+      "task": "open-box-3",
+      "path": "videos/thirteen_arm/per_arm_task/openarm/open-box-3.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "18cb6d52434ffae39f0b9d1a74bb5674f9130190de3f5b34ebcb7eeab7a25cdc"
+    },
+    {
+      "robot": "openarm",
+      "task": "open-cover",
+      "path": "videos/thirteen_arm/per_arm_task/openarm/open-cover.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "af3d346a0ddfd20f8fc5cbf3e8d60c813be2af0a820b938507e4420c644dd8a4"
+    },
+    {
+      "robot": "openarm",
+      "task": "open-delivery-dual",
+      "path": "videos/thirteen_arm/per_arm_task/openarm/open-delivery-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "6d9099b4b2f732103cd22cef1b608f17597e4c5b558ea6412b612e4e65439d8d"
+    },
+    {
+      "robot": "openarm",
+      "task": "open-tube-cap-dual",
+      "path": "videos/thirteen_arm/per_arm_task/openarm/open-tube-cap-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "ae51816932edc3b366af04164aa8097052c45625d4dfef119f0ce5e37738a9fe"
+    },
+    {
+      "robot": "openarm",
+      "task": "package-big-dual",
+      "path": "videos/thirteen_arm/per_arm_task/openarm/package-big-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "549352438d7852b9d467225bb5d7e9f66e71f7db6d314ee2400f03e10ed937e7"
+    },
+    {
+      "robot": "openarm",
+      "task": "package-dual",
+      "path": "videos/thirteen_arm/per_arm_task/openarm/package-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "063c68222735754fe1db756ea48fa47afe8526d21bbcd7a05036f3dc15d2d872"
+    },
+    {
+      "robot": "openarm",
+      "task": "pick-and-place",
+      "path": "videos/thirteen_arm/per_arm_task/openarm/pick-and-place.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "a06da93f8c5dd4037dd7eb4cfaacbe6fd5822147ff29cbb4ad7270579d8a7dd1"
+    },
+    {
+      "robot": "openarm",
+      "task": "pick-from-high-left",
+      "path": "videos/thirteen_arm/per_arm_task/openarm/pick-from-high-left.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "c6ca3ce46d71ab3f55e4af4e71774844c433cc5af1d5df157295272678214c25"
+    },
+    {
+      "robot": "openarm",
+      "task": "pick-right-left",
+      "path": "videos/thirteen_arm/per_arm_task/openarm/pick-right-left.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "e104a5aa6fd50dc7ee8f3e77bd2f8113256cd42aba52719c83d22ee4071b38ee"
+    },
+    {
+      "robot": "openarm",
+      "task": "plug-in-out",
+      "path": "videos/thirteen_arm/per_arm_task/openarm/plug-in-out.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "5238ee2b0475d9a3929dd08ddeec59063929e48e749bc0a60245161d06f25b20"
+    },
+    {
+      "robot": "openarm",
+      "task": "pour-water",
+      "path": "videos/thirteen_arm/per_arm_task/openarm/pour-water.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "879b471a088b9a22fc4578a2191ad208076d44c947ef8132106c34722bd625d8"
+    },
+    {
+      "robot": "openarm",
+      "task": "roll-tower",
+      "path": "videos/thirteen_arm/per_arm_task/openarm/roll-tower.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "5ad8e1970227663b81349b5e531a4f7681058209227f5971b16c732411c724eb"
+    },
+    {
+      "robot": "openarm",
+      "task": "seal-bag",
+      "path": "videos/thirteen_arm/per_arm_task/openarm/seal-bag.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "19a1548e741ec4fe56237873b8e149f3841c89fec048ad90f8917e6fed0ffdd6"
+    },
+    {
+      "robot": "openarm",
+      "task": "stick-battery",
+      "path": "videos/thirteen_arm/per_arm_task/openarm/stick-battery.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "5f1be1f255ba29c1926d2b5603079c80521479248a3d65a8dbd555944015d694"
+    },
+    {
+      "robot": "openarm",
+      "task": "toss-high",
+      "path": "videos/thirteen_arm/per_arm_task/openarm/toss-high.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "d84fef84b584f438501fd09e9b519faa2bf765f87ee334593b0536aadba87771"
+    },
+    {
+      "robot": "openarm",
+      "task": "tube",
+      "path": "videos/thirteen_arm/per_arm_task/openarm/tube.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "658948411d6f86b78fa6426f9996a529a3f9b63c2ce68a1d7352070d645ab5e9"
+    },
+    {
+      "robot": "openarm",
+      "task": "tube-left-random",
+      "path": "videos/thirteen_arm/per_arm_task/openarm/tube-left-random.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "e05a517caf2eab00655be4d2b36a81d3e9c218d008b63b94e70b3322d00f7945"
+    },
+    {
+      "robot": "openarm",
+      "task": "tube-left-upright",
+      "path": "videos/thirteen_arm/per_arm_task/openarm/tube-left-upright.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "1dd9dd0c2e40f2b1dacf10b16023d22ed0f0ba1c5c4e0b7c1a2dc560bd0d8c05"
+    },
+    {
+      "robot": "openarm",
+      "task": "undo-the-knot",
+      "path": "videos/thirteen_arm/per_arm_task/openarm/undo-the-knot.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "7f93628ac37b02f26ee5b3abe3a46e48a3e1e2d5a731c555a293ce9b0a690638"
+    },
+    {
+      "robot": "piperx",
+      "task": "cap-left",
+      "path": "videos/thirteen_arm/per_arm_task/piperx/cap-left.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "1e098d08397b68303e37eee9c9d831c2123deacb9ffe5fe62acd072589435199"
+    },
+    {
+      "robot": "piperx",
+      "task": "fold-towel-dual",
+      "path": "videos/thirteen_arm/per_arm_task/piperx/fold-towel-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "748f22a18c8c3ede620be11887334fd353a22e1aba3edf8048d69d4f9f0313f7"
+    },
+    {
+      "robot": "piperx",
+      "task": "fold-tower-left-right",
+      "path": "videos/thirteen_arm/per_arm_task/piperx/fold-tower-left-right.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "ff47f9cee93a3e7f2eacd3e132ae7eb071690ac2ff7c2ef26498895341b289ed"
+    },
+    {
+      "robot": "piperx",
+      "task": "in-case-left",
+      "path": "videos/thirteen_arm/per_arm_task/piperx/in-case-left.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "c8de9dc4815ee0dfd46a78e3a4748e45761923f67894b6ee3c1b38112a92724e"
+    },
+    {
+      "robot": "piperx",
+      "task": "open-box",
+      "path": "videos/thirteen_arm/per_arm_task/piperx/open-box.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "4bd2a5afbf5a94fb0aab18be3c5ac32cda8de48f195d807a7e7010177990887c"
+    },
+    {
+      "robot": "piperx",
+      "task": "open-box-2",
+      "path": "videos/thirteen_arm/per_arm_task/piperx/open-box-2.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "9d75905bde7484f430809a69b0b8d21ca28d2870b5d9610651f4e4fb2134e98b"
+    },
+    {
+      "robot": "piperx",
+      "task": "open-box-3",
+      "path": "videos/thirteen_arm/per_arm_task/piperx/open-box-3.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "c88ea91a340bcf126a262955f8c43091d2f9a66534a6fb51fab881baf690ad45"
+    },
+    {
+      "robot": "piperx",
+      "task": "open-cover",
+      "path": "videos/thirteen_arm/per_arm_task/piperx/open-cover.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "b5f690343ad1a712057528c22e2177c289fd82008f3e6f53b82e44283bbfcea1"
+    },
+    {
+      "robot": "piperx",
+      "task": "open-delivery-dual",
+      "path": "videos/thirteen_arm/per_arm_task/piperx/open-delivery-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "f4cc7eb46fa1911f702c769a5db6fcb344edd845339d008bfe8761c9f9044312"
+    },
+    {
+      "robot": "piperx",
+      "task": "open-tube-cap-dual",
+      "path": "videos/thirteen_arm/per_arm_task/piperx/open-tube-cap-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "5d17b6d4796dbaf52f10a1251345a39b0d561f217e0377da61f1164d8c781420"
+    },
+    {
+      "robot": "piperx",
+      "task": "package-big-dual",
+      "path": "videos/thirteen_arm/per_arm_task/piperx/package-big-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "49590339f7182c3ac00d1ec3c8d88fb6af9fe5a6a22dd7ba17af5f367f4b45c3"
+    },
+    {
+      "robot": "piperx",
+      "task": "package-dual",
+      "path": "videos/thirteen_arm/per_arm_task/piperx/package-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "36b4e12c0a4b1967365a872a832940b7be436458cd4d8a1c35111af7edd1fe95"
+    },
+    {
+      "robot": "piperx",
+      "task": "pick-and-place",
+      "path": "videos/thirteen_arm/per_arm_task/piperx/pick-and-place.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "4b5b8a198a705be4be57225a5a9b1170009ed0c817942d0a2b44ca3995a58293"
+    },
+    {
+      "robot": "piperx",
+      "task": "pick-from-high-left",
+      "path": "videos/thirteen_arm/per_arm_task/piperx/pick-from-high-left.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "9c0bd9de3628fd087de13e963d511182511a2733360b67b1da090d0c653be704"
+    },
+    {
+      "robot": "piperx",
+      "task": "pick-right-left",
+      "path": "videos/thirteen_arm/per_arm_task/piperx/pick-right-left.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "ac45c5ee42e8f5e83b0d79b0952ef34ab960d8b172f93b68c4e84b7922e376a2"
+    },
+    {
+      "robot": "piperx",
+      "task": "plug-in-out",
+      "path": "videos/thirteen_arm/per_arm_task/piperx/plug-in-out.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "9033309ed7b96221e4aa9b2807bf51a3d86f432e714749ea50d4330c0db47c68"
+    },
+    {
+      "robot": "piperx",
+      "task": "pour-water",
+      "path": "videos/thirteen_arm/per_arm_task/piperx/pour-water.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "0429e8d69ec42940dd785dcc0ecbb41f9b1ca4179949af94a268698da053ab48"
+    },
+    {
+      "robot": "piperx",
+      "task": "roll-tower",
+      "path": "videos/thirteen_arm/per_arm_task/piperx/roll-tower.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "f8db20f398b43a058277376c14b5bfbf0bb200e9ecfda96db3f0159284b3b53e"
+    },
+    {
+      "robot": "piperx",
+      "task": "seal-bag",
+      "path": "videos/thirteen_arm/per_arm_task/piperx/seal-bag.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "d91bdd2b399c109ee0c07a2001aa7d8d237c577b164db436521d4278477b870c"
+    },
+    {
+      "robot": "piperx",
+      "task": "stick-battery",
+      "path": "videos/thirteen_arm/per_arm_task/piperx/stick-battery.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "84902a9ad9e8eb59c7c1f734d5abcd90264606dcaf1dc19cd0f8c6dbc82a03d6"
+    },
+    {
+      "robot": "piperx",
+      "task": "toss-high",
+      "path": "videos/thirteen_arm/per_arm_task/piperx/toss-high.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "32a39bc5a87b1bf1ee79935cc9066042c66df0fa6d5af562bfbea10c51b81ef6"
+    },
+    {
+      "robot": "piperx",
+      "task": "tube",
+      "path": "videos/thirteen_arm/per_arm_task/piperx/tube.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "d2d68cadc7f0c277cc1c03da2f4b753149402d42a89ef2d90eee008e30ca8ae3"
+    },
+    {
+      "robot": "piperx",
+      "task": "tube-left-random",
+      "path": "videos/thirteen_arm/per_arm_task/piperx/tube-left-random.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "d3fae4e5d431a12c7f4e4ec0ffa677afae806f8938920d6ac5a04782a0ff95b3"
+    },
+    {
+      "robot": "piperx",
+      "task": "tube-left-upright",
+      "path": "videos/thirteen_arm/per_arm_task/piperx/tube-left-upright.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "e792354c0009ebf58a5692350c556424108bc23b3353f2bf5a7a045de3c18c7c"
+    },
+    {
+      "robot": "piperx",
+      "task": "undo-the-knot",
+      "path": "videos/thirteen_arm/per_arm_task/piperx/undo-the-knot.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "0c016a2c0193cff0de24fcf90c6290bda8a11dd6f6f1b660166b423162dbda2a"
+    },
+    {
+      "robot": "ur5",
+      "task": "cap-left",
+      "path": "videos/thirteen_arm/per_arm_task/ur5/cap-left.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "ce58cf10c1e0887a21de1525ac296e2373f951adbe4c328f4611138533db77ac"
+    },
+    {
+      "robot": "ur5",
+      "task": "fold-towel-dual",
+      "path": "videos/thirteen_arm/per_arm_task/ur5/fold-towel-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "373e8c5dc08e5206638b0c07ae2354860a113ef0cd0f66cd5ac7d4694c5b6465"
+    },
+    {
+      "robot": "ur5",
+      "task": "fold-tower-left-right",
+      "path": "videos/thirteen_arm/per_arm_task/ur5/fold-tower-left-right.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "fc0e4a27f9c3c148d9506405bcba48cab44446b117f3b1c7c3a51026c635f1e3"
+    },
+    {
+      "robot": "ur5",
+      "task": "in-case-left",
+      "path": "videos/thirteen_arm/per_arm_task/ur5/in-case-left.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "1d00f663d683110c7cc0116edf1e8fb7a789518386154114dc981006df8c7e9f"
+    },
+    {
+      "robot": "ur5",
+      "task": "open-box",
+      "path": "videos/thirteen_arm/per_arm_task/ur5/open-box.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "126689a42d6bcfedb25412fd4d7398270181b559c6a32608f2ff58128a03b904"
+    },
+    {
+      "robot": "ur5",
+      "task": "open-box-2",
+      "path": "videos/thirteen_arm/per_arm_task/ur5/open-box-2.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "965567bcefa2a96f823933882c70aab6060dd474309184bff60d619b5edfa414"
+    },
+    {
+      "robot": "ur5",
+      "task": "open-box-3",
+      "path": "videos/thirteen_arm/per_arm_task/ur5/open-box-3.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "e3f28be54fdc21b58f643d6b8ae4f2d9dbbea4c7b52ab5c02390c84488cbdc9d"
+    },
+    {
+      "robot": "ur5",
+      "task": "open-cover",
+      "path": "videos/thirteen_arm/per_arm_task/ur5/open-cover.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "0a2f32a244b9528dc27e7c6d56b555f9b8782a08f577142fb72d4b027ae8ed91"
+    },
+    {
+      "robot": "ur5",
+      "task": "open-delivery-dual",
+      "path": "videos/thirteen_arm/per_arm_task/ur5/open-delivery-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "cc2b6cd1c68b4a7ccaddee0f8593d550fb5b284f48b2c31a1724f1d89f6f0407"
+    },
+    {
+      "robot": "ur5",
+      "task": "open-tube-cap-dual",
+      "path": "videos/thirteen_arm/per_arm_task/ur5/open-tube-cap-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "14ee0011a5b319c6bb8d94eca6bfdd613dabb1db68901942b339e460640b30f3"
+    },
+    {
+      "robot": "ur5",
+      "task": "package-big-dual",
+      "path": "videos/thirteen_arm/per_arm_task/ur5/package-big-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "301519bc27e60a505a369f94b420dce74f29aa31a0c07cf415e481ca762484b1"
+    },
+    {
+      "robot": "ur5",
+      "task": "package-dual",
+      "path": "videos/thirteen_arm/per_arm_task/ur5/package-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "667a522624f7defd77c96a9c25c26f717205ca6ff930129515c460b83a46af21"
+    },
+    {
+      "robot": "ur5",
+      "task": "pick-and-place",
+      "path": "videos/thirteen_arm/per_arm_task/ur5/pick-and-place.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "423c621e7bbe1930dccbd08bdb0c81c3342574377cee2a222df32b34e65eb151"
+    },
+    {
+      "robot": "ur5",
+      "task": "pick-from-high-left",
+      "path": "videos/thirteen_arm/per_arm_task/ur5/pick-from-high-left.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "81491d4c71c4a8a648a4d41fbbd34833257d1610e65285120baadd1b5ef43384"
+    },
+    {
+      "robot": "ur5",
+      "task": "pick-right-left",
+      "path": "videos/thirteen_arm/per_arm_task/ur5/pick-right-left.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "8146698042ea032e144345db464e1aad6b2529886bdcfc3cf3383d5c933f8957"
+    },
+    {
+      "robot": "ur5",
+      "task": "plug-in-out",
+      "path": "videos/thirteen_arm/per_arm_task/ur5/plug-in-out.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "5e7f867683c8c6795ddbfb2ab8ce18702d6b970cbca1b7a6c98b35242a26a812"
+    },
+    {
+      "robot": "ur5",
+      "task": "pour-water",
+      "path": "videos/thirteen_arm/per_arm_task/ur5/pour-water.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "ef1924edc7454bb948dc23648ab40c9880f6806f5043ef5270a75dcdab90f925"
+    },
+    {
+      "robot": "ur5",
+      "task": "roll-tower",
+      "path": "videos/thirteen_arm/per_arm_task/ur5/roll-tower.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "c792af55de13e150d5a246e9124bb76634503418cdca12cea09301a2e7d4eae0"
+    },
+    {
+      "robot": "ur5",
+      "task": "seal-bag",
+      "path": "videos/thirteen_arm/per_arm_task/ur5/seal-bag.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "979f26dada2171ea50a0009982759730965043c98820e33b1617bfee0f016698"
+    },
+    {
+      "robot": "ur5",
+      "task": "stick-battery",
+      "path": "videos/thirteen_arm/per_arm_task/ur5/stick-battery.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "c5ce9785172cbc0cbab1c9ebc9615103a44624d1016814b8bca560746b228a0a"
+    },
+    {
+      "robot": "ur5",
+      "task": "toss-high",
+      "path": "videos/thirteen_arm/per_arm_task/ur5/toss-high.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "e34a137b99e2246a67949697827960c522dbdb73d3a0787ac9c25d1bc5f9cd85"
+    },
+    {
+      "robot": "ur5",
+      "task": "tube",
+      "path": "videos/thirteen_arm/per_arm_task/ur5/tube.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "0286ed164cf51e6b3d2d1ee1498e63c19025600acdbd9980c3137dbf1562961d"
+    },
+    {
+      "robot": "ur5",
+      "task": "tube-left-random",
+      "path": "videos/thirteen_arm/per_arm_task/ur5/tube-left-random.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "6e5769a8851a926309acb166f3ec0ea98b2bace59b7c0e83a84f2bd7fb4f92b3"
+    },
+    {
+      "robot": "ur5",
+      "task": "tube-left-upright",
+      "path": "videos/thirteen_arm/per_arm_task/ur5/tube-left-upright.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "41938fcbcd1d0293653b860a2614c25c8d094ce7252e00cd781fac3b5234a7dd"
+    },
+    {
+      "robot": "ur5",
+      "task": "undo-the-knot",
+      "path": "videos/thirteen_arm/per_arm_task/ur5/undo-the-knot.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "be98e0cb29f06734176f3470ace442c1a00240fe2bdbf35b214d22300aa6d41f"
+    },
+    {
+      "robot": "willow",
+      "task": "cap-left",
+      "path": "videos/thirteen_arm/per_arm_task/willow/cap-left.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "0eb940758001a7e8c00ce6c6af3d7a85ad53ae22be9449ff5c8728113f650541"
+    },
+    {
+      "robot": "willow",
+      "task": "fold-towel-dual",
+      "path": "videos/thirteen_arm/per_arm_task/willow/fold-towel-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "ee5f10bb0c3d06799a08bec4965902a4ec138919980ed8924566868e98019c1a"
+    },
+    {
+      "robot": "willow",
+      "task": "fold-tower-left-right",
+      "path": "videos/thirteen_arm/per_arm_task/willow/fold-tower-left-right.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "271820a9a9f762c7eac0ec11d401b2adfd6998e600668e5e6f8dcb759a2a13bb"
+    },
+    {
+      "robot": "willow",
+      "task": "in-case-left",
+      "path": "videos/thirteen_arm/per_arm_task/willow/in-case-left.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "237b64aa4957489c6012d9db4c2921236ece1c92471aa179c5eb429297ed8945"
+    },
+    {
+      "robot": "willow",
+      "task": "open-box",
+      "path": "videos/thirteen_arm/per_arm_task/willow/open-box.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "9c72787cb462d448f6b0b87d8a9287562c7d6a56fb62ddfb3ac9be44af8222d6"
+    },
+    {
+      "robot": "willow",
+      "task": "open-box-2",
+      "path": "videos/thirteen_arm/per_arm_task/willow/open-box-2.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "57a3b06d29a27663339b1d4b65de894bdb9d83f414b7549163a4053fac80cb77"
+    },
+    {
+      "robot": "willow",
+      "task": "open-box-3",
+      "path": "videos/thirteen_arm/per_arm_task/willow/open-box-3.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "0d2db554072589c750428635ffe9dccf31290cae7970fd971474979eb48009e7"
+    },
+    {
+      "robot": "willow",
+      "task": "open-cover",
+      "path": "videos/thirteen_arm/per_arm_task/willow/open-cover.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "0714b554b1db509b158e284f5f5b7ade4bacc98c17d0ad3849cf637fa7e2054a"
+    },
+    {
+      "robot": "willow",
+      "task": "open-delivery-dual",
+      "path": "videos/thirteen_arm/per_arm_task/willow/open-delivery-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "ea50fca47bdcddc64503fb5e544ef5b4d2e275b5784c06922e13d8b14c514de5"
+    },
+    {
+      "robot": "willow",
+      "task": "open-tube-cap-dual",
+      "path": "videos/thirteen_arm/per_arm_task/willow/open-tube-cap-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "328ba81ada3f3e63dcc5a917de78904b10eb80ff8e2d18e60dbeb76a144b19c0"
+    },
+    {
+      "robot": "willow",
+      "task": "package-big-dual",
+      "path": "videos/thirteen_arm/per_arm_task/willow/package-big-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "189eb813521d693fae1bf1f1eca96ac25c3687a265678b317f58f8259f69f469"
+    },
+    {
+      "robot": "willow",
+      "task": "package-dual",
+      "path": "videos/thirteen_arm/per_arm_task/willow/package-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "6abc48fb5aab95ce76ecad72c0764cf7065dffc019f0b5f030594496dbb6982a"
+    },
+    {
+      "robot": "willow",
+      "task": "pick-and-place",
+      "path": "videos/thirteen_arm/per_arm_task/willow/pick-and-place.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "a3808d4cca4c1b0d54413313d6c5c14aaceb4074d3d2d1edc2fb0c62cd2b7a23"
+    },
+    {
+      "robot": "willow",
+      "task": "pick-from-high-left",
+      "path": "videos/thirteen_arm/per_arm_task/willow/pick-from-high-left.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "b8a2315183fe59c77a10914b57b8ebb29f70472a94038caefbf927011fd83f28"
+    },
+    {
+      "robot": "willow",
+      "task": "pick-right-left",
+      "path": "videos/thirteen_arm/per_arm_task/willow/pick-right-left.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "782d5064f2ab0c37d5b39d671dd166842cc2a3415433f0d46fb20715ea03c601"
+    },
+    {
+      "robot": "willow",
+      "task": "plug-in-out",
+      "path": "videos/thirteen_arm/per_arm_task/willow/plug-in-out.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "03730f75d96669bd50383d1f93f5b48bd8095e34d46922efe4e42edee7334c99"
+    },
+    {
+      "robot": "willow",
+      "task": "pour-water",
+      "path": "videos/thirteen_arm/per_arm_task/willow/pour-water.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "c1704d02677168eff5d3cbfd47fd8125141d7c39b9c5d2bff5a8b5f045585cad"
+    },
+    {
+      "robot": "willow",
+      "task": "roll-tower",
+      "path": "videos/thirteen_arm/per_arm_task/willow/roll-tower.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "f28a2989524ccb053daf5a05344583b28101a049d2aa47793f84db9221a3012f"
+    },
+    {
+      "robot": "willow",
+      "task": "seal-bag",
+      "path": "videos/thirteen_arm/per_arm_task/willow/seal-bag.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "02c3eda3e23fc0a8c0881697aa3901c49b7f00775035ac1f035ebc5607177bd0"
+    },
+    {
+      "robot": "willow",
+      "task": "stick-battery",
+      "path": "videos/thirteen_arm/per_arm_task/willow/stick-battery.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "c20f8ee9bd50539a2a2e5a431def0b6741cccc95b33f7099a63b2e9c73e89827"
+    },
+    {
+      "robot": "willow",
+      "task": "toss-high",
+      "path": "videos/thirteen_arm/per_arm_task/willow/toss-high.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "458299743a57dba6d9c72abfd621af22a7a18d8cb8911e048bd181c80af0641a"
+    },
+    {
+      "robot": "willow",
+      "task": "tube",
+      "path": "videos/thirteen_arm/per_arm_task/willow/tube.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "cbb41e64aebc8a4f000987cf96422bc16f5cd787ee6d6d220aad41abc0389e52"
+    },
+    {
+      "robot": "willow",
+      "task": "tube-left-random",
+      "path": "videos/thirteen_arm/per_arm_task/willow/tube-left-random.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "da0ef41ebfa806a0143b5f0cfe2f29047ec41c42a4be83116fd5b4960c18015b"
+    },
+    {
+      "robot": "willow",
+      "task": "tube-left-upright",
+      "path": "videos/thirteen_arm/per_arm_task/willow/tube-left-upright.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "fc77f28d27d591f11268522f7a8508683a1d3d8a87cc78f174ad2e2578704d92"
+    },
+    {
+      "robot": "willow",
+      "task": "undo-the-knot",
+      "path": "videos/thirteen_arm/per_arm_task/willow/undo-the-knot.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "31178fdc0fc04d73495b881e8b2a06de8711007e77968a7dd6ccc54f5523b50d"
+    },
+    {
+      "robot": "xarm6",
+      "task": "cap-left",
+      "path": "videos/thirteen_arm/per_arm_task/xarm6/cap-left.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "991b39a0d1da39fe8960867c7e0500d25ccd2a27ae1f84682337e65c0ec66083"
+    },
+    {
+      "robot": "xarm6",
+      "task": "fold-towel-dual",
+      "path": "videos/thirteen_arm/per_arm_task/xarm6/fold-towel-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "6b7689c8c519eb1ca2df46f17d0932d89429b40978bf61a372ca010ca00fabb4"
+    },
+    {
+      "robot": "xarm6",
+      "task": "fold-tower-left-right",
+      "path": "videos/thirteen_arm/per_arm_task/xarm6/fold-tower-left-right.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "8ad2d6a4db31e74c77d6c58bca3a83291f459ea9f3eff19f3964a7e1035f50b8"
+    },
+    {
+      "robot": "xarm6",
+      "task": "in-case-left",
+      "path": "videos/thirteen_arm/per_arm_task/xarm6/in-case-left.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "5b57babe98dadc3f07e4da94bb5406086015c67eef7246fda8bd83d3b63f64db"
+    },
+    {
+      "robot": "xarm6",
+      "task": "open-box",
+      "path": "videos/thirteen_arm/per_arm_task/xarm6/open-box.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "0aaa7d1708b21314dd6f2c7f3f43b1764ac6b6a26b46536bab4c916b7990a1d3"
+    },
+    {
+      "robot": "xarm6",
+      "task": "open-box-2",
+      "path": "videos/thirteen_arm/per_arm_task/xarm6/open-box-2.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "004ed756b5b8ffdbd5c3ad145f91b682816d17a835dd41f4795f28fe75441057"
+    },
+    {
+      "robot": "xarm6",
+      "task": "open-box-3",
+      "path": "videos/thirteen_arm/per_arm_task/xarm6/open-box-3.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "36724d39c3997dc6a23fed4074d62f540e9bf8b347047dc9adda1ef5e0f30e5f"
+    },
+    {
+      "robot": "xarm6",
+      "task": "open-cover",
+      "path": "videos/thirteen_arm/per_arm_task/xarm6/open-cover.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "557e01b73bef84055c3ff4fda33644881db128e99b356b453ffbf94b30527484"
+    },
+    {
+      "robot": "xarm6",
+      "task": "open-delivery-dual",
+      "path": "videos/thirteen_arm/per_arm_task/xarm6/open-delivery-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "a07511d1772fbe045143bf996ca58634d2325a418e226844322894e4ed2bb621"
+    },
+    {
+      "robot": "xarm6",
+      "task": "open-tube-cap-dual",
+      "path": "videos/thirteen_arm/per_arm_task/xarm6/open-tube-cap-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "cb20450ae7268535f2635b40a661c4af583d14383f04b2f137c7961cd0a8c97b"
+    },
+    {
+      "robot": "xarm6",
+      "task": "package-big-dual",
+      "path": "videos/thirteen_arm/per_arm_task/xarm6/package-big-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "9a58e276e3de8f88f4957cb61cfb44822d1d574d5b979333a32cf082b146d7cb"
+    },
+    {
+      "robot": "xarm6",
+      "task": "package-dual",
+      "path": "videos/thirteen_arm/per_arm_task/xarm6/package-dual.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "3e1fbda88ce5e5b843efbc694a9c51d8a7bfdb07cf24d4ca1afc3db58695200f"
+    },
+    {
+      "robot": "xarm6",
+      "task": "pick-and-place",
+      "path": "videos/thirteen_arm/per_arm_task/xarm6/pick-and-place.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "9383b0ec08a002c775973a08e78e2ab517c2995a39b8605f186195dadc146d7d"
+    },
+    {
+      "robot": "xarm6",
+      "task": "pick-from-high-left",
+      "path": "videos/thirteen_arm/per_arm_task/xarm6/pick-from-high-left.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "6857adb794e1b7b920e78d79b01d5da48f83f2061be60f4d74b183ed712758b1"
+    },
+    {
+      "robot": "xarm6",
+      "task": "pick-right-left",
+      "path": "videos/thirteen_arm/per_arm_task/xarm6/pick-right-left.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "2f776ad6758aa149dc886c8d1e419e56d5f6aa1d34efd2075d09dd802a6faad7"
+    },
+    {
+      "robot": "xarm6",
+      "task": "plug-in-out",
+      "path": "videos/thirteen_arm/per_arm_task/xarm6/plug-in-out.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "9be7d96c0bcc11041215c96c665d2d088d84dcf7261252f58c147f40767a5483"
+    },
+    {
+      "robot": "xarm6",
+      "task": "pour-water",
+      "path": "videos/thirteen_arm/per_arm_task/xarm6/pour-water.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "3e84c7dae5c416b4eae0ffe10b45466e641e1060e00abcc07995cc840d78fb89"
+    },
+    {
+      "robot": "xarm6",
+      "task": "roll-tower",
+      "path": "videos/thirteen_arm/per_arm_task/xarm6/roll-tower.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "c5ddc2ca60c9b187713d6f0bf7bf40ec75bfe51694872312cc453317860a6323"
+    },
+    {
+      "robot": "xarm6",
+      "task": "seal-bag",
+      "path": "videos/thirteen_arm/per_arm_task/xarm6/seal-bag.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "73e94d40c81b370f22fe0d1a2379a36f0a35f1086b337fde54fd2caed18e33ec"
+    },
+    {
+      "robot": "xarm6",
+      "task": "stick-battery",
+      "path": "videos/thirteen_arm/per_arm_task/xarm6/stick-battery.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "eabf1bd08c5cb5fbf0eeb61d698a3e93145706234e46d8e997d6bdc3e1f011d1"
+    },
+    {
+      "robot": "xarm6",
+      "task": "toss-high",
+      "path": "videos/thirteen_arm/per_arm_task/xarm6/toss-high.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "d126b5650171fcd20f702fbab4cf2d1953f1a11db854b1afb1e36d40b2c3c6b9"
+    },
+    {
+      "robot": "xarm6",
+      "task": "tube",
+      "path": "videos/thirteen_arm/per_arm_task/xarm6/tube.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "4deca3fba79e42dc949ea91ad4d930a018a9e9801bf468739133ee63b7c00d78"
+    },
+    {
+      "robot": "xarm6",
+      "task": "tube-left-random",
+      "path": "videos/thirteen_arm/per_arm_task/xarm6/tube-left-random.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "a56bef9aa53e4399c64ec5ef7f6da3f7f37c9ce75d292f8a988743d7b87bd4b8"
+    },
+    {
+      "robot": "xarm6",
+      "task": "tube-left-upright",
+      "path": "videos/thirteen_arm/per_arm_task/xarm6/tube-left-upright.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "3d36481a13be0e7497f705cf085a9911e51eaad21f83d4681672b759c38caeb7"
+    },
+    {
+      "robot": "xarm6",
+      "task": "undo-the-knot",
+      "path": "videos/thirteen_arm/per_arm_task/xarm6/undo-the-knot.mp4",
+      "duration_s": 5,
+      "fps": 5,
+      "sha256": "d726f1d5c08a8a161ad7f9b52a12809b6414defab9a734f00fdbed4fcb7956c8"
+    }
+  ]
+}
