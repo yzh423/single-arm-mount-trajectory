@@ -11,7 +11,7 @@ def _sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def _bundle(tmp_path):
+def _bundle(tmp_path, *, collision=False):
     stem = "8-11_Seal_Bag_161504_complete_follow"
     trajectory = tmp_path / f"{stem}.trajectory.npz"
     scene = tmp_path / f"{stem}.scene.xml"
@@ -23,8 +23,16 @@ def _bundle(tmp_path):
         execution_time_s=np.asarray([0.0, 2.0]),
         source_reached=np.asarray([True, True]),
         fixed_time_accepted=np.asarray([True, False]),
-        collision=np.asarray([False, True]),
-        execution_collision=np.asarray([False, True]),
+        collision=np.asarray([False, collision]),
+        execution_collision=np.asarray([False, collision]),
+        raw_left_hand_position_m=np.zeros((2, 3)),
+        raw_right_hand_position_m=np.zeros((2, 3)),
+        raw_left_hand_quaternion_wxyz=np.tile([1.0, 0.0, 0.0, 0.0], (2, 1)),
+        raw_right_hand_quaternion_wxyz=np.tile([1.0, 0.0, 0.0, 0.0], (2, 1)),
+        left_target_position_m=np.tile([0.001, 0.0, 0.0], (2, 1)),
+        right_target_position_m=np.tile([-0.001, 0.0, 0.0], (2, 1)),
+        left_wrist_adaptation_angle_deg=np.zeros(2),
+        right_wrist_adaptation_angle_deg=np.zeros(2),
         left_position_error_m=np.asarray([0.0002, 0.0009]),
         right_position_error_m=np.asarray([0.0003, 0.0008]),
         left_orientation_error_rad=np.deg2rad([0.1, 0.4]),
@@ -50,8 +58,17 @@ def _bundle(tmp_path):
         "schema": "piperx-complete-follow-v2",
         "source": {"path": "handheld_20260811_161504.csv",
                    "frames_60hz": 2, "duration_s": 1.0,
-                   "target_basis": "registered_resampled_raw"},
+                   "target_basis": "registered_resampled_calibrated_tcp",
+                   "raw_hand_trace_preserved": True,
+                   "tracking_reference": "task-level calibrated PiperX TCP"},
         "mount": {"family": "8-11/Seal_Bag"},
+        "tool_frame": {
+            "translation_coordinate_frame": "registered source-hand local",
+            "left_translation_m": [0.001, 0.0, 0.0],
+            "right_translation_m": [-0.001, 0.0, 0.0],
+            "wrist_adaptation": None,
+            "tracking_error_reference": "calibrated TCP target",
+        },
         "acceptance": {"position_tolerance_mm": 1.0,
                        "orientation_tolerance_deg": 0.5},
         "protocol": {"execution_frames": 2, "retimed_duration_s": 2.0,
@@ -62,9 +79,10 @@ def _bundle(tmp_path):
         "metrics": {
             "complete_source_pose_frames": 2,
             "complete_source_pose_coverage": 1.0,
+            "retimed_execution_dynamic_limits_passed": True,
             "fixed_time_synchronous_frames": 1,
-            "collision_frames": 1,
-            "execution_collision_frames": 1,
+            "collision_frames": int(collision),
+            "execution_collision_frames": int(collision),
             "left_position_error_mm": {"max": 0.9},
             "right_position_error_mm": {"max": 0.8},
             "left_orientation_error_deg": {"max": 0.4},
@@ -91,8 +109,50 @@ def test_validator_recomputes_task_metrics_and_hashes(tmp_path):
         frames=2, decode_video=False)
 
     assert result["pose_frames"] == 2
-    assert result["collision_frames"] == 1
+    assert result["collision_frames"] == 0
     assert result["video_frames"] == 61
+
+
+def test_validator_rejects_any_published_collision(tmp_path):
+    summary = _bundle(tmp_path, collision=True)
+
+    with pytest.raises(ValueError, match="zero collision"):
+        validate_task_bundle(
+            summary, family="8-11/Seal_Bag", take="161504",
+            frames=2, decode_video=False)
+
+
+def test_validator_requires_calibrated_tcp_target_basis(tmp_path):
+    summary_path = _bundle(tmp_path)
+    summary = json.loads(summary_path.read_text(encoding="utf-8"))
+    summary["source"]["target_basis"] = "registered_resampled_raw"
+    summary_path.write_text(json.dumps(summary), encoding="utf-8")
+
+    with pytest.raises(ValueError, match="calibrated TCP"):
+        validate_task_bundle(
+            summary_path, family="8-11/Seal_Bag", take="161504",
+            frames=2, decode_video=False)
+
+
+def test_validator_rejects_missing_raw_hand_evidence(tmp_path):
+    summary_path = _bundle(tmp_path)
+    trajectory = next(tmp_path.glob("*.trajectory.npz"))
+    with np.load(trajectory, allow_pickle=False) as archive:
+        payload = {
+            name: archive[name] for name in archive.files
+            if name != "raw_left_hand_position_m"
+        }
+    np.savez_compressed(trajectory, **payload)
+    summary = json.loads(summary_path.read_text(encoding="utf-8"))
+    record = summary["artifacts"]["trajectory_npz"]
+    record["sha256"] = _sha(trajectory)
+    record["size_bytes"] = trajectory.stat().st_size
+    summary_path.write_text(json.dumps(summary), encoding="utf-8")
+
+    with pytest.raises(ValueError, match="raw hand evidence"):
+        validate_task_bundle(
+            summary_path, family="8-11/Seal_Bag", take="161504",
+            frames=2, decode_video=False)
 
 
 def test_validator_rejects_tampered_trajectory(tmp_path):

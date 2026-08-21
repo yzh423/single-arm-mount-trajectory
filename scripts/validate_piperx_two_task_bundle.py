@@ -74,8 +74,19 @@ def validate_task_bundle(
         raise ValueError("source take mismatch")
     if int(summary["source"]["frames_60hz"]) != int(frames):
         raise ValueError("source frame count mismatch")
-    if summary["source"]["target_basis"] != "registered_resampled_raw":
-        raise ValueError("published target basis must remain raw")
+    source = summary["source"]
+    if source["target_basis"] != "registered_resampled_calibrated_tcp":
+        raise ValueError("published target basis must be the calibrated TCP")
+    if (source.get("raw_hand_trace_preserved") is not True
+            or source.get("tracking_reference")
+            != "task-level calibrated PiperX TCP"):
+        raise ValueError("published source evidence is incomplete")
+    tool_frame = summary.get("tool_frame", {})
+    if (tool_frame.get("translation_coordinate_frame")
+            != "registered source-hand local"
+            or tool_frame.get("tracking_error_reference")
+            != "calibrated TCP target"):
+        raise ValueError("published tool-frame evidence is incomplete")
     if summary["source"].get("sha256"):
         date, task = family.split("/", 1)
         source_matches = list(
@@ -95,6 +106,18 @@ def validate_task_bundle(
     }
     trajectory_path = artifacts["trajectory_npz"]
     with np.load(trajectory_path, allow_pickle=False) as trajectory:
+        required_evidence = {
+            "raw_left_hand_position_m",
+            "raw_right_hand_position_m",
+            "raw_left_hand_quaternion_wxyz",
+            "raw_right_hand_quaternion_wxyz",
+            "left_target_position_m",
+            "right_target_position_m",
+            "left_wrist_adaptation_angle_deg",
+            "right_wrist_adaptation_angle_deg",
+        }
+        if not required_evidence.issubset(trajectory.files):
+            raise ValueError("raw hand evidence is missing from trajectory")
         source_time = np.asarray(trajectory["source_time_s"], dtype=float)
         execution_time = np.asarray(trajectory["execution_time_s"], dtype=float)
         reached = np.asarray(trajectory["source_reached"], dtype=bool)
@@ -124,6 +147,58 @@ def validate_task_bundle(
         for label, (actual, expected) in checks.items():
             if int(actual) != int(expected):
                 raise ValueError(f"{label} frame count mismatch")
+        if (not np.all(reached) or np.any(collision)
+                or np.any(execution_collision)):
+            raise ValueError(
+                "published bundle requires complete reach and zero collision")
+        if not metrics.get("retimed_execution_dynamic_limits_passed", False):
+            raise ValueError("published execution violates dynamic limits")
+        for side in ("left", "right"):
+            raw_position = np.asarray(
+                trajectory[f"raw_{side}_hand_position_m"], dtype=float)
+            raw_quaternion = np.asarray(
+                trajectory[f"raw_{side}_hand_quaternion_wxyz"], dtype=float)
+            target_position = np.asarray(
+                trajectory[f"{side}_target_position_m"], dtype=float)
+            if (raw_position.shape != (frames, 3)
+                    or raw_quaternion.shape != (frames, 4)
+                    or target_position.shape != (frames, 3)):
+                raise ValueError("raw hand evidence shape mismatch")
+            translation = np.asarray(
+                tool_frame[f"{side}_translation_m"], dtype=float)
+            if translation.shape != (3,) or not np.isfinite(translation).all():
+                raise ValueError("tool translation evidence is invalid")
+            displacement = np.linalg.norm(target_position - raw_position, axis=1)
+            if not np.allclose(
+                    displacement, np.linalg.norm(translation),
+                    rtol=0.0, atol=1e-9):
+                raise ValueError("calibrated TCP translation evidence mismatch")
+        adaptation = tool_frame.get("wrist_adaptation")
+        for side in ("left", "right"):
+            angles = np.asarray(
+                trajectory[f"{side}_wrist_adaptation_angle_deg"], dtype=float)
+            if angles.shape != (frames,) or not np.isfinite(angles).all():
+                raise ValueError("wrist adaptation evidence shape mismatch")
+            if np.max(np.abs(angles), initial=0.0) > 15.0 + 1e-12:
+                raise ValueError("wrist adaptation exceeds 15 degrees")
+        if adaptation is None:
+            if (np.any(trajectory["left_wrist_adaptation_angle_deg"])
+                    or np.any(trajectory["right_wrist_adaptation_angle_deg"])):
+                raise ValueError("unexpected wrist adaptation evidence")
+        else:
+            side = adaptation["side"]
+            expected_angle = np.zeros(frames, dtype=float)
+            angle = float(adaptation["angle_deg"])
+            hold = float(adaptation["hold_until_s"])
+            end = float(adaptation["return_until_s"])
+            expected_angle[source_time <= hold] = angle
+            returning = (source_time > hold) & (source_time < end)
+            expected_angle[returning] = (
+                angle * (end - source_time[returning]) / (end - hold))
+            if not np.allclose(
+                    trajectory[f"{side}_wrist_adaptation_angle_deg"],
+                    expected_angle, rtol=0.0, atol=1e-12):
+                raise ValueError("wrist adaptation evidence mismatch")
         error_fields = (
             ("left_position_error_m", "left_position_error_mm", 1000.0),
             ("right_position_error_m", "right_position_error_mm", 1000.0),
@@ -248,7 +323,7 @@ def write_outputs(bundle_root, records):
                        "orientation_tolerance_deg": 0.5},
         "tasks": portable_records,
         "interpretation": {
-            "complete_follow": "all registered raw 60 Hz poses reached after lossless retiming",
+            "complete_follow": "all calibrated TCP targets derived from the registered raw 60 Hz hand trace are reached after lossless retiming",
             "fixed_time": "same poses under original source timestamps",
             "collision": "independent MuJoCo state and swept incoming-edge audit; not a hardware safety approval",
         },
