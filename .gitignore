@@ -57,6 +57,8 @@ runs/
 
 /reports/*
 !/reports/README.md
+!/reports/piperx_two_task_fixed_time/
+!/reports/piperx_two_task_fixed_time/**
 !/reports/piperx_complete_follow/
 /reports/piperx_complete_follow/*
 !/reports/piperx_complete_follow/8-11_Fold_Box_161044_complete_follow.mp4

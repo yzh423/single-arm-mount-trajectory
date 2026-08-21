@@ -35,6 +35,11 @@ def test_combined_retimed_collision_status_keeps_both_facts_visible():
     assert reason == "RETIMED TRANSITION - COLLISION AUDIT"
 
 
+def test_fixed_time_status_never_claims_retiming():
+    reason, _ = execution_status_label("FOLLOW_FIXED_TIME", ok=True)
+    assert reason == "TRACKING - FIXED SOURCE TIME"
+
+
 def test_realtime_timing_preserves_irregular_source_duration():
     source_t = np.array([4.0, 4.03, 4.20, 4.21, 4.50])
     timing = build_realtime_timing(source_t, fps=100.0)
@@ -92,6 +97,27 @@ def test_execution_timeline_sidecar_names_execution_knots(tmp_path: Path):
     assert payload["timeline_domain"] == "execution"
     assert payload["timing_method"].startswith("constant-fps linear interpolation")
     assert "execution_knots" in payload and "source_frames" not in payload
+
+
+def test_fixed_source_time_sidecar_is_an_explicit_timeline_domain(tmp_path: Path):
+    timing = build_realtime_timing(np.array([0.0, 0.2]), fps=10)
+    diagnostics = [
+        FrameDiagnostics(
+            i, i * 0.2, "FOLLOW_FIXED_TIME", "FOLLOW_FIXED_TIME",
+            False, False, "take.csv", execution_index=i,
+            execution_time_s=i * 0.2, execution_state="FOLLOW_FIXED_TIME",
+        )
+        for i in range(2)
+    ]
+
+    path = write_video_provenance(
+        tmp_path / "fixed.json", timing, diagnostics,
+        timeline_domain="fixed_source_time", interpolate_states=True)
+    payload = json.loads(path.read_text(encoding="utf-8"))
+
+    assert payload["timeline_domain"] == "fixed_source_time"
+    assert payload["retiming_applied"] is False
+    assert "fixed_source_time_knots" in payload
 
 
 def test_interpolated_execution_provenance_audits_the_incoming_edge(tmp_path: Path):

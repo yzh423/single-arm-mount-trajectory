@@ -21,6 +21,25 @@ python -m scripts.run_piperx_recommended_v31 `
 
 > **Caution:** 这里的零碰撞是当前 MuJoCo 模型对源结点、源扫掠入边、执行结点和执行扫掠入边的审计结果，不是真机安全许可。夹具、工件、线缆、外参误差、柔顺性和真实控制器时序仍需单独验证。
 
+### Fixed-time 原始节奏版本
+
+需要查看原始采集节奏时，使用独立的 fixed-time bundle。它逐元素复用原始 `source_time_s` 与 `source_qpos`，不调用重定时、不插入过渡帧，也不增加时长：
+
+```powershell
+python -m scripts.build_piperx_two_task_fixed_time_bundle
+python -m scripts.build_piperx_two_task_fixed_time_bundle --validate-only
+python -m scripts.build_piperx_fixed_time_report
+```
+
+| 任务 | fixed-time 时长 | 标定 TCP 严格覆盖 | 碰撞帧 | 视频 |
+|---|---:|---:|---:|---:|
+| Fold_Box 161044 | 17.656956 s | 1061 / 1061 | 0 | [MP4](reports/piperx_two_task_fixed_time/fold_box/8-11_Fold_Box_161044_fixed_time.mp4) |
+| Seal_Bag 161504 | 29.261361 s | 1757 / 1757 | 0 | [MP4](reports/piperx_two_task_fixed_time/seal_bag/8-11_Seal_Bag_161504_fixed_time.mp4) |
+
+[Fixed-time 报告](reports/piperx_two_task_fixed_time/PiperX双任务Fixed-Time完全跟随报告.pdf)和 [manifest](reports/piperx_two_task_fixed_time/fixed_time_manifest.json)记录时间/qpos 恒等性、哈希及逐帧解码结果。
+
+> **Caution:** fixed-time 版本只证明原始节奏下的运动学跟随。Fold_Box 峰值为 13.924315 rad/s、799.124061 rad/s²，Seal_Bag 峰值为 8.815960 rad/s、543.330325 rad/s²，均不满足当前 1 rad/s 与 4 rad/s² 动力学限制，不能直接下发真机。
+
 ## Reproducing a PiperX task
 
 当目标是重现一个任务而不是手工拼装内部对象时，从 `scripts.run_piperx_recommended_v31` 的命令行入口开始。入口按顺序加载源轨迹、注册、重采样、解析 mount、构建双臂场景、应用工具映射、运行严格 IK、重定时、渲染并写出证据。

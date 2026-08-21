@@ -1,0 +1,81 @@
+{
+  "schema": "piperx-two-task-fixed-time-v1",
+  "task": "Seal_Bag",
+  "family": "8-11/Seal_Bag",
+  "timing": {
+    "mode": "fixed_source_time",
+    "retiming_applied": false,
+    "source_frames": 1757,
+    "fixed_time_frames": 1757,
+    "source_duration_s": 29.261361125,
+    "fixed_time_duration_s": 29.261361125,
+    "inserted_frames": 0,
+    "added_duration_s": 0.0,
+    "timestamp_identity": true,
+    "qpos_identity": true
+  },
+  "tracking": {
+    "target_basis": "registered_resampled_calibrated_tcp",
+    "position_tolerance_mm": 1.0,
+    "orientation_tolerance_deg": 0.5,
+    "reached_frames": 1757,
+    "coverage": 1.0,
+    "collision_frames": 0
+  },
+  "dynamics": {
+    "maximum_velocity_rad_s": 8.81595963169088,
+    "maximum_acceleration_rad_s2": 543.3303247951766,
+    "limit_velocity_rad_s": 1.0,
+    "limit_acceleration_rad_s2": 4.0,
+    "accepted_frames": 1,
+    "accepted_coverage": 0.0005691519635742744,
+    "limits_passed": false,
+    "interpretation": "kinematic fixed-time evidence only; not dynamically executable on the configured PiperX limits"
+  },
+  "source_evidence": {
+    "summary": {
+      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_two_task_complete_follow\\seal_bag\\8-11_Seal_Bag_161504_complete_follow.summary.json",
+      "sha256": "0b6487af442bce657cd3e3fc735fc1d5f4a0511e6a5f67271037c765af6c1d43",
+      "size_bytes": 8251
+    },
+    "trajectory": {
+      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_two_task_complete_follow\\seal_bag\\8-11_Seal_Bag_161504_complete_follow.trajectory.npz",
+      "sha256": "d96f48f45d900b8a39c1f3c52435c7e20556c7e6440856f86a37f5a826f1b05c",
+      "size_bytes": 1185777
+    }
+  },
+  "video": {
+    "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_two_task_fixed_time\\seal_bag\\8-11_Seal_Bag_161504_fixed_time.mp4",
+    "decode_check": {
+      "frame_count": 879,
+      "fps": 30.0,
+      "duration_s": 29.266666666666666,
+      "width": 1280,
+      "height": 720
+    },
+    "timeline_domain": "fixed_source_time",
+    "state_sampling": "linear interpolation between source-time knots"
+  },
+  "artifacts": {
+    "trajectory_npz": {
+      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_two_task_fixed_time\\seal_bag\\8-11_Seal_Bag_161504_fixed_time.trajectory.npz",
+      "sha256": "150950cc96d309a0e516d7f32404124ad9a49adc19cb60c8b6732b7accbad292",
+      "size_bytes": 1171177
+    },
+    "scene_xml": {
+      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_two_task_fixed_time\\seal_bag\\8-11_Seal_Bag_161504_fixed_time.scene.xml",
+      "sha256": "45cae4c2d3eb74e718c27c42148abfa57cb1436ce80da97dd355e73117079d7e",
+      "size_bytes": 19927
+    },
+    "video_mp4": {
+      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_two_task_fixed_time\\seal_bag\\8-11_Seal_Bag_161504_fixed_time.mp4",
+      "sha256": "eb339c06c88982244e47b3c87b7bd0060aab7cd2109859f0f9d2d100de6a803a",
+      "size_bytes": 5851770
+    },
+    "video_provenance_json": {
+      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_two_task_fixed_time\\seal_bag\\8-11_Seal_Bag_161504_fixed_time.provenance.json",
+      "sha256": "48f633f5daf315fcd2d6b4e302fac6faeac46e7f8148bc9a014c5675d0bf1972",
+      "size_bytes": 1834936
+    }
+  }
+}

@@ -106,6 +106,8 @@ def execution_status_label(
         return "RETIMED TRANSITION - TCP PATH DEVIATES", (0, 165, 255)
     if base == "FOLLOW_RETIMED":
         return "TRACKING - RETIMED SOURCE POSE", (0, 145, 235)
+    if base == "FOLLOW_FIXED_TIME":
+        return "TRACKING - FIXED SOURCE TIME", (35, 175, 75)
     if retimed_transition:
         return (
             "REPLANNED RECOVERY - TCP PATH DEVIATES" if recovering else
@@ -195,10 +197,12 @@ def write_video_provenance(
 ) -> Path:
     if len(diagnostics) == 0:
         raise ValueError("diagnostics may not be empty")
-    if timeline_domain not in {"source", "execution"}:
-        raise ValueError("timeline_domain must be source or execution")
+    if timeline_domain not in {"source", "execution", "fixed_source_time"}:
+        raise ValueError(
+            "timeline_domain must be source, execution or fixed_source_time")
+    execution_domain = timeline_domain in {"execution", "fixed_source_time"}
     timeline_times = np.asarray([
-        (item.execution_time_s if timeline_domain == "execution"
+        (item.execution_time_s if execution_domain
          else item.source_time_s)
         for item in diagnostics
     ], dtype=float)
@@ -227,7 +231,7 @@ def write_video_provenance(
             audit_execution_index=audit.execution_index,
             audit_scope=audit.scope,
         )
-        if timeline_domain == "execution":
+        if execution_domain:
             row.update(
                 left_failure_reason=audit.execution_state,
                 right_failure_reason=audit.execution_state,
@@ -245,16 +249,21 @@ def write_video_provenance(
         if interpolate_states else
         "constant-fps zero-order hold over authoritative timestamps"
     )
+    knots_key = {
+        "source": "source_frames",
+        "execution": "execution_knots",
+        "fixed_source_time": "fixed_source_time_knots",
+    }[timeline_domain]
     payload = {
         "schema_version": 2,
         "playback_speed": 1.0,
         "timeline_domain": timeline_domain,
+        "retiming_applied": timeline_domain == "execution",
         "timing_method": timing_method,
         "fps": timing.fps,
         f"{timeline_domain}_duration_s": timing.source_duration_s,
         "encoded_duration_s": timing.encoded_duration_s,
-        ("source_frames" if timeline_domain == "source"
-         else "execution_knots"): [asdict(row) for row in diagnostics],
+        knots_key: [asdict(row) for row in diagnostics],
         "encoded_frames": rows,
     }
     path = Path(path)
@@ -413,7 +422,8 @@ def render_mujoco_mp4(scene_xml: Path, output_path: Path, source_time_s: np.ndar
                 base_execution_state = execution_state.removesuffix(
                     "_COLLISION")
                 explicit_execution_state = base_execution_state in {
-                    "FOLLOW", "FOLLOW_RETIMED", "RETIMED_TRANSITION"}
+                    "FOLLOW", "FOLLOW_RETIMED", "FOLLOW_FIXED_TIME",
+                    "RETIMED_TRANSITION"}
                 retimed_transition = (not explicit_execution_state and
                     config.interpolate_states and upper != lower and
                     is_replanned_transition(qpos[lower], qpos[upper],
