@@ -10,6 +10,8 @@ from pathlib import Path
 import cv2
 import numpy as np
 
+from factory_bimanual.tool_frame_calibration import apply_fixed_tool_translation
+
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_BUNDLE = ROOT / "reports/piperx_two_task_complete_follow"
@@ -168,9 +170,10 @@ def validate_task_bundle(
                 tool_frame[f"{side}_translation_m"], dtype=float)
             if translation.shape != (3,) or not np.isfinite(translation).all():
                 raise ValueError("tool translation evidence is invalid")
-            displacement = np.linalg.norm(target_position - raw_position, axis=1)
+            expected_target = apply_fixed_tool_translation(
+                raw_position, raw_quaternion, translation)
             if not np.allclose(
-                    displacement, np.linalg.norm(translation),
+                    target_position, expected_target,
                     rtol=0.0, atol=1e-9):
                 raise ValueError("calibrated TCP translation evidence mismatch")
         adaptation = tool_frame.get("wrist_adaptation")

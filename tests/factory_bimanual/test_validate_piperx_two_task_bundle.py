@@ -155,6 +155,28 @@ def test_validator_rejects_missing_raw_hand_evidence(tmp_path):
             frames=2, decode_video=False)
 
 
+def test_validator_rejects_same_length_tool_translation_in_wrong_direction(
+        tmp_path):
+    summary_path = _bundle(tmp_path)
+    trajectory = next(tmp_path.glob("*.trajectory.npz"))
+    with np.load(trajectory, allow_pickle=False) as archive:
+        payload = {name: archive[name] for name in archive.files}
+    payload["left_target_position_m"] = np.tile(
+        [0.0, 0.001, 0.0], (2, 1))
+    np.savez_compressed(trajectory, **payload)
+    summary = json.loads(summary_path.read_text(encoding="utf-8"))
+    record = summary["artifacts"]["trajectory_npz"]
+    record["sha256"] = _sha(trajectory)
+    record["size_bytes"] = trajectory.stat().st_size
+    summary_path.write_text(json.dumps(summary), encoding="utf-8")
+
+    with pytest.raises(
+            ValueError, match="calibrated TCP translation evidence"):
+        validate_task_bundle(
+            summary_path, family="8-11/Seal_Bag", take="161504",
+            frames=2, decode_video=False)
+
+
 def test_validator_rejects_tampered_trajectory(tmp_path):
     summary = _bundle(tmp_path)
     trajectory = next(tmp_path.glob("*.trajectory.npz"))
