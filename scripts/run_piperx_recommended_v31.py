@@ -29,7 +29,11 @@ from factory_bimanual.scene_builder import build_same_model_scene
 from factory_bimanual.source_data import load_factory_task
 from factory_bimanual.task_family import TaskFamily
 from factory_bimanual.tool_frame_calibration import CalibrationArtifact
-from factory_bimanual.tool_frame_calibration import apply_fixed_tool_rotation
+from factory_bimanual.tool_frame_calibration import (
+    apply_bounded_wrist_adaptation,
+    apply_fixed_tool_rotation,
+    apply_fixed_tool_translation,
+)
 from factory_bimanual.trajectory_conditioning import (
     ConditioningAudit,
     bounded_savgol_se3,
@@ -270,12 +274,30 @@ def smooth_follow_targets(task, mapped_quaternions):
 
 
 def condition_complete_follow_targets(
-        task, tool_offsets, *, apply_conditioning=True):
+        task, tool_offsets, *, tool_translations=None,
+        wrist_adaptation=None, apply_conditioning=True):
     """Apply a fixed R_tool and optionally the report's SE(3) conditioning."""
     values = task.__dict__.copy()
+    translations = tool_translations or {
+        side: (0.0, 0.0, 0.0) for side in ("left", "right")}
+    wrist_angle_deg = {
+        side: np.zeros(len(task.time_s), dtype=float)
+        for side in ("left", "right")
+    }
     for side in ("left", "right"):
-        values[f"{side}_quaternion_wxyz"] = apply_fixed_tool_rotation(
-            getattr(task, f"{side}_quaternion_wxyz"), tool_offsets[side])
+        source_quaternion = getattr(task, f"{side}_quaternion_wxyz")
+        values[f"{side}_position_m"] = apply_fixed_tool_translation(
+            getattr(task, f"{side}_position_m"),
+            source_quaternion,
+            translations[side],
+        )
+        mapped = apply_fixed_tool_rotation(
+            source_quaternion, tool_offsets[side])
+        if wrist_adaptation is not None and wrist_adaptation.side == side:
+            mapped, wrist_angle_deg[side] = apply_bounded_wrist_adaptation(
+                mapped, task.time_s, wrist_adaptation)
+        values[f"{side}_quaternion_wxyz"] = mapped
+        values[f"{side}_wrist_adaptation_angle_deg"] = wrist_angle_deg[side]
     mapped_task = SimpleNamespace(**values)
     if not apply_conditioning:
         mapped = {
@@ -429,6 +451,8 @@ def build_complete_summary(
     execution_frames,
     duration_s,
     tool_offsets,
+    tool_translations,
+    wrist_adaptation,
     conditioning_audit,
     maximum_candidates_per_side,
 ):
@@ -455,10 +479,12 @@ def build_complete_summary(
             "frames_60hz": int(source_frames),
             "duration_s": float(duration_s),
             "target_basis": (
-                "registered_resampled_raw"
+                "registered_resampled_calibrated_tcp"
                 if conditioning_audit.window == 0 else
-                "registered_resampled_conditioned"
+                "registered_resampled_calibrated_tcp_conditioned"
             ),
+            "raw_hand_trace_preserved": True,
+            "tracking_reference": "task-level calibrated PiperX TCP",
         },
         "mount": mount.as_scene_mount(),
         "tool_frame": {
@@ -467,6 +493,15 @@ def build_complete_summary(
                 tool_offsets["left"], dtype=float).tolist(),
             "right_offset_quaternion_wxyz": np.asarray(
                 tool_offsets["right"], dtype=float).tolist(),
+            "translation_coordinate_frame": "registered source-hand local",
+            "left_translation_m": np.asarray(
+                tool_translations["left"], dtype=float).tolist(),
+            "right_translation_m": np.asarray(
+                tool_translations["right"], dtype=float).tolist(),
+            "wrist_adaptation": (
+                None if wrist_adaptation is None else asdict(wrist_adaptation)
+            ),
+            "tracking_error_reference": "calibrated TCP target",
         },
         "acceptance": {
             "position_tolerance_mm": (
@@ -661,6 +696,7 @@ def run(options):
         resample_task_60hz(task, rate_hz=options.rate_hz),
         options.max_frames,
     )
+    registered_task = task
     configured_mount = world_mount_for_family(
         config, family,
         registration.rotation_world_from_vr,
@@ -689,6 +725,11 @@ def run(options):
     task, mapped_quaternions, conditioning_audit = (
         condition_complete_follow_targets(
             task, tool_offsets,
+            tool_translations={
+                "left": mount_spec.left_tool_translation_m,
+                "right": mount_spec.right_tool_translation_m,
+            },
+            wrist_adaptation=mount_spec.wrist_adaptation,
             apply_conditioning=options.condition_targets,
         ))
     runner = CompleteFollowRunner(
@@ -705,6 +746,11 @@ def run(options):
         execution_frames=len(result.execution_time_s),
         duration_s=float(task.time_s[-1] - task.time_s[0]),
         tool_offsets=tool_offsets,
+        tool_translations={
+            "left": mount_spec.left_tool_translation_m,
+            "right": mount_spec.right_tool_translation_m,
+        },
+        wrist_adaptation=mount_spec.wrist_adaptation,
         conditioning_audit=conditioning_audit,
         maximum_candidates_per_side=options.maximum_candidates,
     )
@@ -736,6 +782,14 @@ def run(options):
         right_target_position_m=task.right_position_m,
         left_target_quaternion_wxyz=mapped_quaternions["left"],
         right_target_quaternion_wxyz=mapped_quaternions["right"],
+        raw_left_hand_position_m=registered_task.left_position_m,
+        raw_right_hand_position_m=registered_task.right_position_m,
+        raw_left_hand_quaternion_wxyz=registered_task.left_quaternion_wxyz,
+        raw_right_hand_quaternion_wxyz=registered_task.right_quaternion_wxyz,
+        left_wrist_adaptation_angle_deg=(
+            task.left_wrist_adaptation_angle_deg),
+        right_wrist_adaptation_angle_deg=(
+            task.right_wrist_adaptation_angle_deg),
         left_actual_tcp=result.actual_tcp["left"],
         right_actual_tcp=result.actual_tcp["right"],
         left_position_error_m=result.position_error_m["left"],

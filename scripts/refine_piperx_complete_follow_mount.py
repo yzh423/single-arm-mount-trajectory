@@ -83,7 +83,14 @@ def run():
         "left": spec.left_tool_offset_quaternion_wxyz,
         "right": spec.right_tool_offset_quaternion_wxyz,
     }
-    task, mapped, _ = condition_complete_follow_targets(source, offsets)
+    task, mapped, _ = condition_complete_follow_targets(
+        source, offsets,
+        tool_translations={
+            "left": spec.left_tool_translation_m,
+            "right": spec.right_tool_translation_m,
+        },
+        wrist_adaptation=spec.wrist_adaptation,
+    )
     mount = world_mount_for_family(
         config,
         family,

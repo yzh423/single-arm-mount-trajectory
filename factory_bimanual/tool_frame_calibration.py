@@ -78,6 +78,50 @@ def apply_fixed_tool_rotation(source_quaternions_wxyz,
     return _normalize_quaternions(mapped)
 
 
+def apply_fixed_tool_translation(
+        source_positions_m, source_quaternions_wxyz, translation_m):
+    """Apply one constant source-hand-frame translation to every position."""
+    positions = np.asarray(source_positions_m, dtype=float)
+    source = _normalize_quaternions(source_quaternions_wxyz)
+    translation = np.asarray(translation_m, dtype=float)
+    if (positions.shape != (len(source), 3)
+            or np.any(~np.isfinite(positions))):
+        raise ValueError("source positions must be finite with shape (frames, 3)")
+    if translation.shape != (3,) or np.any(~np.isfinite(translation)):
+        raise ValueError("tool translation must contain three finite coordinates")
+    rotations = Rotation.from_quat(source[:, [1, 2, 3, 0]]).as_matrix()
+    return positions + np.einsum("nij,j->ni", rotations, translation)
+
+
+def apply_bounded_wrist_adaptation(
+        source_quaternions_wxyz, time_s, spec):
+    """Apply a held local-axis wrist offset and linearly return it to zero."""
+    source = _normalize_quaternions(source_quaternions_wxyz)
+    time = np.asarray(time_s, dtype=float)
+    if (time.shape != (len(source),) or np.any(~np.isfinite(time))
+            or np.any(np.diff(time) <= 0.0)):
+        raise ValueError("wrist adaptation time must be finite and increasing")
+    axis = str(spec.axis)
+    if axis not in {"x", "y", "z"}:
+        raise ValueError("wrist adaptation axis must be x, y or z")
+    angle = float(spec.angle_deg)
+    hold = float(spec.hold_until_s)
+    end = float(spec.return_until_s)
+    if (not np.isfinite([angle, hold, end]).all()
+            or abs(angle) > LOCAL_REFINEMENT_LIMIT_DEG + 1e-12
+            or hold < float(time[0]) or end <= hold):
+        raise ValueError("wrist adaptation bounds are invalid")
+    angle_deg = np.zeros(len(time), dtype=float)
+    angle_deg[time <= hold] = angle
+    returning = (time > hold) & (time < end)
+    angle_deg[returning] = angle * (end - time[returning]) / (end - hold)
+    base = Rotation.from_quat(source[:, [1, 2, 3, 0]])
+    delta = Rotation.from_euler(axis, angle_deg, degrees=True)
+    mapped_xyzw = (base * delta).as_quat()
+    mapped = mapped_xyzw[:, [3, 0, 1, 2]]
+    return _normalize_quaternions(mapped), angle_deg
+
+
 def validate_local_refinement_deg(xyz_deg):
     values = np.asarray(xyz_deg, dtype=float)
     if values.shape != (3,) or np.any(~np.isfinite(values)):
@@ -202,6 +246,8 @@ __all__ = [
     "CALIBRATION_TASKS",
     "CalibrationArtifact",
     "LOCAL_REFINEMENT_LIMIT_DEG",
+    "apply_bounded_wrist_adaptation",
+    "apply_fixed_tool_translation",
     "apply_fixed_tool_rotation",
     "fixed_offset_quaternion",
     "proper_axis_rotations",

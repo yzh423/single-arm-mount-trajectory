@@ -218,7 +218,13 @@ def _load_context(family_text, source_take, rate_hz):
                   calibration.right_offset_quaternion_wxyz),
     }
     task, mapped, _ = condition_complete_follow_targets(
-        task, offsets, apply_conditioning=False)
+        task, offsets,
+        tool_translations={
+            "left": spec.left_tool_translation_m,
+            "right": spec.right_tool_translation_m,
+        },
+        wrist_adaptation=spec.wrist_adaptation,
+        apply_conditioning=False)
     return config, configured, task, mapped
 
 

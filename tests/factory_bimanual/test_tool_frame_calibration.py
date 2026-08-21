@@ -3,6 +3,7 @@ from types import SimpleNamespace
 
 import numpy as np
 import pytest
+from scipy.spatial.transform import Rotation
 
 from factory_bimanual.tool_frame_calibration import (
     CalibrationArtifact,
@@ -14,6 +15,7 @@ from factory_bimanual.tool_frame_calibration import (
     validate_local_refinement_deg,
 )
 import scripts.render_factory_dual_xarm6_se3_follow as follower
+import factory_bimanual.tool_frame_calibration as tool_frame
 
 
 def _quat_z(degrees):
@@ -47,6 +49,39 @@ def test_fixed_tool_rotation_preserves_relative_rotation_without_frame_zero_anch
     mapped_step = 2.0 * np.arccos(np.clip(abs(np.dot(
         mapped_a[1], mapped_a[2])), 0.0, 1.0))
     assert mapped_step == pytest.approx(source_step)
+
+
+def test_fixed_tool_translation_rotates_one_constant_local_offset_per_frame():
+    positions = np.zeros((2, 3), dtype=float)
+    source = np.asarray([_quat_z(0.0), _quat_z(90.0)])
+
+    mapped = tool_frame.apply_fixed_tool_translation(
+        positions, source, [1.0, 0.0, 0.0])
+
+    np.testing.assert_allclose(
+        mapped, [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0]], atol=1e-12)
+    np.testing.assert_array_equal(
+        tool_frame.apply_fixed_tool_translation(
+            positions, source, [0.0, 0.0, 0.0]),
+        positions,
+    )
+
+
+def test_bounded_wrist_adaptation_holds_then_returns_to_zero():
+    source = np.repeat(_quat_z(0.0)[None], 4, axis=0)
+    time_s = np.asarray([0.0, 0.5, 1.0, 1.5])
+    spec = SimpleNamespace(
+        axis="x", angle_deg=-10.0,
+        hold_until_s=0.5, return_until_s=1.5,
+    )
+
+    mapped, angle_deg = tool_frame.apply_bounded_wrist_adaptation(
+        source, time_s, spec)
+
+    np.testing.assert_allclose(angle_deg, [-10.0, -10.0, -5.0, 0.0])
+    relative = Rotation.from_quat(mapped[:, [1, 2, 3, 0]]).as_euler(
+        "xyz", degrees=True)
+    np.testing.assert_allclose(relative[:, 0], angle_deg, atol=1e-12)
 
 
 def test_local_refinement_is_limited_to_fifteen_degrees_per_axis():

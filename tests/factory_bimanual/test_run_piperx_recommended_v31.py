@@ -9,6 +9,7 @@ from scripts.run_piperx_recommended_v31 import (
     _resolve_tool_offsets,
     build_summary,
     candidate_rank_key,
+    condition_complete_follow_targets,
     parse_args,
     resample_task_60hz,
     scene_mount_kwargs,
@@ -233,3 +234,32 @@ def test_cli_tool_offsets_override_shared_calibration_per_task():
         "right": (0.0, 1.0, 0.0, 0.0),
     }
     assert selection == "explicit CLI task-specific fixed R_tool"
+
+
+def test_complete_follow_conditioning_applies_fixed_translation_and_wrist_schedule():
+    task = _task()
+    identity = (1.0, 0.0, 0.0, 0.0)
+    spec = SimpleNamespace(
+        side="right", axis="x", angle_deg=-10.0,
+        hold_until_s=0.01, return_until_s=0.05,
+    )
+
+    prepared, mapped, audit = condition_complete_follow_targets(
+        task,
+        {"left": identity, "right": identity},
+        tool_translations={
+            "left": (0.01, 0.0, 0.0),
+            "right": (0.0, 0.0, 0.0),
+        },
+        wrist_adaptation=spec,
+        apply_conditioning=False,
+    )
+
+    np.testing.assert_allclose(
+        prepared.left_position_m,
+        task.left_position_m + np.asarray([0.01, 0.0, 0.0]),
+    )
+    np.testing.assert_array_equal(prepared.right_position_m, task.right_position_m)
+    assert audit.window == 0
+    assert not np.allclose(mapped["right"][0], task.right_quaternion_wxyz[0])
+    np.testing.assert_allclose(mapped["right"][-1], task.right_quaternion_wxyz[-1])

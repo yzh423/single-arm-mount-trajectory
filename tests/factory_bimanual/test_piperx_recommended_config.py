@@ -112,8 +112,24 @@ def test_strict_thresholds_and_funnel_are_not_relaxed():
     assert fold_box.tool_offset_selection == (
         "continuous strict representative-pose feasibility probes "
         "(left SLERP 0.40, right SLERP 0.70 toward the secondary "
-        "feasible wrist branch)"
+        "feasible wrist branch); fixed SE(3) hand-to-TCP translation and "
+        "bounded opening wrist return remove state and swept collisions"
     )
+    np.testing.assert_allclose(
+        fold_box.left_tool_translation_m,
+        [-0.01399595, 0.00244380, -0.02057040],
+        atol=1e-8,
+    )
+    np.testing.assert_allclose(
+        fold_box.right_tool_translation_m,
+        [0.00861553, 0.01174536, 0.02031795],
+        atol=1e-8,
+    )
+    assert fold_box.wrist_adaptation.side == "right"
+    assert fold_box.wrist_adaptation.axis == "x"
+    assert fold_box.wrist_adaptation.angle_deg == -12.5
+    assert fold_box.wrist_adaptation.hold_until_s == pytest.approx(22 / 60)
+    assert fold_box.wrist_adaptation.return_until_s == 1.0
 
     seal_bag = config.mounts["8-11/Seal_Bag"]
     assert seal_bag.mode == "upright_table"
@@ -124,6 +140,17 @@ def test_strict_thresholds_and_funnel_are_not_relaxed():
         np.linalg.norm(seal_bag.left_tool_offset_quaternion_wxyz), 1.0)
     assert np.isclose(
         np.linalg.norm(seal_bag.right_tool_offset_quaternion_wxyz), 1.0)
+    np.testing.assert_allclose(
+        seal_bag.left_tool_translation_m,
+        [-0.00347928, 0.00355632, 0.00867452],
+        atol=1e-8,
+    )
+    np.testing.assert_allclose(
+        seal_bag.right_tool_translation_m,
+        [0.00188397, -0.00019278, -0.00981904],
+        atol=1e-8,
+    )
+    assert seal_bag.wrist_adaptation is None
 
 
 def test_seal_bag_optimized_world_mount_is_not_registered_twice():

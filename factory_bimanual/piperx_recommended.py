@@ -59,6 +59,15 @@ class MountFunnelConfig:
 
 
 @dataclass(frozen=True)
+class WristAdaptationSpec:
+    side: str
+    axis: str
+    angle_deg: float
+    hold_until_s: float
+    return_until_s: float
+
+
+@dataclass(frozen=True)
 class RecommendedMountSpec:
     morphology: str
     mode: str
@@ -67,6 +76,9 @@ class RecommendedMountSpec:
     source_take: str
     left_tool_offset_quaternion_wxyz: tuple[float, float, float, float] | None
     right_tool_offset_quaternion_wxyz: tuple[float, float, float, float] | None
+    left_tool_translation_m: tuple[float, float, float]
+    right_tool_translation_m: tuple[float, float, float]
+    wrist_adaptation: WristAdaptationSpec | None
     tool_offset_selection: str | None
     left_yaw_deg: float
     right_yaw_deg: float
@@ -169,6 +181,23 @@ def _optional_quaternion(value, name: str):
     return tuple(float(item) for item in array)
 
 
+def _optional_wrist_adaptation(value, name: str):
+    if value is None:
+        return None
+    side = str(value["side"])
+    axis = str(value["axis"])
+    angle = _finite(value["angle_deg"], f"{name} angle")
+    hold = _finite(value["hold_until_s"], f"{name} hold")
+    end = _finite(value["return_until_s"], f"{name} return")
+    if side not in {"left", "right"}:
+        raise ValueError(f"{name} side must be left or right")
+    if axis not in {"x", "y", "z"}:
+        raise ValueError(f"{name} axis must be x, y or z")
+    if abs(angle) > 15.0 + 1e-12 or hold < 0.0 or end <= hold:
+        raise ValueError(f"{name} timing or angle is invalid")
+    return WristAdaptationSpec(side, axis, angle, hold, end)
+
+
 def load_recommended_config(path: Path = DEFAULT_CONFIG_PATH) -> PiperXRecommendedConfig:
     payload = json.loads(Path(path).read_text(encoding="utf-8"))
     if payload.get("schema") != "piperx-recommended-v3.1":
@@ -238,6 +267,18 @@ def load_recommended_config(path: Path = DEFAULT_CONFIG_PATH) -> PiperXRecommend
             right_tool_offset_quaternion_wxyz=_optional_quaternion(
                 record.get("right_tool_offset_quaternion_wxyz"),
                 f"{key} right tool offset",
+            ),
+            left_tool_translation_m=_xyz(
+                record.get("left_tool_translation_m", [0.0, 0.0, 0.0]),
+                f"{key} left tool translation",
+            ),
+            right_tool_translation_m=_xyz(
+                record.get("right_tool_translation_m", [0.0, 0.0, 0.0]),
+                f"{key} right tool translation",
+            ),
+            wrist_adaptation=_optional_wrist_adaptation(
+                record.get("wrist_adaptation"),
+                f"{key} wrist adaptation",
             ),
             tool_offset_selection=(
                 None if record.get("tool_offset_selection") is None
