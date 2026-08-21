@@ -14,27 +14,27 @@
       "pose_coverage": 1.0,
       "fixed_time_frames": 1,
       "fixed_time_coverage": 0.000942507068803016,
-      "collision_frames": 71,
-      "collision_free_coverage": 0.9330819981149858,
+      "collision_frames": 0,
+      "collision_free_coverage": 1.0,
       "source_duration_s": 17.656955542,
-      "execution_duration_s": 74.28511266053482,
-      "cycle_delay_s": 56.62815711853482,
-      "maximum_velocity_rad_s": 1.000000000000047,
-      "maximum_acceleration_rad_s2": 4.000000000001243,
-      "left_max_position_mm": 0.9998883027376858,
-      "right_max_position_mm": 0.9999113872403158,
-      "left_max_orientation_deg": 0.4972299018281761,
-      "right_max_orientation_deg": 0.49584575399266334,
-      "video_frames": 2230,
+      "execution_duration_s": 73.95062304803918,
+      "cycle_delay_s": 56.29366750603918,
+      "maximum_velocity_rad_s": 1.0000000000000475,
+      "maximum_acceleration_rad_s2": 4.000000000001643,
+      "left_max_position_mm": 0.9996044407802409,
+      "right_max_position_mm": 0.9998653302672414,
+      "left_max_orientation_deg": 0.4924600615907329,
+      "right_max_orientation_deg": 0.4953870605193406,
+      "video_frames": 2220,
       "video_fps": 30.0,
-      "video_duration_s": 74.3,
+      "video_duration_s": 73.96666666666667,
       "summary": "reports/piperx_two_task_complete_follow/fold_box/8-11_Fold_Box_161044_complete_follow.summary.json",
-      "summary_sha256": "7cfaa2042d7339be831fe2bd3d24367c96928cbd0c9e28fd31ed6d2a43aa3e72",
+      "summary_sha256": "601346a0f28f30a7f6ff3fbf6b5d339a24434fc12a2fa4e3ceddb0a56fda7efe",
       "artifacts": {
         "trajectory_npz": {
           "path": "reports/piperx_two_task_complete_follow/fold_box/8-11_Fold_Box_161044_complete_follow.trajectory.npz",
-          "sha256": "c77a1f1a0ba70dbb0c18ff5f37aaa673f5f89ea218f05f2a49af0c8e983875f7",
-          "size_bytes": 606376
+          "sha256": "4a28c928886eced38ddeb4bf63bcce47db7e848710e3158cc564efe35be3c96d",
+          "size_bytes": 718449
         },
         "scene_xml": {
           "path": "reports/piperx_two_task_complete_follow/fold_box/8-11_Fold_Box_161044_complete_follow.scene.xml",
@@ -43,13 +43,13 @@
         },
         "video_mp4": {
           "path": "reports/piperx_two_task_complete_follow/fold_box/8-11_Fold_Box_161044_complete_follow.mp4",
-          "sha256": "29c37ad052a36eb6ca1dd1145b6b8c200bb3423d09d9b7224337538e768be508",
-          "size_bytes": 13038401
+          "sha256": "61085315a5c84bf8db2aa0d163461860f43911b91e9796307b4714deb79bbe62",
+          "size_bytes": 13122690
         },
         "video_provenance_json": {
           "path": "reports/piperx_two_task_complete_follow/fold_box/8-11_Fold_Box_161044_complete_follow.provenance.json",
-          "sha256": "6d1d66c2257b35df6b4bfe4664450a9910ff316cefe5bd174a9dba108f7237d3",
-          "size_bytes": 2386964
+          "sha256": "bc548a6aa73a62ffd9cf3802f9d34e64355c7dbc5fa24af3206a2db185e7ae88",
+          "size_bytes": 2370318
         }
       }
     },
@@ -62,27 +62,27 @@
       "pose_coverage": 1.0,
       "fixed_time_frames": 1,
       "fixed_time_coverage": 0.0005691519635742744,
-      "collision_frames": 17,
-      "collision_free_coverage": 0.9903244166192373,
+      "collision_frames": 0,
+      "collision_free_coverage": 1.0,
       "source_duration_s": 29.261361125,
-      "execution_duration_s": 100.63257243597134,
-      "cycle_delay_s": 71.37121131097135,
-      "maximum_velocity_rad_s": 1.000000000000042,
-      "maximum_acceleration_rad_s2": 4.000000000000869,
-      "left_max_position_mm": 0.9999677299452707,
-      "right_max_position_mm": 0.9999740220458779,
-      "left_max_orientation_deg": 0.49880442389887164,
-      "right_max_orientation_deg": 0.4928648903942305,
-      "video_frames": 3020,
+      "execution_duration_s": 100.71160200801323,
+      "cycle_delay_s": 71.45024088301324,
+      "maximum_velocity_rad_s": 1.0000000000001532,
+      "maximum_acceleration_rad_s2": 4.000000000000061,
+      "left_max_position_mm": 0.9999648757223635,
+      "right_max_position_mm": 0.9999798590463714,
+      "left_max_orientation_deg": 0.4999716106943831,
+      "right_max_orientation_deg": 0.4944662313068553,
+      "video_frames": 3022,
       "video_fps": 30.0,
-      "video_duration_s": 100.63333333333334,
+      "video_duration_s": 100.7,
       "summary": "reports/piperx_two_task_complete_follow/seal_bag/8-11_Seal_Bag_161504_complete_follow.summary.json",
-      "summary_sha256": "fbabc718b6640e32650c1155ba98cf816edd6011f783e0a7569208107314c53e",
+      "summary_sha256": "0b6487af442bce657cd3e3fc735fc1d5f4a0511e6a5f67271037c765af6c1d43",
       "artifacts": {
         "trajectory_npz": {
           "path": "reports/piperx_two_task_complete_follow/seal_bag/8-11_Seal_Bag_161504_complete_follow.trajectory.npz",
-          "sha256": "0ce3891d70175c24184bd80f5abdd41ef70c92a20d435cd3b27fb66ab1521b30",
-          "size_bytes": 1001263
+          "sha256": "d96f48f45d900b8a39c1f3c52435c7e20556c7e6440856f86a37f5a826f1b05c",
+          "size_bytes": 1185777
         },
         "scene_xml": {
           "path": "reports/piperx_two_task_complete_follow/seal_bag/8-11_Seal_Bag_161504_complete_follow.scene.xml",
@@ -91,19 +91,19 @@
         },
         "video_mp4": {
           "path": "reports/piperx_two_task_complete_follow/seal_bag/8-11_Seal_Bag_161504_complete_follow.mp4",
-          "sha256": "e530121b2b47508f293a10a05bc498ed7c44880e3b69a33e4dc1560b9e3a8084",
-          "size_bytes": 16744547
+          "sha256": "a9310d0260b76232a2ac89f1c4b84b585e0eaa64cb35899d4de8a502f5eedcde",
+          "size_bytes": 16980374
         },
         "video_provenance_json": {
           "path": "reports/piperx_two_task_complete_follow/seal_bag/8-11_Seal_Bag_161504_complete_follow.provenance.json",
-          "sha256": "87d275492587abc377dd477c706449cb5875b8f9df4f3ca45d1aef96ee50a68f",
-          "size_bytes": 3400541
+          "sha256": "c60f055fae2a0239e4f402d2c72e4cd759a122a11601cea5cf2c58aa53b7f9a7",
+          "size_bytes": 3400883
         }
       }
     }
   ],
   "interpretation": {
-    "complete_follow": "all registered raw 60 Hz poses reached after lossless retiming",
+    "complete_follow": "all calibrated TCP targets derived from the registered raw 60 Hz hand trace are reached after lossless retiming",
     "fixed_time": "same poses under original source timestamps",
     "collision": "independent MuJoCo state and swept incoming-edge audit; not a hardware safety approval"
   }

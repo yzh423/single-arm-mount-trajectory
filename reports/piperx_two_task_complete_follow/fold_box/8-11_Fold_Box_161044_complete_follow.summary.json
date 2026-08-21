@@ -5,7 +5,9 @@
     "path": "E:\\YZH123123\\single-arm-mount\\data\\factory\\8-11\\Fold_Box\\handheld_20260811_161044.csv",
     "frames_60hz": 1061,
     "duration_s": 17.656955542,
-    "target_basis": "registered_resampled_raw",
+    "target_basis": "registered_resampled_calibrated_tcp",
+    "raw_hand_trace_preserved": true,
+    "tracking_reference": "task-level calibrated PiperX TCP",
     "sha256": "98ac81447effe2d447058c952990d46d4f11d2f1fefade41bcbd8e8df4ae782d"
   },
   "mount": {
@@ -56,7 +58,26 @@
       -0.23581314832726274,
       0.08106386761112261
     ],
-    "selection": "continuous strict representative-pose feasibility probes (left SLERP 0.40, right SLERP 0.70 toward the secondary feasible wrist branch)"
+    "translation_coordinate_frame": "registered source-hand local",
+    "left_translation_m": [
+      -0.01399595,
+      0.0024438,
+      -0.0205704
+    ],
+    "right_translation_m": [
+      0.00861553,
+      0.01174536,
+      0.02031795
+    ],
+    "wrist_adaptation": {
+      "side": "right",
+      "axis": "x",
+      "angle_deg": -12.5,
+      "hold_until_s": 0.36666666666666664,
+      "return_until_s": 1.0
+    },
+    "tracking_error_reference": "calibrated TCP target",
+    "selection": "continuous strict representative-pose feasibility probes (left SLERP 0.40, right SLERP 0.70 toward the secondary feasible wrist branch); fixed SE(3) hand-to-TCP translation and bounded opening wrist return remove state and swept collisions"
   },
   "acceptance": {
     "position_tolerance_mm": 1.0,
@@ -67,7 +88,7 @@
     "anchor_restarts": 40,
     "warm_start_iterations": 200,
     "global_rescue": "failed side only; collision may expand both sides",
-    "maximum_candidates_per_side": 8,
+    "maximum_candidates_per_side": 16,
     "failure_policy": "no source pose dropped; lossless retiming",
     "side_state_machines": "independent until paired collision coordination",
     "target_conditioning": {
@@ -84,17 +105,17 @@
       "position_error_clip_m": 0.05,
       "orientation_error_clip_rad": 0.3
     },
-    "execution_frames": 1062,
-    "inserted_transition_frames": 1,
-    "cycle_delay_s": 56.62815711853482,
-    "time_scale": 4.203162870829468,
+    "execution_frames": 1061,
+    "inserted_transition_frames": 0,
+    "cycle_delay_s": 56.29366750603918,
+    "time_scale": 4.188186512229436,
     "retiming_method": "lossless local segment stretching with explicit branch transitions",
-    "retimed_duration_s": 74.28511266053482,
+    "retimed_duration_s": 73.95062304803918,
     "dynamic_limits": {
       "maximum_velocity_rad_s": 1.0,
       "maximum_acceleration_rad_s2": 4.0,
-      "measured_execution_maximum_velocity_rad_s": 1.000000000000047,
-      "measured_execution_maximum_acceleration_rad_s2": 4.000000000001243
+      "measured_execution_maximum_velocity_rad_s": 1.0000000000000475,
+      "measured_execution_maximum_acceleration_rad_s2": 4.000000000001643
     }
   },
   "metrics": {
@@ -102,42 +123,42 @@
     "complete_source_pose_frames": 1061,
     "fixed_time_synchronous_coverage": 0.000942507068803016,
     "fixed_time_synchronous_frames": 1,
-    "original_time_velocity_edge_coverage": 0.38301886792452833,
-    "original_time_velocity_edges": 406,
-    "original_time_acceleration_knot_coverage": 0.011310084825636193,
-    "original_time_acceleration_knots": 12,
-    "original_time_maximum_velocity_rad_s": 22.67952899766683,
-    "original_time_maximum_acceleration_rad_s2": 2175.658795565766,
-    "retimed_execution_dynamic_limits_passed": false,
+    "original_time_velocity_edge_coverage": 0.37358490566037733,
+    "original_time_velocity_edges": 396,
+    "original_time_acceleration_knot_coverage": 0.007540056550424128,
+    "original_time_acceleration_knots": 8,
+    "original_time_maximum_velocity_rad_s": 13.924314867807684,
+    "original_time_maximum_acceleration_rad_s2": 799.1240606574721,
+    "retimed_execution_dynamic_limits_passed": true,
     "unreached_source_pose_frames": 0,
-    "collision_frames": 71,
-    "collision_free_strict_coverage": 0.9330819981149858,
-    "execution_collision_frames": 72,
+    "collision_frames": 0,
+    "collision_free_strict_coverage": 1.0,
+    "execution_collision_frames": 0,
     "global_rescue_frames": {
-      "left": 73,
-      "right": 73
+      "left": 1,
+      "right": 1
     },
     "left_position_error_mm": {
-      "mean": 0.8347280080824108,
-      "max": 0.9998883027376858
+      "mean": 0.8338589861385676,
+      "max": 0.9996044407802409
     },
     "right_position_error_mm": {
-      "mean": 0.8608828705594208,
-      "max": 0.9999113872403158
+      "mean": 0.8584493224920267,
+      "max": 0.9998653302672414
     },
     "left_orientation_error_deg": {
-      "mean": 0.06171883724528372,
-      "max": 0.4972299018281761
+      "mean": 0.06085509398079661,
+      "max": 0.4924600615907329
     },
     "right_orientation_error_deg": {
-      "mean": 0.04030676116988097,
-      "max": 0.49584575399266334
+      "mean": 0.03761806464432031,
+      "max": 0.4953870605193406
     },
     "reached_only": {
-      "left_max_position_mm": 0.9998883027376858,
-      "right_max_position_mm": 0.9999113872403158,
-      "left_max_orientation_deg": 0.4972299018281761,
-      "right_max_orientation_deg": 0.49584575399266334
+      "left_max_position_mm": 0.9996044407802409,
+      "right_max_position_mm": 0.9998653302672414,
+      "left_max_orientation_deg": 0.4924600615907329,
+      "right_max_orientation_deg": 0.4953870605193406
     }
   },
   "scene_manifest": {
@@ -176,9 +197,9 @@
   "video": {
     "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_two_task_complete_follow\\fold_box\\8-11_Fold_Box_161044_complete_follow.mp4",
     "decode_check": {
-      "frame_count": 2230,
+      "frame_count": 2220,
       "fps": 30.0,
-      "duration_s": 74.3,
+      "duration_s": 73.96666666666667,
       "width": 1280,
       "height": 720
     },
@@ -194,8 +215,8 @@
   "artifacts": {
     "trajectory_npz": {
       "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_two_task_complete_follow\\fold_box\\8-11_Fold_Box_161044_complete_follow.trajectory.npz",
-      "sha256": "c77a1f1a0ba70dbb0c18ff5f37aaa673f5f89ea218f05f2a49af0c8e983875f7",
-      "size_bytes": 606376
+      "sha256": "4a28c928886eced38ddeb4bf63bcce47db7e848710e3158cc564efe35be3c96d",
+      "size_bytes": 718449
     },
     "scene_xml": {
       "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_two_task_complete_follow\\fold_box\\8-11_Fold_Box_161044_complete_follow.scene.xml",
@@ -204,13 +225,13 @@
     },
     "video_mp4": {
       "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_two_task_complete_follow\\fold_box\\8-11_Fold_Box_161044_complete_follow.mp4",
-      "sha256": "29c37ad052a36eb6ca1dd1145b6b8c200bb3423d09d9b7224337538e768be508",
-      "size_bytes": 13038401
+      "sha256": "61085315a5c84bf8db2aa0d163461860f43911b91e9796307b4714deb79bbe62",
+      "size_bytes": 13122690
     },
     "video_provenance_json": {
       "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_two_task_complete_follow\\fold_box\\8-11_Fold_Box_161044_complete_follow.provenance.json",
-      "sha256": "6d1d66c2257b35df6b4bfe4664450a9910ff316cefe5bd174a9dba108f7237d3",
-      "size_bytes": 2386964
+      "sha256": "bc548a6aa73a62ffd9cf3802f9d34e64355c7dbc5fa24af3206a2db185e7ae88",
+      "size_bytes": 2370318
     }
   }
 }

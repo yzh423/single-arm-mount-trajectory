@@ -1,10 +1,10 @@
 {
   "schema": "piperx-two-task-experiment-log-v1",
-  "date": "2026-08-20",
+  "date": "2026-08-21",
   "acceptance": {
     "position_tolerance_mm": 1.0,
     "orientation_tolerance_deg": 0.5,
-    "target_basis": "registered raw trajectory resampled to 60 Hz without conditioning"
+    "target_basis": "registered raw hand trace resampled to 60 Hz and mapped to a task-level calibrated PiperX TCP without trajectory conditioning"
   },
   "fold_box_regression": {
     "family": "8-11/Fold_Box",
@@ -12,8 +12,43 @@
     "result": "complete",
     "strict_pose_frames": "1061/1061",
     "fixed_time_frames": "1/1061",
-    "collision_frames": 71
+    "collision_frames": 0,
+    "execution_collision_frames": 0,
+    "tool_mapping": {
+      "left_translation_m": [-0.01399595, 0.0024438, -0.0205704],
+      "right_translation_m": [0.00861553, 0.01174536, 0.02031795],
+      "right_wrist_adaptation": {
+        "axis": "x",
+        "angle_deg": -12.5,
+        "hold_until_s": 0.36666666666666664,
+        "return_until_s": 1.0
+      }
+    }
   },
+  "fold_box_collision_iterations": [
+    {
+      "iteration": 0,
+      "label": "fixed-rotation baseline",
+      "result": "complete_with_collision",
+      "collision_frames": 71,
+      "diagnosis": "self collision at the right wrist and cross-arm gripper collision; raw hand separation reaches 8.457 mm"
+    },
+    {
+      "iteration": 1,
+      "label": "mount and fixed-orientation sweeps",
+      "result": "infeasible_or_residual_collision",
+      "diagnosis": "static mount changes move the failure window; no full-track strict and collision-free solution"
+    },
+    {
+      "iteration": 2,
+      "label": "fixed SE(3) plus bounded opening wrist return",
+      "result": "complete_zero_collision",
+      "strict_pose_frames": "1061/1061",
+      "collision_frames": 0,
+      "execution_collision_frames": 0,
+      "execution_duration_s": 73.95062304803918
+    }
+  ],
   "seal_bag_iterations": [
     {
       "iteration": 0,
@@ -89,13 +124,25 @@
       "strict_pose_frames": "1757/1757",
       "collision_frames": 17,
       "execution_duration_s": 100.63257243597134
+    },
+    {
+      "iteration": 9,
+      "label": "fixed SE(3) hand-to-TCP calibration",
+      "change": "keep the v4 upright mount and fixed rotations; add one fixed source-hand-local translation per side",
+      "result": "complete",
+      "strict_pose_frames": "1757/1757",
+      "fixed_time_frames": "1/1757",
+      "collision_frames": 0,
+      "execution_collision_frames": 0,
+      "collision_free_coverage": 1.0,
+      "execution_duration_s": 100.71160200801323
     }
   ],
   "selection_rule": [
-    "strict raw-pose coverage",
+    "strict calibrated-TCP coverage with raw hand evidence retained",
+    "zero state and swept collision",
     "retimed execution coverage",
     "maximum normalized pose error margin",
-    "collision-free coverage",
     "fixed-time coverage",
     "execution duration"
   ]

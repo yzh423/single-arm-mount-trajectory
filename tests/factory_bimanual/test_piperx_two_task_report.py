@@ -43,7 +43,7 @@ def _manifest():
     }
 
 
-def test_report_loader_requires_two_complete_raw_pose_tasks(tmp_path):
+def test_report_loader_requires_two_complete_calibrated_tcp_tasks(tmp_path):
     path = tmp_path / "manifest.json"
     path.write_text(json.dumps(_manifest()), encoding="utf-8")
 
@@ -58,5 +58,16 @@ def test_report_loader_rejects_non_complete_pose_claim(tmp_path):
     path = tmp_path / "manifest.json"
     path.write_text(json.dumps(payload), encoding="utf-8")
 
-    with pytest.raises(ValueError, match="complete raw-pose"):
+    with pytest.raises(ValueError, match="complete calibrated TCP"):
+        load_report_data(path)
+
+
+def test_report_loader_rejects_nonzero_collision_claim(tmp_path):
+    payload = _manifest()
+    payload["tasks"][0]["collision_frames"] = 1
+    payload["tasks"][0]["collision_free_coverage"] = 0.5
+    path = tmp_path / "manifest.json"
+    path.write_text(json.dumps(payload), encoding="utf-8")
+
+    with pytest.raises(ValueError, match="zero-collision"):
         load_report_data(path)

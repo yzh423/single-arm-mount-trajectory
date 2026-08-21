@@ -345,6 +345,10 @@ def _dynamic_limits_passed(measured, limit):
     return bool(float(measured) <= float(limit) + tolerance)
 
 
+def _complete_follow_video_title():
+    return "Dual PiperX - calibrated TCP complete follow (1 mm / 0.5 deg)"
+
+
 def build_summary(
     result,
     *,
@@ -854,7 +858,7 @@ def run(options):
                 camera_azimuth_deg=185.0,
                 camera_elevation_deg=-18.0,
                 camera_distance_scale=1.25,
-                title="Dual PiperX - raw-pose complete follow (1 mm / 0.5 deg)",
+                title=_complete_follow_video_title(),
             ),
         )
         qa_frames = _write_qa_frames(video_path, output_dir)

@@ -61,7 +61,11 @@ def load_report_data(manifest_path):
     for name, record in records.items():
         if (record["pose_frames"] != record["source_frames"] or
                 record["pose_coverage"] != 1.0):
-            raise ValueError(f"{name}: complete raw-pose evidence is absent")
+            raise ValueError(
+                f"{name}: complete calibrated TCP evidence is absent")
+        if (record["collision_frames"] != 0 or
+                record["collision_free_coverage"] != 1.0):
+            raise ValueError(f"{name}: zero-collision evidence is absent")
     return records
 
 
@@ -153,10 +157,10 @@ def _table(data, widths, *, align="CENTER", font_size=7.4):
 def _metric_cards(records, styles):
     seal = records["Seal_Bag"]
     fold = records["Fold_Box"]
-    accepted = fold["strict_accepted_frames"] + seal["strict_accepted_frames"]
-    total = fold["frames"] + seal["frames"]
+    accepted = fold["pose_frames"] + seal["pose_frames"]
+    total = fold["source_frames"] + seal["source_frames"]
     cards = [
-        (f"{accepted} / {total}", "两任务严格原始位姿"),
+        (f"{accepted} / {total}", "两任务严格标定 TCP"),
         ("100% / 100%", "重定时后完整执行"),
         (f"{100*fold['collision_free_coverage']:.2f}%",
          "Fold_Box 无碰撞覆盖"),
@@ -198,7 +202,9 @@ def _make_figures(records, experiment, output_dir):
     ax.set_xticks(x, tasks)
     ax.set_ylim(0, 112)
     ax.set_ylabel("覆盖率 / %")
-    ax.legend(ncol=3, loc="upper center", frameon=False)
+    ax.legend(
+        ncol=3, loc="upper center", bbox_to_anchor=(0.5, 1.16),
+        frameon=False)
     ax.grid(axis="y", alpha=0.2)
     ax.spines[["top", "right"]].set_visible(False)
     fig.tight_layout()
@@ -281,6 +287,8 @@ def build_report(manifest_path, experiment_path, output_path):
     assets = output_path.parent / ".report_assets_two_task"
     coverage_fig, error_fig, timing_fig, iteration_fig = _make_figures(
         records, experiment, assets)
+    fold = records["Fold_Box"]
+    seal = records["Seal_Bag"]
 
     document = SimpleDocTemplate(
         str(output_path), pagesize=A4,
@@ -293,23 +301,23 @@ def build_report(manifest_path, experiment_path, output_path):
     story.extend([
         Spacer(1, 16 * mm),
         _p("PiperX 双任务严格完全跟随实验报告", styles["title"]),
-        _p("Fold_Box 161044 + Seal_Bag 161504 · 1 mm / 0.5° · 原始位姿、重定时、碰撞与真实渲染分层审计", styles["subtitle"]),
+        _p("Fold_Box 161044 + Seal_Bag 161504 · 1 mm / 0.5° · 原始手轨迹、标定 TCP、重定时、碰撞与真实渲染分层审计", styles["subtitle"]),
         Spacer(1, 8 * mm),
         _metric_cards(records, styles),
         Spacer(1, 8 * mm),
         _p("结论先行", styles["h1"]),
         _p(
-            "两个任务合计 2818 个注册后原始 60 Hz 目标位姿全部存在严格双臂 IK 解，并在不删除、不替换目标位姿的受限重定时后全部执行。Seal_Bag 从 PDF 水平前向基线第 0 帧不可达，经过挂载边界诊断与任务级固定 R_tool 优化，达到 1757/1757；Fold_Box 复现 1061/1061。", styles["body"]),
+            "两个任务合计 2818 个注册后 60 Hz 原始手轨迹样本均被保留，并通过任务级 source-hand 到 PiperX TCP 的标定映射生成跟踪目标。Seal_Bag 采用固定 SE(3) 工具映射；Fold_Box 采用固定 SE(3) 映射，并在开头 1 s 内使用最大 12.5° 的右腕受限回正。标定 TCP 目标分别达到 1757/1757 与 1061/1061。", styles["body"]),
         _p(
-            "“完全跟随”不等于“原始时间戳可直接执行”，也不等于“可直接上真机”。两任务在原时间戳下都只有首帧同时满足速度与加速度条件；MuJoCo 碰撞审计仍分别标出 71 和 17 帧。", styles["body"]),
+            "“完全跟随”指严格跟踪标定 TCP 目标，不代表 Fold_Box 开头 1 s 的腕部姿态仍与原始手姿态相差不超过 0.5°。两任务在原时间戳下都只有首帧同时满足速度与加速度条件；受限重定时后，MuJoCo 状态与扫掠入边审计均为零碰撞。零仿真碰撞仍不等于真机许可。", styles["body"]),
         Spacer(1, 4 * mm),
         _table([
             ["任务", "严格位姿", "固定原时序", "重定时", "无碰撞位姿", "视频"],
-            ["Fold_Box", "1061/1061", "1/1061", "74.285 s", "990/1061", "2230 帧"],
-            ["Seal_Bag", "1757/1757", "1/1757", "100.633 s", "1740/1757", "3020 帧"],
+            ["Fold_Box", "1061/1061", "1/1061", f"{fold['execution_duration_s']:.3f} s", "1061/1061", f"{fold['video_frames']} 帧"],
+            ["Seal_Bag", "1757/1757", "1/1757", f"{seal['execution_duration_s']:.3f} s", "1757/1757", f"{seal['video_frames']} 帧"],
         ], [25*mm, 30*mm, 28*mm, 27*mm, 30*mm, 27*mm]),
         Spacer(1, 5 * mm),
-        _p("报告日期：2026-08-20。所有数值由最终 manifest、summary、NPZ 与视频 provenance 重算；视频为 MuJoCo 3.3 官方 PiperX mesh 的执行时间轴离屏渲染。", styles["small"]),
+        _p("报告日期：2026-08-21。所有数值由最终 manifest、summary、NPZ 与视频 provenance 重算；视频为 MuJoCo 3.3 官方 PiperX mesh 的执行时间轴离屏渲染。", styles["small"]),
         PageBreak(),
     ])
 
@@ -318,22 +326,22 @@ def build_report(manifest_path, experiment_path, output_path):
         _p("1.1 四层结论必须分开", styles["h2"]),
         _table([
             ["层级", "回答的问题", "本报告证据"],
-            ["严格 IK", "每个原始目标位姿是否存在 ≤1 mm / ≤0.5° 解？", "目标/实际 TCP 与逐侧误差数组"],
+            ["严格 IK", "每个标定 TCP 目标是否存在 ≤1 mm / ≤0.5° 解？", "目标/实际 TCP 与逐侧误差数组"],
             ["固定原时序", "原始时间戳是否同时满足 1 rad/s、4 rad/s²？", "源路径速度、加速度和 fixed_time_accepted"],
             ["受限重定时", "不改目标和顺序，延长区段后能否执行？", "execution_time、qpos、零速度首尾边界"],
             ["碰撞审计", "结点和结点间入边是否有几何碰撞？", "state_collision + incoming_transition_collision"],
         ], [25*mm, 65*mm, 77*mm], align="LEFT"),
         Spacer(1, 4 * mm),
         _p("1.2 从源数据到视频", styles["h2"]),
-        _p("CSV 原始双手位姿 → 刚性任务注册 → 60 Hz 端点保持重采样 → 固定 R_tool → 多分支严格 IK（warm start、40 次全局重启、翻腕风险排序）→ 双臂碰撞协调 → 无损重定时 → MuJoCo 执行时间轴渲染 → NPZ/JSON/MP4 SHA-256 manifest。", styles["body"]),
-        _p("本次主结果禁用 3 mm / 1°可选轨迹 conditioning，因此报告中的 100% 是 registered_resampled_raw，而非经平滑后的替代目标。", styles["body"]),
+        _p("CSV 原始双手位姿 → 刚性任务注册 → 60 Hz 端点保持重采样 → 固定 SE(3) hand-to-TCP 标定 → Fold_Box 开头受限翻腕回正 → 多分支严格 IK（warm start、40 次全局重启、翻腕风险排序）→ 双臂硬碰撞门 → 无损重定时 → MuJoCo 执行时间轴渲染 → NPZ/JSON/MP4 SHA-256 manifest。", styles["body"]),
+        _p("本次主结果禁用可选轨迹 conditioning。发布基准为 registered_resampled_calibrated_tcp；NPZ 同时保留未改写的 raw hand 位姿、固定工具平移和逐帧腕部调度，防止标定目标被误称为原始手位姿。", styles["body"]),
         _p("1.3 固定约束", styles["h2"]),
         _table([
             ["约束", "值", "发布含义"],
             ["位置容差", "1.0 mm", "任一侧超限即该同步帧失败"],
             ["姿态容差", "0.5°", "四元数最短旋转误差"],
             ["速度 / 加速度", "1 rad/s / 4 rad/s²", "重定时执行必须通过，含零速度首尾"],
-            ["目标处理", "不删除、不替换、不 conditioning", "只允许固定坐标映射和时间重排"],
+            ["目标处理", "不删帧、不 conditioning", "固定 SE(3) 标定；Fold 开头最大 12.5° 腕部回正"],
             ["视频采样", "30 fps 线性插值", "以执行时间戳为权威；碰撞审计取上界入边"],
         ], [34*mm, 38*mm, 95*mm], align="LEFT"),
         PageBreak(),
@@ -349,9 +357,9 @@ def build_report(manifest_path, experiment_path, output_path):
             item["iteration"], f"{item['label']}：{item['change']}", result])
     story.extend([
         _p("2. Seal_Bag 检测—优化闭环", styles["h1"]),
-        _p("2.1 为什么从 mount 转向固定 R_tool", styles["h2"]),
+        _p("2.1 为什么从 mount 转向固定 SE(3) 工具标定", styles["h2"]),
         _p("PDF 的 horizontal_forward 构型在左臂第 0 帧即没有严格解。历史直立构型把失效推迟到右臂第 124 帧；v4 直立构型进一步推迟到第 735 帧。随后对右 base 的 XY/Z/yaw 做确定性局部搜索，发现单纯移动 base 会在 93、269、322、385 或 737 等窗口之间迁移不可达边界，不能形成共同可行域。", styles["body"]),
-        _p("最终保留 v4 直立挂载，并为 Seal_Bag 采用一对任务级固定 R_tool：只在整条轨迹开始前由 mounted joint-midpoint TCP home 求得一次，随后对每帧使用同一常量四元数。该做法改变的是源工具坐标到机器人 TCP 坐标的约定，不逐帧篡改目标；1757 帧正向运动学仍逐帧受 1 mm / 0.5°门限约束。", styles["body"]),
+        _p("最终保留 v4 直立挂载，并为 Seal_Bag 采用一对任务级固定 SE(3) hand-to-TCP 映射：左平移 [-3.479, 3.556, 8.675] mm，右平移 [1.884, -0.193, -9.819] mm，旋转和平移在整条轨迹上保持固定。1757 帧正向运动学逐帧受 1 mm / 0.5°门限约束，状态与扫掠入边碰撞均为零。", styles["body"]),
         Image(str(iteration_fig), width=174*mm, height=72*mm),
         Spacer(1, 2 * mm),
         _table(iteration_rows, [13*mm, 125*mm, 29*mm], align="LEFT", font_size=6.8),
@@ -362,17 +370,17 @@ def build_report(manifest_path, experiment_path, output_path):
         _p("3. 双任务结果", styles["h1"]),
         _p("3.1 覆盖率必须带限定词", styles["h2"]),
         Image(str(coverage_fig), width=174*mm, height=74*mm),
-        _p("Fold_Box 和 Seal_Bag 的严格位姿覆盖均为 100%，但固定原时序覆盖分别仅 0.0943% 和 0.0569%。这不是 IK 失败，而是原始采集速度/加速度与 PiperX 执行限值不兼容。受限重定时保持位姿和顺序，分别增加 56.628 s 和 71.371 s。", styles["body"]),
+        _p("Fold_Box 和 Seal_Bag 的标定 TCP 严格位姿覆盖均为 100%，但固定原时序覆盖分别仅 0.0943% 和 0.0569%。这不是 IK 失败，而是原始采集速度/加速度与 PiperX 执行限值不兼容。受限重定时保持目标顺序，分别增加 56.294 s 和 71.450 s。", styles["body"]),
         _p("3.2 逐任务机器复算指标", styles["h2"]),
         _table([
             ["指标", "Fold_Box", "Seal_Bag"],
             ["源帧 / 严格帧", "1061 / 1061", "1757 / 1757"],
             ["固定时序帧", "1 / 1061", "1 / 1757"],
-            ["原始 / 执行时长", "17.657 / 74.285 s", "29.261 / 100.633 s"],
+            ["原始 / 执行时长", f"17.657 / {fold['execution_duration_s']:.3f} s", f"29.261 / {seal['execution_duration_s']:.3f} s"],
             ["执行 vmax / amax", "1.000 / 4.000", "1.000 / 4.000"],
-            ["碰撞审计帧", "71", "17"],
-            ["无碰撞严格覆盖", "93.31%", "99.03%"],
-            ["全局 rescue（L/R）", "见任务 summary", "27 / 27"],
+            ["碰撞审计帧", "0", "0"],
+            ["无碰撞严格覆盖", "100.00%", "100.00%"],
+            ["工具映射", "固定 SE(3) + 开头翻腕", "固定 SE(3)"],
         ], [58*mm, 54*mm, 55*mm]),
         Spacer(1, 4 * mm),
         _p("观察：Seal_Bag 的任务级 R_tool 不仅把严格位姿覆盖从不可行提升到完整，还把历史旧 fixed-time 方案约 81.06% 的同步覆盖问题拆解为“位姿已完整、时间需重排”。解释：这说明旧覆盖率主要混合了坐标映射、分支与动力学问题。含义：真机控制器必须使用执行时间轴，不能直接回放原时间戳。", styles["body"]),
@@ -400,11 +408,11 @@ def build_report(manifest_path, experiment_path, output_path):
     story.extend([
         _p("5. 碰撞审计与真实渲染", styles["h1"]),
         _p("5.1 位姿成功与安全结论分离", styles["h2"]),
-        _p("碰撞帧不会被计为 IK 漏跟踪，但也不能被隐藏。Fold_Box 的 71/1061 与 Seal_Bag 的 17/1757 同时包含精确状态碰撞和前一结点到本结点的扫掠入边碰撞；视频插值帧沿用其上界结点的入边审计，避免插值画面错误显示为安全。", styles["body"]),
+        _p("候选选择器现在把精确状态碰撞和前一结点到本结点的扫掠入边碰撞设为硬拒绝条件；全局候选耗尽后也不会退回碰撞解。Fold_Box 与 Seal_Bag 的源结点、源扫掠入边、执行结点和执行入边均为零碰撞。视频插值帧继续沿用其上界结点的入边审计。", styles["body"]),
         _table([
             ["任务", "碰撞审计帧", "无碰撞严格帧", "发布解释"],
-            ["Fold_Box", "71", "990 / 1061 (93.31%)", "完整跟随；仍需安全重规划"],
-            ["Seal_Bag", "17", "1740 / 1757 (99.03%)", "完整跟随；残余 0.97% 不作真机许可"],
+            ["Fold_Box", "0", "1061 / 1061 (100%)", "仿真零碰撞；非真机许可"],
+            ["Seal_Bag", "0", "1757 / 1757 (100%)", "仿真零碰撞；非真机许可"],
         ], [29*mm, 31*mm, 50*mm, 57*mm], align="LEFT"),
         Spacer(1, 5 * mm),
         _p("5.2 MuJoCo 真实执行时间轴视频", styles["h2"]),
@@ -416,10 +424,10 @@ def build_report(manifest_path, experiment_path, output_path):
                   ("RIGHTPADDING", (0,0), (-1,-1), 1)]),
         _table([
             ["任务", "编码", "执行时长", "状态采样"],
-            ["Fold_Box", "1280×720, 30 fps, 2230 帧", "74.300 s", "execution knots 线性插值"],
-            ["Seal_Bag", "1280×720, 30 fps, 3020 帧", "100.633 s", "execution knots 线性插值"],
+            ["Fold_Box", f"1280×720, 30 fps, {fold['video_frames']} 帧", f"{fold['video_duration_s']:.3f} s", "execution knots 线性插值"],
+            ["Seal_Bag", f"1280×720, 30 fps, {seal['video_frames']} 帧", f"{seal['video_duration_s']:.3f} s", "execution knots 线性插值"],
         ], [30*mm, 58*mm, 35*mm, 44*mm]),
-        _p("画面中的蓝/紫曲线为已走过的左右 TCP 轨迹，灰色为未来轨迹；红色 COLLISION AUDIT 只表示该执行结点或其入边触发几何审计，不改变 TRACKING 的位姿判定。", styles["small"]),
+        _p("画面中的蓝/紫曲线为已走过的左右 TCP 轨迹，灰色为未来轨迹；最终视频标题明确标注 calibrated TCP。发布门禁要求任何执行结点或其入边触发碰撞审计时立即失败。", styles["small"]),
         PageBreak(),
     ])
 
@@ -446,13 +454,13 @@ def build_report(manifest_path, experiment_path, output_path):
     story.extend([
         _p("7. 结论、限制与真机前置条件", styles["h1"]),
         _p("7.1 已证实", styles["h2"]),
-        _p("在当前官方 PiperX 模型、关节限位、固定任务注册、任务级 R_tool 和所列挂载下，Fold_Box 161044 与 Seal_Bag 161504 的所有 registered raw 60 Hz 位姿均满足 1 mm / 0.5° 严格双臂 IK，并能通过 1 rad/s、4 rad/s² 受限重定时完整执行。Seal_Bag 的最终挂载为直立桌面：左 [-0.35, 0.25, 0.81] m、右 [-0.30, -0.45, 0.81] m、yaw 15°/15°。", styles["body"]),
+        _p("在当前官方 PiperX 模型、关节限位、固定任务注册、任务级 hand-to-TCP 标定和所列挂载下，Fold_Box 161044 与 Seal_Bag 161504 的所有 calibrated TCP 目标均满足 1 mm / 0.5° 严格双臂 IK，并能通过 1 rad/s、4 rad/s² 受限重定时完整执行；模型内状态与扫掠入边碰撞均为零。Seal_Bag 的最终挂载为直立桌面：左 [-0.35, 0.25, 0.81] m、右 [-0.30, -0.45, 0.81] m、yaw 15°/15°。", styles["body"]),
         _p("7.2 尚未证实", styles["h2"]),
-        _p("本报告没有证明真实硬件无碰撞、驱动器能复现模型级误差、夹具/工件/线缆不干涉、负载与温升满足要求，也没有把触碰工作台、支架或另一机械臂的帧转化为安全路径。碰撞率不能用 100% 位姿覆盖抵消。", styles["body"]),
+        _p("本报告没有证明真实硬件具有足够安全间隙、驱动器能复现模型级误差、夹具/工件/线缆不干涉、负载与温升满足要求。零模型碰撞只说明当前官方网格和审计规则未发现接触，不能覆盖未建模对象、标定误差与结构弹性。", styles["body"]),
         _p("7.3 真机前必须完成", styles["h2"]),
         _table([
             ["优先级", "检查"],
-            ["P0", "对 71/17 个碰撞帧及其前后插值区段做碰撞约束重规划，并重新验证完整位姿覆盖"],
+            ["P0", "在实测标定误差和安全距离膨胀后重新运行全轨迹连续碰撞审计，仍须保持零碰撞"],
             ["P0", "实测 base 外参、TCP/夹具 R_tool、关节零位与软限位；误差预算不得直接沿用仿真极值"],
             ["P0", "低速空载、单臂、双臂分级放行；启用急停、速度缩放和独立监护"],
             ["P1", "加入工件、线缆、夹具和动态安全距离模型，执行连续时间碰撞检查"],
