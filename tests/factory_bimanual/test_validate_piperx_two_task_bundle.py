@@ -1,5 +1,8 @@
 import hashlib
 import json
+from pathlib import Path
+import subprocess
+import sys
 
 import numpy as np
 import pytest
@@ -9,6 +12,18 @@ from scripts.validate_piperx_two_task_bundle import validate_task_bundle
 
 def _sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def test_validator_script_help_runs_from_repository_root():
+    root = Path(__file__).resolve().parents[2]
+    completed = subprocess.run(
+        [sys.executable, str(root / "scripts/validate_piperx_two_task_bundle.py"),
+         "--help"],
+        cwd=root, capture_output=True, text=True, check=False,
+    )
+
+    assert completed.returncode == 0, completed.stderr
+    assert "--skip-video-decode" in completed.stdout
 
 
 def _bundle(tmp_path, *, collision=False):

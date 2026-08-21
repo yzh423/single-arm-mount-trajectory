@@ -6,14 +6,18 @@ import csv
 import hashlib
 import json
 from pathlib import Path
+import sys
 
 import cv2
 import numpy as np
 
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
 from factory_bimanual.tool_frame_calibration import apply_fixed_tool_translation
 
 
-ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_BUNDLE = ROOT / "reports/piperx_two_task_complete_follow"
 EXPECTED = {
     "fold_box": {"family": "8-11/Fold_Box", "take": "161044", "frames": 1061},
