@@ -7,6 +7,7 @@ from scipy.spatial.transform import Rotation
 import mujoco
 
 from factory_bimanual.complete_follow import (
+    CompleteFollowInfeasibleError,
     CompleteFollowRunner,
     retime_complete_source_path,
 )
@@ -217,6 +218,52 @@ def test_collision_on_warm_pair_expands_global_candidates_before_selection():
     assert counts["left"][1] == 2 and counts["right"][1] == 2
     assert rescued["left"].tolist() == [True, True]
     assert rescued["right"].tolist() == [True, True]
+
+
+def test_all_colliding_global_pairs_are_rejected_as_infeasible():
+    class Report:
+        valid = False
+        classes = ()
+
+    class Checker:
+        @staticmethod
+        def state(_left, _right):
+            return Report()
+
+        @staticmethod
+        def transition(_previous, _current):
+            return Report()
+
+    class Generator:
+        @staticmethod
+        def reset():
+            return None
+
+    candidate = IKCandidate(
+        q=np.zeros(6), branch_index=0,
+        pose_cost=0.0, joint_limit_margin_rad=1.0,
+        singularity_margin=1.0, wrist_risk=0.0,
+    )
+
+    class Runner(CompleteFollowRunner):
+        def __init__(self):
+            self.task = SimpleNamespace(time_s=np.asarray([0.0]))
+            self.generator = Generator()
+            self.checker = Checker()
+            self.config = SimpleNamespace(
+                accept=SimpleNamespace(branch_guard_rad=0.30))
+            self.periodic = {
+                "left": np.zeros(6, dtype=bool),
+                "right": np.zeros(6, dtype=bool),
+            }
+
+        def _global(self, _side, _row):
+            return [candidate]
+
+    with pytest.raises(
+            CompleteFollowInfeasibleError,
+            match="no collision-free connected dual-arm IK pair"):
+        Runner()._source_path()
 
 
 def test_complete_runner_reaches_every_static_pose_strictly(tmp_path):

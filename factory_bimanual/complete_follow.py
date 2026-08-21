@@ -407,6 +407,8 @@ class CompleteFollowRunner:
             current = np.r_[pair[0].q, pair[1].q]
             state_collision = not self.checker.state(
                 pair[0].q, pair[1].q).valid
+            if state_collision:
+                continue
             if previous is not None:
                 delta = self._pair_delta(previous, pair)
                 unwrapped = previous + delta
@@ -415,16 +417,15 @@ class CompleteFollowRunner:
                 transition_collision = not self.checker.transition(
                         (left_previous, right_previous),
                         (left_current, right_current)).valid
+                if transition_collision:
+                    continue
                 maximum_delta = float(np.max(np.abs(delta), initial=0.0))
                 steps = max(1, int(np.ceil(
                     maximum_delta/self.config.accept.branch_guard_rad)))
             else:
                 maximum_delta = 0.0
                 steps = 1
-                transition_collision = state_collision
             score = (
-                int(state_collision),
-                int(transition_collision),
                 steps,
                 maximum_delta,
                 pair[0].wrist_risk + pair[1].wrist_risk,
@@ -501,7 +502,7 @@ class CompleteFollowRunner:
                 raise CompleteFollowInfeasibleError(
                     row,
                     "no collision-free connected dual-arm IK pair "
-                    f"(safe target pairs={len(pairs)}, "
+                    f"(candidate pairs={len(pairs)}, "
                     f"left candidates={len(per_side['left'])}, "
                     f"right candidates={len(per_side['right'])}, "
                     f"collision classes={dict(collision_classes)})",
@@ -561,6 +562,14 @@ class CompleteFollowRunner:
                 self.config.execution.maximum_velocity_rad_s),
             maximum_acceleration_rad_s2=(
                 self.config.execution.maximum_acceleration_rad_s2),
+            state_valid=lambda pair: self.checker.state(
+                pair[:6], pair[6:]).valid,
+            transition_valid=lambda previous, current: (
+                self.checker.transition(
+                    (previous[:6], previous[6:]),
+                    (current[:6], current[6:]),
+                ).valid
+            ),
         )
         source_velocity, source_acceleration = _path_derivatives(
             source_pair, np.asarray(self.task.time_s, dtype=float))
