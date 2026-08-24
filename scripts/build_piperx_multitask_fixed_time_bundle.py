@@ -14,6 +14,10 @@ from factory_bimanual.mount_topology import (
     MountTopologyConfig,
     MuJoCoMountTopologyChecker,
 )
+from factory_bimanual.mujoco_candidate_generator import (
+    CandidateGeneratorConfig,
+    MuJoCoCandidateGenerator,
+)
 from factory_bimanual.multitask_fixed_time_study import (
     SHARD_SCHEMA,
     STUDY_MODES,
@@ -118,6 +122,141 @@ def _joint_derivatives(model, qpos, time_s):
     return velocity, acceleration
 
 
+def _solve_candidate_dls_hold(model, task, mapped, *,
+                              branch_guard_rad=0.30):
+    """PDF v3.1 anchor, warm-start, controlled rescue, and per-side HOLD."""
+    data = mujoco.MjData(model)
+    contract = ROBOT_CONTRACTS["piperx"]
+    names = {side: {
+        "joints": contract.prefixed_joint_names(side),
+        "site": f"{side}_tcp",
+    } for side in ("left", "right")}
+    config = CandidateGeneratorConfig(
+        position_tolerance_m=0.001,
+        orientation_tolerance_rad=np.deg2rad(0.5),
+        damping=0.3,
+        step_scale=1.0,
+        maximum_step_rad=0.3,
+        position_error_clip_m=0.05,
+        orientation_error_clip_rad=0.3,
+        max_iterations=200,
+        maximum_candidates=16,
+        global_seed_count=5,
+        stratified_seed_enabled=True,
+        stratified_refresh_interval=20,
+        rolling_early_stop_candidates=2,
+        dedup_rad=np.deg2rad(1.0),
+        constrained_fallback_enabled=True,
+        constrained_fallback_seed_count=4,
+        constrained_fallback_max_iterations=80,
+        wrist_risk_enabled=True,
+    )
+    generators = {side: MuJoCoCandidateGenerator(
+        model, data, contract, name_map={side: names[side]}, config=config)
+        for side in ("left", "right")}
+    qids = {}
+    for side in ("left", "right"):
+        joint_ids = [mujoco.mj_name2id(
+            model, mujoco.mjtObj.mjOBJ_JOINT, name)
+            for name in names[side]["joints"]]
+        qids[side] = np.asarray(model.jnt_qposadr[joint_ids], dtype=int)
+    count = len(task.time_s)
+    qpos = np.repeat(model.qpos0[None, :], count, axis=0)
+    actual = {side: np.zeros((count, 7), dtype=float)
+              for side in ("left", "right")}
+    position_error = {side: np.zeros(count, dtype=float)
+                      for side in ("left", "right")}
+    orientation_error = {side: np.zeros(count, dtype=float)
+                         for side in ("left", "right")}
+    strict = {side: np.zeros(count, dtype=bool)
+              for side in ("left", "right")}
+    discontinuity = {side: np.zeros(count, dtype=bool)
+                     for side in ("left", "right")}
+    mode = np.full((count, 2), "hold", dtype="U16")
+    side_index = {"left": 0, "right": 1}
+    last_rescue = {"left": -20, "right": -20}
+    data.qpos[:] = model.qpos0
+    mujoco.mj_forward(model, data)
+    for row in range(count):
+        previous = {side: data.qpos[qids[side]].copy()
+                    for side in ("left", "right")}
+        selected = {}
+        for side in ("left", "right"):
+            target_p = getattr(task, f"{side}_position_m")[row]
+            target_q = mapped[side][row]
+            if row == 0:
+                candidates = generators[side].generate_target(
+                    side, target_p, target_q, force_stratified=True)
+                selected[side] = min(candidates, key=lambda item: (
+                    item.pose_cost, -item.joint_limit_margin_rad,
+                    -item.singularity_margin)) if candidates else None
+                mode[row, side_index[side]] = (
+                    "anchor" if selected[side] is not None else "hold")
+            else:
+                selected[side] = generators[side].generate_warm_start_candidate(
+                    side, target_p, target_q, reference_q=previous[side])
+                if selected[side] is not None:
+                    mode[row, side_index[side]] = "warm_start"
+                else:
+                    rescue = []
+                    if row - last_rescue[side] >= 20:
+                        last_rescue[side] = row
+                        rescue = generators[side].generate_target(
+                            side, target_p, target_q,
+                            force_stratified=True)
+                    admissible = [item for item in rescue
+                                  if np.max(np.abs(
+                                      item.q - previous[side]))
+                                  <= branch_guard_rad + 1e-12]
+                    selected[side] = min(admissible, key=lambda item: (
+                        np.linalg.norm(item.q - previous[side]),
+                        item.pose_cost)) if admissible else None
+                    mode[row, side_index[side]] = (
+                        "rescue" if selected[side] is not None else "hold")
+            item = selected[side]
+            if item is None:
+                data.qpos[qids[side]] = previous[side]
+                continue
+            delta = np.abs(item.q - previous[side])
+            if row > 0 and np.any(delta > branch_guard_rad + 1e-12):
+                discontinuity[side][row] = True
+                selected[side] = None
+                mode[row, side_index[side]] = "branch_guard"
+                data.qpos[qids[side]] = previous[side]
+            else:
+                data.qpos[qids[side]] = item.q
+        data.qvel[:] = 0.0
+        mujoco.mj_forward(model, data)
+        for side in ("left", "right"):
+            site_id = mujoco.mj_name2id(
+                model, mujoco.mjtObj.mjOBJ_SITE, names[side]["site"])
+            pose_quaternion = np.empty(4)
+            mujoco.mju_mat2Quat(pose_quaternion, data.site_xmat[site_id])
+            residual = np.empty(3)
+            mujoco.mju_subQuat(residual, mapped[side][row], pose_quaternion)
+            actual[side][row] = np.r_[data.site_xpos[site_id], pose_quaternion]
+            position_error[side][row] = np.linalg.norm(
+                getattr(task, f"{side}_position_m")[row]
+                - data.site_xpos[site_id])
+            orientation_error[side][row] = np.linalg.norm(residual)
+            strict[side][row] = (
+                position_error[side][row] <= 0.001 + 1e-12
+                and orientation_error[side][row]
+                <= np.deg2rad(0.5) + 1e-12)
+        qpos[row] = data.qpos
+    diagnostics = {
+        "failure_reason": np.where(
+            np.isin(mode, ("anchor", "warm_start", "rescue")),
+            "ok", np.where(mode == "hold", "dls_exhausted", mode)),
+        "solve_mode": mode,
+        "protocol": "v3.1_candidate_dls_independent_hold",
+        "maximum_iterations": 200,
+        "branch_guard_rad": branch_guard_rad,
+    }
+    return (qpos, actual, position_error, orientation_error, strict,
+            discontinuity, diagnostics)
+
+
 def _topology_valid(model, qpos):
     names = {side: {
         "joints": ROBOT_CONTRACTS["piperx"].prefixed_joint_names(side),
@@ -176,10 +315,8 @@ def solve_selected_shard(spec, mode, output_root=DEFAULT_OUTPUT, *,
     prepared, mapped = prepare_follow_targets(
         model, task, calibration=fixed_runner.load_locked_piperx_calibration())
     (qpos, actual, position_error, orientation_error, _strict,
-     discontinuity, _planner_velocity, diagnostics) = \
-        fixed_runner.solve_fixed_time_motion(
-            model, prepared, mapped, solver_method="paired",
-            solver_profile="default")
+     discontinuity, diagnostics) = _solve_candidate_dls_hold(
+        model, prepared, mapped, branch_guard_rad=0.30)
     source_time = np.asarray(prepared.time_s, dtype=float)
     source_time = source_time - source_time[0]
     velocity, acceleration = _joint_derivatives(model, qpos, source_time)
@@ -213,8 +350,11 @@ def solve_selected_shard(spec, mode, output_root=DEFAULT_OUTPUT, *,
             ";".join(map(str, value)) for value in state_classes], dtype=np.str_),
         "edge_collision_classes": np.asarray([
             ";".join(map(str, value)) for value in edge_classes], dtype=np.str_),
-        "paired_failure_reason": np.asarray(
-            diagnostics["paired"].failure_reason, dtype=np.str_),
+        "paired_failure_reason": np.asarray([
+            "ok" if all(value == "ok" for value in row)
+            else ";".join(value for value in row if value != "ok")
+            for row in diagnostics["failure_reason"]], dtype=np.str_),
+        "dls_solve_mode": diagnostics["solve_mode"],
     })
     trajectory = shard_dir / f"{stem}.trajectory.npz"
     np.savez_compressed(trajectory, **payload)
@@ -431,16 +571,42 @@ def build_bundle(output_root=DEFAULT_OUTPUT, *, trajectory=None, mode=None,
     return manifest_path
 
 
+def solve_shards(output_root=DEFAULT_OUTPUT, *, trajectory=None, mode=None):
+    specs = discover_dual_hand_trajectories(ROOT / "data/factory")
+    jobs = [(spec, job_mode) for spec in specs for job_mode in STUDY_MODES]
+    if trajectory:
+        jobs = [job for job in jobs if job[0].key == trajectory]
+    if mode:
+        jobs = [job for job in jobs if job[1] == mode]
+    if not jobs:
+        raise ValueError("no shard jobs matched the requested filters")
+    outputs = []
+    for index, (spec, job_mode) in enumerate(jobs, 1):
+        shard_dir = (Path(output_root) / "shards" / spec.family.date
+                     / spec.family.task / spec.take / job_mode)
+        summaries = list(shard_dir.glob("*.summary.json"))
+        output = (summaries[0] if len(summaries) == 1
+                  else solve_selected_shard(spec, job_mode, output_root))
+        outputs.append(output)
+        print(index, len(jobs), spec.key, job_mode, output, flush=True)
+    return tuple(outputs)
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--validate-only", action="store_true")
+    parser.add_argument("--solve-only", action="store_true")
     parser.add_argument("--trajectory")
     parser.add_argument("--mode", choices=STUDY_MODES)
     parser.add_argument("--source-prefix", type=int)
     parser.add_argument("--allow-partial", action="store_true")
     args = parser.parse_args(argv)
     manifest_path = args.output / "bundle_manifest.json"
+    if args.solve_only:
+        solve_shards(
+            args.output, trajectory=args.trajectory, mode=args.mode)
+        return
     if args.validate_only:
         validate_bundle_artifacts(
             manifest_path, require_complete=not args.allow_partial)
