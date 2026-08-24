@@ -70,11 +70,25 @@ def hex_to_bgr(value):
     return blue, green, red
 
 
+def audited_mount_rank(row):
+    """Prefer a fully safe result, then maximize synchronous coverage."""
+    unsafe = (int(float(row.get("collision_frames", 0)))
+              + int(float(row.get("edge_collision_frames", 0)))
+              + int(float(row.get("topology_invalid_frames", 0))))
+    return (
+        unsafe > 0,
+        -float(row["both_accept_coverage"]),
+        unsafe,
+        STUDY_PANEL_ORDER.index(row["mode"]),
+    )
+
+
 __all__ = [
     "MOUNT_AXIS_LABELS",
     "MOUNT_COLORS",
     "MOUNT_LABELS",
     "STUDY_PANEL_ORDER",
+    "audited_mount_rank",
     "comparison_timeline",
     "hex_to_bgr",
     "source_frame_indices",

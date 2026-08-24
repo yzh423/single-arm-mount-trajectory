@@ -13,6 +13,7 @@ from factory_bimanual.mount_comparison_visuals import (
     MOUNT_COLORS,
     MOUNT_LABELS,
     STUDY_PANEL_ORDER,
+    audited_mount_rank,
 )
 
 
@@ -39,11 +40,7 @@ def winner_counts(rows):
     counts = {mode: 0 for mode in STUDY_PANEL_ORDER}
     for trajectory in trajectories:
         candidates = [row for row in rows if row["trajectory"] == trajectory]
-        winner = min(candidates, key=lambda row: (
-            -float(row["both_accept_coverage"]),
-            int(float(row.get("collision_frames", 0)))
-            + int(float(row.get("edge_collision_frames", 0))),
-            STUDY_PANEL_ORDER.index(row["mode"])))
+        winner = min(candidates, key=audited_mount_rank)
         counts[winner["mode"]] += 1
     return counts
 
@@ -132,7 +129,7 @@ def generate_figures(aggregate_csv, output_dir):
         [MOUNT_LABELS[mode] for mode in modes],
         [counts[mode] for mode in modes],
         color=[MOUNT_COLORS[mode] for mode in modes])
-    axis.set_title("按双臂同时 ACCEPT 选择的构型胜者", fontsize=15)
+    axis.set_title("安全门优先、再按双臂同时 ACCEPT 选择的构型胜者", fontsize=15)
     axis.set_ylabel("轨迹数量")
     axis.set_ylim(0, max(counts.values(), default=0) + 3)
     axis.bar_label(bars, fontsize=12)

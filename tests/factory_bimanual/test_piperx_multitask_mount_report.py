@@ -2,6 +2,7 @@ import pytest
 
 from factory_bimanual.mount_comparison_visuals import STUDY_PANEL_ORDER
 from scripts.build_piperx_multitask_mount_report import (
+    REFERENCE_SOURCES,
     build_report_claims,
     validate_report_manifest,
 )
@@ -49,3 +50,11 @@ def test_report_claims_count_one_winner_per_trajectory():
     assert claims["total_experiments"] == 108
     assert claims["winner_counts"]["upright_table"] == 27
     assert sum(claims["winner_counts"].values()) == 27
+
+
+def test_report_cites_official_robot_and_collision_sources():
+    urls = {url for _label, url in REFERENCE_SOURCES}
+
+    assert any("agilexrobotics/piper_sdk" in url for url in urls)
+    assert any("agilexrobotics/piper_ros" in url for url in urls)
+    assert any("moveit" in url for url in urls)

@@ -28,6 +28,7 @@ from factory_bimanual.mount_comparison_visuals import (
     MOUNT_COLORS,
     MOUNT_LABELS,
     STUDY_PANEL_ORDER,
+    audited_mount_rank,
 )
 
 
@@ -35,6 +36,14 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_ROOT = ROOT / "reports/piperx_multitask_fixed_time_mount_study"
 DEFAULT_MANIFEST = DEFAULT_ROOT / "bundle_manifest.json"
 DEFAULT_OUTPUT = DEFAULT_ROOT / "PiperX多任务Fixed-Time四构型对比报告.pdf"
+REFERENCE_SOURCES = (
+    ("AgileX Piper SDK V2 接口与关节/速度/加速度限制",
+     "https://github.com/agilexrobotics/piper_sdk/blob/master/asserts/V2/INTERFACE_V2.MD"),
+    ("AgileX Piper ROS 官方模型与固件对应的 URDF 说明",
+     "https://github.com/agilexrobotics/piper_ros"),
+    ("MoveIt PlanningScene 碰撞与约束检查接口",
+     "https://moveit.github.io/moveit_tutorials/doc/planning_scene/planning_scene_tutorial.html"),
+)
 
 
 def validate_report_manifest(manifest):
@@ -81,12 +90,9 @@ def build_report_claims(manifest):
     for row in rows:
         by_trajectory[row["trajectory"]].append(row)
     for trajectory, candidates in by_trajectory.items():
-        winner = min(candidates, key=lambda row: (
-            -float(row["metrics"]["both_accept_coverage"]),
-            int(row["metrics"].get("collision_frames", 0))
-            + int(row["metrics"].get("edge_collision_frames", 0)),
-            int(row["metrics"].get("topology_invalid_frames", 0)),
-            STUDY_PANEL_ORDER.index(row["mode"])))
+        rank_row = lambda row: audited_mount_rank({
+            **row["metrics"], "mode": row["mode"]})
+        winner = min(candidates, key=rank_row)
         winner_counts[winner["mode"]] += 1
         winners[trajectory] = winner["mode"]
     return {
@@ -213,8 +219,10 @@ def build_report(manifest_path=DEFAULT_MANIFEST, output_path=DEFAULT_OUTPUT):
         PageBreak(),
         Paragraph("1. 实验协议", styles["h1"]),
         Paragraph(
-            "每条轨迹的四种构型采用同等搜索预算：几何粗筛、第 0 帧确定性多启动"
-            "锚定、稀疏 warm-start 探针、完整源时间轴决赛。失败帧执行 HOLD，"
+            "每个任务族在配置指定的一条双手代表轨迹上，为三种非基线构型采用"
+            "相同搜索预算：几何粗筛、第 0 帧确定性锚定、稀疏 warm-start 探针"
+            "和候选决赛；同族其他 take 复用该安装位姿。随后全部 27 条轨迹与"
+            "四种构型分别执行完整源时间轴 IK。失败帧执行 HOLD，"
             "下一帧从保持状态继续。双臂 ACCEPT、状态碰撞、扫掠边碰撞、结构拓扑、"
             "关节速度和加速度分别审计。", styles["body"]),
         _table([["构型", "物理含义", "报告颜色"], *[
@@ -226,6 +234,14 @@ def build_report(manifest_path=DEFAULT_MANIFEST, output_path=DEFAULT_OUTPUT):
             }[mode], MOUNT_COLORS[mode]]
             for mode in STUDY_PANEL_ORDER
         ]], [55 * mm, 90 * mm, 30 * mm], font_size=8),
+        Spacer(1, 4 * mm),
+        Paragraph("资料依据", styles["h2"]),
+        *[
+            Paragraph(
+                f'{index}. <link href="{url}" color="#2D5E8C">{label}</link>',
+                styles["small"])
+            for index, (label, url) in enumerate(REFERENCE_SOURCES, 1)
+        ],
     ]
     figure_specs = [
         ("coverage_heatmap.png", "2. 双臂同时 ACCEPT 热力图"),

@@ -67,3 +67,18 @@ def test_report_tables_use_fixed_mount_order_and_one_winner_per_trajectory():
     assert counts["upright_table"] == 1
     assert counts["horizontal_wall"] == 1
     assert sum(counts.values()) == 2
+
+
+def test_winner_prefers_safe_mount_over_higher_coverage_collision():
+    rows = [
+        {"trajectory": "a", "mode": mode,
+         "both_accept_coverage": (1.0 if mode == "baseline" else 0.8),
+         "collision_frames": (1 if mode == "baseline" else 0),
+         "edge_collision_frames": 0, "topology_invalid_frames": 0}
+        for mode in STUDY_PANEL_ORDER
+    ]
+
+    counts = winner_counts(rows)
+
+    assert counts["baseline"] == 0
+    assert counts["upright_table"] == 1
