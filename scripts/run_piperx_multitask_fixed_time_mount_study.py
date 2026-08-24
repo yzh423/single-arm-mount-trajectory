@@ -45,7 +45,7 @@ STUDY_SEARCH_CONFIG = PerTaskSearchConfig(
     dense_budget=3,
     local_budget=6,
     finalist_budget=2,
-    schema="piperx-multitask-family-shared-search-v2",
+    schema="piperx-multitask-family-shared-search-v3",
 )
 
 
@@ -215,7 +215,9 @@ def _as_rank_record(record):
 def _best_observed_mount(records):
     if not records:
         return None, None
-    selected = min(records, key=lambda row: rank_mount_result(
+    safe_records = [record for record in records if _sparse_safe(record)]
+    candidates = safe_records or records
+    selected = min(candidates, key=lambda row: rank_mount_result(
         _as_rank_record(row)))
     return selected.get("mount"), _as_rank_record(selected)
 
@@ -315,7 +317,8 @@ def run_job(job: StudyJob, output=DEFAULT_OUTPUT, *, short_prefix=None,
             (row for row in dense if _sparse_safe(row)),
             key=rank_paired_mount_candidate)
         if not safe_dense:
-            selected_mount, selected_result = _best_observed_mount(dense)
+            selected_mount, selected_result = _best_observed_mount(
+                state.get("records", []))
             state.update(status="infeasible", selected_mount=selected_mount,
                          selected_result=selected_result,
                          failure_stage="dense")

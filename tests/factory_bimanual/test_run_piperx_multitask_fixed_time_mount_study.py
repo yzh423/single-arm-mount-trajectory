@@ -7,6 +7,7 @@ from factory_bimanual.multitask_fixed_time_study import (
 )
 from factory_bimanual.task_family import TaskFamily
 from scripts.run_piperx_multitask_fixed_time_mount_study import (
+    _best_observed_mount,
     family_representative_spec,
     plan_jobs,
     rank_mount_result,
@@ -66,6 +67,25 @@ def test_collision_free_full_coverage_outranks_unsafe_and_partial_mounts():
 
     assert rank_mount_result(safe_full) < rank_mount_result(colliding_full)
     assert rank_mount_result(colliding_full) < rank_mount_result(partial)
+
+
+def test_infeasible_fallback_prefers_any_collision_free_observation():
+    colliding = {
+        "mount": {"name": "colliding"},
+        "continuous_pair_coverage": 0.9,
+        "pair_collision_frames": 1,
+        "pair_edge_collision_frames": 0,
+    }
+    sparse_safe = {
+        "mount": {"name": "safe"},
+        "continuous_pair_coverage": 0.2,
+        "pair_collision_frames": 0,
+        "pair_edge_collision_frames": 0,
+    }
+
+    mount, _result = _best_observed_mount([colliding, sparse_safe])
+
+    assert mount == sparse_safe["mount"]
 
 
 def test_ranking_uses_hold_and_error_only_after_safety_and_coverage():
