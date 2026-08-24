@@ -1,11 +1,21 @@
 import numpy as np
 import pytest
+from types import SimpleNamespace
 
 from scripts.build_piperx_multitask_fixed_time_bundle import (
+    _piperx_collision_checker_kwargs,
+    _select_collision_safe_pair,
     aggregate_shard,
     build_shard_arrays,
     validate_manifest,
 )
+
+
+def test_fixed_time_solver_uses_same_clearance_contract_as_final_audit():
+    assert _piperx_collision_checker_kwargs() == {
+        "transition_steps": 5,
+        "clearance_margin_m": pytest.approx(0.015),
+    }
 
 
 def _manifest(count=108):
@@ -27,6 +37,33 @@ def test_bundle_requires_all_108_shards():
 
     with pytest.raises(ValueError, match="108"):
         validate_manifest(_manifest(107))
+
+
+def test_collision_safe_pair_rejects_state_and_swept_edge_collisions():
+    candidate = lambda value, cost=0.0: SimpleNamespace(
+        q=np.asarray([value]), pose_cost=cost,
+        joint_limit_margin_rad=1.0, singularity_margin=1.0)
+
+    class Checker:
+        @staticmethod
+        def state(left, right):
+            return SimpleNamespace(valid=not (
+                left[0] == 1.0 and right[0] == 1.0))
+
+        @staticmethod
+        def transition(previous, current):
+            return SimpleNamespace(valid=not (
+                current[0][0] == 2.0 and current[1][0] == 2.0))
+
+    selected = _select_collision_safe_pair(
+        {"left": [candidate(1.0), candidate(0.1)],
+         "right": [candidate(1.0), candidate(0.1)]},
+        previous=(np.asarray([0.0]), np.asarray([0.0])),
+        checker=Checker(), branch_guard_rad=.30)
+
+    assert selected is not None
+    assert selected[0].q[0] == pytest.approx(.1)
+    assert selected[1].q[0] == pytest.approx(.1)
 
 
 def test_aggregate_recomputes_accept_and_collision_counts():

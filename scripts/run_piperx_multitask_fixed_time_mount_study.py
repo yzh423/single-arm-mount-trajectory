@@ -57,7 +57,7 @@ STUDY_SEARCH_CONFIG = PerTaskSearchConfig(
     dense_budget=3,
     local_budget=6,
     finalist_budget=2,
-    schema="piperx-multitask-family-shared-search-v6-calibrated-targets",
+    schema="piperx-multitask-family-shared-search-v7-audit-clearance",
 )
 
 
@@ -209,7 +209,7 @@ def _normalize_baseline_mount_payload(payload):
 
 def _candidate_fingerprint(spec, mode, stage, mount, settings):
     payload = {
-        "schema": "piperx-multitask-calibrated-target-search-v3",
+        "schema": "piperx-multitask-calibrated-target-search-v4-audit-clearance",
         "source_sha256": spec.source_sha256,
         "mode": mode, "stage": stage, "mount": mount,
         "settings": settings,

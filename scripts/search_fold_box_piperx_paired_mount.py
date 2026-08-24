@@ -192,7 +192,7 @@ def evaluate_pair(task, mount, serial, *, uniform_count=14,
                   maximum_candidates=2, constrained_fallback_enabled=True,
                   position_tolerance_m=.001,
                   orientation_tolerance_rad=np.deg2rad(1.5),
-                  mapped_quaternions=None):
+                  mapped_quaternions=None, clearance_margin_m=.015):
     if not _valid_mount(mount):
         raise ValueError("paired mount is outside table/non-overlap bounds")
     xy = mount["xy"]; yaw = mount["yaw"]
@@ -221,7 +221,9 @@ def evaluate_pair(task, mount, serial, *, uniform_count=14,
             global_seed_count=global_seed_count,
             dedup_rad=np.deg2rad(1.0),
             constrained_fallback_enabled=constrained_fallback_enabled))
-    checker = MuJoCoPairedCollisionChecker(model, data, names, transition_steps=3)
+    checker = MuJoCoPairedCollisionChecker(
+        model, data, names, transition_steps=3,
+        clearance_margin_m=clearance_margin_m)
     topology = MuJoCoMountTopologyChecker(
         model, data, names,
         config=MountTopologyConfig(transition_steps=3))

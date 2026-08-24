@@ -14,6 +14,9 @@ from factory_bimanual.mount_topology import (
     MountTopologyConfig,
     MuJoCoMountTopologyChecker,
 )
+from factory_bimanual.mujoco_collision_adapter import (
+    MuJoCoPairedCollisionChecker,
+)
 from factory_bimanual.mujoco_candidate_generator import (
     CandidateGeneratorConfig,
     MuJoCoCandidateGenerator,
@@ -35,6 +38,11 @@ from scripts.search_fold_box_piperx_paired_mount import _scene_mount_kwargs
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = ROOT / "reports/piperx_multitask_fixed_time_mount_study"
 BUNDLE_SCHEMA = "piperx-multitask-fixed-time-bundle-v1"
+
+
+def _piperx_collision_checker_kwargs():
+    """Return the single collision contract shared with the final audit."""
+    return {"transition_steps": 5, "clearance_margin_m": .015}
 
 
 def build_shard_arrays(*, mode, source_time_s, qpos, position_error_m,
@@ -119,6 +127,41 @@ def _joint_derivatives(model, qpos, time_s):
     return velocity, acceleration
 
 
+def _select_collision_safe_pair(candidate_lists, *, previous, checker,
+                                branch_guard_rad):
+    """Choose a connected candidate pair that passes state and edge gates."""
+    left = list(candidate_lists.get("left", ()))
+    right = list(candidate_lists.get("right", ()))
+    if previous is not None:
+        left = [item for item in left if np.max(np.abs(
+            item.q - previous[0])) <= branch_guard_rad + 1e-12]
+        right = [item for item in right if np.max(np.abs(
+            item.q - previous[1])) <= branch_guard_rad + 1e-12]
+    pairs = []
+    for left_item in left:
+        for right_item in right:
+            current = (left_item.q, right_item.q)
+            if not checker.state(*current).valid:
+                continue
+            if (previous is not None
+                    and not checker.transition(previous, current).valid):
+                continue
+            delta = (0.0 if previous is None else max(
+                float(np.max(np.abs(left_item.q - previous[0]))),
+                float(np.max(np.abs(right_item.q - previous[1])))))
+            pairs.append((
+                delta,
+                float(left_item.pose_cost + right_item.pose_cost),
+                -(float(left_item.joint_limit_margin_rad)
+                  + float(right_item.joint_limit_margin_rad)),
+                left_item, right_item,
+            ))
+    if not pairs:
+        return None
+    selected = min(pairs, key=lambda item: item[:3])
+    return selected[-2], selected[-1]
+
+
 def _solve_candidate_dls_hold(model, task, mapped, *,
                               branch_guard_rad=0.30):
     """PDF v3.1 anchor, warm-start, controlled rescue, and per-side HOLD."""
@@ -151,6 +194,8 @@ def _solve_candidate_dls_hold(model, task, mapped, *,
     generators = {side: MuJoCoCandidateGenerator(
         model, data, contract, name_map={side: names[side]}, config=config)
         for side in ("left", "right")}
+    collision_checker = MuJoCoPairedCollisionChecker(
+        model, data, names, **_piperx_collision_checker_kwargs())
     qids = {}
     for side in ("left", "right"):
         joint_ids = [mujoco.mj_name2id(
@@ -222,6 +267,36 @@ def _solve_candidate_dls_hold(model, task, mapped, *,
                 data.qpos[qids[side]] = previous[side]
             else:
                 data.qpos[qids[side]] = item.q
+        previous_pair = (previous["left"], previous["right"])
+        current_pair = tuple(
+            data.qpos[qids[side]].copy() for side in ("left", "right"))
+        state_safe = collision_checker.state(*current_pair).valid
+        edge_safe = (row == 0 or collision_checker.transition(
+            previous_pair, current_pair).valid)
+        if not (state_safe and edge_safe):
+            rescue_lists = {}
+            for side in ("left", "right"):
+                target_p = getattr(task, f"{side}_position_m")[row]
+                rescue_lists[side] = generators[side].generate_target(
+                    side, target_p, mapped[side][row],
+                    force_stratified=True)
+                if selected.get(side) is not None:
+                    rescue_lists[side].append(selected[side])
+            safe_pair = _select_collision_safe_pair(
+                rescue_lists,
+                previous=None if row == 0 else previous_pair,
+                checker=collision_checker,
+                branch_guard_rad=branch_guard_rad)
+            if safe_pair is None:
+                for side in ("left", "right"):
+                    data.qpos[qids[side]] = previous[side]
+                    selected[side] = None
+                    mode[row, side_index[side]] = "collision_hold"
+            else:
+                for side, item in zip(("left", "right"), safe_pair):
+                    data.qpos[qids[side]] = item.q
+                    selected[side] = item
+                    mode[row, side_index[side]] = "collision_rescue"
         data.qvel[:] = 0.0
         mujoco.mj_forward(model, data)
         for side in ("left", "right"):
@@ -243,7 +318,8 @@ def _solve_candidate_dls_hold(model, task, mapped, *,
         qpos[row] = data.qpos
     diagnostics = {
         "failure_reason": np.where(
-            np.isin(mode, ("anchor", "warm_start", "rescue")),
+            np.isin(mode, (
+                "anchor", "warm_start", "rescue", "collision_rescue")),
             "ok", np.where(mode == "hold", "dls_exhausted", mode)),
         "solve_mode": mode,
         "protocol": "v3.1_candidate_dls_independent_hold",
