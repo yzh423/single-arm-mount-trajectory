@@ -191,6 +191,14 @@ def _as_rank_record(record):
     }
 
 
+def _best_observed_mount(records):
+    if not records:
+        return None, None
+    selected = min(records, key=lambda row: rank_mount_result(
+        _as_rank_record(row)))
+    return selected.get("mount"), _as_rank_record(selected)
+
+
 def run_job(job: StudyJob, output=DEFAULT_OUTPUT, *, short_prefix=None,
             search_config=PerTaskSearchConfig()):
     spec, mode = job.spec, job.mode
@@ -231,7 +239,9 @@ def run_job(job: StudyJob, output=DEFAULT_OUTPUT, *, short_prefix=None,
             (row for row in coarse if _sparse_safe(row)),
             key=rank_paired_mount_candidate)
         if not safe_coarse:
-            state.update(status="infeasible", selected_mount=None,
+            selected_mount, selected_result = _best_observed_mount(coarse)
+            state.update(status="infeasible", selected_mount=selected_mount,
+                         selected_result=selected_result,
                          failure_stage="coarse")
             atomic_json(checkpoint, state)
             return state
@@ -248,7 +258,9 @@ def run_job(job: StudyJob, output=DEFAULT_OUTPUT, *, short_prefix=None,
             (row for row in dense if _sparse_safe(row)),
             key=rank_paired_mount_candidate)
         if not safe_dense:
-            state.update(status="infeasible", selected_mount=None,
+            selected_mount, selected_result = _best_observed_mount(dense)
+            state.update(status="infeasible", selected_mount=selected_mount,
+                         selected_result=selected_result,
                          failure_stage="dense")
             atomic_json(checkpoint, state)
             return state
@@ -282,8 +294,10 @@ def run_job(job: StudyJob, output=DEFAULT_OUTPUT, *, short_prefix=None,
             evaluator=lambda mount, serial, _: evaluate_full_pair(task, mount, serial))
 
     if not full:
-        state.update(status="infeasible", selected_mount=None,
-                     failure_stage="full")
+        selected_mount, selected_result = _best_observed_mount(
+            state.get("records", []))
+        state.update(status="infeasible", selected_mount=selected_mount,
+                     selected_result=selected_result, failure_stage="full")
     else:
         selected = min(full, key=lambda row: rank_mount_result(_as_rank_record(row)))
         state.update(
