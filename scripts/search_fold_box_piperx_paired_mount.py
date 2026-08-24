@@ -159,7 +159,14 @@ def deterministic_pair_mounts(task, *, maximum=72, shared_base_z_m=.81):
     return [records[index] for index in chosen]
 
 
-def _prepare_targets(model, task, indices):
+def _prepare_targets(model, task, indices, mapped_quaternions=None):
+    if mapped_quaternions is not None:
+        sampled = subset(task, indices)
+        sampled.left_quaternion_wxyz = np.asarray(
+            mapped_quaternions["left"])[indices]
+        sampled.right_quaternion_wxyz = np.asarray(
+            mapped_quaternions["right"])[indices]
+        return sampled
     mapped = mapped_quaternions_at_joint_midpoint(
         model, task, robot_name="piperx")
     values = {}
@@ -184,7 +191,8 @@ def evaluate_pair(task, mount, serial, *, uniform_count=14,
                   global_seed_count=2, max_iterations=55,
                   maximum_candidates=2, constrained_fallback_enabled=True,
                   position_tolerance_m=.001,
-                  orientation_tolerance_rad=np.deg2rad(1.5)):
+                  orientation_tolerance_rad=np.deg2rad(1.5),
+                  mapped_quaternions=None):
     if not _valid_mount(mount):
         raise ValueError("paired mount is outside table/non-overlap bounds")
     xy = mount["xy"]; yaw = mount["yaw"]
@@ -199,7 +207,8 @@ def evaluate_pair(task, mount, serial, *, uniform_count=14,
     combined = .5 * (task.left_position_m + task.right_position_m)
     indices = layered_sample_indices(
         len(task.time_s), combined, uniform_count=uniform_count)
-    sampled = _prepare_targets(model, task, indices)
+    sampled = _prepare_targets(
+        model, task, indices, mapped_quaternions=mapped_quaternions)
     names = {side: {"joints": CONTRACT.prefixed_joint_names(side),
                     "site": f"{side}_tcp"} for side in ("left", "right")}
     data = mujoco.MjData(model)

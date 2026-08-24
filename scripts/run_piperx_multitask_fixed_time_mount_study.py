@@ -7,6 +7,7 @@ import hashlib
 import json
 from pathlib import Path
 import time
+from types import SimpleNamespace
 
 import numpy as np
 
@@ -37,6 +38,12 @@ from scripts.search_fold_box_piperx_paired_mount import (
     _valid_mount,
     evaluate_pair,
 )
+from scripts.render_factory_dual_piperx_fixed_time import (
+    load_locked_piperx_calibration,
+)
+from scripts.run_piperx_recommended_v31 import (
+    condition_complete_follow_targets,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -50,7 +57,7 @@ STUDY_SEARCH_CONFIG = PerTaskSearchConfig(
     dense_budget=3,
     local_budget=6,
     finalist_budget=2,
-    schema="piperx-multitask-family-shared-search-v5-current-funnel-only",
+    schema="piperx-multitask-family-shared-search-v6-calibrated-targets",
 )
 
 
@@ -139,13 +146,37 @@ def _load_registered_spec(spec: TrajectorySpec):
 def _prefix_task(task, rows):
     if rows is None or rows >= len(task.time_s):
         return task
-    from dataclasses import replace
     count = min(len(task.time_s), max(2, int(rows)))
     values = {}
     for name, value in task.__dict__.items():
         if isinstance(value, np.ndarray) and value.ndim and len(value) == len(task.time_s):
             values[name] = value[:count].copy()
-    return replace(task, **values)
+    from dataclasses import is_dataclass, replace
+    if is_dataclass(task):
+        return replace(task, **values)
+    return SimpleNamespace(**{**task.__dict__, **values})
+
+
+def prepare_family_follow_targets(spec, task, *, apply_conditioning=True):
+    """Apply the v3.1 family TCP, wrist, and conditioning contract once."""
+    config = load_recommended_config()
+    mount_spec = config.mounts[spec.family.key]
+    calibration = load_locked_piperx_calibration()
+    offsets = {
+        "left": (mount_spec.left_tool_offset_quaternion_wxyz
+                 or calibration.left_offset_quaternion_wxyz),
+        "right": (mount_spec.right_tool_offset_quaternion_wxyz
+                  or calibration.right_offset_quaternion_wxyz),
+    }
+    return condition_complete_follow_targets(
+        task, offsets,
+        tool_translations={
+            "left": mount_spec.left_tool_translation_m,
+            "right": mount_spec.right_tool_translation_m,
+        },
+        wrist_adaptation=mount_spec.wrist_adaptation,
+        apply_conditioning=apply_conditioning,
+    )
 
 
 def _baseline_mount(spec, registration):
@@ -178,7 +209,7 @@ def _normalize_baseline_mount_payload(payload):
 
 def _candidate_fingerprint(spec, mode, stage, mount, settings):
     payload = {
-        "schema": "piperx-multitask-family-shared-search-v2",
+        "schema": "piperx-multitask-calibrated-target-search-v3",
         "source_sha256": spec.source_sha256,
         "mode": mode, "stage": stage, "mount": mount,
         "settings": settings,
@@ -299,7 +330,12 @@ def run_job(job: StudyJob, output=DEFAULT_OUTPUT, *, short_prefix=None,
 
     state["search_schema"] = search_config.schema
     task, registration = _load_registered_spec(spec)
+    task, mapped_quaternions, _conditioning_audit = (
+        prepare_family_follow_targets(spec, task))
     task = _prefix_task(task, short_prefix)
+    mapped_quaternions = {
+        side: np.asarray(mapped_quaternions[side])[:len(task.time_s)]
+        for side in ("left", "right")}
 
     if mode == "baseline":
         # Baseline is the configured comparison anchor, not a searched
@@ -331,7 +367,8 @@ def run_job(job: StudyJob, output=DEFAULT_OUTPUT, *, short_prefix=None,
                       "orientation_tolerance_rad": STUDY_ORIENTATION_TOLERANCE_RAD,
                       "constrained_fallback_enabled": False},
             evaluator=lambda mount, serial, settings: evaluate_pair(
-                task, mount, serial, **settings))
+                task, mount, serial,
+                mapped_quaternions=mapped_quaternions, **settings))
         safe_coarse = sorted(
             (row for row in coarse if _sparse_safe(row)),
             key=rank_paired_mount_candidate)
@@ -352,7 +389,8 @@ def run_job(job: StudyJob, output=DEFAULT_OUTPUT, *, short_prefix=None,
                       "orientation_tolerance_rad": STUDY_ORIENTATION_TOLERANCE_RAD,
                       "constrained_fallback_enabled": True},
             evaluator=lambda mount, serial, settings: evaluate_pair(
-                task, mount, serial, **settings))
+                task, mount, serial,
+                mapped_quaternions=mapped_quaternions, **settings))
         safe_dense = sorted(
             (row for row in dense if _sparse_safe(row)),
             key=rank_paired_mount_candidate)
@@ -385,7 +423,8 @@ def run_job(job: StudyJob, output=DEFAULT_OUTPUT, *, short_prefix=None,
                       "orientation_tolerance_rad": STUDY_ORIENTATION_TOLERANCE_RAD,
                       "constrained_fallback_enabled": True},
             evaluator=lambda mount, serial, settings: evaluate_pair(
-                task, mount, serial, **settings))
+                task, mount, serial,
+                mapped_quaternions=mapped_quaternions, **settings))
         finalists = sorted(
             (row for row in [*dense, *local] if _sparse_safe(row)),
             key=rank_paired_mount_candidate)[:search_config.finalist_budget]
@@ -400,6 +439,7 @@ def run_job(job: StudyJob, output=DEFAULT_OUTPUT, *, short_prefix=None,
                       "scope": "family-representative-uniform-probe-v3"},
             evaluator=lambda mount, serial, settings: evaluate_pair(
                 task, mount, serial,
+                mapped_quaternions=mapped_quaternions,
                 **{key: value for key, value in settings.items()
                    if key != "scope"}))
 

@@ -9,6 +9,8 @@ from factory_bimanual.multitask_fixed_time_study import (
     TrajectorySpec,
 )
 from factory_bimanual.task_family import TaskFamily
+from factory_bimanual.tool_frame_calibration import apply_fixed_tool_translation
+from factory_bimanual.piperx_recommended import load_recommended_config
 from scripts.run_piperx_multitask_fixed_time_mount_study import (
     _best_observed_mount,
     _best_current_funnel_mount,
@@ -17,6 +19,7 @@ from scripts.run_piperx_multitask_fixed_time_mount_study import (
     STUDY_POSITION_TOLERANCE_M,
     family_representative_spec,
     plan_jobs,
+    prepare_family_follow_targets,
     rank_mount_result,
     study_status_path,
 )
@@ -96,6 +99,31 @@ def test_positive_low_profile_recommended_adapter_is_not_raised():
 
     assert normalized["shared_base_z_m"] == pytest.approx(.75709)
     assert normalized["selection_method"] == "configured"
+
+
+def test_family_target_preparation_applies_configured_tcp_translation():
+    from factory_bimanual.multitask_fixed_time_study import (
+        discover_dual_hand_trajectories,
+    )
+    from scripts.run_piperx_multitask_fixed_time_mount_study import (
+        ROOT,
+        _load_registered_spec,
+    )
+
+    specs = discover_dual_hand_trajectories(ROOT / "data/factory")
+    spec = next(item for item in specs
+                if item.key == "8-11/Fold_Box/161044")
+    raw, _registration = _load_registered_spec(spec)
+    prepared, _mapped, _audit = prepare_family_follow_targets(
+        spec, raw, apply_conditioning=False)
+    mount_spec = load_recommended_config().mounts[spec.family.key]
+    expected_left = apply_fixed_tool_translation(
+        raw.left_position_m, raw.left_quaternion_wxyz,
+        mount_spec.left_tool_translation_m)
+
+    np.testing.assert_allclose(prepared.left_position_m, expected_left)
+    assert not np.allclose(prepared.left_position_m, raw.left_position_m)
+    assert hasattr(prepared, "right_wrist_adaptation_angle_deg")
 
 
 def test_family_mount_search_uses_configured_representative_take():

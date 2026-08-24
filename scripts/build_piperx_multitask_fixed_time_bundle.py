@@ -28,10 +28,7 @@ from factory_bimanual.robot_contracts import ROBOT_CONTRACTS
 from factory_bimanual.scene_builder import build_same_model_scene
 from scripts import render_factory_dual_piperx_fixed_time as fixed_runner
 from scripts import run_piperx_multitask_fixed_time_mount_study as search_runner
-from scripts.render_factory_dual_xarm6_se3_follow import (
-    audit_bimanual_collisions,
-    prepare_follow_targets,
-)
+from scripts.render_factory_dual_xarm6_se3_follow import audit_bimanual_collisions
 from scripts.search_fold_box_piperx_paired_mount import _scene_mount_kwargs
 
 
@@ -297,7 +294,11 @@ def solve_selected_shard(spec, mode, output_root=DEFAULT_OUTPUT, *,
         raise ValueError(f"{spec.key}/{mode}: selected mount is unavailable")
     mount = state["selected_mount"]
     task, _registration = search_runner._load_registered_spec(spec)
+    task, mapped, conditioning_audit = (
+        search_runner.prepare_family_follow_targets(spec, task))
     task = search_runner._prefix_task(task, source_prefix)
+    mapped = {side: np.asarray(mapped[side])[:len(task.time_s)]
+              for side in ("left", "right")}
     shard_dir = (Path(output_root) / "shards" / spec.family.date
                  / spec.family.task / spec.take / mode)
     shard_dir.mkdir(parents=True, exist_ok=True)
@@ -312,8 +313,7 @@ def solve_selected_shard(spec, mode, output_root=DEFAULT_OUTPUT, *,
         mount_xy_m=mount["xy"], mount_yaw_deg=mount["yaw"],
         **_scene_mount_kwargs(task, mount))
     model = mujoco.MjModel.from_xml_path(str(scene))
-    prepared, mapped = prepare_follow_targets(
-        model, task, calibration=fixed_runner.load_locked_piperx_calibration())
+    prepared = task
     (qpos, actual, position_error, orientation_error, _strict,
      discontinuity, diagnostics) = _solve_candidate_dls_hold(
         model, prepared, mapped, branch_guard_rad=0.30)
@@ -371,6 +371,12 @@ def solve_selected_shard(spec, mode, output_root=DEFAULT_OUTPUT, *,
         "timing_mode": "fixed_source_time",
         "retiming_applied": False,
         "source_sha256": spec.source_sha256,
+        "target_preparation": {
+            "protocol": "piperx-v3.1-family-tool-frame-and-wrist",
+            "conditioning": {
+                key: value for key, value in conditioning_audit.__dict__.items()
+            },
+        },
         "mount": mount, "metrics": metrics,
         "dynamics": {
             "maximum_velocity_rad_s": float(np.max(np.abs(velocity))),
