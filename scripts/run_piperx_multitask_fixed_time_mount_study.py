@@ -40,12 +40,14 @@ from scripts.search_fold_box_piperx_paired_mount import (
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = ROOT / "reports/piperx_multitask_fixed_time_mount_study"
+STUDY_POSITION_TOLERANCE_M = .001
+STUDY_ORIENTATION_TOLERANCE_RAD = float(np.deg2rad(.5))
 STUDY_SEARCH_CONFIG = PerTaskSearchConfig(
     coarse_budget=16,
     dense_budget=3,
     local_budget=6,
     finalist_budget=2,
-    schema="piperx-multitask-family-shared-search-v3",
+    schema="piperx-multitask-family-shared-search-v4-strict-half-degree",
 )
 
 
@@ -296,6 +298,8 @@ def run_job(job: StudyJob, output=DEFAULT_OUTPUT, *, short_prefix=None,
             stage="coarse", mounts=generate_mounts(mode, task, config),
             settings={"uniform_count": 8, "global_seed_count": 1,
                       "max_iterations": 45, "maximum_candidates": 1,
+                      "position_tolerance_m": STUDY_POSITION_TOLERANCE_M,
+                      "orientation_tolerance_rad": STUDY_ORIENTATION_TOLERANCE_RAD,
                       "constrained_fallback_enabled": False},
             evaluator=lambda mount, serial, settings: evaluate_pair(
                 task, mount, serial, **settings))
@@ -315,6 +319,8 @@ def run_job(job: StudyJob, output=DEFAULT_OUTPUT, *, short_prefix=None,
             stage="dense", mounts=dense_mounts,
             settings={"uniform_count": 30, "global_seed_count": 6,
                       "max_iterations": 100, "maximum_candidates": 3,
+                      "position_tolerance_m": STUDY_POSITION_TOLERANCE_M,
+                      "orientation_tolerance_rad": STUDY_ORIENTATION_TOLERANCE_RAD,
                       "constrained_fallback_enabled": True},
             evaluator=lambda mount, serial, settings: evaluate_pair(
                 task, mount, serial, **settings))
@@ -346,6 +352,8 @@ def run_job(job: StudyJob, output=DEFAULT_OUTPUT, *, short_prefix=None,
                 local_mounts, search_config.local_budget),
             settings={"uniform_count": 36, "global_seed_count": 7,
                       "max_iterations": 110, "maximum_candidates": 4,
+                      "position_tolerance_m": STUDY_POSITION_TOLERANCE_M,
+                      "orientation_tolerance_rad": STUDY_ORIENTATION_TOLERANCE_RAD,
                       "constrained_fallback_enabled": True},
             evaluator=lambda mount, serial, settings: evaluate_pair(
                 task, mount, serial, **settings))
@@ -357,6 +365,8 @@ def run_job(job: StudyJob, output=DEFAULT_OUTPUT, *, short_prefix=None,
             stage="full", mounts=[row["mount"] for row in finalists],
             settings={"uniform_count": 80, "global_seed_count": 8,
                       "max_iterations": 110, "maximum_candidates": 4,
+                      "position_tolerance_m": STUDY_POSITION_TOLERANCE_M,
+                      "orientation_tolerance_rad": STUDY_ORIENTATION_TOLERANCE_RAD,
                       "constrained_fallback_enabled": True,
                       "scope": "family-representative-uniform-probe-v3"},
             evaluator=lambda mount, serial, settings: evaluate_pair(

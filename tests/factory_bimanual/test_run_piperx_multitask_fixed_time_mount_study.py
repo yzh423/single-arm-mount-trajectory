@@ -1,6 +1,9 @@
 from dataclasses import replace
 from pathlib import Path
 
+import numpy as np
+import pytest
+
 from factory_bimanual.multitask_fixed_time_study import (
     STUDY_MODES,
     TrajectorySpec,
@@ -8,6 +11,8 @@ from factory_bimanual.multitask_fixed_time_study import (
 from factory_bimanual.task_family import TaskFamily
 from scripts.run_piperx_multitask_fixed_time_mount_study import (
     _best_observed_mount,
+    STUDY_ORIENTATION_TOLERANCE_RAD,
+    STUDY_POSITION_TOLERANCE_M,
     family_representative_spec,
     plan_jobs,
     rank_mount_result,
@@ -40,6 +45,11 @@ def test_mode_workers_write_isolated_status_files(tmp_path):
             == "study_status_upright_table.json")
     assert (study_status_path(tmp_path, "horizontal_wall")
             != study_status_path(tmp_path, "inverted"))
+
+
+def test_mount_search_uses_requested_strict_pose_gate():
+    assert STUDY_POSITION_TOLERANCE_M == pytest.approx(.001)
+    assert np.rad2deg(STUDY_ORIENTATION_TOLERANCE_RAD) == pytest.approx(.5)
 
 
 def test_family_mount_search_uses_configured_representative_take():

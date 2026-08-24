@@ -182,7 +182,9 @@ def _prepare_targets(model, task, indices):
 
 def evaluate_pair(task, mount, serial, *, uniform_count=14,
                   global_seed_count=2, max_iterations=55,
-                  maximum_candidates=2, constrained_fallback_enabled=True):
+                  maximum_candidates=2, constrained_fallback_enabled=True,
+                  position_tolerance_m=.001,
+                  orientation_tolerance_rad=np.deg2rad(1.5)):
     if not _valid_mount(mount):
         raise ValueError("paired mount is outside table/non-overlap bounds")
     xy = mount["xy"]; yaw = mount["yaw"]
@@ -204,6 +206,8 @@ def evaluate_pair(task, mount, serial, *, uniform_count=14,
     generator = MuJoCoCandidateGenerator(
         model, data, CONTRACT, name_map=names,
         config=CandidateGeneratorConfig(
+            position_tolerance_m=position_tolerance_m,
+            orientation_tolerance_rad=orientation_tolerance_rad,
             max_iterations=max_iterations, maximum_candidates=maximum_candidates,
             global_seed_count=global_seed_count,
             dedup_rad=np.deg2rad(1.0),
