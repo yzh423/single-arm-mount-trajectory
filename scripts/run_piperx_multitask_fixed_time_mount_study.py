@@ -32,6 +32,7 @@ from scripts.search_fold_box_piperx_mount import (
     rank_paired_mount_candidate,
 )
 from scripts.search_fold_box_piperx_paired_mount import (
+    TABLE_HEIGHT_M,
     _sparse_safe,
     _valid_mount,
     evaluate_pair,
@@ -40,6 +41,8 @@ from scripts.search_fold_box_piperx_paired_mount import (
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = ROOT / "reports/piperx_multitask_fixed_time_mount_study"
+BASELINE_SCHEMA = "piperx-physical-baseline-scene-v2"
+BASELINE_ADAPTER_HEIGHT_M = .08
 STUDY_POSITION_TOLERANCE_M = .001
 STUDY_ORIENTATION_TOLERANCE_RAD = float(np.deg2rad(.5))
 STUDY_SEARCH_CONFIG = PerTaskSearchConfig(
@@ -150,13 +153,27 @@ def _baseline_mount(spec, registration):
         load_recommended_config(), spec.family,
         registration.rotation_world_from_vr,
         registration.translation_world_m)
-    return {
-        "xy": {side: list(mount.xy[side]) for side in ("left", "right")},
-        "yaw": {side: float(mount.yaw_deg[side]) for side in ("left", "right")},
-        "shared_base_z_m": float(mount.shared_base_z_m),
-        "source_take": mount.source_take,
-        "selection_method": mount.selection_method,
-    }
+    return _normalize_baseline_mount_payload(mount.as_scene_mount())
+
+
+def _normalize_baseline_mount_payload(payload):
+    """Retain the configured orientation while enforcing physical support."""
+    result = json.loads(json.dumps(payload))
+    original_z = float(result["shared_base_z_m"])
+    mode = result.get("mode", "upright_table")
+    lower = TABLE_HEIGHT_M + BASELINE_ADAPTER_HEIGHT_M
+    normalized_z = original_z
+    if mode in {"upright_table", "horizontal_wall", "horizontal_forward"}:
+        normalized_z = min(1.50, max(lower, original_z))
+    result["shared_base_z_m"] = normalized_z
+    result["base_z_m"] = {
+        side: normalized_z for side in ("left", "right")}
+    if not np.isclose(normalized_z, original_z, rtol=0.0, atol=1e-12):
+        method = result.get("selection_method", "configured baseline")
+        result["selection_method"] = (
+            f"{method}; physical support clamp "
+            f"{original_z:.6f} m -> {normalized_z:.6f} m")
+    return result
 
 
 def _candidate_fingerprint(spec, mode, stage, mount, settings):
@@ -244,8 +261,10 @@ def run_job(job: StudyJob, output=DEFAULT_OUTPUT, *, short_prefix=None,
         raise ValueError(f"{job.key}: checkpoint source hash mismatch")
     terminal = state.get("status") in {"complete", "infeasible"}
     current_search = state.get("search_schema") == search_config.schema
+    current_baseline = state.get("baseline_schema") == BASELINE_SCHEMA
     if (terminal and state.get("selected_mount")
-            and (mode == "baseline" or current_search)):
+            and ((mode == "baseline" and current_baseline)
+                 or (mode != "baseline" and current_search))):
         return state
 
     if mode != "baseline":
@@ -287,6 +306,7 @@ def run_job(job: StudyJob, output=DEFAULT_OUTPUT, *, short_prefix=None,
             selected_result=None,
             selection_stage="configured_baseline",
             representative_trajectory=spec.key,
+            baseline_schema=BASELINE_SCHEMA,
         )
         atomic_json(checkpoint, state)
         return state

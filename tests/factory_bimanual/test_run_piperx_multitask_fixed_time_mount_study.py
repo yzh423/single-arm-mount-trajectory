@@ -11,6 +11,7 @@ from factory_bimanual.multitask_fixed_time_study import (
 from factory_bimanual.task_family import TaskFamily
 from scripts.run_piperx_multitask_fixed_time_mount_study import (
     _best_observed_mount,
+    _normalize_baseline_mount_payload,
     STUDY_ORIENTATION_TOLERANCE_RAD,
     STUDY_POSITION_TOLERANCE_M,
     family_representative_spec,
@@ -50,6 +51,36 @@ def test_mode_workers_write_isolated_status_files(tmp_path):
 def test_mount_search_uses_requested_strict_pose_gate():
     assert STUDY_POSITION_TOLERANCE_M == pytest.approx(.001)
     assert np.rad2deg(STUDY_ORIENTATION_TOLERANCE_RAD) == pytest.approx(.5)
+
+
+def test_baseline_mount_preserves_mode_and_has_physical_table_adapter():
+    payload = {
+        "mode": "upright_table",
+        "shared_base_z_m": .732,
+        "base_z_m": {"left": .732, "right": .732},
+        "selection_method": "configured",
+    }
+
+    normalized = _normalize_baseline_mount_payload(payload)
+
+    assert normalized["mode"] == "upright_table"
+    assert normalized["shared_base_z_m"] == pytest.approx(.83)
+    assert normalized["base_z_m"] == {"left": .83, "right": .83}
+    assert "physical support clamp" in normalized["selection_method"]
+
+
+def test_horizontal_baseline_mode_is_not_rewritten_as_upright():
+    payload = {
+        "mode": "horizontal_forward",
+        "shared_base_z_m": 1.2,
+        "base_z_m": {"left": 1.2, "right": 1.2},
+        "selection_method": "configured",
+    }
+
+    normalized = _normalize_baseline_mount_payload(payload)
+
+    assert normalized["mode"] == "horizontal_forward"
+    assert normalized["shared_base_z_m"] == pytest.approx(1.2)
 
 
 def test_family_mount_search_uses_configured_representative_take():
