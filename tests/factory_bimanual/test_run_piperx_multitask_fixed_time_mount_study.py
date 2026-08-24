@@ -11,6 +11,7 @@ from scripts.run_piperx_multitask_fixed_time_mount_study import (
     family_representative_spec,
     plan_jobs,
     rank_mount_result,
+    study_status_path,
 )
 
 
@@ -31,6 +32,14 @@ def test_job_matrix_contains_every_trajectory_mount_pair():
     assert len(jobs) == 108
     assert len({(job.spec.key, job.mode) for job in jobs}) == 108
     assert {job.mode for job in jobs} == set(STUDY_MODES)
+
+
+def test_mode_workers_write_isolated_status_files(tmp_path):
+    assert study_status_path(tmp_path, None).name == "study_status.json"
+    assert (study_status_path(tmp_path, "upright_table").name
+            == "study_status_upright_table.json")
+    assert (study_status_path(tmp_path, "horizontal_wall")
+            != study_status_path(tmp_path, "inverted"))
 
 
 def test_family_mount_search_uses_configured_representative_take():

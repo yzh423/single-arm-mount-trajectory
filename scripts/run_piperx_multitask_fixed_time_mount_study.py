@@ -114,6 +114,11 @@ def atomic_json(path: Path, payload) -> None:
     temporary.replace(path)
 
 
+def study_status_path(output, mode):
+    suffix = f"_{mode}" if mode else ""
+    return Path(output) / f"study_status{suffix}.json"
+
+
 def _load_registered_spec(spec: TrajectorySpec):
     source = load_factory_task(
         spec.path, spec.family.key, max_translation_jump_m=0.20,
@@ -395,7 +400,7 @@ def run_study(output=DEFAULT_OUTPUT, *, trajectory=None, mode=None,
             }
         except Exception as error:
             results[job.key] = {"status": "error", "error": repr(error)}
-        atomic_json(Path(output) / "study_status.json", {
+        atomic_json(study_status_path(output, mode), {
             "schema": "piperx-multitask-fixed-time-study-status-v1",
             "planned_jobs": len(jobs), "results": results})
     return results
