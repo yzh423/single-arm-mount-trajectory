@@ -217,18 +217,18 @@ def run_job(job: StudyJob, output=DEFAULT_OUTPUT, *, short_prefix=None,
     task = _prefix_task(task, short_prefix)
 
     if mode == "baseline":
-        mounts = [_baseline_mount(spec, registration)]
-        full = _evaluate_stage(
-            state=state, checkpoint=checkpoint, spec=spec, mode=mode,
-            stage="full", mounts=mounts,
-            settings={"uniform_count": 160, "global_seed_count": 10,
-                      "max_iterations": 120, "maximum_candidates": 5,
-                      "constrained_fallback_enabled": True,
-                      "scope": "full-domain-uniform-probe-v2"},
-            evaluator=lambda mount, serial, settings: evaluate_pair(
-                task, mount, serial,
-                **{key: value for key, value in settings.items()
-                   if key != "scope"}))
+        # Baseline is the configured comparison anchor, not a searched
+        # candidate.  Its complete metrics are produced by the strict shard
+        # solver, so running a second expensive screening solve here would
+        # only duplicate work.
+        state.update(
+            status="complete",
+            selected_mount=_baseline_mount(spec, registration),
+            selected_result=None,
+            selection_stage="configured_baseline",
+        )
+        atomic_json(checkpoint, state)
+        return state
     else:
         config = OrientationSearchConfig(
             modes=(mode,), maximum_candidates=search_config.coarse_budget)
