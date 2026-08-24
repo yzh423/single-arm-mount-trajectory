@@ -41,8 +41,8 @@ from scripts.search_fold_box_piperx_paired_mount import (
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = ROOT / "reports/piperx_multitask_fixed_time_mount_study"
-BASELINE_SCHEMA = "piperx-physical-baseline-scene-v2"
-BASELINE_ADAPTER_HEIGHT_M = .08
+BASELINE_SCHEMA = "piperx-family-shared-physical-baseline-v3"
+BASELINE_MINIMUM_ADAPTER_HEIGHT_M = .001
 STUDY_POSITION_TOLERANCE_M = .001
 STUDY_ORIENTATION_TOLERANCE_RAD = float(np.deg2rad(.5))
 STUDY_SEARCH_CONFIG = PerTaskSearchConfig(
@@ -161,10 +161,10 @@ def _normalize_baseline_mount_payload(payload):
     result = json.loads(json.dumps(payload))
     original_z = float(result["shared_base_z_m"])
     mode = result.get("mode", "upright_table")
-    lower = TABLE_HEIGHT_M + BASELINE_ADAPTER_HEIGHT_M
+    lower = TABLE_HEIGHT_M + BASELINE_MINIMUM_ADAPTER_HEIGHT_M
     normalized_z = original_z
     if mode in {"upright_table", "horizontal_wall", "horizontal_forward"}:
-        normalized_z = min(1.50, max(lower, original_z))
+        normalized_z = max(lower, original_z)
     result["shared_base_z_m"] = normalized_z
     result["base_z_m"] = {
         side: normalized_z for side in ("left", "right")}
@@ -273,12 +273,12 @@ def run_job(job: StudyJob, output=DEFAULT_OUTPUT, *, short_prefix=None,
                  or (mode != "baseline" and current_search))):
         return state
 
+    specs = (tuple(study_specs) if study_specs is not None else
+             discover_dual_hand_trajectories(ROOT / "data/factory"))
+    recommended = load_recommended_config().mounts[spec.family.key]
+    representative = family_representative_spec(
+        specs, spec, recommended.source_take)
     if mode != "baseline":
-        specs = (tuple(study_specs) if study_specs is not None else
-                 discover_dual_hand_trajectories(ROOT / "data/factory"))
-        recommended = load_recommended_config().mounts[spec.family.key]
-        representative = family_representative_spec(
-            specs, spec, recommended.source_take)
         if representative.key != spec.key:
             representative_state = run_job(
                 StudyJob(representative, mode), output,
@@ -306,12 +306,15 @@ def run_job(job: StudyJob, output=DEFAULT_OUTPUT, *, short_prefix=None,
         # candidate.  Its complete metrics are produced by the strict shard
         # solver, so running a second expensive screening solve here would
         # only duplicate work.
+        _representative_task, representative_registration = (
+            _load_registered_spec(representative))
         state.update(
             status="complete",
-            selected_mount=_baseline_mount(spec, registration),
+            selected_mount=_baseline_mount(
+                spec, representative_registration),
             selected_result=None,
             selection_stage="configured_baseline",
-            representative_trajectory=spec.key,
+            representative_trajectory=representative.key,
             baseline_schema=BASELINE_SCHEMA,
         )
         atomic_json(checkpoint, state)

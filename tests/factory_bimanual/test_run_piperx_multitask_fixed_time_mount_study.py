@@ -65,8 +65,8 @@ def test_baseline_mount_preserves_mode_and_has_physical_table_adapter():
     normalized = _normalize_baseline_mount_payload(payload)
 
     assert normalized["mode"] == "upright_table"
-    assert normalized["shared_base_z_m"] == pytest.approx(.83)
-    assert normalized["base_z_m"] == {"left": .83, "right": .83}
+    assert normalized["shared_base_z_m"] == pytest.approx(.751)
+    assert normalized["base_z_m"] == {"left": .751, "right": .751}
     assert "physical support clamp" in normalized["selection_method"]
 
 
@@ -82,6 +82,20 @@ def test_horizontal_baseline_mode_is_not_rewritten_as_upright():
 
     assert normalized["mode"] == "horizontal_forward"
     assert normalized["shared_base_z_m"] == pytest.approx(1.2)
+
+
+def test_positive_low_profile_recommended_adapter_is_not_raised():
+    payload = {
+        "mode": "upright_table",
+        "shared_base_z_m": .75709,
+        "base_z_m": {"left": .75709, "right": .75709},
+        "selection_method": "configured",
+    }
+
+    normalized = _normalize_baseline_mount_payload(payload)
+
+    assert normalized["shared_base_z_m"] == pytest.approx(.75709)
+    assert normalized["selection_method"] == "configured"
 
 
 def test_family_mount_search_uses_configured_representative_take():
