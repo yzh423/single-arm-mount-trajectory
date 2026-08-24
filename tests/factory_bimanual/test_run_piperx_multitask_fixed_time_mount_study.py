@@ -1,3 +1,4 @@
+from dataclasses import replace
 from pathlib import Path
 
 from factory_bimanual.multitask_fixed_time_study import (
@@ -6,6 +7,7 @@ from factory_bimanual.multitask_fixed_time_study import (
 )
 from factory_bimanual.task_family import TaskFamily
 from scripts.run_piperx_multitask_fixed_time_mount_study import (
+    family_representative_spec,
     plan_jobs,
     rank_mount_result,
 )
@@ -28,6 +30,29 @@ def test_job_matrix_contains_every_trajectory_mount_pair():
     assert len(jobs) == 108
     assert len({(job.spec.key, job.mode) for job in jobs}) == 108
     assert {job.mode for job in jobs} == set(STUDY_MODES)
+
+
+def test_family_mount_search_uses_configured_representative_take():
+    base = _spec(0)
+    specs = tuple(replace(base, take=f"{index:06d}") for index in range(3))
+
+    representative = family_representative_spec(
+        specs, specs[2], representative_take="000001")
+
+    assert representative == specs[1]
+
+
+def test_family_representative_must_exist_in_discovered_dual_hand_data():
+    base = _spec(0)
+    specs = tuple(replace(base, take=f"{index:06d}") for index in range(3))
+
+    try:
+        family_representative_spec(
+            specs, specs[0], representative_take="999999")
+    except ValueError as error:
+        assert "configured representative take" in str(error)
+    else:
+        raise AssertionError("missing representative take was accepted")
 
 
 def test_collision_free_full_coverage_outranks_unsafe_and_partial_mounts():

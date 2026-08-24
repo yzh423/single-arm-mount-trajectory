@@ -40,6 +40,13 @@ from scripts.search_fold_box_piperx_paired_mount import (
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = ROOT / "reports/piperx_multitask_fixed_time_mount_study"
+STUDY_SEARCH_CONFIG = PerTaskSearchConfig(
+    coarse_budget=16,
+    dense_budget=3,
+    local_budget=6,
+    finalist_budget=2,
+    schema="piperx-multitask-family-shared-search-v2",
+)
 
 
 @dataclass(frozen=True)
@@ -63,6 +70,21 @@ def plan_jobs(specs, modes=STUDY_MODES):
     if len({job.key for job in jobs}) != len(jobs):
         raise ValueError("study job keys must be unique")
     return jobs
+
+
+def family_representative_spec(specs, spec, representative_take):
+    """Resolve the configured dual-hand representative within one task family."""
+    matches = tuple(
+        candidate for candidate in specs
+        if (candidate.family.key == spec.family.key
+            and candidate.take == representative_take)
+    )
+    if len(matches) != 1:
+        raise ValueError(
+            f"{spec.family.key}: configured representative take "
+            f"{representative_take!r} was not found exactly once in the "
+            "discovered dual-hand data")
+    return matches[0]
 
 
 def rank_mount_result(record):
@@ -132,7 +154,7 @@ def _baseline_mount(spec, registration):
 
 def _candidate_fingerprint(spec, mode, stage, mount, settings):
     payload = {
-        "schema": "piperx-multitask-fixed-time-search-v1",
+        "schema": "piperx-multitask-family-shared-search-v2",
         "source_sha256": spec.source_sha256,
         "mode": mode, "stage": stage, "mount": mount,
         "settings": settings,
@@ -199,7 +221,7 @@ def _best_observed_mount(records):
 
 
 def run_job(job: StudyJob, output=DEFAULT_OUTPUT, *, short_prefix=None,
-            search_config=PerTaskSearchConfig()):
+            search_config=STUDY_SEARCH_CONFIG, study_specs=None):
     spec, mode = job.spec, job.mode
     checkpoint = (Path(output) / "checkpoints" / spec.family.date
                   / spec.family.task / spec.take / f"{mode}.json")
@@ -211,8 +233,37 @@ def run_job(job: StudyJob, output=DEFAULT_OUTPUT, *, short_prefix=None,
                  "status": "running", "records": []})
     if state.get("source_sha256") != spec.source_sha256:
         raise ValueError(f"{job.key}: checkpoint source hash mismatch")
-    if state.get("status") == "complete" and state.get("selected_mount"):
+    terminal = state.get("status") in {"complete", "infeasible"}
+    current_search = state.get("search_schema") == search_config.schema
+    if (terminal and state.get("selected_mount")
+            and (mode == "baseline" or current_search)):
         return state
+
+    if mode != "baseline":
+        specs = (tuple(study_specs) if study_specs is not None else
+                 discover_dual_hand_trajectories(ROOT / "data/factory"))
+        recommended = load_recommended_config().mounts[spec.family.key]
+        representative = family_representative_spec(
+            specs, spec, recommended.source_take)
+        if representative.key != spec.key:
+            representative_state = run_job(
+                StudyJob(representative, mode), output,
+                short_prefix=short_prefix, search_config=search_config,
+                study_specs=specs)
+            state.update(
+                status=representative_state["status"],
+                selected_mount=representative_state.get("selected_mount"),
+                selected_result=representative_state.get("selected_result"),
+                selection_stage="family_shared_representative",
+                representative_trajectory=representative.key,
+                search_schema=search_config.schema,
+            )
+            if representative_state.get("failure_stage"):
+                state["failure_stage"] = representative_state["failure_stage"]
+            atomic_json(checkpoint, state)
+            return state
+
+    state["search_schema"] = search_config.schema
     task, registration = _load_registered_spec(spec)
     task = _prefix_task(task, short_prefix)
 
@@ -226,6 +277,7 @@ def run_job(job: StudyJob, output=DEFAULT_OUTPUT, *, short_prefix=None,
             selected_mount=_baseline_mount(spec, registration),
             selected_result=None,
             selection_stage="configured_baseline",
+            representative_trajectory=spec.key,
         )
         atomic_json(checkpoint, state)
         return state
@@ -295,10 +347,10 @@ def run_job(job: StudyJob, output=DEFAULT_OUTPUT, *, short_prefix=None,
         full = _evaluate_stage(
             state=state, checkpoint=checkpoint, spec=spec, mode=mode,
             stage="full", mounts=[row["mount"] for row in finalists],
-            settings={"uniform_count": 160, "global_seed_count": 10,
-                      "max_iterations": 120, "maximum_candidates": 5,
+            settings={"uniform_count": 80, "global_seed_count": 8,
+                      "max_iterations": 110, "maximum_candidates": 4,
                       "constrained_fallback_enabled": True,
-                      "scope": "full-domain-uniform-probe-v2"},
+                      "scope": "family-representative-uniform-probe-v3"},
             evaluator=lambda mount, serial, settings: evaluate_pair(
                 task, mount, serial,
                 **{key: value for key, value in settings.items()
@@ -329,7 +381,8 @@ def run_study(output=DEFAULT_OUTPUT, *, trajectory=None, mode=None,
     results = {}
     for job in jobs:
         try:
-            state = run_job(job, output, short_prefix=short_prefix)
+            state = run_job(
+                job, output, short_prefix=short_prefix, study_specs=specs)
             results[job.key] = {
                 "status": state["status"],
                 "selected_mount": state.get("selected_mount"),

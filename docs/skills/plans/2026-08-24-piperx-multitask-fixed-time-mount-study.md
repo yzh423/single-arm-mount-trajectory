@@ -4,7 +4,7 @@
 
 **Goal:** Build, run, visualize, validate, and publish a 27-trajectory × 4-mount PiperX fixed-time IK comparison with a multi-task PDF report.
 
-**Architecture:** A dataset contract discovers the exact valid dual-hand CSV inventory. A resumable experiment runner reuses the existing orientation candidate generator, strict IK/collision machinery, and native source timestamps to produce one evidence shard per trajectory and mount. Separate aggregation, synchronized 2×2 rendering, and report modules consume only validated shards.
+**Architecture:** A dataset contract discovers the exact valid dual-hand CSV inventory. A resumable experiment runner searches each non-baseline mount once on the configured representative dual-hand take of each task family, then reuses that family mount while running strict IK/collision validation at native timestamps for every trajectory. It produces one evidence shard per trajectory and mount. Separate aggregation, synchronized 2×2 rendering, and report modules consume only validated shards.
 
 **Tech Stack:** Python 3.11, NumPy, MuJoCo, OpenCV, Matplotlib, ReportLab, pytest, JSON/NPZ/XML/MP4.
 
@@ -89,7 +89,7 @@ Run the two new tests and require missing-symbol failures.
 
 - [ ] **Step 3: Implement baseline replay and three equal-budget searches**
 
-Reuse the task registration and calibrated TCP mapping from `scripts.run_piperx_recommended_v31`. For each non-baseline mode run deterministic coarse geometry, first-frame 40-restart anchor, sparse warm-start probe, and full fixed-time finalists. Preserve the best record even when no safe/full candidate exists; mark it `infeasible` with reason counts.
+Reuse the task registration and calibrated TCP mapping from `scripts.run_piperx_recommended_v31`. For each task family and non-baseline mode, use the configured representative dual-hand take to run deterministic coarse geometry, first-frame anchor, sparse warm-start probe, and finalist screening. Reuse the selected family mount for the remaining takes, but solve and audit strict fixed-time IK independently on all 27 trajectories and all four modes. Preserve the best record even when no safe/full candidate exists; mark it `infeasible` with reason counts.
 
 - [ ] **Step 4: Implement atomic checkpoints and resume hashes**
 
