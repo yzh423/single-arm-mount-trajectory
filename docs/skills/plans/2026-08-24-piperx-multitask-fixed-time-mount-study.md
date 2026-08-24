@@ -89,7 +89,7 @@ Run the two new tests and require missing-symbol failures.
 
 - [ ] **Step 3: Implement baseline replay and three equal-budget searches**
 
-Reuse the task registration and calibrated TCP mapping from `scripts.run_piperx_recommended_v31`. For each task family and non-baseline mode, use the configured representative dual-hand take to run deterministic coarse geometry, first-frame anchor, sparse warm-start probe, and finalist screening. Reuse the selected family mount for the remaining takes, but solve and audit strict fixed-time IK independently on all 27 trajectories and all four modes. Preserve the best record even when no safe/full candidate exists; mark it `infeasible` with reason counts.
+Reuse the task registration and the complete v3.1 target preparation chain from `scripts.run_piperx_recommended_v31`: task-specific fixed tool rotation, TCP translation, bounded wrist adaptation, and bounded SE(3) conditioning. Search and final IK must consume this same prepared target exactly once. For each task family and non-baseline mode, use the configured representative dual-hand take to run deterministic coarse geometry, first-frame anchor, sparse warm-start probe, and finalist screening. Reuse the selected family mount for the remaining takes, but solve and audit strict fixed-time IK independently on all 27 trajectories and all four modes. Preserve the best record even when no safe/full candidate exists; mark it `infeasible` with reason counts.
 
 - [ ] **Step 4: Implement atomic checkpoints and resume hashes**
 
