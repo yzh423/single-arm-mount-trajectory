@@ -34,7 +34,6 @@ from scripts.search_fold_box_piperx_mount import (
 from scripts.search_fold_box_piperx_paired_mount import (
     _sparse_safe,
     _valid_mount,
-    evaluate_full_pair,
     evaluate_pair,
 )
 
@@ -222,8 +221,14 @@ def run_job(job: StudyJob, output=DEFAULT_OUTPUT, *, short_prefix=None,
         full = _evaluate_stage(
             state=state, checkpoint=checkpoint, spec=spec, mode=mode,
             stage="full", mounts=mounts,
-            settings={"scope": "full-source-baseline-v1"},
-            evaluator=lambda mount, serial, _: evaluate_full_pair(task, mount, serial))
+            settings={"uniform_count": 160, "global_seed_count": 10,
+                      "max_iterations": 120, "maximum_candidates": 5,
+                      "constrained_fallback_enabled": True,
+                      "scope": "full-domain-uniform-probe-v2"},
+            evaluator=lambda mount, serial, settings: evaluate_pair(
+                task, mount, serial,
+                **{key: value for key, value in settings.items()
+                   if key != "scope"}))
     else:
         config = OrientationSearchConfig(
             modes=(mode,), maximum_candidates=search_config.coarse_budget)
@@ -290,8 +295,14 @@ def run_job(job: StudyJob, output=DEFAULT_OUTPUT, *, short_prefix=None,
         full = _evaluate_stage(
             state=state, checkpoint=checkpoint, spec=spec, mode=mode,
             stage="full", mounts=[row["mount"] for row in finalists],
-            settings={"scope": "full-source-finalist-v1"},
-            evaluator=lambda mount, serial, _: evaluate_full_pair(task, mount, serial))
+            settings={"uniform_count": 160, "global_seed_count": 10,
+                      "max_iterations": 120, "maximum_candidates": 5,
+                      "constrained_fallback_enabled": True,
+                      "scope": "full-domain-uniform-probe-v2"},
+            evaluator=lambda mount, serial, settings: evaluate_pair(
+                task, mount, serial,
+                **{key: value for key, value in settings.items()
+                   if key != "scope"}))
 
     if not full:
         selected_mount, selected_result = _best_observed_mount(
