@@ -50,7 +50,7 @@ STUDY_SEARCH_CONFIG = PerTaskSearchConfig(
     dense_budget=3,
     local_budget=6,
     finalist_budget=2,
-    schema="piperx-multitask-family-shared-search-v4-strict-half-degree",
+    schema="piperx-multitask-family-shared-search-v5-current-funnel-only",
 )
 
 
@@ -246,6 +246,12 @@ def _best_observed_mount(records):
     return selected.get("mount"), _as_rank_record(selected)
 
 
+def _best_current_funnel_mount(*stage_rows):
+    """Select only from rows evaluated under the active search settings."""
+    return _best_observed_mount([
+        row for rows in stage_rows for row in rows])
+
+
 def run_job(job: StudyJob, output=DEFAULT_OUTPUT, *, short_prefix=None,
             search_config=STUDY_SEARCH_CONFIG, study_specs=None):
     spec, mode = job.spec, job.mode
@@ -348,8 +354,8 @@ def run_job(job: StudyJob, output=DEFAULT_OUTPUT, *, short_prefix=None,
             (row for row in dense if _sparse_safe(row)),
             key=rank_paired_mount_candidate)
         if not safe_dense:
-            selected_mount, selected_result = _best_observed_mount(
-                state.get("records", []))
+            selected_mount, selected_result = _best_current_funnel_mount(
+                coarse, dense)
             state.update(status="infeasible", selected_mount=selected_mount,
                          selected_result=selected_result,
                          failure_stage="dense")
@@ -395,8 +401,8 @@ def run_job(job: StudyJob, output=DEFAULT_OUTPUT, *, short_prefix=None,
                    if key != "scope"}))
 
     if not full:
-        selected_mount, selected_result = _best_observed_mount(
-            state.get("records", []))
+        selected_mount, selected_result = _best_current_funnel_mount(
+            coarse, dense, local)
         state.update(status="infeasible", selected_mount=selected_mount,
                      selected_result=selected_result, failure_stage="full")
     else:

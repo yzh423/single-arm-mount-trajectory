@@ -11,6 +11,7 @@ from factory_bimanual.multitask_fixed_time_study import (
 from factory_bimanual.task_family import TaskFamily
 from scripts.run_piperx_multitask_fixed_time_mount_study import (
     _best_observed_mount,
+    _best_current_funnel_mount,
     _normalize_baseline_mount_payload,
     STUDY_ORIENTATION_TOLERANCE_RAD,
     STUDY_POSITION_TOLERANCE_M,
@@ -136,6 +137,26 @@ def test_infeasible_fallback_prefers_any_collision_free_observation():
     mount, _result = _best_observed_mount([colliding, sparse_safe])
 
     assert mount == sparse_safe["mount"]
+
+
+def test_funnel_fallback_uses_only_explicit_current_stage_rows():
+    old_historical = {
+        "mount": {"name": "old-1.5-degree"},
+        "continuous_pair_coverage": 1.0,
+        "pair_collision_frames": 0,
+        "pair_edge_collision_frames": 0,
+    }
+    current = {
+        "mount": {"name": "current-0.5-degree"},
+        "continuous_pair_coverage": 0.2,
+        "pair_collision_frames": 0,
+        "pair_edge_collision_frames": 0,
+    }
+    state_records = [old_historical, current]
+
+    mount, _result = _best_current_funnel_mount([state_records[-1]])
+
+    assert mount == current["mount"]
 
 
 def test_ranking_uses_hold_and_error_only_after_safety_and_coverage():
