@@ -77,6 +77,21 @@ def test_orientation_experiment_accepts_common_elevated_z_region():
     assert _valid_mount(mount)
 
 
+def test_wall_height_is_projected_into_physical_adapter_bounds():
+    low = _Task(
+        np.asarray([[0.0, 0.1, 0.40], [0.1, 0.2, 0.50]]),
+        np.asarray([[0.0, -0.1, 0.45], [0.1, -0.2, 0.55]]))
+    high = _Task(
+        np.asarray([[0.0, 0.1, 1.70], [0.1, 0.2, 1.80]]),
+        np.asarray([[0.0, -0.1, 1.75], [0.1, -0.2, 1.85]]))
+    config = OrientationSearchConfig(maximum_candidates=5)
+
+    for task in (low, high):
+        mounts = generate_mounts("horizontal_wall", task, config)
+        assert mounts
+        assert all(_valid_mount(mount) for mount in mounts)
+
+
 def test_orientation_mount_rejects_close_bases():
     mount = generate_mounts(
         "upright_table", _task(),

@@ -60,7 +60,8 @@ def generate_mounts(mode, task, config=OrientationSearchConfig()):
     else:
         all_z = [float(value) for side in ("left", "right")
                  for value in getattr(task, f"{side}_position_m")[:, 2]]
-        installation_z = .5 * (min(all_z) + max(all_z))
+        installation_z = float(np.clip(
+            .5 * (min(all_z) + max(all_z)), .751, 1.50))
     result = []
     for template in xy_yaw_templates:
         mount = json.loads(json.dumps(template))
