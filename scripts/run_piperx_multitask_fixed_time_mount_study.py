@@ -360,7 +360,10 @@ def run_job(job: StudyJob, output=DEFAULT_OUTPUT, *, short_prefix=None,
             modes=(mode,), maximum_candidates=search_config.coarse_budget)
         coarse = _evaluate_stage(
             state=state, checkpoint=checkpoint, spec=spec, mode=mode,
-            stage="coarse", mounts=generate_mounts(mode, task, config),
+            stage="coarse", mounts=[
+                mount for mount in generate_mounts(mode, task, config)
+                if _valid_mount(mount)
+            ],
             settings={"uniform_count": 8, "global_seed_count": 1,
                       "max_iterations": 45, "maximum_candidates": 1,
                       "position_tolerance_m": STUDY_POSITION_TOLERANCE_M,
