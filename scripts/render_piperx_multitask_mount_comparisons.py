@@ -27,6 +27,15 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = ROOT / "reports/piperx_multitask_fixed_time_mount_study"
 
 
+def _cached_panel_is_valid(path):
+    """Reject interrupted MP4 caches before they poison a resumed render."""
+    try:
+        check = decode_check_mp4(Path(path), expected_resolution=(640, 360))
+    except RuntimeError:
+        return False
+    return abs(check.fps - 30.0) <= 1e-6
+
+
 def _load_shard(summary_path):
     summary_path = Path(summary_path)
     summary = json.loads(summary_path.read_text(encoding="utf-8"))
@@ -155,7 +164,7 @@ def render_trajectory(output_root, trajectory):
     panel_paths = {}
     for mode in STUDY_PANEL_ORDER:
         panel = panel_dir / f"{safe_name}_{mode}.mp4"
-        if not panel.exists():
+        if not panel.exists() or not _cached_panel_is_valid(panel):
             summary = Path(rows[mode]["summary_json"])
             if not summary.is_absolute():
                 summary = ROOT / summary
