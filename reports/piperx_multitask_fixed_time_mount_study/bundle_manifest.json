@@ -1,0 +1,875 @@
+{
+  "schema": "piperx-multitask-fixed-time-bundle-v1",
+  "trajectory_count": 27,
+  "family_count": 12,
+  "mode_count": 4,
+  "status": "complete",
+  "retiming_applied": false,
+  "aggregate_csv": "reports/piperx_multitask_fixed_time_mount_study/aggregate.csv",
+  "shards": [
+    {
+      "trajectory": "8-11/AluminumFoilPouch_BoxPackaging/160555",
+      "family": "8-11/AluminumFoilPouch_BoxPackaging",
+      "take": "160555",
+      "mode": "baseline",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/AluminumFoilPouch_BoxPackaging/160555/baseline/8-11_AluminumFoilPouch_BoxPackaging_160555_baseline_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/AluminumFoilPouch_BoxPackaging/160555",
+      "family": "8-11/AluminumFoilPouch_BoxPackaging",
+      "take": "160555",
+      "mode": "upright_table",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/AluminumFoilPouch_BoxPackaging/160555/upright_table/8-11_AluminumFoilPouch_BoxPackaging_160555_upright_table_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/AluminumFoilPouch_BoxPackaging/160555",
+      "family": "8-11/AluminumFoilPouch_BoxPackaging",
+      "take": "160555",
+      "mode": "horizontal_wall",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/AluminumFoilPouch_BoxPackaging/160555/horizontal_wall/8-11_AluminumFoilPouch_BoxPackaging_160555_horizontal_wall_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/AluminumFoilPouch_BoxPackaging/160555",
+      "family": "8-11/AluminumFoilPouch_BoxPackaging",
+      "take": "160555",
+      "mode": "inverted",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/AluminumFoilPouch_BoxPackaging/160555/inverted/8-11_AluminumFoilPouch_BoxPackaging_160555_inverted_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/Fold_Box/160710",
+      "family": "8-11/Fold_Box",
+      "take": "160710",
+      "mode": "baseline",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/160710/baseline/8-11_Fold_Box_160710_baseline_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/Fold_Box/160710",
+      "family": "8-11/Fold_Box",
+      "take": "160710",
+      "mode": "upright_table",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/160710/upright_table/8-11_Fold_Box_160710_upright_table_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/Fold_Box/160710",
+      "family": "8-11/Fold_Box",
+      "take": "160710",
+      "mode": "horizontal_wall",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/160710/horizontal_wall/8-11_Fold_Box_160710_horizontal_wall_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/Fold_Box/160710",
+      "family": "8-11/Fold_Box",
+      "take": "160710",
+      "mode": "inverted",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/160710/inverted/8-11_Fold_Box_160710_inverted_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/Fold_Box/160754",
+      "family": "8-11/Fold_Box",
+      "take": "160754",
+      "mode": "baseline",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/160754/baseline/8-11_Fold_Box_160754_baseline_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/Fold_Box/160754",
+      "family": "8-11/Fold_Box",
+      "take": "160754",
+      "mode": "upright_table",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/160754/upright_table/8-11_Fold_Box_160754_upright_table_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/Fold_Box/160754",
+      "family": "8-11/Fold_Box",
+      "take": "160754",
+      "mode": "horizontal_wall",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/160754/horizontal_wall/8-11_Fold_Box_160754_horizontal_wall_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/Fold_Box/160754",
+      "family": "8-11/Fold_Box",
+      "take": "160754",
+      "mode": "inverted",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/160754/inverted/8-11_Fold_Box_160754_inverted_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/Fold_Box/160829",
+      "family": "8-11/Fold_Box",
+      "take": "160829",
+      "mode": "baseline",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/160829/baseline/8-11_Fold_Box_160829_baseline_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/Fold_Box/160829",
+      "family": "8-11/Fold_Box",
+      "take": "160829",
+      "mode": "upright_table",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/160829/upright_table/8-11_Fold_Box_160829_upright_table_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/Fold_Box/160829",
+      "family": "8-11/Fold_Box",
+      "take": "160829",
+      "mode": "horizontal_wall",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/160829/horizontal_wall/8-11_Fold_Box_160829_horizontal_wall_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/Fold_Box/160829",
+      "family": "8-11/Fold_Box",
+      "take": "160829",
+      "mode": "inverted",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/160829/inverted/8-11_Fold_Box_160829_inverted_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/Fold_Box/161044",
+      "family": "8-11/Fold_Box",
+      "take": "161044",
+      "mode": "baseline",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/161044/baseline/8-11_Fold_Box_161044_baseline_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/Fold_Box/161044",
+      "family": "8-11/Fold_Box",
+      "take": "161044",
+      "mode": "upright_table",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/161044/upright_table/8-11_Fold_Box_161044_upright_table_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/Fold_Box/161044",
+      "family": "8-11/Fold_Box",
+      "take": "161044",
+      "mode": "horizontal_wall",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/161044/horizontal_wall/8-11_Fold_Box_161044_horizontal_wall_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/Fold_Box/161044",
+      "family": "8-11/Fold_Box",
+      "take": "161044",
+      "mode": "inverted",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/161044/inverted/8-11_Fold_Box_161044_inverted_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/Fold_Box/161159",
+      "family": "8-11/Fold_Box",
+      "take": "161159",
+      "mode": "baseline",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/161159/baseline/8-11_Fold_Box_161159_baseline_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/Fold_Box/161159",
+      "family": "8-11/Fold_Box",
+      "take": "161159",
+      "mode": "upright_table",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/161159/upright_table/8-11_Fold_Box_161159_upright_table_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/Fold_Box/161159",
+      "family": "8-11/Fold_Box",
+      "take": "161159",
+      "mode": "horizontal_wall",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/161159/horizontal_wall/8-11_Fold_Box_161159_horizontal_wall_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/Fold_Box/161159",
+      "family": "8-11/Fold_Box",
+      "take": "161159",
+      "mode": "inverted",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/161159/inverted/8-11_Fold_Box_161159_inverted_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/Screw_Cap/162751",
+      "family": "8-11/Screw_Cap",
+      "take": "162751",
+      "mode": "baseline",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Screw_Cap/162751/baseline/8-11_Screw_Cap_162751_baseline_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/Screw_Cap/162751",
+      "family": "8-11/Screw_Cap",
+      "take": "162751",
+      "mode": "upright_table",
+      "search_status": "infeasible",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Screw_Cap/162751/upright_table/8-11_Screw_Cap_162751_upright_table_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/Screw_Cap/162751",
+      "family": "8-11/Screw_Cap",
+      "take": "162751",
+      "mode": "horizontal_wall",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Screw_Cap/162751/horizontal_wall/8-11_Screw_Cap_162751_horizontal_wall_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/Screw_Cap/162751",
+      "family": "8-11/Screw_Cap",
+      "take": "162751",
+      "mode": "inverted",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Screw_Cap/162751/inverted/8-11_Screw_Cap_162751_inverted_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/Screw_Cap/162818",
+      "family": "8-11/Screw_Cap",
+      "take": "162818",
+      "mode": "baseline",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Screw_Cap/162818/baseline/8-11_Screw_Cap_162818_baseline_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/Screw_Cap/162818",
+      "family": "8-11/Screw_Cap",
+      "take": "162818",
+      "mode": "upright_table",
+      "search_status": "infeasible",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Screw_Cap/162818/upright_table/8-11_Screw_Cap_162818_upright_table_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/Screw_Cap/162818",
+      "family": "8-11/Screw_Cap",
+      "take": "162818",
+      "mode": "horizontal_wall",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Screw_Cap/162818/horizontal_wall/8-11_Screw_Cap_162818_horizontal_wall_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/Screw_Cap/162818",
+      "family": "8-11/Screw_Cap",
+      "take": "162818",
+      "mode": "inverted",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Screw_Cap/162818/inverted/8-11_Screw_Cap_162818_inverted_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/Screw_Cap/162854",
+      "family": "8-11/Screw_Cap",
+      "take": "162854",
+      "mode": "baseline",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Screw_Cap/162854/baseline/8-11_Screw_Cap_162854_baseline_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/Screw_Cap/162854",
+      "family": "8-11/Screw_Cap",
+      "take": "162854",
+      "mode": "upright_table",
+      "search_status": "infeasible",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Screw_Cap/162854/upright_table/8-11_Screw_Cap_162854_upright_table_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/Screw_Cap/162854",
+      "family": "8-11/Screw_Cap",
+      "take": "162854",
+      "mode": "horizontal_wall",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Screw_Cap/162854/horizontal_wall/8-11_Screw_Cap_162854_horizontal_wall_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/Screw_Cap/162854",
+      "family": "8-11/Screw_Cap",
+      "take": "162854",
+      "mode": "inverted",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Screw_Cap/162854/inverted/8-11_Screw_Cap_162854_inverted_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/Seal_Bag/161504",
+      "family": "8-11/Seal_Bag",
+      "take": "161504",
+      "mode": "baseline",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Seal_Bag/161504/baseline/8-11_Seal_Bag_161504_baseline_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/Seal_Bag/161504",
+      "family": "8-11/Seal_Bag",
+      "take": "161504",
+      "mode": "upright_table",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Seal_Bag/161504/upright_table/8-11_Seal_Bag_161504_upright_table_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/Seal_Bag/161504",
+      "family": "8-11/Seal_Bag",
+      "take": "161504",
+      "mode": "horizontal_wall",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Seal_Bag/161504/horizontal_wall/8-11_Seal_Bag_161504_horizontal_wall_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/Seal_Bag/161504",
+      "family": "8-11/Seal_Bag",
+      "take": "161504",
+      "mode": "inverted",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Seal_Bag/161504/inverted/8-11_Seal_Bag_161504_inverted_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/Seal_Bag/161532",
+      "family": "8-11/Seal_Bag",
+      "take": "161532",
+      "mode": "baseline",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Seal_Bag/161532/baseline/8-11_Seal_Bag_161532_baseline_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/Seal_Bag/161532",
+      "family": "8-11/Seal_Bag",
+      "take": "161532",
+      "mode": "upright_table",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Seal_Bag/161532/upright_table/8-11_Seal_Bag_161532_upright_table_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/Seal_Bag/161532",
+      "family": "8-11/Seal_Bag",
+      "take": "161532",
+      "mode": "horizontal_wall",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Seal_Bag/161532/horizontal_wall/8-11_Seal_Bag_161532_horizontal_wall_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/Seal_Bag/161532",
+      "family": "8-11/Seal_Bag",
+      "take": "161532",
+      "mode": "inverted",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Seal_Bag/161532/inverted/8-11_Seal_Bag_161532_inverted_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/Seal_Bag/161549",
+      "family": "8-11/Seal_Bag",
+      "take": "161549",
+      "mode": "baseline",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Seal_Bag/161549/baseline/8-11_Seal_Bag_161549_baseline_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/Seal_Bag/161549",
+      "family": "8-11/Seal_Bag",
+      "take": "161549",
+      "mode": "upright_table",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Seal_Bag/161549/upright_table/8-11_Seal_Bag_161549_upright_table_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/Seal_Bag/161549",
+      "family": "8-11/Seal_Bag",
+      "take": "161549",
+      "mode": "horizontal_wall",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Seal_Bag/161549/horizontal_wall/8-11_Seal_Bag_161549_horizontal_wall_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/Seal_Bag/161549",
+      "family": "8-11/Seal_Bag",
+      "take": "161549",
+      "mode": "inverted",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Seal_Bag/161549/inverted/8-11_Seal_Bag_161549_inverted_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/WaterSoluble_AluminumPouch/155911",
+      "family": "8-11/WaterSoluble_AluminumPouch",
+      "take": "155911",
+      "mode": "baseline",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/155911/baseline/8-11_WaterSoluble_AluminumPouch_155911_baseline_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/WaterSoluble_AluminumPouch/155911",
+      "family": "8-11/WaterSoluble_AluminumPouch",
+      "take": "155911",
+      "mode": "upright_table",
+      "search_status": "infeasible",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/155911/upright_table/8-11_WaterSoluble_AluminumPouch_155911_upright_table_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/WaterSoluble_AluminumPouch/155911",
+      "family": "8-11/WaterSoluble_AluminumPouch",
+      "take": "155911",
+      "mode": "horizontal_wall",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/155911/horizontal_wall/8-11_WaterSoluble_AluminumPouch_155911_horizontal_wall_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/WaterSoluble_AluminumPouch/155911",
+      "family": "8-11/WaterSoluble_AluminumPouch",
+      "take": "155911",
+      "mode": "inverted",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/155911/inverted/8-11_WaterSoluble_AluminumPouch_155911_inverted_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/WaterSoluble_AluminumPouch/160040",
+      "family": "8-11/WaterSoluble_AluminumPouch",
+      "take": "160040",
+      "mode": "baseline",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/160040/baseline/8-11_WaterSoluble_AluminumPouch_160040_baseline_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/WaterSoluble_AluminumPouch/160040",
+      "family": "8-11/WaterSoluble_AluminumPouch",
+      "take": "160040",
+      "mode": "upright_table",
+      "search_status": "infeasible",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/160040/upright_table/8-11_WaterSoluble_AluminumPouch_160040_upright_table_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/WaterSoluble_AluminumPouch/160040",
+      "family": "8-11/WaterSoluble_AluminumPouch",
+      "take": "160040",
+      "mode": "horizontal_wall",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/160040/horizontal_wall/8-11_WaterSoluble_AluminumPouch_160040_horizontal_wall_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/WaterSoluble_AluminumPouch/160040",
+      "family": "8-11/WaterSoluble_AluminumPouch",
+      "take": "160040",
+      "mode": "inverted",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/160040/inverted/8-11_WaterSoluble_AluminumPouch_160040_inverted_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/WaterSoluble_AluminumPouch/160121",
+      "family": "8-11/WaterSoluble_AluminumPouch",
+      "take": "160121",
+      "mode": "baseline",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/160121/baseline/8-11_WaterSoluble_AluminumPouch_160121_baseline_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/WaterSoluble_AluminumPouch/160121",
+      "family": "8-11/WaterSoluble_AluminumPouch",
+      "take": "160121",
+      "mode": "upright_table",
+      "search_status": "infeasible",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/160121/upright_table/8-11_WaterSoluble_AluminumPouch_160121_upright_table_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/WaterSoluble_AluminumPouch/160121",
+      "family": "8-11/WaterSoluble_AluminumPouch",
+      "take": "160121",
+      "mode": "horizontal_wall",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/160121/horizontal_wall/8-11_WaterSoluble_AluminumPouch_160121_horizontal_wall_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/WaterSoluble_AluminumPouch/160121",
+      "family": "8-11/WaterSoluble_AluminumPouch",
+      "take": "160121",
+      "mode": "inverted",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/160121/inverted/8-11_WaterSoluble_AluminumPouch_160121_inverted_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/WaterSoluble_AluminumPouch/160201",
+      "family": "8-11/WaterSoluble_AluminumPouch",
+      "take": "160201",
+      "mode": "baseline",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/160201/baseline/8-11_WaterSoluble_AluminumPouch_160201_baseline_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/WaterSoluble_AluminumPouch/160201",
+      "family": "8-11/WaterSoluble_AluminumPouch",
+      "take": "160201",
+      "mode": "upright_table",
+      "search_status": "infeasible",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/160201/upright_table/8-11_WaterSoluble_AluminumPouch_160201_upright_table_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/WaterSoluble_AluminumPouch/160201",
+      "family": "8-11/WaterSoluble_AluminumPouch",
+      "take": "160201",
+      "mode": "horizontal_wall",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/160201/horizontal_wall/8-11_WaterSoluble_AluminumPouch_160201_horizontal_wall_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-11/WaterSoluble_AluminumPouch/160201",
+      "family": "8-11/WaterSoluble_AluminumPouch",
+      "take": "160201",
+      "mode": "inverted",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/160201/inverted/8-11_WaterSoluble_AluminumPouch_160201_inverted_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-12/Bag_BoxPacking/110914",
+      "family": "8-12/Bag_BoxPacking",
+      "take": "110914",
+      "mode": "baseline",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/Bag_BoxPacking/110914/baseline/8-12_Bag_BoxPacking_110914_baseline_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-12/Bag_BoxPacking/110914",
+      "family": "8-12/Bag_BoxPacking",
+      "take": "110914",
+      "mode": "upright_table",
+      "search_status": "infeasible",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/Bag_BoxPacking/110914/upright_table/8-12_Bag_BoxPacking_110914_upright_table_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-12/Bag_BoxPacking/110914",
+      "family": "8-12/Bag_BoxPacking",
+      "take": "110914",
+      "mode": "horizontal_wall",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/Bag_BoxPacking/110914/horizontal_wall/8-12_Bag_BoxPacking_110914_horizontal_wall_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-12/Bag_BoxPacking/110914",
+      "family": "8-12/Bag_BoxPacking",
+      "take": "110914",
+      "mode": "inverted",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/Bag_BoxPacking/110914/inverted/8-12_Bag_BoxPacking_110914_inverted_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-12/Fold_Box/111132",
+      "family": "8-12/Fold_Box",
+      "take": "111132",
+      "mode": "baseline",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/Fold_Box/111132/baseline/8-12_Fold_Box_111132_baseline_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-12/Fold_Box/111132",
+      "family": "8-12/Fold_Box",
+      "take": "111132",
+      "mode": "upright_table",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/Fold_Box/111132/upright_table/8-12_Fold_Box_111132_upright_table_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-12/Fold_Box/111132",
+      "family": "8-12/Fold_Box",
+      "take": "111132",
+      "mode": "horizontal_wall",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/Fold_Box/111132/horizontal_wall/8-12_Fold_Box_111132_horizontal_wall_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-12/Fold_Box/111132",
+      "family": "8-12/Fold_Box",
+      "take": "111132",
+      "mode": "inverted",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/Fold_Box/111132/inverted/8-12_Fold_Box_111132_inverted_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-12/InsertIntoBottle/112750",
+      "family": "8-12/InsertIntoBottle",
+      "take": "112750",
+      "mode": "baseline",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertIntoBottle/112750/baseline/8-12_InsertIntoBottle_112750_baseline_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-12/InsertIntoBottle/112750",
+      "family": "8-12/InsertIntoBottle",
+      "take": "112750",
+      "mode": "upright_table",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertIntoBottle/112750/upright_table/8-12_InsertIntoBottle_112750_upright_table_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-12/InsertIntoBottle/112750",
+      "family": "8-12/InsertIntoBottle",
+      "take": "112750",
+      "mode": "horizontal_wall",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertIntoBottle/112750/horizontal_wall/8-12_InsertIntoBottle_112750_horizontal_wall_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-12/InsertIntoBottle/112750",
+      "family": "8-12/InsertIntoBottle",
+      "take": "112750",
+      "mode": "inverted",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertIntoBottle/112750/inverted/8-12_InsertIntoBottle_112750_inverted_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-12/InsertIntoBottle/112858",
+      "family": "8-12/InsertIntoBottle",
+      "take": "112858",
+      "mode": "baseline",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertIntoBottle/112858/baseline/8-12_InsertIntoBottle_112858_baseline_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-12/InsertIntoBottle/112858",
+      "family": "8-12/InsertIntoBottle",
+      "take": "112858",
+      "mode": "upright_table",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertIntoBottle/112858/upright_table/8-12_InsertIntoBottle_112858_upright_table_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-12/InsertIntoBottle/112858",
+      "family": "8-12/InsertIntoBottle",
+      "take": "112858",
+      "mode": "horizontal_wall",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertIntoBottle/112858/horizontal_wall/8-12_InsertIntoBottle_112858_horizontal_wall_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-12/InsertIntoBottle/112858",
+      "family": "8-12/InsertIntoBottle",
+      "take": "112858",
+      "mode": "inverted",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertIntoBottle/112858/inverted/8-12_InsertIntoBottle_112858_inverted_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-12/InsertIntoBottle/112945",
+      "family": "8-12/InsertIntoBottle",
+      "take": "112945",
+      "mode": "baseline",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertIntoBottle/112945/baseline/8-12_InsertIntoBottle_112945_baseline_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-12/InsertIntoBottle/112945",
+      "family": "8-12/InsertIntoBottle",
+      "take": "112945",
+      "mode": "upright_table",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertIntoBottle/112945/upright_table/8-12_InsertIntoBottle_112945_upright_table_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-12/InsertIntoBottle/112945",
+      "family": "8-12/InsertIntoBottle",
+      "take": "112945",
+      "mode": "horizontal_wall",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertIntoBottle/112945/horizontal_wall/8-12_InsertIntoBottle_112945_horizontal_wall_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-12/InsertIntoBottle/112945",
+      "family": "8-12/InsertIntoBottle",
+      "take": "112945",
+      "mode": "inverted",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertIntoBottle/112945/inverted/8-12_InsertIntoBottle_112945_inverted_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-12/InsertSmallPackageIntoMachine/111812",
+      "family": "8-12/InsertSmallPackageIntoMachine",
+      "take": "111812",
+      "mode": "baseline",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertSmallPackageIntoMachine/111812/baseline/8-12_InsertSmallPackageIntoMachine_111812_baseline_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-12/InsertSmallPackageIntoMachine/111812",
+      "family": "8-12/InsertSmallPackageIntoMachine",
+      "take": "111812",
+      "mode": "upright_table",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertSmallPackageIntoMachine/111812/upright_table/8-12_InsertSmallPackageIntoMachine_111812_upright_table_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-12/InsertSmallPackageIntoMachine/111812",
+      "family": "8-12/InsertSmallPackageIntoMachine",
+      "take": "111812",
+      "mode": "horizontal_wall",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertSmallPackageIntoMachine/111812/horizontal_wall/8-12_InsertSmallPackageIntoMachine_111812_horizontal_wall_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-12/InsertSmallPackageIntoMachine/111812",
+      "family": "8-12/InsertSmallPackageIntoMachine",
+      "take": "111812",
+      "mode": "inverted",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertSmallPackageIntoMachine/111812/inverted/8-12_InsertSmallPackageIntoMachine_111812_inverted_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-12/PackIntoBox/112524",
+      "family": "8-12/PackIntoBox",
+      "take": "112524",
+      "mode": "baseline",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PackIntoBox/112524/baseline/8-12_PackIntoBox_112524_baseline_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-12/PackIntoBox/112524",
+      "family": "8-12/PackIntoBox",
+      "take": "112524",
+      "mode": "upright_table",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PackIntoBox/112524/upright_table/8-12_PackIntoBox_112524_upright_table_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-12/PackIntoBox/112524",
+      "family": "8-12/PackIntoBox",
+      "take": "112524",
+      "mode": "horizontal_wall",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PackIntoBox/112524/horizontal_wall/8-12_PackIntoBox_112524_horizontal_wall_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-12/PackIntoBox/112524",
+      "family": "8-12/PackIntoBox",
+      "take": "112524",
+      "mode": "inverted",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PackIntoBox/112524/inverted/8-12_PackIntoBox_112524_inverted_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-12/PackIntoBox/112633",
+      "family": "8-12/PackIntoBox",
+      "take": "112633",
+      "mode": "baseline",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PackIntoBox/112633/baseline/8-12_PackIntoBox_112633_baseline_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-12/PackIntoBox/112633",
+      "family": "8-12/PackIntoBox",
+      "take": "112633",
+      "mode": "upright_table",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PackIntoBox/112633/upright_table/8-12_PackIntoBox_112633_upright_table_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-12/PackIntoBox/112633",
+      "family": "8-12/PackIntoBox",
+      "take": "112633",
+      "mode": "horizontal_wall",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PackIntoBox/112633/horizontal_wall/8-12_PackIntoBox_112633_horizontal_wall_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-12/PackIntoBox/112633",
+      "family": "8-12/PackIntoBox",
+      "take": "112633",
+      "mode": "inverted",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PackIntoBox/112633/inverted/8-12_PackIntoBox_112633_inverted_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-12/PourRawMaterial/111542",
+      "family": "8-12/PourRawMaterial",
+      "take": "111542",
+      "mode": "baseline",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PourRawMaterial/111542/baseline/8-12_PourRawMaterial_111542_baseline_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-12/PourRawMaterial/111542",
+      "family": "8-12/PourRawMaterial",
+      "take": "111542",
+      "mode": "upright_table",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PourRawMaterial/111542/upright_table/8-12_PourRawMaterial_111542_upright_table_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-12/PourRawMaterial/111542",
+      "family": "8-12/PourRawMaterial",
+      "take": "111542",
+      "mode": "horizontal_wall",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PourRawMaterial/111542/horizontal_wall/8-12_PourRawMaterial_111542_horizontal_wall_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-12/PourRawMaterial/111542",
+      "family": "8-12/PourRawMaterial",
+      "take": "111542",
+      "mode": "inverted",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PourRawMaterial/111542/inverted/8-12_PourRawMaterial_111542_inverted_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-12/PutIntoBox/113145",
+      "family": "8-12/PutIntoBox",
+      "take": "113145",
+      "mode": "baseline",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PutIntoBox/113145/baseline/8-12_PutIntoBox_113145_baseline_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-12/PutIntoBox/113145",
+      "family": "8-12/PutIntoBox",
+      "take": "113145",
+      "mode": "upright_table",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PutIntoBox/113145/upright_table/8-12_PutIntoBox_113145_upright_table_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-12/PutIntoBox/113145",
+      "family": "8-12/PutIntoBox",
+      "take": "113145",
+      "mode": "horizontal_wall",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PutIntoBox/113145/horizontal_wall/8-12_PutIntoBox_113145_horizontal_wall_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-12/PutIntoBox/113145",
+      "family": "8-12/PutIntoBox",
+      "take": "113145",
+      "mode": "inverted",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PutIntoBox/113145/inverted/8-12_PutIntoBox_113145_inverted_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-12/PutIntoBox/113250",
+      "family": "8-12/PutIntoBox",
+      "take": "113250",
+      "mode": "baseline",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PutIntoBox/113250/baseline/8-12_PutIntoBox_113250_baseline_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-12/PutIntoBox/113250",
+      "family": "8-12/PutIntoBox",
+      "take": "113250",
+      "mode": "upright_table",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PutIntoBox/113250/upright_table/8-12_PutIntoBox_113250_upright_table_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-12/PutIntoBox/113250",
+      "family": "8-12/PutIntoBox",
+      "take": "113250",
+      "mode": "horizontal_wall",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PutIntoBox/113250/horizontal_wall/8-12_PutIntoBox_113250_horizontal_wall_fixed_time.summary.json"
+    },
+    {
+      "trajectory": "8-12/PutIntoBox/113250",
+      "family": "8-12/PutIntoBox",
+      "take": "113250",
+      "mode": "inverted",
+      "search_status": "complete",
+      "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PutIntoBox/113250/inverted/8-12_PutIntoBox_113250_inverted_fixed_time.summary.json"
+    }
+  ]
+}

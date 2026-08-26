@@ -120,6 +120,17 @@ runs/
 !/reports/piperx_two_task_complete_follow/seal_bag/qa_start.png
 !/reports/piperx_two_task_complete_follow/seal_bag/qa_middle.png
 !/reports/piperx_two_task_complete_follow/seal_bag/qa_end.png
+!/reports/piperx_multitask_fixed_time_mount_study/
+/reports/piperx_multitask_fixed_time_mount_study/*
+!/reports/piperx_multitask_fixed_time_mount_study/PiperX多任务Fixed-Time四构型对比报告.pdf
+!/reports/piperx_multitask_fixed_time_mount_study/aggregate.csv
+!/reports/piperx_multitask_fixed_time_mount_study/bundle_manifest.json
+!/reports/piperx_multitask_fixed_time_mount_study/figures/
+!/reports/piperx_multitask_fixed_time_mount_study/figures/**
+!/reports/piperx_multitask_fixed_time_mount_study/videos/
+/reports/piperx_multitask_fixed_time_mount_study/videos/*
+!/reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/
+!/reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/**
 
 # Local source/reference reports intentionally excluded from GitHub.
 /单轨迹优化分析.pdf
