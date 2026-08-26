@@ -1,6 +1,7 @@
 import numpy as np
 import pytest
 from types import SimpleNamespace
+import scripts.build_piperx_multitask_fixed_time_bundle as bundle
 
 from scripts.build_piperx_multitask_fixed_time_bundle import (
     _piperx_collision_checker_kwargs,
@@ -64,6 +65,101 @@ def test_collision_safe_pair_rejects_state_and_swept_edge_collisions():
     assert selected is not None
     assert selected[0].q[0] == pytest.approx(.1)
     assert selected[1].q[0] == pytest.approx(.1)
+
+
+def test_first_safe_pair_can_initialize_after_unreachable_opening_rows():
+    assert hasattr(bundle, "_continuity_reference")
+    previous = (np.asarray([0.0]), np.asarray([0.0]))
+    far = SimpleNamespace(
+        q=np.asarray([1.0]), pose_cost=0.0,
+        joint_limit_margin_rad=1.0, singularity_margin=1.0)
+
+    class Checker:
+        @staticmethod
+        def state(left, right):
+            return SimpleNamespace(valid=True)
+
+        @staticmethod
+        def transition(previous_pair, current):
+            return SimpleNamespace(valid=True)
+
+    initial = _select_collision_safe_pair(
+        {"left": [far], "right": [far]},
+        previous=bundle._continuity_reference(False, previous),
+        checker=Checker(), branch_guard_rad=.30)
+    tracked = _select_collision_safe_pair(
+        {"left": [far], "right": [far]},
+        previous=bundle._continuity_reference(True, previous),
+        checker=Checker(), branch_guard_rad=.30)
+
+    assert initial is not None
+    assert tracked is None
+
+
+def test_initializer_probes_use_search_rows_known_to_have_safe_pairs():
+    assert hasattr(bundle, "_initializer_probe_rows")
+    selected_result = {
+        "sampled_source_rows": [0, 20, 40, 60],
+        "disconnected_rows": [0, 20],
+    }
+
+    assert bundle._initializer_probe_rows(
+        selected_result, source_count=50) == [40]
+
+
+def test_initializer_prioritizes_start_of_longest_safe_sample_run():
+    selected_result = {
+        "sampled_source_rows": [0, 10, 20, 30, 40, 50, 60],
+        "disconnected_rows": [0, 20, 30],
+    }
+
+    rows = bundle._initializer_probe_rows(
+        selected_result, source_count=61)
+
+    assert rows[0] == 40
+
+
+def test_missing_one_side_candidate_triggers_paired_rescue():
+    assert hasattr(bundle, "_requires_pair_rescue")
+
+    assert bundle._requires_pair_rescue(
+        {"left": object(), "right": None},
+        state_safe=True, edge_safe=True)
+    assert not bundle._requires_pair_rescue(
+        {"left": object(), "right": object()},
+        state_safe=True, edge_safe=True)
+
+
+def test_recovery_step_moves_toward_nearest_safe_pair_without_teleporting():
+    assert hasattr(bundle, "_select_safe_recovery_step")
+    candidate = lambda value: SimpleNamespace(q=np.asarray([value]))
+
+    class Checker:
+        @staticmethod
+        def state(left, right):
+            return SimpleNamespace(valid=not (
+                left[0] < -.5 or right[0] > .5))
+
+        @staticmethod
+        def transition(previous, current):
+            return SimpleNamespace(valid=True)
+
+    step = bundle._select_safe_recovery_step(
+        {"left": [candidate(.8), candidate(-.4)],
+         "right": [candidate(.8), candidate(.4)]},
+        previous=(np.asarray([0.0]), np.asarray([0.0])),
+        checker=Checker(), maximum_step_rad=.30)
+
+    assert step is not None
+    np.testing.assert_allclose(step[0], [-.3])
+    np.testing.assert_allclose(step[1], [.3])
+
+
+def test_recovery_waits_until_preinitialized_follow_segment_begins():
+    assert hasattr(bundle, "_recovery_allowed")
+
+    assert not bundle._recovery_allowed(39, initialization_row=40)
+    assert bundle._recovery_allowed(40, initialization_row=40)
 
 
 def test_aggregate_recomputes_accept_and_collision_counts():

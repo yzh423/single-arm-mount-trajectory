@@ -162,9 +162,82 @@ def _select_collision_safe_pair(candidate_lists, *, previous, checker,
     return selected[-2], selected[-1]
 
 
+def _select_safe_recovery_step(candidate_lists, *, previous, checker,
+                               maximum_step_rad):
+    """Take one bounded collision-free step toward the nearest safe pair."""
+    maximum_step = float(maximum_step_rad)
+    if maximum_step <= 0.0:
+        raise ValueError("maximum_step_rad must be positive")
+    proposals = []
+    for left in candidate_lists.get("left", ()):
+        for right in candidate_lists.get("right", ()):
+            target = (np.asarray(left.q, float), np.asarray(right.q, float))
+            if not checker.state(*target).valid:
+                continue
+            trial = tuple(old + np.clip(new - old, -maximum_step, maximum_step)
+                          for old, new in zip(previous, target))
+            if (not checker.state(*trial).valid
+                    or not checker.transition(previous, trial).valid):
+                continue
+            remaining = sum(float(np.linalg.norm(new - current))
+                            for new, current in zip(target, trial))
+            distance = sum(float(np.linalg.norm(new - old))
+                           for new, old in zip(target, previous))
+            proposals.append((remaining, distance, trial))
+    if not proposals:
+        return None
+    return min(proposals, key=lambda item: item[:2])[-1]
+
+
+def _continuity_reference(initialized, previous_pair):
+    """Apply branch continuity only after a safe task branch is initialized."""
+    return previous_pair if initialized else None
+
+
+def _initializer_probe_rows(selected_result, *, source_count):
+    """Prefer search samples that already exhibited a connected safe pair."""
+    count = int(source_count)
+    if count < 1:
+        raise ValueError("source_count must be positive")
+    selected_result = selected_result or {}
+    disconnected = {
+        int(row) for row in selected_result.get("disconnected_rows", ())}
+    runs = []
+    current = []
+    for value in selected_result.get("sampled_source_rows", ()):
+        row = int(value)
+        if not 0 <= row < count:
+            continue
+        if row in disconnected:
+            if current:
+                runs.append(current)
+                current = []
+        elif row not in current:
+            current.append(row)
+    if current:
+        runs.append(current)
+    if runs:
+        runs.sort(key=lambda run: (-len(run), run[0]))
+        return [row for run in runs for row in run]
+    return np.unique(np.rint(np.linspace(
+        0, count - 1, min(count, 32))).astype(int)).tolist()
+
+
+def _requires_pair_rescue(selected, *, state_safe, edge_safe):
+    """Require joint recovery for safety or when either arm lacks a target."""
+    return (not state_safe or not edge_safe
+            or any(selected.get(side) is None
+                   for side in ("left", "right")))
+
+
+def _recovery_allowed(row, *, initialization_row):
+    return initialization_row is None or int(row) >= int(initialization_row)
+
+
 def _solve_candidate_dls_hold(model, task, mapped, *,
-                              branch_guard_rad=0.30):
-    """PDF v3.1 anchor, warm-start, controlled rescue, and per-side HOLD."""
+                              branch_guard_rad=0.30,
+                              initializer_rows=None):
+    """Paired pre-initialization, warm-start, safe recovery, and HOLD."""
     data = mujoco.MjData(model)
     contract = ROBOT_CONTRACTS["piperx"]
     names = {side: {
@@ -219,6 +292,31 @@ def _solve_candidate_dls_hold(model, task, mapped, *,
     last_rescue = {"left": -20, "right": -20}
     data.qpos[:] = model.qpos0
     mujoco.mj_forward(model, data)
+    initialization_row = None
+    initial_pair = None
+    probe_rows = ([0] if initializer_rows is None
+                  else [int(row) for row in initializer_rows])
+    for probe_row in probe_rows:
+        if not 0 <= probe_row < count:
+            continue
+        candidate_lists = {}
+        for side in ("left", "right"):
+            candidate_lists[side] = generators[side].generate_target(
+                side,
+                getattr(task, f"{side}_position_m")[probe_row],
+                mapped[side][probe_row],
+                force_stratified=True)
+        initial_pair = _select_collision_safe_pair(
+            candidate_lists, previous=None, checker=collision_checker,
+            branch_guard_rad=branch_guard_rad)
+        if initial_pair is not None:
+            initialization_row = probe_row
+            for side, item in zip(("left", "right"), initial_pair):
+                data.qpos[qids[side]] = item.q
+            data.qvel[:] = 0.0
+            mujoco.mj_forward(model, data)
+            break
+    initialized = initial_pair is not None
     for row in range(count):
         previous = {side: data.qpos[qids[side]].copy()
                     for side in ("left", "right")}
@@ -273,7 +371,8 @@ def _solve_candidate_dls_hold(model, task, mapped, *,
         state_safe = collision_checker.state(*current_pair).valid
         edge_safe = (row == 0 or collision_checker.transition(
             previous_pair, current_pair).valid)
-        if not (state_safe and edge_safe):
+        if _requires_pair_rescue(
+                selected, state_safe=state_safe, edge_safe=edge_safe):
             rescue_lists = {}
             for side in ("left", "right"):
                 target_p = getattr(task, f"{side}_position_m")[row]
@@ -284,19 +383,29 @@ def _solve_candidate_dls_hold(model, task, mapped, *,
                     rescue_lists[side].append(selected[side])
             safe_pair = _select_collision_safe_pair(
                 rescue_lists,
-                previous=None if row == 0 else previous_pair,
+                previous=_continuity_reference(initialized, previous_pair),
                 checker=collision_checker,
                 branch_guard_rad=branch_guard_rad)
             if safe_pair is None:
-                for side in ("left", "right"):
-                    data.qpos[qids[side]] = previous[side]
+                recovery = (None if not _recovery_allowed(
+                    row, initialization_row=initialization_row)
+                    else _select_safe_recovery_step(
+                        rescue_lists, previous=previous_pair,
+                        checker=collision_checker,
+                        maximum_step_rad=branch_guard_rad))
+                for side, recovery_q in zip(("left", "right"),
+                                            recovery or previous_pair):
+                    data.qpos[qids[side]] = recovery_q
                     selected[side] = None
-                    mode[row, side_index[side]] = "collision_hold"
+                    mode[row, side_index[side]] = (
+                        "recovery_step" if recovery is not None
+                        else "collision_hold")
             else:
                 for side, item in zip(("left", "right"), safe_pair):
                     data.qpos[qids[side]] = item.q
                     selected[side] = item
                     mode[row, side_index[side]] = "collision_rescue"
+                initialized = True
         data.qvel[:] = 0.0
         mujoco.mj_forward(model, data)
         for side in ("left", "right"):
@@ -322,9 +431,10 @@ def _solve_candidate_dls_hold(model, task, mapped, *,
                 "anchor", "warm_start", "rescue", "collision_rescue")),
             "ok", np.where(mode == "hold", "dls_exhausted", mode)),
         "solve_mode": mode,
-        "protocol": "v3.1_candidate_dls_independent_hold",
+        "protocol": "v3.2_paired_preinit_candidate_dls_safe_recovery",
         "maximum_iterations": 200,
         "branch_guard_rad": branch_guard_rad,
+        "initialization_source_row": initialization_row,
     }
     return (qpos, actual, position_error, orientation_error, strict,
             discontinuity, diagnostics)
@@ -392,7 +502,9 @@ def solve_selected_shard(spec, mode, output_root=DEFAULT_OUTPUT, *,
     prepared = task
     (qpos, actual, position_error, orientation_error, _strict,
      discontinuity, diagnostics) = _solve_candidate_dls_hold(
-        model, prepared, mapped, branch_guard_rad=0.30)
+        model, prepared, mapped, branch_guard_rad=0.30,
+        initializer_rows=_initializer_probe_rows(
+            state.get("selected_result"), source_count=len(task.time_s)))
     source_time = np.asarray(prepared.time_s, dtype=float)
     source_time = source_time - source_time[0]
     velocity, acceleration = _joint_derivatives(model, qpos, source_time)
