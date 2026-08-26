@@ -148,6 +148,36 @@ def local_paired_refinements(mount, *, side, xy_step_m=.05,
     return records
 
 
+def collision_aware_pair_refinements(mount, *, separation_step_m=.04,
+                                     yaw_step_deg=10.0):
+    """Move both bases outward together while locally varying both yaws."""
+    left = np.asarray(mount["xy"]["left"], dtype=float)
+    right = np.asarray(mount["xy"]["right"], dtype=float)
+    axis = left - right
+    distance = float(np.linalg.norm(axis))
+    if distance <= 0.0:
+        raise ValueError("paired mount bases must not overlap")
+    outward = axis / distance
+    records = []
+    for separation in (0.0, float(separation_step_m)):
+        for left_dyaw in (-yaw_step_deg, 0.0, yaw_step_deg):
+            for right_dyaw in (-yaw_step_deg, 0.0, yaw_step_deg):
+                records.append({
+                    "xy": {
+                        "left": (left + separation * outward).tolist(),
+                        "right": (right - separation * outward).tolist(),
+                    },
+                    "yaw": {
+                        "left": _normalize_yaw(
+                            float(mount["yaw"]["left"]) + left_dyaw),
+                        "right": _normalize_yaw(
+                            float(mount["yaw"]["right"]) + right_dyaw),
+                    },
+                    "shared_base_z_m": float(mount["shared_base_z_m"]),
+                })
+    return records
+
+
 def select_mount_pair(left_records, right_records, *, minimum_separation_m=.18):
     best = None
     for left in left_records:

@@ -29,6 +29,7 @@ from factory_bimanual.piperx_recommended import (
 from factory_bimanual.registration import RigidTaskRegistration, register_task
 from factory_bimanual.source_data import load_factory_task
 from scripts.search_fold_box_piperx_mount import (
+    collision_aware_pair_refinements,
     local_paired_refinements,
     rank_paired_mount_candidate,
 )
@@ -37,9 +38,6 @@ from scripts.search_fold_box_piperx_paired_mount import (
     _sparse_safe,
     _valid_mount,
     evaluate_pair,
-)
-from scripts.render_factory_dual_piperx_fixed_time import (
-    load_locked_piperx_calibration,
 )
 from scripts.run_piperx_recommended_v31 import (
     condition_complete_follow_targets,
@@ -57,7 +55,7 @@ STUDY_SEARCH_CONFIG = PerTaskSearchConfig(
     dense_budget=3,
     local_budget=6,
     finalist_budget=2,
-    schema="piperx-multitask-family-shared-search-v7-audit-clearance",
+    schema="piperx-multitask-per-trajectory-search-v10-safe-pair-coverage",
 )
 
 
@@ -161,12 +159,13 @@ def prepare_family_follow_targets(spec, task, *, apply_conditioning=True):
     """Apply the v3.1 family TCP, wrist, and conditioning contract once."""
     config = load_recommended_config()
     mount_spec = config.mounts[spec.family.key]
-    calibration = load_locked_piperx_calibration()
+    if (mount_spec.left_tool_offset_quaternion_wxyz is None
+            or mount_spec.right_tool_offset_quaternion_wxyz is None):
+        raise ValueError(
+            f"{spec.family.key}: explicit task-family tool rotations are required")
     offsets = {
-        "left": (mount_spec.left_tool_offset_quaternion_wxyz
-                 or calibration.left_offset_quaternion_wxyz),
-        "right": (mount_spec.right_tool_offset_quaternion_wxyz
-                  or calibration.right_offset_quaternion_wxyz),
+        "left": mount_spec.left_tool_offset_quaternion_wxyz,
+        "right": mount_spec.right_tool_offset_quaternion_wxyz,
     }
     return condition_complete_follow_targets(
         task, offsets,
@@ -209,7 +208,7 @@ def _normalize_baseline_mount_payload(payload):
 
 def _candidate_fingerprint(spec, mode, stage, mount, settings):
     payload = {
-        "schema": "piperx-multitask-calibrated-target-search-v4-audit-clearance",
+        "schema": "piperx-multitask-calibrated-target-search-v5-per-trajectory",
         "source_sha256": spec.source_sha256,
         "mode": mode, "stage": stage, "mount": mount,
         "settings": settings,
@@ -270,9 +269,10 @@ def _as_rank_record(record):
 def _best_observed_mount(records):
     if not records:
         return None, None
-    safe_records = [record for record in records if _sparse_safe(record)]
-    candidates = safe_records or records
-    selected = min(candidates, key=lambda row: rank_mount_result(
+    # continuous_pair_coverage already counts only collision-free IK pairs.
+    # Frames without a safe pair become HOLD in the formal fixed-time solver;
+    # rejecting the whole mount here can turn useful partial follow into 0%.
+    selected = min(records, key=lambda row: rank_mount_result(
         _as_rank_record(row)))
     return selected.get("mount"), _as_rank_record(selected)
 
@@ -281,6 +281,76 @@ def _best_current_funnel_mount(*stage_rows):
     """Select only from rows evaluated under the active search settings."""
     return _best_observed_mount([
         row for rows in stage_rows for row in rows])
+
+
+def _exploration_frontier(records, maximum):
+    """Keep both reachability leaders and collision-free leaders for refinement."""
+    records = list(records)
+    if maximum < 1 or not records:
+        return []
+    coverage_ranked = sorted(records, key=lambda row: (
+        -float(row.get("continuous_pair_coverage", 0.0)),
+        int(row.get("pair_collision_frames", 0))
+        + int(row.get("pair_edge_collision_frames", 0)),
+        float(row.get("mean_pair_pose_error", 1e9)),
+    ))
+    safe_ranked = sorted(
+        (row for row in records if _sparse_safe(row)),
+        key=lambda row: (
+            -float(row.get("continuous_pair_coverage", 0.0)),
+            int(row.get("longest_hold_frames", 0)),
+            float(row.get("mean_pair_pose_error", 1e9)),
+        ))
+    coverage_slots = (maximum + 1) // 2
+    ordered = [*coverage_ranked[:coverage_slots],
+               *safe_ranked[:maximum - coverage_slots],
+               *coverage_ranked]
+    selected = []
+    seen = set()
+    for row in ordered:
+        key = json.dumps(row.get("mount"), sort_keys=True)
+        if key in seen:
+            continue
+        seen.add(key)
+        selected.append(row)
+        if len(selected) == maximum:
+            break
+    return selected
+
+
+def _local_refinement_mounts(mount, *, mode):
+    """Return independent and symmetric collision-aware local candidates."""
+    candidates = []
+    for side in ("left", "right"):
+        candidates.extend(local_paired_refinements(
+            mount, side=side, xy_step_m=.04, yaw_step_deg=10.))
+    candidates.extend(collision_aware_pair_refinements(
+        mount, separation_step_m=.04, yaw_step_deg=10.))
+    valid = []
+    for candidate in candidates:
+        candidate["mode"] = mode
+        candidate["base_z_m"] = {
+            side: candidate["shared_base_z_m"]
+            for side in ("left", "right")}
+        if _valid_mount(candidate):
+            valid.append(candidate)
+    return valid
+
+
+def _budgeted_local_refinement_mounts(frontier, *, mode, maximum):
+    """Split local budget across seeds so no frontier branch is starved."""
+    frontier = list(frontier)
+    if not frontier:
+        return []
+    if maximum < 3 * len(frontier):
+        raise ValueError("local budget needs three candidates per frontier seed")
+    quotient, remainder = divmod(maximum, len(frontier))
+    selected = []
+    for index, seed in enumerate(frontier):
+        quota = quotient + (1 if index < remainder else 0)
+        selected.extend(evenly_spaced(
+            _local_refinement_mounts(seed["mount"], mode=mode), quota))
+    return selected
 
 
 def run_job(job: StudyJob, output=DEFAULT_OUTPUT, *, short_prefix=None,
@@ -309,25 +379,6 @@ def run_job(job: StudyJob, output=DEFAULT_OUTPUT, *, short_prefix=None,
     recommended = load_recommended_config().mounts[spec.family.key]
     representative = family_representative_spec(
         specs, spec, recommended.source_take)
-    if mode != "baseline":
-        if representative.key != spec.key:
-            representative_state = run_job(
-                StudyJob(representative, mode), output,
-                short_prefix=short_prefix, search_config=search_config,
-                study_specs=specs)
-            state.update(
-                status=representative_state["status"],
-                selected_mount=representative_state.get("selected_mount"),
-                selected_result=representative_state.get("selected_result"),
-                selection_stage="family_shared_representative",
-                representative_trajectory=representative.key,
-                search_schema=search_config.schema,
-            )
-            if representative_state.get("failure_stage"):
-                state["failure_stage"] = representative_state["failure_stage"]
-            atomic_json(checkpoint, state)
-            return state
-
     state["search_schema"] = search_config.schema
     task, registration = _load_registered_spec(spec)
     task, mapped_quaternions, _conditioning_audit = (
@@ -372,17 +423,16 @@ def run_job(job: StudyJob, output=DEFAULT_OUTPUT, *, short_prefix=None,
             evaluator=lambda mount, serial, settings: evaluate_pair(
                 task, mount, serial,
                 mapped_quaternions=mapped_quaternions, **settings))
-        safe_coarse = sorted(
-            (row for row in coarse if _sparse_safe(row)),
-            key=rank_paired_mount_candidate)
-        if not safe_coarse:
+        coarse_frontier = _exploration_frontier(
+            coarse, search_config.dense_budget)
+        if not coarse_frontier:
             selected_mount, selected_result = _best_observed_mount(coarse)
             state.update(status="infeasible", selected_mount=selected_mount,
                          selected_result=selected_result,
                          failure_stage="coarse")
             atomic_json(checkpoint, state)
             return state
-        dense_mounts = [row["mount"] for row in safe_coarse[:search_config.dense_budget]]
+        dense_mounts = [row["mount"] for row in coarse_frontier]
         dense = _evaluate_stage(
             state=state, checkpoint=checkpoint, spec=spec, mode=mode,
             stage="dense", mounts=dense_mounts,
@@ -394,10 +444,8 @@ def run_job(job: StudyJob, output=DEFAULT_OUTPUT, *, short_prefix=None,
             evaluator=lambda mount, serial, settings: evaluate_pair(
                 task, mount, serial,
                 mapped_quaternions=mapped_quaternions, **settings))
-        safe_dense = sorted(
-            (row for row in dense if _sparse_safe(row)),
-            key=rank_paired_mount_candidate)
-        if not safe_dense:
+        dense_frontier = _exploration_frontier(dense, 2)
+        if not dense_frontier:
             selected_mount, selected_result = _best_current_funnel_mount(
                 coarse, dense)
             state.update(status="infeasible", selected_mount=selected_mount,
@@ -405,21 +453,11 @@ def run_job(job: StudyJob, output=DEFAULT_OUTPUT, *, short_prefix=None,
                          failure_stage="dense")
             atomic_json(checkpoint, state)
             return state
-        local_mounts = []
-        for side in ("left", "right"):
-            for mount in local_paired_refinements(
-                    safe_dense[0]["mount"], side=side,
-                    xy_step_m=.04, yaw_step_deg=10.):
-                mount["mode"] = mode
-                mount["base_z_m"] = {
-                    side_name: mount["shared_base_z_m"]
-                    for side_name in ("left", "right")}
-                if _valid_mount(mount):
-                    local_mounts.append(mount)
+        local_mounts = _budgeted_local_refinement_mounts(
+            dense_frontier, mode=mode, maximum=search_config.local_budget)
         local = _evaluate_stage(
             state=state, checkpoint=checkpoint, spec=spec, mode=mode,
-            stage="local", mounts=evenly_spaced(
-                local_mounts, search_config.local_budget),
+            stage="local", mounts=local_mounts,
             settings={"uniform_count": 36, "global_seed_count": 7,
                       "max_iterations": 110, "maximum_candidates": 4,
                       "position_tolerance_m": STUDY_POSITION_TOLERANCE_M,
@@ -428,9 +466,8 @@ def run_job(job: StudyJob, output=DEFAULT_OUTPUT, *, short_prefix=None,
             evaluator=lambda mount, serial, settings: evaluate_pair(
                 task, mount, serial,
                 mapped_quaternions=mapped_quaternions, **settings))
-        finalists = sorted(
-            (row for row in [*dense, *local] if _sparse_safe(row)),
-            key=rank_paired_mount_candidate)[:search_config.finalist_budget]
+        finalists = _exploration_frontier(
+            [*dense, *local], search_config.finalist_budget)
         full = _evaluate_stage(
             state=state, checkpoint=checkpoint, spec=spec, mode=mode,
             stage="full", mounts=[row["mount"] for row in finalists],
@@ -452,10 +489,11 @@ def run_job(job: StudyJob, output=DEFAULT_OUTPUT, *, short_prefix=None,
         state.update(status="infeasible", selected_mount=selected_mount,
                      selected_result=selected_result, failure_stage="full")
     else:
-        selected = min(full, key=lambda row: rank_mount_result(_as_rank_record(row)))
+        selected_mount, selected_result = _best_observed_mount(full)
         state.update(
-            status="complete", selected_mount=selected["mount"],
-            selected_result=_as_rank_record(selected))
+            status="complete", selected_mount=selected_mount,
+            selected_result=selected_result,
+            selection_stage="per_trajectory_dual_frontier")
     atomic_json(checkpoint, state)
     return state
 

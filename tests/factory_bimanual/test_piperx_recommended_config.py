@@ -55,6 +55,17 @@ def test_config_has_all_pdf_piperx_task_families():
     }
 
 
+def test_every_multitask_family_has_explicit_tool_rotation():
+    config = load_recommended_config(DEFAULT_CONFIG_PATH)
+    missing = [
+        key for key, mount in config.mounts.items()
+        if (mount.left_tool_offset_quaternion_wxyz is None
+            or mount.right_tool_offset_quaternion_wxyz is None)
+    ]
+
+    assert missing == []
+
+
 def test_fold_box_pdf_base_is_registered_into_world():
     config = load_recommended_config(DEFAULT_CONFIG_PATH)
     mount = world_mount_for_family(

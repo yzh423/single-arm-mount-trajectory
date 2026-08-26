@@ -49,9 +49,8 @@ def mount_quaternions(mode, xy, target_center, yaw_deg):
         elif mode == "inverted":
             frame = np.diag([1., -1., -1.])
         elif mode == "horizontal_wall":
-            # A pole-mounted pair faces away from the trajectory centre:
-            # left and right mounting axes point horizontally outwards.
-            axis = np.asarray(xy[side], dtype=float) - target_center[:2]
+            # A wall-mounted pair extends from each base toward the task.
+            axis = target_center[:2] - np.asarray(xy[side], dtype=float)
             norm = np.linalg.norm(axis)
             if norm <= 1e-9:
                 raise ValueError("wall mount cannot coincide with target XY center")

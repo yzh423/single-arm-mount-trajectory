@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from dataclasses import replace
+from collections import Counter
 import hashlib
 import json
 from pathlib import Path
@@ -242,16 +243,18 @@ def evaluate_pair(task, mount, serial, *, uniform_count=14,
     pair_counts = []
     sigmas = []
     errors = []
+    collision_class_counts = Counter()
     previous_pairs = []
     for row in range(len(indices)):
         proposals = {}
         for side in ("left", "right"):
             proposals[side] = generator(model, CONTRACT, sampled, row, side)
             independent[side] += int(bool(proposals[side]))
-        collision_safe_pairs = [
-            (left, right) for left in proposals["left"]
-            for right in proposals["right"]
-            if checker.state(left.q, right.q).valid]
+        pair_reports = [
+            ((left, right), checker.state(left.q, right.q))
+            for left in proposals["left"] for right in proposals["right"]]
+        collision_safe_pairs = [pair for pair, report in pair_reports
+                                if report.valid]
         topology_reports = [
             (pair, topology.state(pair[0].q, pair[1].q))
             for pair in collision_safe_pairs]
@@ -275,6 +278,8 @@ def evaluate_pair(task, mount, serial, *, uniform_count=14,
         valid_pairs = collision_safe_pairs
         pair_counts.append(len(valid_pairs))
         if not valid_pairs:
+            for _pair, report in pair_reports:
+                collision_class_counts.update(item.value for item in report.classes)
             pair_collision_frames += int(
                 bool(proposals["left"] and proposals["right"])
                 and not collision_safe_pairs)
@@ -336,6 +341,7 @@ def evaluate_pair(task, mount, serial, *, uniform_count=14,
         "continuous_pair_coverage": pair_success / count,
         "pair_collision_frames": pair_collision_frames,
         "pair_edge_collision_frames": pair_edge_collision_frames,
+        "collision_class_counts": dict(collision_class_counts),
         "structural_crossing_frames": structural_crossing_frames,
         "structural_edge_crossing_frames": structural_edge_crossing_frames,
         "gripper_overlap_violation_frames": gripper_overlap_violation_frames,

@@ -3,6 +3,7 @@ from pathlib import Path
 
 import numpy as np
 import pytest
+import scripts.run_piperx_multitask_fixed_time_mount_study as study
 
 from factory_bimanual.multitask_fixed_time_study import (
     STUDY_MODES,
@@ -18,6 +19,7 @@ from scripts.run_piperx_multitask_fixed_time_mount_study import (
     STUDY_ORIENTATION_TOLERANCE_RAD,
     STUDY_POSITION_TOLERANCE_M,
     family_representative_spec,
+    _exploration_frontier,
     plan_jobs,
     prepare_family_follow_targets,
     rank_mount_result,
@@ -162,9 +164,9 @@ def test_collision_free_full_coverage_outranks_unsafe_and_partial_mounts():
     assert rank_mount_result(colliding_full) < rank_mount_result(partial)
 
 
-def test_infeasible_fallback_prefers_any_collision_free_observation():
-    colliding = {
-        "mount": {"name": "colliding"},
+def test_mount_selection_prefers_more_safe_pair_coverage_over_zero_coverage():
+    partially_followable = {
+        "mount": {"name": "partial"},
         "continuous_pair_coverage": 0.9,
         "pair_collision_frames": 1,
         "pair_edge_collision_frames": 0,
@@ -176,9 +178,85 @@ def test_infeasible_fallback_prefers_any_collision_free_observation():
         "pair_edge_collision_frames": 0,
     }
 
-    mount, _result = _best_observed_mount([colliding, sparse_safe])
+    mount, _result = _best_observed_mount([
+        partially_followable, sparse_safe])
 
-    assert mount == sparse_safe["mount"]
+    assert mount == partially_followable["mount"]
+
+
+def test_exploration_frontier_keeps_coverage_and_safety_elites():
+    high_coverage = {
+        "mount": {"name": "coverage"},
+        "continuous_pair_coverage": .8,
+        "pair_collision_frames": 2,
+        "pair_edge_collision_frames": 0,
+    }
+    safe = {
+        "mount": {"name": "safe"},
+        "continuous_pair_coverage": 0.0,
+        "pair_collision_frames": 0,
+        "pair_edge_collision_frames": 0,
+    }
+
+    selected = _exploration_frontier([safe, high_coverage], maximum=2)
+
+    assert {row["mount"]["name"] for row in selected} == {
+        "coverage", "safe"}
+
+
+def test_local_search_includes_symmetric_collision_avoidance_candidates():
+    assert hasattr(study, "_local_refinement_mounts")
+    mount = {
+        "xy": {"left": [-.3, .1], "right": [.3, -.1]},
+        "yaw": {"left": -30., "right": 150.},
+        "shared_base_z_m": .81,
+    }
+    original_distance = np.linalg.norm(np.subtract(
+        mount["xy"]["left"], mount["xy"]["right"]))
+
+    candidates = study._local_refinement_mounts(
+        mount, mode="upright_table")
+
+    assert max(np.linalg.norm(np.subtract(
+        candidate["xy"]["left"], candidate["xy"]["right"]))
+        for candidate in candidates) > original_distance
+
+
+def test_local_budget_gives_each_frontier_seed_an_outward_candidate():
+    assert hasattr(study, "_budgeted_local_refinement_mounts")
+    mounts = [
+        {"xy": {"left": [-.3, .1], "right": [.3, -.1]},
+         "yaw": {"left": -30., "right": 150.},
+         "shared_base_z_m": .81},
+        {"xy": {"left": [-.35, .35], "right": [.35, .05]},
+         "yaw": {"left": -20., "right": 160.},
+         "shared_base_z_m": .81},
+    ]
+
+    selected = study._budgeted_local_refinement_mounts(
+        [{"mount": mount} for mount in mounts],
+        mode="upright_table", maximum=6)
+
+    assert len(selected) == 6
+    for mount in mounts:
+        original = np.linalg.norm(np.subtract(
+            mount["xy"]["left"], mount["xy"]["right"]))
+        midpoint = np.mean([
+            mount["xy"]["left"], mount["xy"]["right"]], axis=0)
+        assert any(np.linalg.norm(np.subtract(
+            candidate["xy"]["left"], candidate["xy"]["right"]))
+            > original + 1e-12 and np.allclose(np.mean([
+                candidate["xy"]["left"], candidate["xy"]["right"]],
+                axis=0), midpoint)
+            for candidate in selected)
+
+
+def test_mount_search_schema_is_per_trajectory_not_family_shared():
+    from scripts.run_piperx_multitask_fixed_time_mount_study import (
+        STUDY_SEARCH_CONFIG,
+    )
+
+    assert "per-trajectory" in STUDY_SEARCH_CONFIG.schema
 
 
 def test_funnel_fallback_uses_only_explicit_current_stage_rows():

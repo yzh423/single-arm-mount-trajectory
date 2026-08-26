@@ -25,8 +25,8 @@ def test_three_mount_modes_compile_with_expected_axes_and_shared_z(tmp_path: Pat
     expected = {
         "upright_table": {"left": [0, 0, 1], "right": [0, 0, 1]},
         "horizontal_wall": {
-            side: ((np.asarray(xy[side]) - target[:2])
-                   / np.linalg.norm(np.asarray(xy[side]) - target[:2])).tolist()
+            side: ((target[:2] - np.asarray(xy[side]))
+                   / np.linalg.norm(target[:2] - np.asarray(xy[side]))).tolist()
                   + [0]
             for side in ("left", "right")
         },

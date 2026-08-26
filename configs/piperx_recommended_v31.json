@@ -47,7 +47,10 @@
       "morphology": "bottom_table",
       "left_p_base_m": [0.15, 0.25, -0.696],
       "right_p_base_m": [0.15, -0.15, -0.696],
-      "source_take": "160555"
+      "source_take": "160555",
+      "left_tool_offset_quaternion_wxyz": [0.0, 0.7071067811865476, 0.0, 0.7071067811865476],
+      "right_tool_offset_quaternion_wxyz": [0.5, 0.5, -0.5, 0.5],
+      "tool_offset_selection": "task-family paired collision-aware representative-pose axis search; left axis 13 and right axis 5 seed per-trajectory mount refinement"
     },
     "8-11/Fold_Box": {
       "morphology": "bottom_table",
@@ -71,7 +74,10 @@
       "morphology": "bottom_table",
       "left_p_base_m": [-0.05, 0.05, -1.022],
       "right_p_base_m": [0.15, -0.15, -1.022],
-      "source_take": "162818"
+      "source_take": "162818",
+      "left_tool_offset_quaternion_wxyz": [0.06162841671621935, -0.09229595564125727, 0.7044160264027587, -0.701057384649978],
+      "right_tool_offset_quaternion_wxyz": [0.5, 0.5, -0.5, 0.5],
+      "tool_offset_selection": "task-family strict representative-pose axis search; fallback-left and axis-5-right seed the per-trajectory mount search"
     },
     "8-11/Seal_Bag": {
       "morphology": "humanoid_pole",
@@ -93,49 +99,73 @@
       "morphology": "bottom_table",
       "left_p_base_m": [0.3, 0.3, -0.709],
       "right_p_base_m": [0.2, -0.2, -0.709],
-      "source_take": "160040"
+      "source_take": "160040",
+      "left_tool_offset_quaternion_wxyz": [0.5, 0.5, -0.5, 0.5],
+      "right_tool_offset_quaternion_wxyz": [0.6988771263155324, 0.10756747795195007, -0.7069385089210125, 0.015425453138743089],
+      "tool_offset_selection": "task-family strict representative-pose axis search; axis-5-left and calibrated fallback-right"
     },
     "8-12/Bag_BoxPacking": {
       "morphology": "bottom_table",
       "left_p_base_m": [1.2, 0.65, -0.358],
       "right_p_base_m": [0.7, 0.75, -0.358],
-      "source_take": "110914"
+      "source_take": "110914",
+      "left_tool_offset_quaternion_wxyz": [0.06162841671621935, -0.09229595564125727, 0.7044160264027587, -0.701057384649978],
+      "right_tool_offset_quaternion_wxyz": [0.6988771263155324, 0.10756747795195007, -0.7069385089210125, 0.015425453138743089],
+      "tool_offset_selection": "task-family strict representative-pose axis search; calibrated fallback pair retained by probe ranking"
     },
     "8-12/Fold_Box": {
       "morphology": "bottom_table",
       "left_p_base_m": [1.1, 0.7, -0.354],
       "right_p_base_m": [0.7, 0.8, -0.354],
-      "source_take": "111132"
+      "source_take": "111132",
+      "left_tool_offset_quaternion_wxyz": [0.0, 0.7071067811865476, 0.0, 0.7071067811865476],
+      "right_tool_offset_quaternion_wxyz": [0.6988771263155324, 0.10756747795195007, -0.7069385089210125, 0.015425453138743089],
+      "tool_offset_selection": "task-family paired collision-aware representative-pose axis search; axis-13-left and calibrated fallback-right"
     },
     "8-12/InsertIntoBottle": {
       "morphology": "bottom_table",
       "left_p_base_m": [-0.8, -1.1, -0.741],
       "right_p_base_m": [-0.4, -0.5, -0.741],
-      "source_take": "112858"
+      "source_take": "112858",
+      "left_tool_offset_quaternion_wxyz": [0.5, 0.5, -0.5, 0.5],
+      "right_tool_offset_quaternion_wxyz": [0.6988771263155324, 0.10756747795195007, -0.7069385089210125, 0.015425453138743089],
+      "tool_offset_selection": "task-family strict representative-pose axis search; axis-5-left and calibrated fallback-right"
     },
     "8-12/InsertSmallPackageIntoMachine": {
       "morphology": "humanoid_pole",
       "left_p_base_m": [-0.05, -0.1, -0.537],
       "right_p_base_m": [-0.25, 0.5, -0.537],
-      "source_take": "111812"
+      "source_take": "111812",
+      "left_tool_offset_quaternion_wxyz": [0.5, -0.5, -0.5, 0.5],
+      "right_tool_offset_quaternion_wxyz": [0.6988771263155324, 0.10756747795195007, -0.7069385089210125, 0.015425453138743089],
+      "tool_offset_selection": "task-family strict representative-pose axis search; axis-11-left and calibrated fallback-right"
     },
     "8-12/PackIntoBox": {
       "morphology": "bottom_table",
       "left_p_base_m": [-0.1, -0.55, -0.781],
       "right_p_base_m": [0.2, 0.05, -0.781],
-      "source_take": "112524"
+      "source_take": "112524",
+      "left_tool_offset_quaternion_wxyz": [0.5, 0.5, -0.5, 0.5],
+      "right_tool_offset_quaternion_wxyz": [0.5, 0.5, -0.5, 0.5],
+      "tool_offset_selection": "task-family strict representative-pose axis search; axis-5 pair"
     },
     "8-12/PourRawMaterial": {
       "morphology": "humanoid_pole",
       "left_p_base_m": [-0.35, -0.45, -0.258],
       "right_p_base_m": [-0.25, 0.05, -0.258],
-      "source_take": "111542"
+      "source_take": "111542",
+      "left_tool_offset_quaternion_wxyz": [0.5, -0.5, -0.5, 0.5],
+      "right_tool_offset_quaternion_wxyz": [0.7071067811865476, 0.7071067811865476, 0.0, 0.0],
+      "tool_offset_selection": "task-family paired collision-aware representative-pose axis search; axis-11-left and axis-21-right reduce paired self/cross-arm collision"
     },
     "8-12/PutIntoBox": {
       "morphology": "humanoid_pole",
       "left_p_base_m": [-0.2, -0.05, -0.735],
       "right_p_base_m": [0.1, 0.15, -0.735],
-      "source_take": "113250"
+      "source_take": "113250",
+      "left_tool_offset_quaternion_wxyz": [0.0, 0.0, 1.0, 0.0],
+      "right_tool_offset_quaternion_wxyz": [0.6988771263155324, 0.10756747795195007, -0.7069385089210125, 0.015425453138743089],
+      "tool_offset_selection": "task-family strict representative-pose axis search; axis-3-left and calibrated fallback-right"
     }
   }
 }

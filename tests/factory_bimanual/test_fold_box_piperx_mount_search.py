@@ -1,4 +1,5 @@
 import numpy as np
+import scripts.search_fold_box_piperx_mount as mount_search
 
 from scripts.search_fold_box_piperx_mount import (
     BASE_Z_M,
@@ -156,6 +157,26 @@ def test_local_paired_refinement_keeps_bases_upright_and_same_height():
     assert all(candidate["shared_base_z_m"] == .81 for candidate in candidates)
     assert all(set(candidate) == {"xy", "yaw", "shared_base_z_m"}
                for candidate in candidates)
+
+
+def test_collision_aware_refinement_moves_both_bases_apart_symmetrically():
+    assert hasattr(mount_search, "collision_aware_pair_refinements")
+    mount = {"xy": {"left": [-.2, .1], "right": [.2, -.1]},
+             "yaw": {"left": -30., "right": 150.},
+             "shared_base_z_m": .81}
+    original_distance = np.linalg.norm(np.subtract(
+        mount["xy"]["left"], mount["xy"]["right"]))
+
+    candidates = mount_search.collision_aware_pair_refinements(
+        mount, separation_step_m=.04, yaw_step_deg=10.)
+
+    distances = [np.linalg.norm(np.subtract(
+        candidate["xy"]["left"], candidate["xy"]["right"]))
+        for candidate in candidates]
+    np.testing.assert_allclose(
+        max(distances), original_distance + .08, atol=1e-12)
+    assert mount in candidates
+    assert mount["xy"] == {"left": [-.2, .1], "right": [.2, -.1]}
 
 
 def test_missing_or_disconnected_layer_does_not_reset_pair_history():
