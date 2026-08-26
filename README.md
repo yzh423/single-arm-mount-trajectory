@@ -4,6 +4,42 @@
 
 “完全跟随”只表示标定 TCP 目标在 1 mm / 0.5° 门限内全部到达。原始手轨迹是否被保留、原始时间戳是否可执行、重定时后的执行时长、状态碰撞与扫掠边碰撞，都是独立可审计的结论。仓库还包含 13 个 vendor-native 机械臂模型的单臂证据工作流，模型、网格、TCP、关节限位和来源修订必须先通过资格门，再进入轨迹求解与真实网格渲染。
 
+## Current fixed-time multi-task study
+
+当前发布包是 PiperX 双臂在 27 条双手轨迹、12 个任务族和 4 种安装姿态上的 fixed-time 对比实验。四种姿态为 `baseline`、`upright_table`、`horizontal_wall` 和 `inverted`，分别对应原推荐双臂布局、桌面立放、墙面横装和倒挂。实验不做重定时，不压缩或拉长视频时间轴，所有 shard 都以源轨迹时间运行。
+
+```powershell
+python -m scripts.run_piperx_multitask_fixed_time_mount_study
+python -m scripts.build_piperx_multitask_fixed_time_bundle
+python -m scripts.plot_piperx_multitask_mount_results
+python -m scripts.render_piperx_multitask_mount_comparisons
+python -m scripts.build_piperx_multitask_mount_report
+```
+
+本次包的核心产物：
+
+- [多任务 Fixed-Time 四构型对比报告](reports/piperx_multitask_fixed_time_mount_study/PiperX多任务Fixed-Time四构型对比报告.pdf)
+- [aggregate.csv](reports/piperx_multitask_fixed_time_mount_study/aggregate.csv)
+- [bundle_manifest.json](reports/piperx_multitask_fixed_time_mount_study/bundle_manifest.json)
+- [四构型对比视频目录](reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/)
+- [覆盖率热图](reports/piperx_multitask_fixed_time_mount_study/figures/coverage_heatmap.png)、[碰撞拓扑热图](reports/piperx_multitask_fixed_time_mount_study/figures/collision_topology_heatmap.png)、[构型胜出统计](reports/piperx_multitask_fixed_time_mount_study/figures/winner_counts.png)
+
+已验证的当前事实：
+
+| 项目 | 数值 |
+|---|---:|
+| 轨迹数 | 27 |
+| 任务族 | 12 |
+| 安装姿态 | 4 |
+| 求解 shard | 108 / 108 |
+| 四构型对比视频 | 27 / 27 |
+| 当前视频解码检查 | 27 / 27 |
+| strict fixed-time source retiming | false |
+| 状态与扫掠边零碰撞 shard | 106 / 108 |
+| 动力学限制通过 shard | 62 / 108 |
+
+> **Caution:** 这版多任务实验是 fixed-time 安装构型对比，不等同于全任务完全跟随发布包。`aggregate.csv` 显示，在 1 mm / 0.5° 严格门限下，许多任务会进入 hold 或出现较大残差。报告和视频用于比较 mount 与 IK 策略的可达性、碰撞拓扑和失败模式，不能被解读为 27 条轨迹全部可直接真机执行。
+
 ```powershell
 python -m scripts.run_piperx_recommended_v31 `
   --family 8-11/Fold_Box `
@@ -962,7 +998,15 @@ python -m scripts.build_twelve_arm_all_single_task_outputs
 /third_party/**/.git/
 ```
 
-双臂发布 allowlist 保留：
+双臂发布 allowlist 保留当前多任务 fixed-time study 和精选双任务证据。多任务包包含：
+
+- [多任务 Fixed-Time 四构型对比报告](reports/piperx_multitask_fixed_time_mount_study/PiperX多任务Fixed-Time四构型对比报告.pdf)
+- [多任务 aggregate.csv](reports/piperx_multitask_fixed_time_mount_study/aggregate.csv)
+- [多任务 bundle manifest](reports/piperx_multitask_fixed_time_mount_study/bundle_manifest.json)
+- [多任务 figures](reports/piperx_multitask_fixed_time_mount_study/figures/)
+- [27 个四构型对比 MP4](reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/)
+
+精选双任务证据包含：
 
 - [双任务 manifest](reports/piperx_two_task_complete_follow/two_task_manifest.json)
 - [双任务汇总 CSV](reports/piperx_two_task_complete_follow/two_task_summary.csv)
@@ -990,7 +1034,7 @@ python -m scripts.build_twelve_arm_all_single_task_outputs
 3. `Seal_Bag 轨迹上 PiperX 双臂三种安装构型的跟随能力对比 - 飞书云文档.pdf`
 4. `双臂IK跟随方案四臂四种安装位姿报告.pdf`
 
-前三份根目录参考 PDF 由显式 ignore 规则排除，最终双任务报告 PDF 因未被 `reports` allowlist 反向包含而保持本地。已经被 Git 跟踪的文件仍需用 `git rm --cached` 从索引移除，ignore 规则本身不会自动取消跟踪。
+三份根目录参考 PDF 由显式 ignore 规则排除，最终双任务报告 PDF 因未被 `reports` allowlist 反向包含而保持本地。当前多任务 fixed-time PDF 不在排除清单中，会随多任务发布包进入 GitHub。已经被 Git 跟踪的文件仍需用 `git rm --cached` 从索引移除，ignore 规则本身不会自动取消跟踪。
 
 > **Note:** [PiperX 双臂构型对比 · 综合分析报告（26 条轨迹）](<PiperX 双臂构型对比 · 综合分析报告（26 条轨迹） - 飞书云文档.pdf>) 不在上述四份排除清单中，并保留在 GitHub 发布集合。
 
@@ -1021,7 +1065,17 @@ python -m scripts.build_twelve_arm_all_single_task_outputs
 
 ## Putting it together
 
-完整发布流程先重跑两个任务，再执行无跳过的 validator，最后生成本地 PDF。运行顺序把求解、视频和报告建立在同一份 validated manifest 上。
+完整发布流程分两条线。多任务 fixed-time 线先重跑 27 条双手轨迹的四构型 shard，聚合 manifest，生成图表、对比视频和发布 PDF：
+
+```powershell
+python -m scripts.run_piperx_multitask_fixed_time_mount_study
+python -m scripts.build_piperx_multitask_fixed_time_bundle
+python -m scripts.plot_piperx_multitask_mount_results
+python -m scripts.render_piperx_multitask_mount_comparisons
+python -m scripts.build_piperx_multitask_mount_report
+```
+
+双任务 complete-follow 线先重跑两个任务，再执行无跳过的 validator，最后生成本地 PDF。运行顺序把求解、视频和报告建立在同一份 validated manifest 上。
 
 ```powershell
 python -m scripts.run_piperx_recommended_v31 `
