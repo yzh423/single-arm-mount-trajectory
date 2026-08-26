@@ -15,6 +15,7 @@ from factory_bimanual.piperx_recommended import load_recommended_config
 from scripts.run_piperx_multitask_fixed_time_mount_study import (
     _best_observed_mount,
     _best_current_funnel_mount,
+    _candidate_fingerprint,
     _normalize_baseline_mount_payload,
     STUDY_ORIENTATION_TOLERANCE_RAD,
     STUDY_POSITION_TOLERANCE_M,
@@ -257,6 +258,18 @@ def test_mount_search_schema_is_per_trajectory_not_family_shared():
     )
 
     assert "per-trajectory" in STUDY_SEARCH_CONFIG.schema
+
+
+def test_candidate_cache_changes_with_tool_frame_contract():
+    spec = _spec(0)
+    common = (spec, "upright_table", "coarse", {"xy": [0, 0]}, {})
+
+    first = _candidate_fingerprint(
+        *common, target_contract={"left_tool": [1, 0, 0, 0]})
+    second = _candidate_fingerprint(
+        *common, target_contract={"left_tool": [0, 1, 0, 0]})
+
+    assert first != second
 
 
 def test_funnel_fallback_uses_only_explicit_current_stage_rows():

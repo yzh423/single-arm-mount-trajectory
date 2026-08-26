@@ -206,25 +206,28 @@ def _normalize_baseline_mount_payload(payload):
     return result
 
 
-def _candidate_fingerprint(spec, mode, stage, mount, settings):
+def _candidate_fingerprint(spec, mode, stage, mount, settings, *,
+                           target_contract):
     payload = {
-        "schema": "piperx-multitask-calibrated-target-search-v5-per-trajectory",
+        "schema": "piperx-multitask-calibrated-target-search-v6-tool-contract",
         "source_sha256": spec.source_sha256,
         "mode": mode, "stage": stage, "mount": mount,
         "settings": settings,
+        "target_contract": target_contract,
     }
     return hashlib.sha256(json.dumps(
         payload, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
 
 
 def _evaluate_stage(*, state, checkpoint, spec, mode, stage, mounts,
-                    settings, evaluator):
+                    settings, target_contract, evaluator):
     existing = {row["candidate_fingerprint"]: row
                 for row in state.setdefault("records", [])}
     rows = []
     for index, mount in enumerate(mounts):
         fingerprint = _candidate_fingerprint(
-            spec, mode, stage, mount, settings)
+            spec, mode, stage, mount, settings,
+            target_contract=target_contract)
         if fingerprint in existing:
             rows.append(existing[fingerprint])
             continue
@@ -377,6 +380,17 @@ def run_job(job: StudyJob, output=DEFAULT_OUTPUT, *, short_prefix=None,
     specs = (tuple(study_specs) if study_specs is not None else
              discover_dual_hand_trajectories(ROOT / "data/factory"))
     recommended = load_recommended_config().mounts[spec.family.key]
+    target_contract = {
+        "left_tool_offset_quaternion_wxyz": (
+            recommended.left_tool_offset_quaternion_wxyz),
+        "right_tool_offset_quaternion_wxyz": (
+            recommended.right_tool_offset_quaternion_wxyz),
+        "left_tool_translation_m": recommended.left_tool_translation_m,
+        "right_tool_translation_m": recommended.right_tool_translation_m,
+        "wrist_adaptation": (None if recommended.wrist_adaptation is None
+                             else asdict(recommended.wrist_adaptation)),
+        "conditioning_schema": "bounded-savgol-se3-window9-poly3-v1",
+    }
     representative = family_representative_spec(
         specs, spec, recommended.source_take)
     state["search_schema"] = search_config.schema
@@ -420,6 +434,7 @@ def run_job(job: StudyJob, output=DEFAULT_OUTPUT, *, short_prefix=None,
                       "position_tolerance_m": STUDY_POSITION_TOLERANCE_M,
                       "orientation_tolerance_rad": STUDY_ORIENTATION_TOLERANCE_RAD,
                       "constrained_fallback_enabled": False},
+            target_contract=target_contract,
             evaluator=lambda mount, serial, settings: evaluate_pair(
                 task, mount, serial,
                 mapped_quaternions=mapped_quaternions, **settings))
@@ -441,6 +456,7 @@ def run_job(job: StudyJob, output=DEFAULT_OUTPUT, *, short_prefix=None,
                       "position_tolerance_m": STUDY_POSITION_TOLERANCE_M,
                       "orientation_tolerance_rad": STUDY_ORIENTATION_TOLERANCE_RAD,
                       "constrained_fallback_enabled": True},
+            target_contract=target_contract,
             evaluator=lambda mount, serial, settings: evaluate_pair(
                 task, mount, serial,
                 mapped_quaternions=mapped_quaternions, **settings))
@@ -463,6 +479,7 @@ def run_job(job: StudyJob, output=DEFAULT_OUTPUT, *, short_prefix=None,
                       "position_tolerance_m": STUDY_POSITION_TOLERANCE_M,
                       "orientation_tolerance_rad": STUDY_ORIENTATION_TOLERANCE_RAD,
                       "constrained_fallback_enabled": True},
+            target_contract=target_contract,
             evaluator=lambda mount, serial, settings: evaluate_pair(
                 task, mount, serial,
                 mapped_quaternions=mapped_quaternions, **settings))
@@ -477,6 +494,7 @@ def run_job(job: StudyJob, output=DEFAULT_OUTPUT, *, short_prefix=None,
                       "orientation_tolerance_rad": STUDY_ORIENTATION_TOLERANCE_RAD,
                       "constrained_fallback_enabled": True,
                       "scope": "family-representative-uniform-probe-v3"},
+            target_contract=target_contract,
             evaluator=lambda mount, serial, settings: evaluate_pair(
                 task, mount, serial,
                 mapped_quaternions=mapped_quaternions,
