@@ -162,6 +162,21 @@ def test_recovery_waits_until_preinitialized_follow_segment_begins():
     assert bundle._recovery_allowed(40, initialization_row=40)
 
 
+def test_formal_shard_cache_requires_current_solver_protocol(tmp_path):
+    summary = tmp_path / "trajectory.summary.json"
+    summary.write_text(
+        '{"schema":"piperx-multitask-fixed-time-summary-v1"}',
+        encoding="utf-8")
+
+    assert not bundle._formal_summary_reusable(summary)
+
+    summary.write_text(
+        '{"schema":"piperx-multitask-fixed-time-summary-v1",'
+        '"solver_protocol":"piperx-fixed-time-paired-preinit-safe-recovery-v2"}',
+        encoding="utf-8")
+    assert bundle._formal_summary_reusable(summary)
+
+
 def test_aggregate_recomputes_accept_and_collision_counts():
     payload = {
         "left_accept": np.asarray([True, True, False, True]),

@@ -38,6 +38,7 @@ from scripts.search_fold_box_piperx_paired_mount import _scene_mount_kwargs
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = ROOT / "reports/piperx_multitask_fixed_time_mount_study"
 BUNDLE_SCHEMA = "piperx-multitask-fixed-time-bundle-v1"
+FORMAL_SOLVER_PROTOCOL = "piperx-fixed-time-paired-preinit-safe-recovery-v2"
 
 
 def _piperx_collision_checker_kwargs():
@@ -107,6 +108,21 @@ def _sha256(path: Path) -> str:
         for chunk in iter(lambda: stream.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def _formal_summary_reusable(path: Path) -> bool:
+    """Return whether a cached shard was produced by the current solver."""
+    path = Path(path)
+    if not path.is_file():
+        return False
+    try:
+        summary = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError):
+        return False
+    return (
+        summary.get("schema") == "piperx-multitask-fixed-time-summary-v1"
+        and summary.get("solver_protocol") == FORMAL_SOLVER_PROTOCOL
+    )
 
 
 def _joint_derivatives(model, qpos, time_s):
@@ -554,6 +570,7 @@ def solve_selected_shard(spec, mode, output_root=DEFAULT_OUTPUT, *,
     metrics = aggregate_shard(payload)
     summary = {
         "schema": "piperx-multitask-fixed-time-summary-v1",
+        "solver_protocol": FORMAL_SOLVER_PROTOCOL,
         "trajectory": spec.key, "family": spec.family.key,
         "take": spec.take, "mode": mode,
         "timing_mode": "fixed_source_time",
@@ -712,7 +729,8 @@ def build_bundle(output_root=DEFAULT_OUTPUT, *, trajectory=None, mode=None,
         shard_dir = (output_root / "shards" / spec.family.date
                      / spec.family.task / spec.take / job_mode)
         summaries = list(shard_dir.glob("*.summary.json"))
-        summary_path = (summaries[0] if len(summaries) == 1 else
+        summary_path = (summaries[0] if len(summaries) == 1
+                        and _formal_summary_reusable(summaries[0]) else
                         solve_selected_shard(
                             spec, job_mode, output_root,
                             source_prefix=source_prefix))
@@ -780,6 +798,7 @@ def solve_shards(output_root=DEFAULT_OUTPUT, *, trajectory=None, mode=None):
                      / spec.family.task / spec.take / job_mode)
         summaries = list(shard_dir.glob("*.summary.json"))
         output = (summaries[0] if len(summaries) == 1
+                  and _formal_summary_reusable(summaries[0])
                   else solve_selected_shard(spec, job_mode, output_root))
         outputs.append(output)
         print(index, len(jobs), spec.key, job_mode, output, flush=True)
