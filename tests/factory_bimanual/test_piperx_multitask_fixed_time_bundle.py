@@ -155,6 +155,37 @@ def test_recovery_step_moves_toward_nearest_safe_pair_without_teleporting():
     np.testing.assert_allclose(step[1], [.3])
 
 
+def test_recovery_step_requires_collision_and_mount_topology_safety():
+    candidate = lambda value: SimpleNamespace(q=np.asarray([value]))
+
+    class CollisionChecker:
+        @staticmethod
+        def state(left, right):
+            return SimpleNamespace(valid=True)
+
+        @staticmethod
+        def transition(previous, current):
+            return SimpleNamespace(valid=True)
+
+    class TopologyChecker:
+        @staticmethod
+        def state(left, right):
+            return SimpleNamespace(valid=left[0] <= .2 and right[0] <= .2)
+
+        @staticmethod
+        def transition(previous, current):
+            return SimpleNamespace(valid=True)
+
+    checker = bundle._ConjunctivePairChecker(
+        CollisionChecker(), TopologyChecker())
+    step = bundle._select_safe_recovery_step(
+        {"left": [candidate(.8)], "right": [candidate(.8)]},
+        previous=(np.asarray([0.0]), np.asarray([0.0])),
+        checker=checker, maximum_step_rad=.30)
+
+    assert step is None
+
+
 def test_recovery_waits_until_preinitialized_follow_segment_begins():
     assert hasattr(bundle, "_recovery_allowed")
 
@@ -172,7 +203,7 @@ def test_formal_shard_cache_requires_current_solver_protocol(tmp_path):
 
     summary.write_text(
         '{"schema":"piperx-multitask-fixed-time-summary-v1",'
-        '"solver_protocol":"piperx-fixed-time-paired-preinit-safe-recovery-v2"}',
+        '"solver_protocol":"piperx-fixed-time-paired-topology-safe-recovery-v3"}',
         encoding="utf-8")
     assert bundle._formal_summary_reusable(summary)
 

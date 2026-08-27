@@ -6,6 +6,7 @@ import csv
 import hashlib
 import json
 from pathlib import Path
+from types import SimpleNamespace
 
 import mujoco
 import numpy as np
@@ -38,12 +39,30 @@ from scripts.search_fold_box_piperx_paired_mount import _scene_mount_kwargs
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = ROOT / "reports/piperx_multitask_fixed_time_mount_study"
 BUNDLE_SCHEMA = "piperx-multitask-fixed-time-bundle-v1"
-FORMAL_SOLVER_PROTOCOL = "piperx-fixed-time-paired-preinit-safe-recovery-v2"
+FORMAL_SOLVER_PROTOCOL = "piperx-fixed-time-paired-topology-safe-recovery-v3"
 
 
 def _piperx_collision_checker_kwargs():
     """Return the single collision contract shared with the final audit."""
     return {"transition_steps": 5, "clearance_margin_m": .015}
+
+
+class _ConjunctivePairChecker:
+    """Apply every paired state/transition safety contract as a hard gate."""
+
+    def __init__(self, *checkers):
+        if not checkers:
+            raise ValueError("at least one paired checker is required")
+        self.checkers = tuple(checkers)
+
+    def state(self, left, right):
+        return SimpleNamespace(valid=all(
+            checker.state(left, right).valid for checker in self.checkers))
+
+    def transition(self, previous, current):
+        return SimpleNamespace(valid=all(
+            checker.transition(previous, current).valid
+            for checker in self.checkers))
 
 
 def build_shard_arrays(*, mode, source_time_s, qpos, position_error_m,
@@ -285,6 +304,11 @@ def _solve_candidate_dls_hold(model, task, mapped, *,
         for side in ("left", "right")}
     collision_checker = MuJoCoPairedCollisionChecker(
         model, data, names, **_piperx_collision_checker_kwargs())
+    topology_checker = MuJoCoMountTopologyChecker(
+        model, data, names,
+        config=MountTopologyConfig(transition_steps=5))
+    safety_checker = _ConjunctivePairChecker(
+        collision_checker, topology_checker)
     qids = {}
     for side in ("left", "right"):
         joint_ids = [mujoco.mj_name2id(
@@ -323,7 +347,7 @@ def _solve_candidate_dls_hold(model, task, mapped, *,
                 mapped[side][probe_row],
                 force_stratified=True)
         initial_pair = _select_collision_safe_pair(
-            candidate_lists, previous=None, checker=collision_checker,
+            candidate_lists, previous=None, checker=safety_checker,
             branch_guard_rad=branch_guard_rad)
         if initial_pair is not None:
             initialization_row = probe_row
@@ -384,8 +408,8 @@ def _solve_candidate_dls_hold(model, task, mapped, *,
         previous_pair = (previous["left"], previous["right"])
         current_pair = tuple(
             data.qpos[qids[side]].copy() for side in ("left", "right"))
-        state_safe = collision_checker.state(*current_pair).valid
-        edge_safe = (row == 0 or collision_checker.transition(
+        state_safe = safety_checker.state(*current_pair).valid
+        edge_safe = (row == 0 or safety_checker.transition(
             previous_pair, current_pair).valid)
         if _requires_pair_rescue(
                 selected, state_safe=state_safe, edge_safe=edge_safe):
@@ -400,14 +424,14 @@ def _solve_candidate_dls_hold(model, task, mapped, *,
             safe_pair = _select_collision_safe_pair(
                 rescue_lists,
                 previous=_continuity_reference(initialized, previous_pair),
-                checker=collision_checker,
+                checker=safety_checker,
                 branch_guard_rad=branch_guard_rad)
             if safe_pair is None:
                 recovery = (None if not _recovery_allowed(
                     row, initialization_row=initialization_row)
                     else _select_safe_recovery_step(
                         rescue_lists, previous=previous_pair,
-                        checker=collision_checker,
+                        checker=safety_checker,
                         maximum_step_rad=branch_guard_rad))
                 for side, recovery_q in zip(("left", "right"),
                                             recovery or previous_pair):
@@ -447,7 +471,7 @@ def _solve_candidate_dls_hold(model, task, mapped, *,
                 "anchor", "warm_start", "rescue", "collision_rescue")),
             "ok", np.where(mode == "hold", "dls_exhausted", mode)),
         "solve_mode": mode,
-        "protocol": "v3.2_paired_preinit_candidate_dls_safe_recovery",
+        "protocol": "v3.3_paired_preinit_collision_topology_safe_recovery",
         "maximum_iterations": 200,
         "branch_guard_rad": branch_guard_rad,
         "initialization_source_row": initialization_row,
