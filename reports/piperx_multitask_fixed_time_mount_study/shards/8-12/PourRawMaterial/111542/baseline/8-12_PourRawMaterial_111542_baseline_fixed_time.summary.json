@@ -1,0 +1,78 @@
+{
+  "schema": "piperx-multitask-fixed-time-summary-v1",
+  "solver_protocol": "piperx-fixed-time-paired-topology-safe-recovery-v3",
+  "trajectory": "8-12/PourRawMaterial/111542",
+  "family": "8-12/PourRawMaterial",
+  "take": "111542",
+  "mode": "baseline",
+  "timing_mode": "fixed_source_time",
+  "retiming_applied": false,
+  "source_sha256": "c9ac8bcbe9c0f02388fba86ca84b05730f11cb05228853e1ad2a24d6543c34ff",
+  "target_preparation": {
+    "protocol": "piperx-v3.1-family-tool-frame-and-wrist",
+    "conditioning": {
+      "window": 9,
+      "polyorder": 3,
+      "maximum_position_deviation_m": 0.0050000000000001085,
+      "maximum_orientation_deviation_rad": 0.017453292519943552
+    }
+  },
+  "mount": {
+    "family": "8-12/PourRawMaterial",
+    "morphology": "humanoid_pole",
+    "mode": "horizontal_forward",
+    "xy": {
+      "left": [
+        -0.2502530799539717,
+        0.17311951612150783
+      ],
+      "right": [
+        -0.15025307995397175,
+        0.6731195161215079
+      ]
+    },
+    "yaw": {
+      "left": 0.0,
+      "right": 0.0
+    },
+    "shared_base_z_m": 1.500274777,
+    "base_z_m": {
+      "left": 1.500274777,
+      "right": 1.500274777
+    },
+    "base_distance_m": 0.5099019513592785,
+    "source_take": "111542",
+    "coordinate_domain": "registered_world",
+    "selection_method": "PDF recommended shared base with rigid task registration"
+  },
+  "metrics": {
+    "source_frames": 5942,
+    "left_accept_frames": 0,
+    "right_accept_frames": 0,
+    "both_accept_frames": 0,
+    "left_accept_coverage": 0.0,
+    "right_accept_coverage": 0.0,
+    "both_accept_coverage": 0.0,
+    "collision_frames": 0,
+    "edge_collision_frames": 0,
+    "topology_invalid_frames": 0,
+    "longest_hold_frames": 5942,
+    "maximum_position_error_mm": 1043.211003952759,
+    "maximum_orientation_error_deg": 179.99755181327103
+  },
+  "dynamics": {
+    "maximum_velocity_rad_s": 0.0,
+    "maximum_acceleration_rad_s2": 0.0,
+    "limits_passed": true
+  },
+  "artifacts": {
+    "trajectory_npz": {
+      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-12\\PourRawMaterial\\111542\\baseline\\8-12_PourRawMaterial_111542_baseline_fixed_time.trajectory.npz",
+      "sha256": "00771e0cd783c24d7f1759d02746f5db9346fef6f38d48261749388b2e8931cd"
+    },
+    "scene_xml": {
+      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-12\\PourRawMaterial\\111542\\baseline\\8-12_PourRawMaterial_111542_baseline_fixed_time.scene.xml",
+      "sha256": "043e51f69da41b7d279b74d57a5a32c8d707e4e033598bac29498fb4e1ccf429"
+    }
+  }
+}

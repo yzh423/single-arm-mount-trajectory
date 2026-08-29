@@ -1,0 +1,72 @@
+{
+  "schema": "piperx-multitask-fixed-time-summary-v1",
+  "solver_protocol": "piperx-fixed-time-paired-topology-safe-recovery-v3",
+  "trajectory": "8-11/Seal_Bag/161532",
+  "family": "8-11/Seal_Bag",
+  "take": "161532",
+  "mode": "horizontal_wall",
+  "timing_mode": "fixed_source_time",
+  "retiming_applied": false,
+  "source_sha256": "deb77cc30fb5451a324b287fb43506c8fc0151bca098bc426084b271ec0ba7db",
+  "target_preparation": {
+    "protocol": "piperx-v3.1-family-tool-frame-and-wrist",
+    "conditioning": {
+      "window": 9,
+      "polyorder": 3,
+      "maximum_position_deviation_m": 0.00500000000000006,
+      "maximum_orientation_deviation_rad": 0.017453292519943514
+    }
+  },
+  "mount": {
+    "xy": {
+      "left": [
+        -0.4349791541218569,
+        0.09169831872644721
+      ],
+      "right": [
+        0.4327892003584135,
+        -0.09495348730222303
+      ]
+    },
+    "yaw": {
+      "left": -45.0,
+      "right": 135.0
+    },
+    "shared_base_z_m": 1.128768579117349,
+    "mode": "horizontal_wall",
+    "base_z_m": {
+      "left": 1.128768579117349,
+      "right": 1.128768579117349
+    }
+  },
+  "metrics": {
+    "source_frames": 1332,
+    "left_accept_frames": 0,
+    "right_accept_frames": 0,
+    "both_accept_frames": 0,
+    "left_accept_coverage": 0.0,
+    "right_accept_coverage": 0.0,
+    "both_accept_coverage": 0.0,
+    "collision_frames": 0,
+    "edge_collision_frames": 0,
+    "topology_invalid_frames": 0,
+    "longest_hold_frames": 1332,
+    "maximum_position_error_mm": 773.5608882074673,
+    "maximum_orientation_error_deg": 154.45390949468796
+  },
+  "dynamics": {
+    "maximum_velocity_rad_s": 0.0,
+    "maximum_acceleration_rad_s2": 0.0,
+    "limits_passed": true
+  },
+  "artifacts": {
+    "trajectory_npz": {
+      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\Seal_Bag\\161532\\horizontal_wall\\8-11_Seal_Bag_161532_horizontal_wall_fixed_time.trajectory.npz",
+      "sha256": "e5a156d21329b36c8f38151585b841454aa41b70254dbf0aee0ac8e98b62b53b"
+    },
+    "scene_xml": {
+      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\Seal_Bag\\161532\\horizontal_wall\\8-11_Seal_Bag_161532_horizontal_wall_fixed_time.scene.xml",
+      "sha256": "af9450c462bfec652de2f3c47e2cb26ded5b3716fae9f004f7827f9df45135ea"
+    }
+  }
+}

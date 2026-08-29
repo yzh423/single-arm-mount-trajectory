@@ -1,0 +1,33 @@
+{
+  "robot": "piperx",
+  "source_urdf": "E:\\YZH123123\\single-arm-mount\\third_party\\official_robot_models\\piperx\\PiperX.urdf",
+  "output_xml": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-12\\Fold_Box\\111132\\inverted\\8-12_Fold_Box_111132_inverted_fixed_time.scene.xml",
+  "spacing_m": 0.6309040868127723,
+  "table_height_m": 0.75,
+  "left_base_position": [
+    0.36103044830988623,
+    -0.3229570560275164,
+    1.41
+  ],
+  "right_base_position": [
+    -0.2478932538780107,
+    -0.1578755862289844,
+    1.41
+  ],
+  "left_joint_names": [
+    "left_joint1",
+    "left_joint2",
+    "left_joint3",
+    "left_joint4",
+    "left_joint5",
+    "left_joint6"
+  ],
+  "right_joint_names": [
+    "right_joint1",
+    "right_joint2",
+    "right_joint3",
+    "right_joint4",
+    "right_joint5",
+    "right_joint6"
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "schema": "piperx-multitask-fixed-time-summary-v1",
+  "solver_protocol": "piperx-fixed-time-paired-topology-safe-recovery-v3",
+  "trajectory": "8-11/AluminumFoilPouch_BoxPackaging/160555",
+  "family": "8-11/AluminumFoilPouch_BoxPackaging",
+  "take": "160555",
+  "mode": "upright_table",
+  "timing_mode": "fixed_source_time",
+  "retiming_applied": false,
+  "source_sha256": "89359ea59371f9ea274b1b7e3a96a53ee406a3018cbaca4ad1ad1809bbcc96e0",
+  "target_preparation": {
+    "protocol": "piperx-v3.1-family-tool-frame-and-wrist",
+    "conditioning": {
+      "window": 9,
+      "polyorder": 3,
+      "maximum_position_deviation_m": 0.005000000000000101,
+      "maximum_orientation_deviation_rad": 0.017453292519943642
+    }
+  },
+  "mount": {
+    "xy": {
+      "left": [
+        0.2984400154913731,
+        0.3307272194857103
+      ],
+      "right": [
+        -0.2984395048267218,
+        -0.3307265139162354
+      ]
+    },
+    "yaw": {
+      "left": -120.0,
+      "right": 45.0
+    },
+    "shared_base_z_m": 0.81,
+    "mode": "upright_table",
+    "base_z_m": {
+      "left": 0.81,
+      "right": 0.81
+    }
+  },
+  "metrics": {
+    "source_frames": 4925,
+    "left_accept_frames": 2411,
+    "right_accept_frames": 2412,
+    "both_accept_frames": 2400,
+    "left_accept_coverage": 0.4895431472081218,
+    "right_accept_coverage": 0.489746192893401,
+    "both_accept_coverage": 0.4873096446700508,
+    "collision_frames": 0,
+    "edge_collision_frames": 0,
+    "topology_invalid_frames": 0,
+    "longest_hold_frames": 1406,
+    "maximum_position_error_mm": 403.96176468125077,
+    "maximum_orientation_error_deg": 85.94921492931557
+  },
+  "dynamics": {
+    "maximum_velocity_rad_s": 27.9620283610765,
+    "maximum_acceleration_rad_s2": 1229.344378845819,
+    "limits_passed": false
+  },
+  "artifacts": {
+    "trajectory_npz": {
+      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\AluminumFoilPouch_BoxPackaging\\160555\\upright_table\\8-11_AluminumFoilPouch_BoxPackaging_160555_upright_table_fixed_time.trajectory.npz",
+      "sha256": "5167bf56a4f5611304bd2507f2170e5602a92c60bccc3c04c37978e7f2c32ae0"
+    },
+    "scene_xml": {
+      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\AluminumFoilPouch_BoxPackaging\\160555\\upright_table\\8-11_AluminumFoilPouch_BoxPackaging_160555_upright_table_fixed_time.scene.xml",
+      "sha256": "2676f4d726080c269c9b8a6b2babe9a86b0cd2bc2dd98df39ccf3a43a8b31c90"
+    }
+  }
+}

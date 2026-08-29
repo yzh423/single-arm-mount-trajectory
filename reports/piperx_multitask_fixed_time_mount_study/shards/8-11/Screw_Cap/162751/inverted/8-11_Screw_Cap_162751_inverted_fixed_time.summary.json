@@ -1,0 +1,72 @@
+{
+  "schema": "piperx-multitask-fixed-time-summary-v1",
+  "solver_protocol": "piperx-fixed-time-paired-topology-safe-recovery-v3",
+  "trajectory": "8-11/Screw_Cap/162751",
+  "family": "8-11/Screw_Cap",
+  "take": "162751",
+  "mode": "inverted",
+  "timing_mode": "fixed_source_time",
+  "retiming_applied": false,
+  "source_sha256": "8b1874efd3559839ac67197cd6bee41a9ee3bd9238dea2556e2519f56324c166",
+  "target_preparation": {
+    "protocol": "piperx-v3.1-family-tool-frame-and-wrist",
+    "conditioning": {
+      "window": 9,
+      "polyorder": 3,
+      "maximum_position_deviation_m": 0.0050000000000000626,
+      "maximum_orientation_deviation_rad": 0.017453292519943524
+    }
+  },
+  "mount": {
+    "xy": {
+      "left": [
+        -0.30447490363123775,
+        0.31420539506158157
+      ],
+      "right": [
+        0.3044726111052552,
+        0.2797709159271511
+      ]
+    },
+    "yaw": {
+      "left": -75.0,
+      "right": -180.0
+    },
+    "shared_base_z_m": 1.41,
+    "mode": "inverted",
+    "base_z_m": {
+      "left": 1.41,
+      "right": 1.41
+    }
+  },
+  "metrics": {
+    "source_frames": 1490,
+    "left_accept_frames": 0,
+    "right_accept_frames": 0,
+    "both_accept_frames": 0,
+    "left_accept_coverage": 0.0,
+    "right_accept_coverage": 0.0,
+    "both_accept_coverage": 0.0,
+    "collision_frames": 0,
+    "edge_collision_frames": 0,
+    "topology_invalid_frames": 0,
+    "longest_hold_frames": 1490,
+    "maximum_position_error_mm": 1329.4799241995247,
+    "maximum_orientation_error_deg": 179.99413567402212
+  },
+  "dynamics": {
+    "maximum_velocity_rad_s": 0.0,
+    "maximum_acceleration_rad_s2": 0.0,
+    "limits_passed": true
+  },
+  "artifacts": {
+    "trajectory_npz": {
+      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\Screw_Cap\\162751\\inverted\\8-11_Screw_Cap_162751_inverted_fixed_time.trajectory.npz",
+      "sha256": "13df0ba4d178dfdfbb04e4307ce12aaf0565ec2b0de8968db734f843f21ada00"
+    },
+    "scene_xml": {
+      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\Screw_Cap\\162751\\inverted\\8-11_Screw_Cap_162751_inverted_fixed_time.scene.xml",
+      "sha256": "b2365516343f1f7a90d876d58dbe975ba135030c9b68639e2535b8a87cbd2893"
+    }
+  }
+}

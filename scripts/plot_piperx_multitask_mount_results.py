@@ -54,6 +54,14 @@ def _labels(trajectories):
     return [value.replace("/", " · ") for value in trajectories]
 
 
+def _mount_tick_labels():
+    """Keep the bilingual installation labels legible in narrow columns."""
+    return [
+        MOUNT_LABELS[mode].replace(" / ", "\n/ ")
+        for mode in STUDY_PANEL_ORDER
+    ]
+
+
 def _heatmap(rows, field, output, *, title, color_label,
              percent=False, cmap="viridis"):
     trajectories, matrix = coverage_matrix(rows, field)
@@ -61,7 +69,7 @@ def _heatmap(rows, field, output, *, title, color_label,
     fig_height = max(7.0, 0.34 * len(trajectories) + 2.6)
     fig, axis = plt.subplots(figsize=(9.2, fig_height), constrained_layout=True)
     image = axis.imshow(display, aspect="auto", cmap=cmap)
-    axis.set_xticks(range(4), [MOUNT_LABELS[mode] for mode in STUDY_PANEL_ORDER])
+    axis.set_xticks(range(4), _mount_tick_labels(), fontsize=8)
     axis.set_yticks(range(len(trajectories)), _labels(trajectories), fontsize=8)
     axis.set_title(title, fontsize=15, pad=14)
     for row in range(display.shape[0]):
@@ -126,7 +134,7 @@ def generate_figures(aggregate_csv, output_dir):
     fig, axis = plt.subplots(figsize=(8.4, 4.8), constrained_layout=True)
     modes = list(STUDY_PANEL_ORDER)
     bars = axis.bar(
-        [MOUNT_LABELS[mode] for mode in modes],
+        _mount_tick_labels(),
         [counts[mode] for mode in modes],
         color=[MOUNT_COLORS[mode] for mode in modes])
     axis.set_title("安全门优先、再按双臂同时 ACCEPT 选择的构型胜者", fontsize=15)

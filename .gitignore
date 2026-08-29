@@ -125,6 +125,8 @@ runs/
 !/reports/piperx_multitask_fixed_time_mount_study/PiperX多任务Fixed-Time四构型对比报告.pdf
 !/reports/piperx_multitask_fixed_time_mount_study/aggregate.csv
 !/reports/piperx_multitask_fixed_time_mount_study/bundle_manifest.json
+!/reports/piperx_multitask_fixed_time_mount_study/shards/
+!/reports/piperx_multitask_fixed_time_mount_study/shards/**
 !/reports/piperx_multitask_fixed_time_mount_study/figures/
 !/reports/piperx_multitask_fixed_time_mount_study/figures/**
 !/reports/piperx_multitask_fixed_time_mount_study/videos/

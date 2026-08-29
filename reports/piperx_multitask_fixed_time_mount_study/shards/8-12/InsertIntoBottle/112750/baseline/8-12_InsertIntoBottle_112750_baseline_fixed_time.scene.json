@@ -1,0 +1,33 @@
+{
+  "robot": "piperx",
+  "source_urdf": "E:\\YZH123123\\single-arm-mount\\third_party\\official_robot_models\\piperx\\PiperX.urdf",
+  "output_xml": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-12\\InsertIntoBottle\\112750\\baseline\\8-12_InsertIntoBottle_112750_baseline_fixed_time.scene.xml",
+  "spacing_m": 0.7211102550927979,
+  "table_height_m": 0.75,
+  "left_base_position": [
+    -0.562611546191166,
+    -0.11316935859788002,
+    0.751
+  ],
+  "right_base_position": [
+    -0.16261154619116608,
+    0.48683064140212007,
+    0.751
+  ],
+  "left_joint_names": [
+    "left_joint1",
+    "left_joint2",
+    "left_joint3",
+    "left_joint4",
+    "left_joint5",
+    "left_joint6"
+  ],
+  "right_joint_names": [
+    "right_joint1",
+    "right_joint2",
+    "right_joint3",
+    "right_joint4",
+    "right_joint5",
+    "right_joint6"
+  ]
+}

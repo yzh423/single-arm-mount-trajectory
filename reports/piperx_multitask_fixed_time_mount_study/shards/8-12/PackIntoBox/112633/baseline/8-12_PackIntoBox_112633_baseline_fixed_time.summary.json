@@ -1,0 +1,78 @@
+{
+  "schema": "piperx-multitask-fixed-time-summary-v1",
+  "solver_protocol": "piperx-fixed-time-paired-topology-safe-recovery-v3",
+  "trajectory": "8-12/PackIntoBox/112633",
+  "family": "8-12/PackIntoBox",
+  "take": "112633",
+  "mode": "baseline",
+  "timing_mode": "fixed_source_time",
+  "retiming_applied": false,
+  "source_sha256": "f0869d8855cc9ade8f12b047d11c22e9d5acc3104a96ca72161bcdade5d9acbe",
+  "target_preparation": {
+    "protocol": "piperx-v3.1-family-tool-frame-and-wrist",
+    "conditioning": {
+      "window": 9,
+      "polyorder": 3,
+      "maximum_position_deviation_m": 0.005000000000000103,
+      "maximum_orientation_deviation_rad": 0.017453292519943573
+    }
+  },
+  "mount": {
+    "family": "8-12/PackIntoBox",
+    "morphology": "bottom_table",
+    "mode": "upright_table",
+    "xy": {
+      "left": [
+        -0.2443616708717455,
+        -0.23062980481276885
+      ],
+      "right": [
+        0.055638329128254504,
+        0.3693701951872312
+      ]
+    },
+    "yaw": {
+      "left": 0.0,
+      "right": 0.0
+    },
+    "shared_base_z_m": 0.751,
+    "base_z_m": {
+      "left": 0.751,
+      "right": 0.751
+    },
+    "base_distance_m": 0.670820393249937,
+    "source_take": "112524",
+    "coordinate_domain": "registered_world",
+    "selection_method": "PDF recommended shared base with rigid task registration; physical support clamp 0.750217 m -> 0.751000 m"
+  },
+  "metrics": {
+    "source_frames": 4695,
+    "left_accept_frames": 966,
+    "right_accept_frames": 957,
+    "both_accept_frames": 941,
+    "left_accept_coverage": 0.20575079872204474,
+    "right_accept_coverage": 0.20383386581469648,
+    "both_accept_coverage": 0.20042598509052184,
+    "collision_frames": 0,
+    "edge_collision_frames": 0,
+    "topology_invalid_frames": 0,
+    "longest_hold_frames": 791,
+    "maximum_position_error_mm": 292.9123613215833,
+    "maximum_orientation_error_deg": 94.81071277281444
+  },
+  "dynamics": {
+    "maximum_velocity_rad_s": 26.49241877354909,
+    "maximum_acceleration_rad_s2": 1192.5258057762603,
+    "limits_passed": false
+  },
+  "artifacts": {
+    "trajectory_npz": {
+      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-12\\PackIntoBox\\112633\\baseline\\8-12_PackIntoBox_112633_baseline_fixed_time.trajectory.npz",
+      "sha256": "799792baba28545a9eaa1ae6436ed8bcfae5fb6219bc1283f70c5a227f519bb7"
+    },
+    "scene_xml": {
+      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-12\\PackIntoBox\\112633\\baseline\\8-12_PackIntoBox_112633_baseline_fixed_time.scene.xml",
+      "sha256": "6c4e78435d6f0d4c8c1e6d59f5530446aef0585a063ddeac14ad449248853ea6"
+    }
+  }
+}

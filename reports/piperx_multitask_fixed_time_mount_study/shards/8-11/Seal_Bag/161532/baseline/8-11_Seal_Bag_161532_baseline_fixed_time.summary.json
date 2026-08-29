@@ -1,0 +1,78 @@
+{
+  "schema": "piperx-multitask-fixed-time-summary-v1",
+  "solver_protocol": "piperx-fixed-time-paired-topology-safe-recovery-v3",
+  "trajectory": "8-11/Seal_Bag/161532",
+  "family": "8-11/Seal_Bag",
+  "take": "161532",
+  "mode": "baseline",
+  "timing_mode": "fixed_source_time",
+  "retiming_applied": false,
+  "source_sha256": "deb77cc30fb5451a324b287fb43506c8fc0151bca098bc426084b271ec0ba7db",
+  "target_preparation": {
+    "protocol": "piperx-v3.1-family-tool-frame-and-wrist",
+    "conditioning": {
+      "window": 9,
+      "polyorder": 3,
+      "maximum_position_deviation_m": 0.00500000000000006,
+      "maximum_orientation_deviation_rad": 0.017453292519943514
+    }
+  },
+  "mount": {
+    "family": "8-11/Seal_Bag",
+    "morphology": "humanoid_pole",
+    "mode": "upright_table",
+    "xy": {
+      "left": [
+        -0.35,
+        0.25
+      ],
+      "right": [
+        -0.3,
+        -0.45
+      ]
+    },
+    "yaw": {
+      "left": 15.0,
+      "right": 15.0
+    },
+    "shared_base_z_m": 0.81,
+    "base_z_m": {
+      "left": 0.81,
+      "right": 0.81
+    },
+    "base_distance_m": 0.70178344238091,
+    "source_take": "161504",
+    "coordinate_domain": "registered_world",
+    "selection_method": "historical v4 upright mount selected after PDF/historical/three-orientation comparison; fixed R_tool refinement achieved 1757/1757 strict raw-pose coverage"
+  },
+  "metrics": {
+    "source_frames": 1332,
+    "left_accept_frames": 1263,
+    "right_accept_frames": 1263,
+    "both_accept_frames": 1263,
+    "left_accept_coverage": 0.9481981981981982,
+    "right_accept_coverage": 0.9481981981981982,
+    "both_accept_coverage": 0.9481981981981982,
+    "collision_frames": 0,
+    "edge_collision_frames": 0,
+    "topology_invalid_frames": 0,
+    "longest_hold_frames": 43,
+    "maximum_position_error_mm": 128.81160846484988,
+    "maximum_orientation_error_deg": 13.831847437830428
+  },
+  "dynamics": {
+    "maximum_velocity_rad_s": 16.16860301016736,
+    "maximum_acceleration_rad_s2": 643.1130572972023,
+    "limits_passed": false
+  },
+  "artifacts": {
+    "trajectory_npz": {
+      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\Seal_Bag\\161532\\baseline\\8-11_Seal_Bag_161532_baseline_fixed_time.trajectory.npz",
+      "sha256": "8a18127bbba0c4079eedf705ffaf2c6f1da543b9d3994a9e0d6af562fdb617b0"
+    },
+    "scene_xml": {
+      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\Seal_Bag\\161532\\baseline\\8-11_Seal_Bag_161532_baseline_fixed_time.scene.xml",
+      "sha256": "45cae4c2d3eb74e718c27c42148abfa57cb1436ce80da97dd355e73117079d7e"
+    }
+  }
+}

@@ -207,14 +207,18 @@ def build_report(manifest_path=DEFAULT_MANIFEST, output_path=DEFAULT_OUTPUT):
         Paragraph(
             "本报告比较现有基线、桌面正立、墙面或立杆横装、顶部倒挂。"
             "所有实验直接使用原始时间戳，不重定时、不插帧，位置与姿态接受门"
-            "固定为 1 mm / 0.5°。构型不可行、HOLD、碰撞和动力学超限均保留。",
+            "固定为 1 mm / 0.5°，并相对于发布的条件化 TCP 目标计算。"
+            "构型不可行、HOLD、碰撞和动力学超限均保留。",
             styles["body"]),
         _table(winner_rows, [70 * mm, 45 * mm, 45 * mm], font_size=9),
         Spacer(1, 4 * mm),
         Paragraph("重要解释边界", styles["h1"]),
         Paragraph(
             "ACCEPT 表示该源帧在严格 TCP 门限内获得 IK 解；它不等于满足 PiperX"
-            " 速度、加速度或真机安全要求。零 MuJoCo 碰撞也不构成真机许可。",
+            " 速度、加速度或真机安全要求。原始 TCP 记录在 IK 前执行确定性的 9 帧"
+            "条件化，目标相对原记录的允许变化上限为 5 mm / 1°；严格 1 mm / 0.5°"
+            "门限针对条件化目标。该步骤不改变时间戳，也不属于重定时。"
+            "零 MuJoCo 碰撞也不构成真机许可。",
             styles["body"]),
         PageBreak(),
         Paragraph("1. 实验协议", styles["h1"]),
@@ -224,7 +228,8 @@ def build_report(manifest_path=DEFAULT_MANIFEST, output_path=DEFAULT_OUTPUT):
             "和候选决赛；同族其他 take 复用该安装位姿。随后全部 27 条轨迹与"
             "四种构型分别执行完整源时间轴 IK。失败帧执行 HOLD，"
             "下一帧从保持状态继续。双臂 ACCEPT、状态碰撞、扫掠边碰撞、结构拓扑、"
-            "关节速度和加速度分别审计。", styles["body"]),
+            "关节速度和加速度分别审计。每个分片同时保存 9 帧条件化配置及其相对"
+            "原始 TCP 目标的偏移范围。", styles["body"]),
         _table([["构型", "物理含义", "报告颜色"], *[
             [MOUNT_LABELS[mode], {
                 "baseline": "当前任务级推荐安装",

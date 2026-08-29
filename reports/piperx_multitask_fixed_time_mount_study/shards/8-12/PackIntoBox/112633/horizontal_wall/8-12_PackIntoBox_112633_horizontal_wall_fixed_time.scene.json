@@ -1,0 +1,33 @@
+{
+  "robot": "piperx",
+  "source_urdf": "E:\\YZH123123\\single-arm-mount\\third_party\\official_robot_models\\piperx\\PiperX.urdf",
+  "output_xml": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-12\\PackIntoBox\\112633\\horizontal_wall\\8-12_PackIntoBox_112633_horizontal_wall_fixed_time.scene.xml",
+  "spacing_m": 0.782488771789311,
+  "table_height_m": 0.75,
+  "left_base_position": [
+    0.41454723621034134,
+    -0.020138567052760112,
+    1.0681816935519466
+  ],
+  "right_base_position": [
+    -0.29152865674087,
+    0.3171232175738026,
+    1.0681816935519466
+  ],
+  "left_joint_names": [
+    "left_joint1",
+    "left_joint2",
+    "left_joint3",
+    "left_joint4",
+    "left_joint5",
+    "left_joint6"
+  ],
+  "right_joint_names": [
+    "right_joint1",
+    "right_joint2",
+    "right_joint3",
+    "right_joint4",
+    "right_joint5",
+    "right_joint6"
+  ]
+}

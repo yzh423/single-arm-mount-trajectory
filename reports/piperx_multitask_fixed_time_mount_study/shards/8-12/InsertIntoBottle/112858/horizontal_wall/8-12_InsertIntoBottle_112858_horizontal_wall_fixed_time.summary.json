@@ -1,0 +1,72 @@
+{
+  "schema": "piperx-multitask-fixed-time-summary-v1",
+  "solver_protocol": "piperx-fixed-time-paired-topology-safe-recovery-v3",
+  "trajectory": "8-12/InsertIntoBottle/112858",
+  "family": "8-12/InsertIntoBottle",
+  "take": "112858",
+  "mode": "horizontal_wall",
+  "timing_mode": "fixed_source_time",
+  "retiming_applied": false,
+  "source_sha256": "1f930718c633a3c82b3bced4648481ce2b5c20a074e8b695e7fc0f2f0522d744",
+  "target_preparation": {
+    "protocol": "piperx-v3.1-family-tool-frame-and-wrist",
+    "conditioning": {
+      "window": 9,
+      "polyorder": 3,
+      "maximum_position_deviation_m": 0.005000000000000089,
+      "maximum_orientation_deviation_rad": 0.017453292519943556
+    }
+  },
+  "mount": {
+    "xy": {
+      "left": [
+        0.2577390778791989,
+        -0.3578685727046523
+      ],
+      "right": [
+        -0.38075445852217976,
+        0.060887882340073626
+      ]
+    },
+    "yaw": {
+      "left": 105.0,
+      "right": 0.0
+    },
+    "shared_base_z_m": 1.1608865937696102,
+    "mode": "horizontal_wall",
+    "base_z_m": {
+      "left": 1.1608865937696102,
+      "right": 1.1608865937696102
+    }
+  },
+  "metrics": {
+    "source_frames": 2830,
+    "left_accept_frames": 1,
+    "right_accept_frames": 1,
+    "both_accept_frames": 1,
+    "left_accept_coverage": 0.00035335689045936394,
+    "right_accept_coverage": 0.00035335689045936394,
+    "both_accept_coverage": 0.00035335689045936394,
+    "collision_frames": 0,
+    "edge_collision_frames": 0,
+    "topology_invalid_frames": 0,
+    "longest_hold_frames": 2684,
+    "maximum_position_error_mm": 1084.9400816352484,
+    "maximum_orientation_error_deg": 179.9544511381188
+  },
+  "dynamics": {
+    "maximum_velocity_rad_s": 84.74796452822733,
+    "maximum_acceleration_rad_s2": 3480.2270585241613,
+    "limits_passed": false
+  },
+  "artifacts": {
+    "trajectory_npz": {
+      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-12\\InsertIntoBottle\\112858\\horizontal_wall\\8-12_InsertIntoBottle_112858_horizontal_wall_fixed_time.trajectory.npz",
+      "sha256": "25c5d21572bff4ee4cf962352592d16447669d0e6d770e44f39e47aa0f8c198c"
+    },
+    "scene_xml": {
+      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-12\\InsertIntoBottle\\112858\\horizontal_wall\\8-12_InsertIntoBottle_112858_horizontal_wall_fixed_time.scene.xml",
+      "sha256": "19350d151de5341dce1cbae560a132e8a85ab005baa4589414009b4afb612356"
+    }
+  }
+}

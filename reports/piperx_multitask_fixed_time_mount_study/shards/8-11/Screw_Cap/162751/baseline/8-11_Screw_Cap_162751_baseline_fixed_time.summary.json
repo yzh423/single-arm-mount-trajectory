@@ -1,0 +1,78 @@
+{
+  "schema": "piperx-multitask-fixed-time-summary-v1",
+  "solver_protocol": "piperx-fixed-time-paired-topology-safe-recovery-v3",
+  "trajectory": "8-11/Screw_Cap/162751",
+  "family": "8-11/Screw_Cap",
+  "take": "162751",
+  "mode": "baseline",
+  "timing_mode": "fixed_source_time",
+  "retiming_applied": false,
+  "source_sha256": "8b1874efd3559839ac67197cd6bee41a9ee3bd9238dea2556e2519f56324c166",
+  "target_preparation": {
+    "protocol": "piperx-v3.1-family-tool-frame-and-wrist",
+    "conditioning": {
+      "window": 9,
+      "polyorder": 3,
+      "maximum_position_deviation_m": 0.0050000000000000626,
+      "maximum_orientation_deviation_rad": 0.017453292519943524
+    }
+  },
+  "mount": {
+    "family": "8-11/Screw_Cap",
+    "morphology": "bottom_table",
+    "mode": "upright_table",
+    "xy": {
+      "left": [
+        -0.17369663723571055,
+        0.14367581697561616
+      ],
+      "right": [
+        0.026303362764289462,
+        -0.056324183024383856
+      ]
+    },
+    "yaw": {
+      "left": 0.0,
+      "right": 0.0
+    },
+    "shared_base_z_m": 0.751,
+    "base_z_m": {
+      "left": 0.751,
+      "right": 0.751
+    },
+    "base_distance_m": 0.28284271247461906,
+    "source_take": "162818",
+    "coordinate_domain": "registered_world",
+    "selection_method": "PDF recommended shared base with rigid task registration; physical support clamp 0.750486 m -> 0.751000 m"
+  },
+  "metrics": {
+    "source_frames": 1490,
+    "left_accept_frames": 277,
+    "right_accept_frames": 275,
+    "both_accept_frames": 275,
+    "left_accept_coverage": 0.18590604026845636,
+    "right_accept_coverage": 0.18456375838926176,
+    "both_accept_coverage": 0.18456375838926176,
+    "collision_frames": 0,
+    "edge_collision_frames": 0,
+    "topology_invalid_frames": 0,
+    "longest_hold_frames": 1181,
+    "maximum_position_error_mm": 1438.7496259226214,
+    "maximum_orientation_error_deg": 172.25709025578712
+  },
+  "dynamics": {
+    "maximum_velocity_rad_s": 12.23781187445273,
+    "maximum_acceleration_rad_s2": 755.283781514924,
+    "limits_passed": false
+  },
+  "artifacts": {
+    "trajectory_npz": {
+      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\Screw_Cap\\162751\\baseline\\8-11_Screw_Cap_162751_baseline_fixed_time.trajectory.npz",
+      "sha256": "d8510b02fa36c803387f2f553b6adff9cb0303490e2ef0f13f509783feddd363"
+    },
+    "scene_xml": {
+      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\Screw_Cap\\162751\\baseline\\8-11_Screw_Cap_162751_baseline_fixed_time.scene.xml",
+      "sha256": "fbb5de59d472923c5f818367b0dbe2dfdc68fb04ab2fe2223414e55487f110ad"
+    }
+  }
+}

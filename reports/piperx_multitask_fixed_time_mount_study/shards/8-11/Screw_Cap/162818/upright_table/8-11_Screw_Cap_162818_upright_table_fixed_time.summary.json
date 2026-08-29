@@ -1,0 +1,72 @@
+{
+  "schema": "piperx-multitask-fixed-time-summary-v1",
+  "solver_protocol": "piperx-fixed-time-paired-topology-safe-recovery-v3",
+  "trajectory": "8-11/Screw_Cap/162818",
+  "family": "8-11/Screw_Cap",
+  "take": "162818",
+  "mode": "upright_table",
+  "timing_mode": "fixed_source_time",
+  "retiming_applied": false,
+  "source_sha256": "aa91f48c9e712e0fd1748f48526a12b560685e532953723caf82240ed7c76d81",
+  "target_preparation": {
+    "protocol": "piperx-v3.1-family-tool-frame-and-wrist",
+    "conditioning": {
+      "window": 9,
+      "polyorder": 3,
+      "maximum_position_deviation_m": 0.005000000000000095,
+      "maximum_orientation_deviation_rad": 0.017453292519943552
+    }
+  },
+  "mount": {
+    "xy": {
+      "left": [
+        -0.4460007548724291,
+        -0.0005205033729138776
+      ],
+      "right": [
+        0.286004155009987,
+        -0.039477846542864285
+      ]
+    },
+    "yaw": {
+      "left": 30.0,
+      "right": 125.0
+    },
+    "shared_base_z_m": 0.81,
+    "mode": "upright_table",
+    "base_z_m": {
+      "left": 0.81,
+      "right": 0.81
+    }
+  },
+  "metrics": {
+    "source_frames": 1907,
+    "left_accept_frames": 278,
+    "right_accept_frames": 278,
+    "both_accept_frames": 278,
+    "left_accept_coverage": 0.1457787100157315,
+    "right_accept_coverage": 0.1457787100157315,
+    "both_accept_coverage": 0.1457787100157315,
+    "collision_frames": 0,
+    "edge_collision_frames": 0,
+    "topology_invalid_frames": 0,
+    "longest_hold_frames": 1464,
+    "maximum_position_error_mm": 1515.3415737524952,
+    "maximum_orientation_error_deg": 152.28739865223307
+  },
+  "dynamics": {
+    "maximum_velocity_rad_s": 25.78781963290526,
+    "maximum_acceleration_rad_s2": 1195.0064537173073,
+    "limits_passed": false
+  },
+  "artifacts": {
+    "trajectory_npz": {
+      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\Screw_Cap\\162818\\upright_table\\8-11_Screw_Cap_162818_upright_table_fixed_time.trajectory.npz",
+      "sha256": "58a3e12d15e675473d24ef62cb9184e6a357e764d7f8343d45edcb2a112401a3"
+    },
+    "scene_xml": {
+      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\Screw_Cap\\162818\\upright_table\\8-11_Screw_Cap_162818_upright_table_fixed_time.scene.xml",
+      "sha256": "510e20d43279db7f403d707688ec33a5c5dceb9faa4a5649ed02c43b3bd8ddcc"
+    }
+  }
+}

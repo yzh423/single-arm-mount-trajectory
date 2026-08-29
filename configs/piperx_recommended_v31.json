@@ -137,8 +137,8 @@
       "right_p_base_m": [-0.25, 0.5, -0.537],
       "source_take": "111812",
       "left_tool_offset_quaternion_wxyz": [0.5, -0.5, -0.5, 0.5],
-      "right_tool_offset_quaternion_wxyz": [0.6988771263155324, 0.10756747795195007, -0.7069385089210125, 0.015425453138743089],
-      "tool_offset_selection": "task-family strict representative-pose axis search; axis-11-left and calibrated fallback-right"
+      "right_tool_offset_quaternion_wxyz": [0.7071067811865476, 0.7071067811865476, 0.0, 0.0],
+      "tool_offset_selection": "task-family full-timeline paired safety validation; axis-11-left and axis-21-right improve strict horizontal-wall coverage with zero collision/topology violations"
     },
     "8-12/PackIntoBox": {
       "morphology": "bottom_table",
@@ -154,9 +154,9 @@
       "left_p_base_m": [-0.35, -0.45, -0.258],
       "right_p_base_m": [-0.25, 0.05, -0.258],
       "source_take": "111542",
-      "left_tool_offset_quaternion_wxyz": [0.5, -0.5, -0.5, 0.5],
-      "right_tool_offset_quaternion_wxyz": [0.7071067811865476, 0.7071067811865476, 0.0, 0.0],
-      "tool_offset_selection": "task-family paired collision-aware representative-pose axis search; axis-11-left and axis-21-right reduce paired self/cross-arm collision"
+      "left_tool_offset_quaternion_wxyz": [0.7071067811865476, 0.0, 0.0, -0.7071067811865476],
+      "right_tool_offset_quaternion_wxyz": [0.5, 0.5, -0.5, 0.5],
+      "tool_offset_selection": "task-family full-timeline paired safety validation; axis-16-left and axis-5-right raise strict upright coverage from 1.75% to 27.21% with zero collision/topology violations"
     },
     "8-12/PutIntoBox": {
       "morphology": "humanoid_pole",
@@ -164,8 +164,8 @@
       "right_p_base_m": [0.1, 0.15, -0.735],
       "source_take": "113250",
       "left_tool_offset_quaternion_wxyz": [0.0, 0.0, 1.0, 0.0],
-      "right_tool_offset_quaternion_wxyz": [0.6988771263155324, 0.10756747795195007, -0.7069385089210125, 0.015425453138743089],
-      "tool_offset_selection": "task-family strict representative-pose axis search; axis-3-left and calibrated fallback-right"
+      "right_tool_offset_quaternion_wxyz": [0.5, 0.5, -0.5, -0.5],
+      "tool_offset_selection": "task-family full-timeline paired safety validation; axis-3-left and axis-8-right improve strict upright coverage with zero collision/topology violations"
     }
   }
 }

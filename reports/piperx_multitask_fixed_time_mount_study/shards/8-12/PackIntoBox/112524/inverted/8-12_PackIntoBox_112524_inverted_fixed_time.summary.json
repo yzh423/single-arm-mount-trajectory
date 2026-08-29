@@ -1,0 +1,72 @@
+{
+  "schema": "piperx-multitask-fixed-time-summary-v1",
+  "solver_protocol": "piperx-fixed-time-paired-topology-safe-recovery-v3",
+  "trajectory": "8-12/PackIntoBox/112524",
+  "family": "8-12/PackIntoBox",
+  "take": "112524",
+  "mode": "inverted",
+  "timing_mode": "fixed_source_time",
+  "retiming_applied": false,
+  "source_sha256": "0f5e84de444284e7b038c264224f7ec700f44f0dd5838d77b92a2864ff494059",
+  "target_preparation": {
+    "protocol": "piperx-v3.1-family-tool-frame-and-wrist",
+    "conditioning": {
+      "window": 9,
+      "polyorder": 3,
+      "maximum_position_deviation_m": 0.005000000000000081,
+      "maximum_orientation_deviation_rad": 0.017453292519943583
+    }
+  },
+  "mount": {
+    "xy": {
+      "left": [
+        -0.014152593343220629,
+        -0.4333331133705566
+      ],
+      "right": [
+        -0.2828331423408571,
+        0.31031859309393073
+      ]
+    },
+    "yaw": {
+      "left": 60.0,
+      "right": 0.0
+    },
+    "shared_base_z_m": 1.41,
+    "mode": "inverted",
+    "base_z_m": {
+      "left": 1.41,
+      "right": 1.41
+    }
+  },
+  "metrics": {
+    "source_frames": 4417,
+    "left_accept_frames": 0,
+    "right_accept_frames": 0,
+    "both_accept_frames": 0,
+    "left_accept_coverage": 0.0,
+    "right_accept_coverage": 0.0,
+    "both_accept_coverage": 0.0,
+    "collision_frames": 0,
+    "edge_collision_frames": 0,
+    "topology_invalid_frames": 0,
+    "longest_hold_frames": 4417,
+    "maximum_position_error_mm": 870.1242038686196,
+    "maximum_orientation_error_deg": 179.99997233261627
+  },
+  "dynamics": {
+    "maximum_velocity_rad_s": 0.0,
+    "maximum_acceleration_rad_s2": 0.0,
+    "limits_passed": true
+  },
+  "artifacts": {
+    "trajectory_npz": {
+      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-12\\PackIntoBox\\112524\\inverted\\8-12_PackIntoBox_112524_inverted_fixed_time.trajectory.npz",
+      "sha256": "4f0c56d8f5d05997f59a795234b11275598773f30ee4f9f4dcdce298348bb774"
+    },
+    "scene_xml": {
+      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-12\\PackIntoBox\\112524\\inverted\\8-12_PackIntoBox_112524_inverted_fixed_time.scene.xml",
+      "sha256": "312f719760a3770d880a4ddf186bf3c3a1048af6170b384bc4b593aba07bedbd"
+    }
+  }
+}

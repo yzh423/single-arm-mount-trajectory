@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from pathlib import Path
 
@@ -25,15 +26,58 @@ from factory_bimanual.video import (
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = ROOT / "reports/piperx_multitask_fixed_time_mount_study"
+PANEL_RENDER_PROTOCOL = "piperx-four-mount-panel-v2-content-addressed"
 
 
-def _cached_panel_is_valid(path):
-    """Reject interrupted MP4 caches before they poison a resumed render."""
+def _sha256(path):
+    digest = hashlib.sha256()
+    with Path(path).open("rb") as stream:
+        for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def _artifact_path(path):
+    path = Path(path)
+    return path if path.is_absolute() else ROOT / path
+
+
+def _panel_provenance(summary_path):
+    summary_path = Path(summary_path)
+    summary = json.loads(summary_path.read_text(encoding="utf-8"))
+    trajectory = _artifact_path(summary["artifacts"]["trajectory_npz"]["path"])
+    scene = _artifact_path(summary["artifacts"]["scene_xml"]["path"])
+    return {
+        "schema": PANEL_RENDER_PROTOCOL,
+        "summary_sha256": _sha256(summary_path),
+        "trajectory_sha256": _sha256(trajectory),
+        "scene_sha256": _sha256(scene),
+    }
+
+
+def _provenance_path(panel_path):
+    return Path(panel_path).with_suffix(".provenance.json")
+
+
+def _write_panel_provenance(panel_path, summary_path):
+    sidecar = _provenance_path(panel_path)
+    sidecar.write_text(
+        json.dumps(_panel_provenance(summary_path), indent=2) + "\n",
+        encoding="utf-8",
+    )
+    return sidecar
+
+
+def _cached_panel_is_valid(path, summary_path):
+    """Reuse only decodable panels bound to the current shard and scene."""
     try:
         check = decode_check_mp4(Path(path), expected_resolution=(640, 360))
-    except RuntimeError:
+        recorded = json.loads(
+            _provenance_path(path).read_text(encoding="utf-8"))
+        expected = _panel_provenance(summary_path)
+    except (RuntimeError, OSError, KeyError, ValueError, json.JSONDecodeError):
         return False
-    return abs(check.fps - 30.0) <= 1e-6
+    return abs(check.fps - 30.0) <= 1e-6 and recorded == expected
 
 
 def _load_shard(summary_path):
@@ -164,11 +208,12 @@ def render_trajectory(output_root, trajectory):
     panel_paths = {}
     for mode in STUDY_PANEL_ORDER:
         panel = panel_dir / f"{safe_name}_{mode}.mp4"
-        if not panel.exists() or not _cached_panel_is_valid(panel):
-            summary = Path(rows[mode]["summary_json"])
-            if not summary.is_absolute():
-                summary = ROOT / summary
+        summary = Path(rows[mode]["summary_json"])
+        if not summary.is_absolute():
+            summary = ROOT / summary
+        if not panel.exists() or not _cached_panel_is_valid(panel, summary):
             render_panel(summary, panel)
+            _write_panel_provenance(panel, summary)
         panel_paths[mode] = panel
     output = (Path(output_root) / "videos" / "comparisons"
               / f"{safe_name}_four_mount_fixed_time.mp4")

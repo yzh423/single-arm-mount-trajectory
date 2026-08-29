@@ -1,0 +1,72 @@
+{
+  "schema": "piperx-multitask-fixed-time-summary-v1",
+  "solver_protocol": "piperx-fixed-time-paired-topology-safe-recovery-v3",
+  "trajectory": "8-11/WaterSoluble_AluminumPouch/160201",
+  "family": "8-11/WaterSoluble_AluminumPouch",
+  "take": "160201",
+  "mode": "inverted",
+  "timing_mode": "fixed_source_time",
+  "retiming_applied": false,
+  "source_sha256": "6fe980f2a958892af4a93cd0b926d3e6968a5b3f5147112c6112a251c6b5026b",
+  "target_preparation": {
+    "protocol": "piperx-v3.1-family-tool-frame-and-wrist",
+    "conditioning": {
+      "window": 9,
+      "polyorder": 3,
+      "maximum_position_deviation_m": 0.005000000000000105,
+      "maximum_orientation_deviation_rad": 0.017453292519943625
+    }
+  },
+  "mount": {
+    "xy": {
+      "left": [
+        -0.19666016840929026,
+        0.2050599229945582
+      ],
+      "right": [
+        0.012805111606705189,
+        -0.4812113149578702
+      ]
+    },
+    "yaw": {
+      "left": -90.0,
+      "right": 35.0
+    },
+    "shared_base_z_m": 1.41,
+    "mode": "inverted",
+    "base_z_m": {
+      "left": 1.41,
+      "right": 1.41
+    }
+  },
+  "metrics": {
+    "source_frames": 3180,
+    "left_accept_frames": 14,
+    "right_accept_frames": 14,
+    "both_accept_frames": 14,
+    "left_accept_coverage": 0.00440251572327044,
+    "right_accept_coverage": 0.00440251572327044,
+    "both_accept_coverage": 0.00440251572327044,
+    "collision_frames": 0,
+    "edge_collision_frames": 0,
+    "topology_invalid_frames": 0,
+    "longest_hold_frames": 2180,
+    "maximum_position_error_mm": 549.9364686720755,
+    "maximum_orientation_error_deg": 121.92667046572448
+  },
+  "dynamics": {
+    "maximum_velocity_rad_s": 4.064438683237022,
+    "maximum_acceleration_rad_s2": 168.75748875391363,
+    "limits_passed": false
+  },
+  "artifacts": {
+    "trajectory_npz": {
+      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\WaterSoluble_AluminumPouch\\160201\\inverted\\8-11_WaterSoluble_AluminumPouch_160201_inverted_fixed_time.trajectory.npz",
+      "sha256": "dd6a614006047d9ebcee6619d98178568a05c8062effa47fc24d96fc9f73bfc5"
+    },
+    "scene_xml": {
+      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\WaterSoluble_AluminumPouch\\160201\\inverted\\8-11_WaterSoluble_AluminumPouch_160201_inverted_fixed_time.scene.xml",
+      "sha256": "205556f23f8dc4e7c381ccb698e1e04f0d3d3659b9e1cc14882154f834e8f74d"
+    }
+  }
+}

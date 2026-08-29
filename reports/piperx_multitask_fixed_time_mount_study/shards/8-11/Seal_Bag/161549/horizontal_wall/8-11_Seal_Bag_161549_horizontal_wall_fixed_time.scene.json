@@ -1,0 +1,33 @@
+{
+  "robot": "piperx",
+  "source_urdf": "E:\\YZH123123\\single-arm-mount\\third_party\\official_robot_models\\piperx\\PiperX.urdf",
+  "output_xml": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\Seal_Bag\\161549\\horizontal_wall\\8-11_Seal_Bag_161549_horizontal_wall_fixed_time.scene.xml",
+  "spacing_m": 0.9052767013936148,
+  "table_height_m": 0.75,
+  "left_base_position": [
+    -0.4399732480158946,
+    0.10989417297376267,
+    1.082804591103376
+  ],
+  "right_base_position": [
+    0.43761864960080665,
+    -0.11227325786078043,
+    1.082804591103376
+  ],
+  "left_joint_names": [
+    "left_joint1",
+    "left_joint2",
+    "left_joint3",
+    "left_joint4",
+    "left_joint5",
+    "left_joint6"
+  ],
+  "right_joint_names": [
+    "right_joint1",
+    "right_joint2",
+    "right_joint3",
+    "right_joint4",
+    "right_joint5",
+    "right_joint6"
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "schema": "piperx-multitask-fixed-time-summary-v1",
+  "solver_protocol": "piperx-fixed-time-paired-topology-safe-recovery-v3",
+  "trajectory": "8-12/PutIntoBox/113145",
+  "family": "8-12/PutIntoBox",
+  "take": "113145",
+  "mode": "upright_table",
+  "timing_mode": "fixed_source_time",
+  "retiming_applied": false,
+  "source_sha256": "898cd54b0df0e6b419f999f252552d877f503ca846652b521f17d0ae33219506",
+  "target_preparation": {
+    "protocol": "piperx-v3.1-family-tool-frame-and-wrist",
+    "conditioning": {
+      "window": 9,
+      "polyorder": 3,
+      "maximum_position_deviation_m": 0.005000000000000133,
+      "maximum_orientation_deviation_rad": 0.01745329251994368
+    }
+  },
+  "mount": {
+    "xy": {
+      "left": [
+        -0.3734004024700233,
+        0.23963809350955148
+      ],
+      "right": [
+        0.4465368260571505,
+        0.2011944905480746
+      ]
+    },
+    "yaw": {
+      "left": -10.0,
+      "right": -180.0
+    },
+    "shared_base_z_m": 0.81,
+    "mode": "upright_table",
+    "base_z_m": {
+      "left": 0.81,
+      "right": 0.81
+    }
+  },
+  "metrics": {
+    "source_frames": 4804,
+    "left_accept_frames": 631,
+    "right_accept_frames": 624,
+    "both_accept_frames": 618,
+    "left_accept_coverage": 0.1313488759367194,
+    "right_accept_coverage": 0.1298917568692756,
+    "both_accept_coverage": 0.1286427976686095,
+    "collision_frames": 0,
+    "edge_collision_frames": 0,
+    "topology_invalid_frames": 0,
+    "longest_hold_frames": 1984,
+    "maximum_position_error_mm": 2949.271824989866,
+    "maximum_orientation_error_deg": 179.90261408176565
+  },
+  "dynamics": {
+    "maximum_velocity_rad_s": 28.66598981351883,
+    "maximum_acceleration_rad_s2": 2095.404713697988,
+    "limits_passed": false
+  },
+  "artifacts": {
+    "trajectory_npz": {
+      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-12\\PutIntoBox\\113145\\upright_table\\8-12_PutIntoBox_113145_upright_table_fixed_time.trajectory.npz",
+      "sha256": "bca1a66c13795e3fd1897ece412c158e77ee3353860fb5a4883587bd9446516a"
+    },
+    "scene_xml": {
+      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-12\\PutIntoBox\\113145\\upright_table\\8-12_PutIntoBox_113145_upright_table_fixed_time.scene.xml",
+      "sha256": "1a6192576ca5ea3d064016442da80841efc037e0f1327dce6b329a39e14c3ac2"
+    }
+  }
+}

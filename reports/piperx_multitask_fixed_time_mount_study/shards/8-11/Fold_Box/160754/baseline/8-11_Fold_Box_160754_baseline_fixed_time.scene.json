@@ -1,0 +1,33 @@
+{
+  "robot": "piperx",
+  "source_urdf": "E:\\YZH123123\\single-arm-mount\\third_party\\official_robot_models\\piperx\\PiperX.urdf",
+  "output_xml": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\Fold_Box\\160754\\baseline\\8-11_Fold_Box_160754_baseline_fixed_time.scene.xml",
+  "spacing_m": 0.6082762530298219,
+  "table_height_m": 0.75,
+  "left_base_position": [
+    -0.24857021833998647,
+    0.429238866791272,
+    0.7570900119999999
+  ],
+  "right_base_position": [
+    -0.34857021833998647,
+    -0.17076113320872802,
+    0.7570900119999999
+  ],
+  "left_joint_names": [
+    "left_joint1",
+    "left_joint2",
+    "left_joint3",
+    "left_joint4",
+    "left_joint5",
+    "left_joint6"
+  ],
+  "right_joint_names": [
+    "right_joint1",
+    "right_joint2",
+    "right_joint3",
+    "right_joint4",
+    "right_joint5",
+    "right_joint6"
+  ]
+}

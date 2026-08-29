@@ -1,0 +1,78 @@
+{
+  "schema": "piperx-multitask-fixed-time-summary-v1",
+  "solver_protocol": "piperx-fixed-time-paired-topology-safe-recovery-v3",
+  "trajectory": "8-11/WaterSoluble_AluminumPouch/160121",
+  "family": "8-11/WaterSoluble_AluminumPouch",
+  "take": "160121",
+  "mode": "baseline",
+  "timing_mode": "fixed_source_time",
+  "retiming_applied": false,
+  "source_sha256": "c4d8e604005db83dab263172a34a146d1f172cf7f66186d05074f8e546e907a9",
+  "target_preparation": {
+    "protocol": "piperx-v3.1-family-tool-frame-and-wrist",
+    "conditioning": {
+      "window": 9,
+      "polyorder": 3,
+      "maximum_position_deviation_m": 0.005000000000000102,
+      "maximum_orientation_deviation_rad": 0.017453292519943597
+    }
+  },
+  "mount": {
+    "family": "8-11/WaterSoluble_AluminumPouch",
+    "morphology": "bottom_table",
+    "mode": "upright_table",
+    "xy": {
+      "left": [
+        -0.18777914816346725,
+        0.3339524661758361
+      ],
+      "right": [
+        -0.2877791481634672,
+        -0.16604753382416387
+      ]
+    },
+    "yaw": {
+      "left": 0.0,
+      "right": 0.0
+    },
+    "shared_base_z_m": 0.751,
+    "base_z_m": {
+      "left": 0.751,
+      "right": 0.751
+    },
+    "base_distance_m": 0.5099019513592785,
+    "source_take": "160040",
+    "coordinate_domain": "registered_world",
+    "selection_method": "PDF recommended shared base with rigid task registration; physical support clamp 0.750494 m -> 0.751000 m"
+  },
+  "metrics": {
+    "source_frames": 2693,
+    "left_accept_frames": 13,
+    "right_accept_frames": 8,
+    "both_accept_frames": 8,
+    "left_accept_coverage": 0.004827330115113257,
+    "right_accept_coverage": 0.0029706646862235424,
+    "both_accept_coverage": 0.0029706646862235424,
+    "collision_frames": 0,
+    "edge_collision_frames": 0,
+    "topology_invalid_frames": 0,
+    "longest_hold_frames": 1175,
+    "maximum_position_error_mm": 578.5364650702671,
+    "maximum_orientation_error_deg": 144.3699956112323
+  },
+  "dynamics": {
+    "maximum_velocity_rad_s": 110.62728313459169,
+    "maximum_acceleration_rad_s2": 5687.109540392507,
+    "limits_passed": false
+  },
+  "artifacts": {
+    "trajectory_npz": {
+      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\WaterSoluble_AluminumPouch\\160121\\baseline\\8-11_WaterSoluble_AluminumPouch_160121_baseline_fixed_time.trajectory.npz",
+      "sha256": "7e16fafad60c4269c1573a70679757bff9b847768f3c8ee9dc06ccf5f94dff0b"
+    },
+    "scene_xml": {
+      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\WaterSoluble_AluminumPouch\\160121\\baseline\\8-11_WaterSoluble_AluminumPouch_160121_baseline_fixed_time.scene.xml",
+      "sha256": "85d42f08f432b815570007caf182fc6fdb130c4c1af717135bf8731ff9e38d6f"
+    }
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "schema": "piperx-multitask-fixed-time-summary-v1",
+  "solver_protocol": "piperx-fixed-time-paired-topology-safe-recovery-v3",
+  "trajectory": "8-12/PutIntoBox/113250",
+  "family": "8-12/PutIntoBox",
+  "take": "113250",
+  "mode": "baseline",
+  "timing_mode": "fixed_source_time",
+  "retiming_applied": false,
+  "source_sha256": "008447ac4c50e4f045572009ab319000c2a29647b2c7e6ba0c7e64364d8e2cec",
+  "target_preparation": {
+    "protocol": "piperx-v3.1-family-tool-frame-and-wrist",
+    "conditioning": {
+      "window": 9,
+      "polyorder": 3,
+      "maximum_position_deviation_m": 0.0050000000000001025,
+      "maximum_orientation_deviation_rad": 0.01745329251994361
+    }
+  },
+  "mount": {
+    "family": "8-12/PutIntoBox",
+    "morphology": "humanoid_pole",
+    "mode": "horizontal_forward",
+    "xy": {
+      "left": [
+        -0.4974748642074168,
+        -0.2800412773421509
+      ],
+      "right": [
+        -0.13137273469876556,
+        -0.0359731910030501
+      ]
+    },
+    "yaw": {
+      "left": 0.0,
+      "right": 0.0
+    },
+    "shared_base_z_m": 1.3276800510000002,
+    "base_z_m": {
+      "left": 1.3276800510000002,
+      "right": 1.3276800510000002
+    },
+    "base_distance_m": 0.44,
+    "source_take": "113250",
+    "coordinate_domain": "registered_world",
+    "selection_method": "PDF recommended shared base with rigid task registration; minimum static collision-free spacing repair"
+  },
+  "metrics": {
+    "source_frames": 4157,
+    "left_accept_frames": 0,
+    "right_accept_frames": 0,
+    "both_accept_frames": 0,
+    "left_accept_coverage": 0.0,
+    "right_accept_coverage": 0.0,
+    "both_accept_coverage": 0.0,
+    "collision_frames": 0,
+    "edge_collision_frames": 0,
+    "topology_invalid_frames": 0,
+    "longest_hold_frames": 4157,
+    "maximum_position_error_mm": 881.3769360029257,
+    "maximum_orientation_error_deg": 179.99129844725027
+  },
+  "dynamics": {
+    "maximum_velocity_rad_s": 0.0,
+    "maximum_acceleration_rad_s2": 0.0,
+    "limits_passed": true
+  },
+  "artifacts": {
+    "trajectory_npz": {
+      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-12\\PutIntoBox\\113250\\baseline\\8-12_PutIntoBox_113250_baseline_fixed_time.trajectory.npz",
+      "sha256": "0b6cd14ab59c43d43ee15f13db878cdf18f0726fbaa8f6b23dec3110bab0a87b"
+    },
+    "scene_xml": {
+      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-12\\PutIntoBox\\113250\\baseline\\8-12_PutIntoBox_113250_baseline_fixed_time.scene.xml",
+      "sha256": "3a8434f6918321ac5077b036c95ece78d34e726810f2a9f8e283cc59af626e1b"
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "robot": "piperx",
+  "source_urdf": "E:\\YZH123123\\single-arm-mount\\third_party\\official_robot_models\\piperx\\PiperX.urdf",
+  "output_xml": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\WaterSoluble_AluminumPouch\\160201\\upright_table\\8-11_WaterSoluble_AluminumPouch_160201_upright_table_fixed_time.scene.xml",
+  "spacing_m": 0.8028775374695759,
+  "table_height_m": 0.75,
+  "left_base_position": [
+    -0.014229935412301241,
+    0.32118703459984266,
+    0.81
+  ],
+  "right_base_position": [
+    0.014222641718218512,
+    -0.481186189671657,
+    0.81
+  ],
+  "left_joint_names": [
+    "left_joint1",
+    "left_joint2",
+    "left_joint3",
+    "left_joint4",
+    "left_joint5",
+    "left_joint6"
+  ],
+  "right_joint_names": [
+    "right_joint1",
+    "right_joint2",
+    "right_joint3",
+    "right_joint4",
+    "right_joint5",
+    "right_joint6"
+  ]
+}

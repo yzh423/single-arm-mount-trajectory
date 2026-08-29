@@ -212,7 +212,7 @@
       "family": "8-11/Screw_Cap",
       "take": "162751",
       "mode": "upright_table",
-      "search_status": "infeasible",
+      "search_status": "complete",
       "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Screw_Cap/162751/upright_table/8-11_Screw_Cap_162751_upright_table_fixed_time.summary.json"
     },
     {
@@ -244,7 +244,7 @@
       "family": "8-11/Screw_Cap",
       "take": "162818",
       "mode": "upright_table",
-      "search_status": "infeasible",
+      "search_status": "complete",
       "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Screw_Cap/162818/upright_table/8-11_Screw_Cap_162818_upright_table_fixed_time.summary.json"
     },
     {
@@ -276,7 +276,7 @@
       "family": "8-11/Screw_Cap",
       "take": "162854",
       "mode": "upright_table",
-      "search_status": "infeasible",
+      "search_status": "complete",
       "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Screw_Cap/162854/upright_table/8-11_Screw_Cap_162854_upright_table_fixed_time.summary.json"
     },
     {
@@ -404,7 +404,7 @@
       "family": "8-11/WaterSoluble_AluminumPouch",
       "take": "155911",
       "mode": "upright_table",
-      "search_status": "infeasible",
+      "search_status": "complete",
       "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/155911/upright_table/8-11_WaterSoluble_AluminumPouch_155911_upright_table_fixed_time.summary.json"
     },
     {
@@ -436,7 +436,7 @@
       "family": "8-11/WaterSoluble_AluminumPouch",
       "take": "160040",
       "mode": "upright_table",
-      "search_status": "infeasible",
+      "search_status": "complete",
       "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/160040/upright_table/8-11_WaterSoluble_AluminumPouch_160040_upright_table_fixed_time.summary.json"
     },
     {
@@ -468,7 +468,7 @@
       "family": "8-11/WaterSoluble_AluminumPouch",
       "take": "160121",
       "mode": "upright_table",
-      "search_status": "infeasible",
+      "search_status": "complete",
       "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/160121/upright_table/8-11_WaterSoluble_AluminumPouch_160121_upright_table_fixed_time.summary.json"
     },
     {
@@ -500,7 +500,7 @@
       "family": "8-11/WaterSoluble_AluminumPouch",
       "take": "160201",
       "mode": "upright_table",
-      "search_status": "infeasible",
+      "search_status": "complete",
       "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/160201/upright_table/8-11_WaterSoluble_AluminumPouch_160201_upright_table_fixed_time.summary.json"
     },
     {
@@ -532,7 +532,7 @@
       "family": "8-12/Bag_BoxPacking",
       "take": "110914",
       "mode": "upright_table",
-      "search_status": "infeasible",
+      "search_status": "complete",
       "summary_json": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/Bag_BoxPacking/110914/upright_table/8-12_Bag_BoxPacking_110914_upright_table_fixed_time.summary.json"
     },
     {

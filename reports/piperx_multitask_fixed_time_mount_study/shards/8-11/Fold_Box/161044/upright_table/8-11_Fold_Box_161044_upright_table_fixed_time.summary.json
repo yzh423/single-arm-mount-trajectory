@@ -1,0 +1,72 @@
+{
+  "schema": "piperx-multitask-fixed-time-summary-v1",
+  "solver_protocol": "piperx-fixed-time-paired-topology-safe-recovery-v3",
+  "trajectory": "8-11/Fold_Box/161044",
+  "family": "8-11/Fold_Box",
+  "take": "161044",
+  "mode": "upright_table",
+  "timing_mode": "fixed_source_time",
+  "retiming_applied": false,
+  "source_sha256": "98ac81447effe2d447058c952990d46d4f11d2f1fefade41bcbd8e8df4ae782d",
+  "target_preparation": {
+    "protocol": "piperx-v3.1-family-tool-frame-and-wrist",
+    "conditioning": {
+      "window": 9,
+      "polyorder": 3,
+      "maximum_position_deviation_m": 0.005000000000000097,
+      "maximum_orientation_deviation_rad": 0.017453292519943608
+    }
+  },
+  "mount": {
+    "xy": {
+      "left": [
+        -0.2724727299402403,
+        0.3894510104922647
+      ],
+      "right": [
+        -0.21427637669372313,
+        -0.27177344718539675
+      ]
+    },
+    "yaw": {
+      "left": -45.0,
+      "right": 90.0
+    },
+    "shared_base_z_m": 0.81,
+    "mode": "upright_table",
+    "base_z_m": {
+      "left": 0.81,
+      "right": 0.81
+    }
+  },
+  "metrics": {
+    "source_frames": 1478,
+    "left_accept_frames": 885,
+    "right_accept_frames": 885,
+    "both_accept_frames": 885,
+    "left_accept_coverage": 0.5987821380243572,
+    "right_accept_coverage": 0.5987821380243572,
+    "both_accept_coverage": 0.5987821380243572,
+    "collision_frames": 0,
+    "edge_collision_frames": 0,
+    "topology_invalid_frames": 0,
+    "longest_hold_frames": 590,
+    "maximum_position_error_mm": 437.3947448471983,
+    "maximum_orientation_error_deg": 78.52255659928304
+  },
+  "dynamics": {
+    "maximum_velocity_rad_s": 9.970096862238968,
+    "maximum_acceleration_rad_s2": 378.5446543631733,
+    "limits_passed": false
+  },
+  "artifacts": {
+    "trajectory_npz": {
+      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\Fold_Box\\161044\\upright_table\\8-11_Fold_Box_161044_upright_table_fixed_time.trajectory.npz",
+      "sha256": "9673770b5a5de7a921805da4c724c6a86a11602701029a7c4e5501f83920bc9f"
+    },
+    "scene_xml": {
+      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\Fold_Box\\161044\\upright_table\\8-11_Fold_Box_161044_upright_table_fixed_time.scene.xml",
+      "sha256": "fe8d046f840099f5141112d27c8aa4ddb8db70adeba606521fcf604f555778ee"
+    }
+  }
+}

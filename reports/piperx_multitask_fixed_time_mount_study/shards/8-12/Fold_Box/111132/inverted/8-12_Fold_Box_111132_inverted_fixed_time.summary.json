@@ -1,0 +1,72 @@
+{
+  "schema": "piperx-multitask-fixed-time-summary-v1",
+  "solver_protocol": "piperx-fixed-time-paired-topology-safe-recovery-v3",
+  "trajectory": "8-12/Fold_Box/111132",
+  "family": "8-12/Fold_Box",
+  "take": "111132",
+  "mode": "inverted",
+  "timing_mode": "fixed_source_time",
+  "retiming_applied": false,
+  "source_sha256": "83528b03a6c60acabfd11ca40ae4fe28c6c90e4890e679c834f405f588ceae43",
+  "target_preparation": {
+    "protocol": "piperx-v3.1-family-tool-frame-and-wrist",
+    "conditioning": {
+      "window": 9,
+      "polyorder": 3,
+      "maximum_position_deviation_m": 0.0050000000000001,
+      "maximum_orientation_deviation_rad": 0.017453292519943674
+    }
+  },
+  "mount": {
+    "xy": {
+      "left": [
+        0.36103044830988623,
+        -0.3229570560275164
+      ],
+      "right": [
+        -0.2478932538780107,
+        -0.1578755862289844
+      ]
+    },
+    "yaw": {
+      "left": 105.0,
+      "right": 75.0
+    },
+    "shared_base_z_m": 1.41,
+    "mode": "inverted",
+    "base_z_m": {
+      "left": 1.41,
+      "right": 1.41
+    }
+  },
+  "metrics": {
+    "source_frames": 9476,
+    "left_accept_frames": 47,
+    "right_accept_frames": 47,
+    "both_accept_frames": 47,
+    "left_accept_coverage": 0.0049598986914309836,
+    "right_accept_coverage": 0.0049598986914309836,
+    "both_accept_coverage": 0.0049598986914309836,
+    "collision_frames": 0,
+    "edge_collision_frames": 0,
+    "topology_invalid_frames": 0,
+    "longest_hold_frames": 4897,
+    "maximum_position_error_mm": 331.9468661887708,
+    "maximum_orientation_error_deg": 145.62484096738092
+  },
+  "dynamics": {
+    "maximum_velocity_rad_s": 10.67225128116782,
+    "maximum_acceleration_rad_s2": 632.7763172386002,
+    "limits_passed": false
+  },
+  "artifacts": {
+    "trajectory_npz": {
+      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-12\\Fold_Box\\111132\\inverted\\8-12_Fold_Box_111132_inverted_fixed_time.trajectory.npz",
+      "sha256": "740adffadf396b76bad7a407f26a475c0b73bb531b7e8398e9f4e8cccd58fb10"
+    },
+    "scene_xml": {
+      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-12\\Fold_Box\\111132\\inverted\\8-12_Fold_Box_111132_inverted_fixed_time.scene.xml",
+      "sha256": "426086ab7df3b209cf752e1746e1b402e1163e06252068bd7668dbfe6c1cd062"
+    }
+  }
+}
