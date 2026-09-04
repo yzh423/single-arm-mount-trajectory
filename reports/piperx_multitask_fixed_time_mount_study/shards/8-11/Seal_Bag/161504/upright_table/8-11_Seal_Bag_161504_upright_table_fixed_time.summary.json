@@ -47,12 +47,18 @@
     "left_accept_coverage": 0.6018860188601886,
     "right_accept_coverage": 0.6014760147601476,
     "both_accept_coverage": 0.6014760147601476,
+    "source_valid_pair_frames": 2439,
+    "invalid_source_frames": 0,
+    "both_accept_coverage_valid_source": 0.6014760147601476,
     "collision_frames": 0,
     "edge_collision_frames": 0,
     "topology_invalid_frames": 0,
     "longest_hold_frames": 972,
+    "longest_hold_ratio": 0.3985239852398524,
     "maximum_position_error_mm": 711.405901632476,
-    "maximum_orientation_error_deg": 94.49997728085499
+    "maximum_orientation_error_deg": 94.49997728085499,
+    "maximum_accepted_position_error_mm": 0.9999521355468545,
+    "maximum_accepted_orientation_error_deg": 0.49460209951308703
   },
   "dynamics": {
     "maximum_velocity_rad_s": 25.79326411089462,
@@ -61,12 +67,14 @@
   },
   "artifacts": {
     "trajectory_npz": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\Seal_Bag\\161504\\upright_table\\8-11_Seal_Bag_161504_upright_table_fixed_time.trajectory.npz",
-      "sha256": "573c2be938eeedc39055cf0c6381b090d6935206cde68de43d342d6dfb3ec1cd"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Seal_Bag/161504/upright_table/8-11_Seal_Bag_161504_upright_table_fixed_time.trajectory.npz",
+      "sha256": "5fea89434f2f2ddd49fb824dc03ef6e7654d7d37b16960310c21da9e1938892a"
     },
     "scene_xml": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\Seal_Bag\\161504\\upright_table\\8-11_Seal_Bag_161504_upright_table_fixed_time.scene.xml",
-      "sha256": "1b22b2c6514007ff5641e5a46ac0a7f7d61e6b57ac378758089226d5d47a0f9e"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Seal_Bag/161504/upright_table/8-11_Seal_Bag_161504_upright_table_fixed_time.scene.xml",
+      "sha256": "d1d16666d7e43a550b9a5d4f8dce97334413f8633ee87ba0db217d3516c6b188"
     }
-  }
+  },
+  "formal_fingerprint": "9dcacb81f9b31c532c118a7f71b666813100950212f82ca1f664fd49f0c1f50f",
+  "search_job_fingerprint": "23585f259cc5466ee81085c2c4c1f438272b8ec37ea1ba0920ec47de07318f5b"
 }

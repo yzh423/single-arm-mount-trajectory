@@ -82,3 +82,18 @@ def test_winner_prefers_safe_mount_over_higher_coverage_collision():
 
     assert counts["baseline"] == 0
     assert counts["upright_table"] == 1
+
+
+def test_heatmap_matrix_represents_missing_metric_as_nan():
+    rows = [
+        {"trajectory": "a", "mode": mode,
+         "maximum_accepted_position_error_mm": (
+             None if mode == "baseline" else 0.5)}
+        for mode in STUDY_PANEL_ORDER
+    ]
+
+    _labels, matrix = coverage_matrix(
+        rows, "maximum_accepted_position_error_mm")
+
+    assert np.isnan(matrix[0, 0])
+    np.testing.assert_allclose(matrix[0, 1:], 0.5)

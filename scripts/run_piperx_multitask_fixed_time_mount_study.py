@@ -27,11 +27,11 @@ from factory_bimanual.piperx_recommended import (
     world_mount_for_family,
 )
 from factory_bimanual.registration import RigidTaskRegistration, register_task
+from factory_bimanual.robot_contracts import robot_geometry_sha256
 from factory_bimanual.source_data import load_factory_task
 from scripts.search_fold_box_piperx_mount import (
     collision_aware_pair_refinements,
     local_paired_refinements,
-    rank_paired_mount_candidate,
 )
 from scripts.search_fold_box_piperx_paired_mount import (
     TABLE_HEIGHT_M,
@@ -50,12 +50,13 @@ BASELINE_SCHEMA = "piperx-family-shared-physical-baseline-v3"
 BASELINE_MINIMUM_ADAPTER_HEIGHT_M = .001
 STUDY_POSITION_TOLERANCE_M = .001
 STUDY_ORIENTATION_TOLERANCE_RAD = float(np.deg2rad(.5))
+SEARCH_IMPLEMENTATION_PROTOCOL = "piperx-paired-topology-conjunctive-v1"
 STUDY_SEARCH_CONFIG = PerTaskSearchConfig(
     coarse_budget=16,
     dense_budget=3,
     local_budget=6,
     finalist_budget=2,
-    schema="piperx-multitask-per-trajectory-search-v10-safe-pair-coverage",
+    schema="piperx-multitask-per-trajectory-search-v11-topology-conjunctive",
 )
 
 
@@ -178,6 +179,53 @@ def prepare_family_follow_targets(spec, task, *, apply_conditioning=True):
     )
 
 
+def _target_contract(spec):
+    recommended = load_recommended_config().mounts[spec.family.key]
+    return {
+        "source_take": recommended.source_take,
+        "left_tool_offset_quaternion_wxyz": (
+            recommended.left_tool_offset_quaternion_wxyz),
+        "right_tool_offset_quaternion_wxyz": (
+            recommended.right_tool_offset_quaternion_wxyz),
+        "left_tool_translation_m": recommended.left_tool_translation_m,
+        "right_tool_translation_m": recommended.right_tool_translation_m,
+        "wrist_adaptation": (None if recommended.wrist_adaptation is None
+                             else asdict(recommended.wrist_adaptation)),
+        "conditioning_schema": "bounded-savgol-se3-window9-poly3-v1",
+    }
+
+
+def _job_fingerprint(spec, mode, search_config, target_contract, *,
+                     dependency_source_sha256=None):
+    payload = {
+        "schema": "piperx-multitask-search-job-input-v1",
+        "implementation_protocol": SEARCH_IMPLEMENTATION_PROTOCOL,
+        "source_sha256": spec.source_sha256,
+        "dependency_source_sha256": dependency_source_sha256,
+        "mode": mode,
+        "search_config": asdict(search_config),
+        "target_contract": target_contract,
+        "robot_geometry_sha256": robot_geometry_sha256("piperx"),
+        "baseline_schema": BASELINE_SCHEMA,
+        "position_tolerance_m": STUDY_POSITION_TOLERANCE_M,
+        "orientation_tolerance_rad": STUDY_ORIENTATION_TOLERANCE_RAD,
+        "collision_clearance_margin_m": 0.015,
+        "collision_transition_steps": 3,
+        "topology_transition_steps": 3,
+    }
+    encoded = json.dumps(
+        payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    return hashlib.sha256(encoded).hexdigest()
+
+
+def _terminal_checkpoint_reusable(state, expected_fingerprint):
+    return bool(
+        state.get("status") in {"complete", "infeasible"}
+        and state.get("selected_mount")
+        and state.get("job_fingerprint") == expected_fingerprint
+    )
+
+
 def _baseline_mount(spec, registration):
     mount = world_mount_for_family(
         load_recommended_config(), spec.family,
@@ -209,7 +257,7 @@ def _normalize_baseline_mount_payload(payload):
 def _candidate_fingerprint(spec, mode, stage, mount, settings, *,
                            target_contract):
     payload = {
-        "schema": "piperx-multitask-calibrated-target-search-v6-tool-contract",
+        "schema": "piperx-multitask-calibrated-target-search-v7-topology-conjunctive",
         "source_sha256": spec.source_sha256,
         "mode": mode, "stage": stage, "mount": mount,
         "settings": settings,
@@ -359,6 +407,16 @@ def _budgeted_local_refinement_mounts(frontier, *, mode, maximum):
 def run_job(job: StudyJob, output=DEFAULT_OUTPUT, *, short_prefix=None,
             search_config=STUDY_SEARCH_CONFIG, study_specs=None):
     spec, mode = job.spec, job.mode
+    specs = (tuple(study_specs) if study_specs is not None else
+             discover_dual_hand_trajectories(ROOT / "data/factory"))
+    recommended = load_recommended_config().mounts[spec.family.key]
+    target_contract = _target_contract(spec)
+    representative = family_representative_spec(
+        specs, spec, recommended.source_take)
+    expected_fingerprint = _job_fingerprint(
+        spec, mode, search_config, target_contract,
+        dependency_source_sha256=(
+            representative.source_sha256 if mode == "baseline" else None))
     checkpoint = (Path(output) / "checkpoints" / spec.family.date
                   / spec.family.task / spec.take / f"{mode}.json")
     state = (json.loads(checkpoint.read_text(encoding="utf-8"))
@@ -369,30 +427,16 @@ def run_job(job: StudyJob, output=DEFAULT_OUTPUT, *, short_prefix=None,
                  "status": "running", "records": []})
     if state.get("source_sha256") != spec.source_sha256:
         raise ValueError(f"{job.key}: checkpoint source hash mismatch")
-    terminal = state.get("status") in {"complete", "infeasible"}
-    current_search = state.get("search_schema") == search_config.schema
-    current_baseline = state.get("baseline_schema") == BASELINE_SCHEMA
-    if (terminal and state.get("selected_mount")
-            and ((mode == "baseline" and current_baseline)
-                 or (mode != "baseline" and current_search))):
+    if _terminal_checkpoint_reusable(state, expected_fingerprint):
         return state
-
-    specs = (tuple(study_specs) if study_specs is not None else
-             discover_dual_hand_trajectories(ROOT / "data/factory"))
-    recommended = load_recommended_config().mounts[spec.family.key]
-    target_contract = {
-        "left_tool_offset_quaternion_wxyz": (
-            recommended.left_tool_offset_quaternion_wxyz),
-        "right_tool_offset_quaternion_wxyz": (
-            recommended.right_tool_offset_quaternion_wxyz),
-        "left_tool_translation_m": recommended.left_tool_translation_m,
-        "right_tool_translation_m": recommended.right_tool_translation_m,
-        "wrist_adaptation": (None if recommended.wrist_adaptation is None
-                             else asdict(recommended.wrist_adaptation)),
-        "conditioning_schema": "bounded-savgol-se3-window9-poly3-v1",
-    }
-    representative = family_representative_spec(
-        specs, spec, recommended.source_take)
+    if state.get("job_fingerprint") != expected_fingerprint:
+        state = {
+            "schema": "piperx-multitask-fixed-time-search-state-v1",
+            "trajectory": spec.key, "source_path": str(spec.path),
+            "source_sha256": spec.source_sha256, "mode": mode,
+            "status": "running", "records": [],
+        }
+    state["job_fingerprint"] = expected_fingerprint
     state["search_schema"] = search_config.schema
     task, registration = _load_registered_spec(spec)
     task, mapped_quaternions, _conditioning_audit = (

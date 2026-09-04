@@ -47,12 +47,18 @@
     "left_accept_coverage": 0.0,
     "right_accept_coverage": 0.0,
     "both_accept_coverage": 0.0,
+    "source_valid_pair_frames": 4695,
+    "invalid_source_frames": 0,
+    "both_accept_coverage_valid_source": 0.0,
     "collision_frames": 0,
     "edge_collision_frames": 0,
     "topology_invalid_frames": 0,
     "longest_hold_frames": 4695,
+    "longest_hold_ratio": 1.0,
     "maximum_position_error_mm": 639.2960568788862,
-    "maximum_orientation_error_deg": 179.99938855762653
+    "maximum_orientation_error_deg": 179.99938855762653,
+    "maximum_accepted_position_error_mm": null,
+    "maximum_accepted_orientation_error_deg": null
   },
   "dynamics": {
     "maximum_velocity_rad_s": 0.0,
@@ -61,12 +67,14 @@
   },
   "artifacts": {
     "trajectory_npz": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-12\\PackIntoBox\\112633\\inverted\\8-12_PackIntoBox_112633_inverted_fixed_time.trajectory.npz",
-      "sha256": "57d23c599cde2b28ca6a6049e4bd338e87735637659301bb6f36bb659a7be519"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PackIntoBox/112633/inverted/8-12_PackIntoBox_112633_inverted_fixed_time.trajectory.npz",
+      "sha256": "bfbf2c5db335086bb8ba2b8c9f2d66ea27d5796b6a6c33ed3db2b94328cf7d0d"
     },
     "scene_xml": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-12\\PackIntoBox\\112633\\inverted\\8-12_PackIntoBox_112633_inverted_fixed_time.scene.xml",
-      "sha256": "5b0511426d0026f74d5bcd759a28a69286b86024101bd7db2dfcf793f0126ac4"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PackIntoBox/112633/inverted/8-12_PackIntoBox_112633_inverted_fixed_time.scene.xml",
+      "sha256": "3aaadc34c41399fe8e12a43e809b7dd10fc637404c15beaf4756eb26926f6297"
     }
-  }
+  },
+  "formal_fingerprint": "26283cb9d2880b24cfd64da32832fd6ff05fb6e6cfbbb19a920ce70863d0fb50",
+  "search_job_fingerprint": "e2ce91f6434c54455fd2b734b81275aa59e2efdfa5ad0b2e9ffb435c374c77a0"
 }

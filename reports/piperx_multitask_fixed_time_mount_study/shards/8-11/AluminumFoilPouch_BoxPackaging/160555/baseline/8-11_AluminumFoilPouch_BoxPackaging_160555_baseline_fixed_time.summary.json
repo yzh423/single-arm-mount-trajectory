@@ -53,12 +53,18 @@
     "left_accept_coverage": 0.020913705583756347,
     "right_accept_coverage": 0.026395939086294416,
     "both_accept_coverage": 0.020913705583756347,
+    "source_valid_pair_frames": 4925,
+    "invalid_source_frames": 0,
+    "both_accept_coverage_valid_source": 0.020913705583756347,
     "collision_frames": 0,
     "edge_collision_frames": 0,
     "topology_invalid_frames": 0,
     "longest_hold_frames": 4520,
+    "longest_hold_ratio": 0.917766497461929,
     "maximum_position_error_mm": 557.1779779719393,
-    "maximum_orientation_error_deg": 119.41138069988982
+    "maximum_orientation_error_deg": 119.41138069988982,
+    "maximum_accepted_position_error_mm": 0.9994641671424702,
+    "maximum_accepted_orientation_error_deg": 0.49999999999951883
   },
   "dynamics": {
     "maximum_velocity_rad_s": 27.158423885056905,
@@ -67,12 +73,14 @@
   },
   "artifacts": {
     "trajectory_npz": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\AluminumFoilPouch_BoxPackaging\\160555\\baseline\\8-11_AluminumFoilPouch_BoxPackaging_160555_baseline_fixed_time.trajectory.npz",
-      "sha256": "4bf258d4712f87f2127a3a486c31e86422753196cb89af4b792d4d5e0ec57d5d"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/AluminumFoilPouch_BoxPackaging/160555/baseline/8-11_AluminumFoilPouch_BoxPackaging_160555_baseline_fixed_time.trajectory.npz",
+      "sha256": "118ee8edf1cf3aef7ae4f66e7035d0e7b03fe518626ac9558c46364e2576fd80"
     },
     "scene_xml": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\AluminumFoilPouch_BoxPackaging\\160555\\baseline\\8-11_AluminumFoilPouch_BoxPackaging_160555_baseline_fixed_time.scene.xml",
-      "sha256": "7c38ed7bdde56a9e36b69c000202751a33a7a5e2ccb0fe7d13b6814dfa943c4f"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/AluminumFoilPouch_BoxPackaging/160555/baseline/8-11_AluminumFoilPouch_BoxPackaging_160555_baseline_fixed_time.scene.xml",
+      "sha256": "761e016bf61a25bf6630c66af34be5c663a6680bdc6551f6eb21648fa8478add"
     }
-  }
+  },
+  "formal_fingerprint": "5e0213c3937ae8c0a54c8239341e586f5ffa31016f1bb6e89bd81610d98044b4",
+  "search_job_fingerprint": "afd6bb6b0a2c7a426d24a14d2f3a0ef62e1487a252c6f4e9d0eff4ee5a720c3f"
 }

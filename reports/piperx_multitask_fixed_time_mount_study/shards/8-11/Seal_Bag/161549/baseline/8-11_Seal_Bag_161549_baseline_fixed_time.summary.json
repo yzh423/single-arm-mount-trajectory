@@ -53,12 +53,18 @@
     "left_accept_coverage": 0.8760245901639344,
     "right_accept_coverage": 0.8760245901639344,
     "both_accept_coverage": 0.8760245901639344,
+    "source_valid_pair_frames": 976,
+    "invalid_source_frames": 0,
+    "both_accept_coverage_valid_source": 0.8760245901639344,
     "collision_frames": 0,
     "edge_collision_frames": 0,
     "topology_invalid_frames": 0,
     "longest_hold_frames": 63,
+    "longest_hold_ratio": 0.06454918032786885,
     "maximum_position_error_mm": 172.25155009919172,
-    "maximum_orientation_error_deg": 23.886511502970432
+    "maximum_orientation_error_deg": 23.886511502970432,
+    "maximum_accepted_position_error_mm": 0.9998092224292553,
+    "maximum_accepted_orientation_error_deg": 0.4991846847665764
   },
   "dynamics": {
     "maximum_velocity_rad_s": 5.019650543915009,
@@ -67,12 +73,14 @@
   },
   "artifacts": {
     "trajectory_npz": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\Seal_Bag\\161549\\baseline\\8-11_Seal_Bag_161549_baseline_fixed_time.trajectory.npz",
-      "sha256": "5f82dcfffad0327f7322b0314e48027e93b7afd1cb1fbd24e6860355a043aeaf"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Seal_Bag/161549/baseline/8-11_Seal_Bag_161549_baseline_fixed_time.trajectory.npz",
+      "sha256": "cbe9158aab2b510507e883f75ac81e19f1ef7a6dba2da5d6fe54847f1cde038d"
     },
     "scene_xml": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\Seal_Bag\\161549\\baseline\\8-11_Seal_Bag_161549_baseline_fixed_time.scene.xml",
-      "sha256": "45cae4c2d3eb74e718c27c42148abfa57cb1436ce80da97dd355e73117079d7e"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Seal_Bag/161549/baseline/8-11_Seal_Bag_161549_baseline_fixed_time.scene.xml",
+      "sha256": "89631c4d5a6cabdf4c905dad03a0c660db8e29351c73e2702f8ea45784d69ebd"
     }
-  }
+  },
+  "formal_fingerprint": "74385e59a2e10463029fcdd82e521928b8d75fdc6490e21cdf5ba4348d1cbd47",
+  "search_job_fingerprint": "82205e83ee11211a7b50abcf892029a03b63dd745da34fbe2a232e7f1f6c173e"
 }

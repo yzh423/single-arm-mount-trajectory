@@ -1,4 +1,6 @@
 from pathlib import Path
+import json
+import xml.etree.ElementTree as ET
 
 import mujoco
 import pytest
@@ -92,3 +94,20 @@ def test_official_piperx_collision_geometries_keep_side_and_link_names(tmp_path)
     assert "left_base_link_collision_0" in names
     assert "right_gripper_base_collision_0" in names
     assert all(name is not None for name in names)
+
+
+def test_scene_and_manifest_paths_are_relative_to_the_scene_directory(tmp_path):
+    output = tmp_path / "nested" / "piperx.xml"
+    contract = ROBOT_CONTRACTS["piperx"]
+
+    build_same_model_scene(contract, .8, output)
+
+    compiler = ET.parse(output).getroot().find("compiler")
+    assert compiler is not None
+    meshdir = Path(compiler.get("meshdir"))
+    assert not meshdir.is_absolute()
+    assert (output.parent / meshdir).resolve().is_dir()
+    payload = json.loads(output.with_suffix(".json").read_text(encoding="utf-8"))
+    assert not Path(payload["source_urdf"]).is_absolute()
+    assert (output.parent / payload["source_urdf"]).resolve() == contract.source_urdf
+    assert payload["output_xml"] == output.name

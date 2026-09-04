@@ -47,12 +47,18 @@
     "left_accept_coverage": 0.014256619144602852,
     "right_accept_coverage": 0.013238289205702648,
     "both_accept_coverage": 0.013238289205702648,
+    "source_valid_pair_frames": 1964,
+    "invalid_source_frames": 0,
+    "both_accept_coverage_valid_source": 0.013238289205702648,
     "collision_frames": 0,
     "edge_collision_frames": 0,
     "topology_invalid_frames": 0,
     "longest_hold_frames": 1724,
+    "longest_hold_ratio": 0.8778004073319755,
     "maximum_position_error_mm": 367.72880147054593,
-    "maximum_orientation_error_deg": 130.21584672372987
+    "maximum_orientation_error_deg": 130.21584672372987,
+    "maximum_accepted_position_error_mm": 0.9994387799539867,
+    "maximum_accepted_orientation_error_deg": 0.4998987430201065
   },
   "dynamics": {
     "maximum_velocity_rad_s": 24.13082883209897,
@@ -61,12 +67,14 @@
   },
   "artifacts": {
     "trajectory_npz": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\Fold_Box\\160754\\horizontal_wall\\8-11_Fold_Box_160754_horizontal_wall_fixed_time.trajectory.npz",
-      "sha256": "1487ae78a2c015102a962099dbc72a8d3bb7256b5ccd1a71dfd13d18de9c0ad4"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/160754/horizontal_wall/8-11_Fold_Box_160754_horizontal_wall_fixed_time.trajectory.npz",
+      "sha256": "59dd94697766d5ea57b5cfd0be9a43479214140fb569fe66e398ad0226c8f247"
     },
     "scene_xml": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\Fold_Box\\160754\\horizontal_wall\\8-11_Fold_Box_160754_horizontal_wall_fixed_time.scene.xml",
-      "sha256": "0b0abc844bac1ffd5b3d44e35120f672ff205445a62ec2e13273886765f841d7"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/160754/horizontal_wall/8-11_Fold_Box_160754_horizontal_wall_fixed_time.scene.xml",
+      "sha256": "74675c65917824752286cb0d2b7d54e6fbf2b5493464d376d18dc2c2bf5c3bc7"
     }
-  }
+  },
+  "formal_fingerprint": "3e1488489498b23a223caf843948f996f10d5c5284a07843a033087bab05d973",
+  "search_job_fingerprint": "9627d7f7994f5dd6f506e1a40c8a878e4c004fce2b5a186e901075f9309db901"
 }

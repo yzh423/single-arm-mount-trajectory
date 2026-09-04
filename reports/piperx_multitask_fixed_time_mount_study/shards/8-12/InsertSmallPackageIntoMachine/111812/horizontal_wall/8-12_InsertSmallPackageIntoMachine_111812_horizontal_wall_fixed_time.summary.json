@@ -47,12 +47,18 @@
     "left_accept_coverage": 0.04326530612244898,
     "right_accept_coverage": 0.04272108843537415,
     "both_accept_coverage": 0.04231292517006803,
+    "source_valid_pair_frames": 7350,
+    "invalid_source_frames": 0,
+    "both_accept_coverage_valid_source": 0.04231292517006803,
     "collision_frames": 0,
     "edge_collision_frames": 0,
     "topology_invalid_frames": 0,
     "longest_hold_frames": 3156,
+    "longest_hold_ratio": 0.4293877551020408,
     "maximum_position_error_mm": 751.3576407211084,
-    "maximum_orientation_error_deg": 99.11540369253721
+    "maximum_orientation_error_deg": 99.11540369253721,
+    "maximum_accepted_position_error_mm": 0.9999758732196081,
+    "maximum_accepted_orientation_error_deg": 0.4999999999999689
   },
   "dynamics": {
     "maximum_velocity_rad_s": 27.86170098082914,
@@ -61,12 +67,14 @@
   },
   "artifacts": {
     "trajectory_npz": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-12\\InsertSmallPackageIntoMachine\\111812\\horizontal_wall\\8-12_InsertSmallPackageIntoMachine_111812_horizontal_wall_fixed_time.trajectory.npz",
-      "sha256": "a57d187fdcbde7aa401ae412d5f0032aa3c1c2d11317c6e97f969e4ac853b317"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertSmallPackageIntoMachine/111812/horizontal_wall/8-12_InsertSmallPackageIntoMachine_111812_horizontal_wall_fixed_time.trajectory.npz",
+      "sha256": "0886a4d1dc34a379a8cf140ee7aecabced021ef21da95728af23187a7c77e615"
     },
     "scene_xml": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-12\\InsertSmallPackageIntoMachine\\111812\\horizontal_wall\\8-12_InsertSmallPackageIntoMachine_111812_horizontal_wall_fixed_time.scene.xml",
-      "sha256": "3dd6b7eb8a6dcad6356117de07d0eb7a97abe69da8725df1564cb4689f68d143"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertSmallPackageIntoMachine/111812/horizontal_wall/8-12_InsertSmallPackageIntoMachine_111812_horizontal_wall_fixed_time.scene.xml",
+      "sha256": "f7911471e885dffd844634a0a4c424b0fe5ef1157f78b056f7338dc9e09f91d3"
     }
-  }
+  },
+  "formal_fingerprint": "acd21f5ec27072c6112582af574b079bed599e78c63fd8cb19b8e1a4fadd1464",
+  "search_job_fingerprint": "88522dce1580934a123a0994b77d1c064b494035d87e54e949957d01aa91902a"
 }

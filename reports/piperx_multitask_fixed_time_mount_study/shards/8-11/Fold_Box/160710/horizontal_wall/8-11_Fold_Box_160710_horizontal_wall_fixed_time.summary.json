@@ -47,12 +47,18 @@
     "left_accept_coverage": 0.004788507581803671,
     "right_accept_coverage": 0.004389465283320032,
     "both_accept_coverage": 0.004389465283320032,
+    "source_valid_pair_frames": 2506,
+    "invalid_source_frames": 0,
+    "both_accept_coverage_valid_source": 0.004389465283320032,
     "collision_frames": 0,
     "edge_collision_frames": 0,
     "topology_invalid_frames": 0,
     "longest_hold_frames": 2347,
+    "longest_hold_ratio": 0.9365522745411013,
     "maximum_position_error_mm": 632.4403726481912,
-    "maximum_orientation_error_deg": 179.71476429981746
+    "maximum_orientation_error_deg": 179.71476429981746,
+    "maximum_accepted_position_error_mm": 0.9958993513634973,
+    "maximum_accepted_orientation_error_deg": 0.03313457815007866
   },
   "dynamics": {
     "maximum_velocity_rad_s": 65.0356312273865,
@@ -61,12 +67,14 @@
   },
   "artifacts": {
     "trajectory_npz": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\Fold_Box\\160710\\horizontal_wall\\8-11_Fold_Box_160710_horizontal_wall_fixed_time.trajectory.npz",
-      "sha256": "dd4c9e4d13a215a82f723e6140dabc2519c91afebdc36af5944c774fbe2a2afc"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/160710/horizontal_wall/8-11_Fold_Box_160710_horizontal_wall_fixed_time.trajectory.npz",
+      "sha256": "fa5a1565f3e6e428c9406a2e79ef2764af063bf66496a802e64bff168bdd2b9a"
     },
     "scene_xml": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\Fold_Box\\160710\\horizontal_wall\\8-11_Fold_Box_160710_horizontal_wall_fixed_time.scene.xml",
-      "sha256": "b758023b570798f8fd8bdf19722b8b74eaa9113a0931ba9f09c823b3893c9e22"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/160710/horizontal_wall/8-11_Fold_Box_160710_horizontal_wall_fixed_time.scene.xml",
+      "sha256": "6af165af58057d037b3f22319804d47217ee6f14a48191f2eeacaac8f593adfc"
     }
-  }
+  },
+  "formal_fingerprint": "9c813373921c3ff827aa2c2a1db72c773cdb431d13147d6fcc01fbf02b364ff7",
+  "search_job_fingerprint": "49ac9ac8d036ae2e6491cceea809dd68350120e579bd0a3fcfed212316e92340"
 }

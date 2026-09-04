@@ -1,0 +1,22 @@
+[
+  {
+    "source": "E:/YZH123123/single-arm-mount/data/factory/8-11/AluminumFoilPouch_BoxPackaging/handheld_20260811_160452.csv",
+    "destination": "E:/YZH123123/single-arm-mount/data/factory/8-11/_rejected_short/AluminumFoilPouch_BoxPackaging/handheld_20260811_160452.csv",
+    "task": "AluminumFoilPouch_BoxPackaging",
+    "rows": 222,
+    "duration_s": 2.641858041,
+    "threshold_s": 5.0,
+    "action": "quarantined",
+    "recorded_at_utc": "2026-08-11T09:53:27.782013+00:00"
+  },
+  {
+    "source": "E:/YZH123123/single-arm-mount/data/factory/8-11/AluminumFoilPouch_BoxPackaging/handheld_20260811_160612.csv",
+    "destination": "E:/YZH123123/single-arm-mount/data/factory/8-11/_rejected_short/AluminumFoilPouch_BoxPackaging/handheld_20260811_160612.csv",
+    "task": "AluminumFoilPouch_BoxPackaging",
+    "rows": 311,
+    "duration_s": 3.698261625,
+    "threshold_s": 5.0,
+    "action": "quarantined",
+    "recorded_at_utc": "2026-08-11T09:53:27.782013+00:00"
+  }
+]

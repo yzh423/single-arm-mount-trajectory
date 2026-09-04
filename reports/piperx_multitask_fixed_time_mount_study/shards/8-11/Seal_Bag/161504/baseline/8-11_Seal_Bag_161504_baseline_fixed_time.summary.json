@@ -53,12 +53,18 @@
     "left_accept_coverage": 1.0,
     "right_accept_coverage": 1.0,
     "both_accept_coverage": 1.0,
+    "source_valid_pair_frames": 2439,
+    "invalid_source_frames": 0,
+    "both_accept_coverage_valid_source": 1.0,
     "collision_frames": 0,
     "edge_collision_frames": 0,
     "topology_invalid_frames": 0,
     "longest_hold_frames": 0,
+    "longest_hold_ratio": 0.0,
     "maximum_position_error_mm": 0.9999415623922546,
-    "maximum_orientation_error_deg": 0.49891350663323336
+    "maximum_orientation_error_deg": 0.49891350663323336,
+    "maximum_accepted_position_error_mm": 0.9999415623922546,
+    "maximum_accepted_orientation_error_deg": 0.49891350663323336
   },
   "dynamics": {
     "maximum_velocity_rad_s": 6.250432402390414,
@@ -67,12 +73,14 @@
   },
   "artifacts": {
     "trajectory_npz": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\Seal_Bag\\161504\\baseline\\8-11_Seal_Bag_161504_baseline_fixed_time.trajectory.npz",
-      "sha256": "92ead08ff78b16b1c5515e36466c7846c1565f8b7494c31c0256e80a2ea52943"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Seal_Bag/161504/baseline/8-11_Seal_Bag_161504_baseline_fixed_time.trajectory.npz",
+      "sha256": "4c64549d4c8770746587160a1f9f8f0438a855f626fc25d87409645a41db7919"
     },
     "scene_xml": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\Seal_Bag\\161504\\baseline\\8-11_Seal_Bag_161504_baseline_fixed_time.scene.xml",
-      "sha256": "45cae4c2d3eb74e718c27c42148abfa57cb1436ce80da97dd355e73117079d7e"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Seal_Bag/161504/baseline/8-11_Seal_Bag_161504_baseline_fixed_time.scene.xml",
+      "sha256": "89631c4d5a6cabdf4c905dad03a0c660db8e29351c73e2702f8ea45784d69ebd"
     }
-  }
+  },
+  "formal_fingerprint": "a9bd13f7ade5231a1a2d5cab28b9b5164d63429fb2d9b916d9b859d862cab97f",
+  "search_job_fingerprint": "c7c306820085aac5a8af6bf3398fbb87ae4b332a89ac45e55057cfa5a044e3cb"
 }

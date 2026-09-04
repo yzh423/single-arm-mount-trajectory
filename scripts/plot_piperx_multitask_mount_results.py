@@ -6,6 +6,7 @@ import csv
 from pathlib import Path
 
 import matplotlib.pyplot as plt
+from matplotlib import font_manager
 from matplotlib.colors import LinearSegmentedColormap
 import numpy as np
 
@@ -21,9 +22,20 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = ROOT / "reports/piperx_multitask_fixed_time_mount_study"
 
 
+def _preferred_font_family():
+    installed = {font.name for font in font_manager.fontManager.ttflist}
+    for candidate in (
+            "Noto Sans CJK SC", "Microsoft YaHei", "SimHei", "DejaVu Sans"):
+        if candidate in installed:
+            return candidate
+    return "sans-serif"
+
+
 def coverage_matrix(rows, field="both_accept_coverage"):
     trajectories = tuple(sorted({row["trajectory"] for row in rows}))
-    lookup = {(row["trajectory"], row["mode"]): float(row[field])
+    def numeric(value):
+        return np.nan if value in (None, "") else float(value)
+    lookup = {(row["trajectory"], row["mode"]): numeric(row[field])
               for row in rows}
     expected = {(trajectory, mode) for trajectory in trajectories
                 for mode in STUDY_PANEL_ORDER}
@@ -63,21 +75,35 @@ def _mount_tick_labels():
 
 
 def _heatmap(rows, field, output, *, title, color_label,
-             percent=False, cmap="viridis"):
+             percent=False, cmap="viridis", vmin=None, vmax=None,
+             formatter=None):
     trajectories, matrix = coverage_matrix(rows, field)
     display = 100.0 * matrix if percent else matrix
     fig_height = max(7.0, 0.34 * len(trajectories) + 2.6)
     fig, axis = plt.subplots(figsize=(9.2, fig_height), constrained_layout=True)
-    image = axis.imshow(display, aspect="auto", cmap=cmap)
+    color_map = plt.get_cmap(cmap).copy()
+    color_map.set_bad("#D7DEE7")
+    image = axis.imshow(
+        np.ma.masked_invalid(display), aspect="auto", cmap=color_map,
+        vmin=vmin, vmax=vmax)
     axis.set_xticks(range(4), _mount_tick_labels(), fontsize=8)
     axis.set_yticks(range(len(trajectories)), _labels(trajectories), fontsize=8)
     axis.set_title(title, fontsize=15, pad=14)
+    finite = display[np.isfinite(display)]
+    midpoint = float(np.median(finite)) if finite.size else 0.0
     for row in range(display.shape[0]):
         for column in range(display.shape[1]):
             value = display[row, column]
-            label = f"{value:.1f}%" if percent else f"{value:.2f}"
+            if formatter is not None:
+                label = formatter(value)
+            elif not np.isfinite(value):
+                label = "HOLD / N/A"
+            else:
+                label = f"{value:.1f}%" if percent else f"{value:.2f}"
             axis.text(column, row, label, ha="center", va="center",
-                      fontsize=7, color=("white" if value > np.nanmedian(display) else "black"))
+                      fontsize=7, color=(
+                          "white" if np.isfinite(value) and value > midpoint
+                          else "black"))
     bar = fig.colorbar(image, ax=axis, shrink=.74)
     bar.set_label(color_label)
     fig.savefig(output, dpi=180)
@@ -89,7 +115,7 @@ def generate_figures(aggregate_csv, output_dir):
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
     plt.rcParams.update({
-        "font.family": "Microsoft YaHei",
+        "font.family": _preferred_font_family(),
         "axes.unicode_minus": False,
         "figure.facecolor": "white",
     })
@@ -101,34 +127,62 @@ def generate_figures(aggregate_csv, output_dir):
         color_label="双臂同时 ACCEPT (%)", percent=True,
         cmap=coverage_cmap)
     _heatmap(
-        rows, "longest_hold_frames", output_dir / "longest_hold_heatmap.png",
-        title="最长连续 HOLD 帧数", color_label="帧",
-        cmap="magma_r")
+        rows, "longest_hold_ratio", output_dir / "longest_hold_heatmap.png",
+        title="最长连续 HOLD 占源轨迹比例", color_label="轨迹比例 (%)",
+        percent=True, cmap="magma_r", vmin=0., vmax=100.)
     collision_rows = []
     for row in rows:
         collision_rows.append({
             **row,
-            "unsafe_frames": int(float(row["collision_frames"]))
-            + int(float(row["edge_collision_frames"]))
-            + int(float(row["topology_invalid_frames"])),
+            "safety_pass": float(
+                int(float(row["collision_frames"]))
+                + int(float(row["edge_collision_frames"]))
+                + int(float(row["topology_invalid_frames"])) == 0),
         })
     _heatmap(
-        collision_rows, "unsafe_frames",
+        collision_rows, "safety_pass",
         output_dir / "collision_topology_heatmap.png",
-        title="碰撞、扫掠边碰撞与拓扑违规帧",
-        color_label="不安全帧/边", cmap="Reds")
+        title="碰撞、扫掠边碰撞与拓扑硬门",
+        color_label="0 = FAIL, 1 = PASS", cmap="RdYlGn", vmin=0., vmax=1.,
+        formatter=lambda value: "PASS" if value == 1. else "FAIL")
     _heatmap(
-        rows, "maximum_position_error_mm",
+        rows, "maximum_accepted_position_error_mm",
         output_dir / "maximum_position_error_heatmap.png",
-        title="最大 TCP 位置误差", color_label="mm", cmap="magma")
+        title="ACCEPT 帧最大 TCP 位置误差", color_label="mm", cmap="magma",
+        vmin=0., vmax=1.)
     _heatmap(
-        rows, "maximum_velocity_rad_s",
+        rows, "maximum_accepted_orientation_error_deg",
+        output_dir / "maximum_orientation_error_heatmap.png",
+        title="ACCEPT 帧最大 TCP 姿态误差", color_label="deg", cmap="magma",
+        vmin=0., vmax=.5)
+    dynamic_rows = [{
+        **row,
+        "display_velocity": (
+            row["maximum_velocity_rad_s"]
+            if float(row["both_accept_coverage"]) > 0. else None),
+        "display_acceleration": (
+            row["maximum_acceleration_rad_s2"]
+            if float(row["both_accept_coverage"]) > 0. else None),
+        "deployable": float(
+            float(row["both_accept_coverage"]) >= 1.0 - 1e-12
+            and str(row["limits_passed"]).lower() == "true"
+            and int(float(row["collision_frames"])) == 0
+            and int(float(row["edge_collision_frames"])) == 0
+            and int(float(row["topology_invalid_frames"])) == 0),
+    } for row in rows]
+    _heatmap(
+        dynamic_rows, "display_velocity",
         output_dir / "velocity_heatmap.png",
         title="原始节奏最大关节速度", color_label="rad/s", cmap="plasma")
     _heatmap(
-        rows, "maximum_acceleration_rad_s2",
+        dynamic_rows, "display_acceleration",
         output_dir / "acceleration_heatmap.png",
         title="原始节奏最大关节加速度", color_label="rad/s²", cmap="plasma")
+    _heatmap(
+        dynamic_rows, "deployable", output_dir / "deployability_heatmap.png",
+        title="100% 覆盖 + 动力学 + 安全联合可部署门",
+        color_label="0 = FAIL, 1 = PASS", cmap="RdYlGn", vmin=0., vmax=1.,
+        formatter=lambda value: "PASS" if value == 1. else "FAIL")
 
     counts = winner_counts(rows)
     fig, axis = plt.subplots(figsize=(8.4, 4.8), constrained_layout=True)
@@ -137,7 +191,7 @@ def generate_figures(aggregate_csv, output_dir):
         _mount_tick_labels(),
         [counts[mode] for mode in modes],
         color=[MOUNT_COLORS[mode] for mode in modes])
-    axis.set_title("安全门优先、再按双臂同时 ACCEPT 选择的构型胜者", fontsize=15)
+    axis.set_title("严格位姿覆盖率构型胜者（不包含动力学门）", fontsize=15)
     axis.set_ylabel("轨迹数量")
     axis.set_ylim(0, max(counts.values(), default=0) + 3)
     axis.bar_label(bars, fontsize=12)

@@ -47,12 +47,18 @@
     "left_accept_coverage": 0.40866811794973285,
     "right_accept_coverage": 0.4094597268949139,
     "both_accept_coverage": 0.40847021571343756,
+    "source_valid_pair_frames": 5053,
+    "invalid_source_frames": 0,
+    "both_accept_coverage_valid_source": 0.40847021571343756,
     "collision_frames": 0,
     "edge_collision_frames": 0,
     "topology_invalid_frames": 0,
     "longest_hold_frames": 2450,
+    "longest_hold_ratio": 0.48486047892341183,
     "maximum_position_error_mm": 590.4864069608717,
-    "maximum_orientation_error_deg": 103.74834454560948
+    "maximum_orientation_error_deg": 103.74834454560948,
+    "maximum_accepted_position_error_mm": 0.9999432283959194,
+    "maximum_accepted_orientation_error_deg": 0.4999999999999689
   },
   "dynamics": {
     "maximum_velocity_rad_s": 24.678328054631784,
@@ -61,12 +67,14 @@
   },
   "artifacts": {
     "trajectory_npz": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\WaterSoluble_AluminumPouch\\160040\\upright_table\\8-11_WaterSoluble_AluminumPouch_160040_upright_table_fixed_time.trajectory.npz",
-      "sha256": "091c12df9b527424d4e9e2a8931dd5a4a8fb86a195b792867eee60f526f8868e"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/160040/upright_table/8-11_WaterSoluble_AluminumPouch_160040_upright_table_fixed_time.trajectory.npz",
+      "sha256": "c84681bcebda55d882c79b6d8a2f88c04b2c21cca123933a57fb5f9ff19399f0"
     },
     "scene_xml": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\WaterSoluble_AluminumPouch\\160040\\upright_table\\8-11_WaterSoluble_AluminumPouch_160040_upright_table_fixed_time.scene.xml",
-      "sha256": "10babc35c4cf26927fbf589ae6282c2b11746524106acf1dbd375fbb83831fd7"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/160040/upright_table/8-11_WaterSoluble_AluminumPouch_160040_upright_table_fixed_time.scene.xml",
+      "sha256": "6838be747bc9273f664a56b48c0ea3ce00da0d443601ff7b34682aa04a580e20"
     }
-  }
+  },
+  "formal_fingerprint": "3a97fce54bd155299d0b2ddf2292dc0f9cd8fd08adf9cce84b545dc4b959779a",
+  "search_job_fingerprint": "94dc52e87928d62261fa10ff8e7f47141ef0906db724a35ec21414375bb9a4dc"
 }

@@ -1,0 +1,52 @@
+{
+  "schema": "piperx-four-mount-composite-v1",
+  "trajectory": "8-11/Fold_Box/160710",
+  "output_sha256": "a7bf1a73761db00d4654e103cf61dbfe2957b0073f526dc6b8915e54edac0b5e",
+  "frame_count": 903,
+  "fps": 30.0,
+  "duration_s": 30.1,
+  "width": 1280,
+  "height": 720,
+  "panels": {
+    "baseline": {
+      "sha256": "c760aa6f331a2643025b1c3d809d8820667b0d19c81c88a20b367aaf2b96db64",
+      "provenance_sha256": "09bd51eb24db5e0f9a8f4190ed4aea3c3c7f0cb5e8a571e75335f9b474a0ed64",
+      "evidence": {
+        "schema": "piperx-four-mount-panel-v2-content-addressed",
+        "summary_sha256": "098f9239ea770a298e314a1851f87cf0092e00ccca0b188e688c5c4d4207128b",
+        "trajectory_sha256": "f417fff3159283e95d01674fc30efb88f14cc40c88d659c143f94bb40071765d",
+        "scene_sha256": "5da44fa3560a445ef830a90b023f1ba297b018c9697d1b87bac8f5e83e6bdfe4"
+      }
+    },
+    "upright_table": {
+      "sha256": "e0bd7dcbe24165bfca1dd9f2707296e0db9b7cc8fad927b9618f9c698c56889e",
+      "provenance_sha256": "123e89192e98797c0523a779c0b104c373395fa16376ef4618e6fc8b95a49baf",
+      "evidence": {
+        "schema": "piperx-four-mount-panel-v2-content-addressed",
+        "summary_sha256": "317aae0aa5cb6843cccdc631f13628630adbed0479e9a7bb1396f36cb030a9ff",
+        "trajectory_sha256": "31ab7f132661a4f0e5fc85f31e6940e980d258cbcba736e7db1f8d2d8a25b975",
+        "scene_sha256": "db658d5930d0e0eea1c8ae854555b8a5c7211f95b4f4c6bfa60f41fbac14d82a"
+      }
+    },
+    "horizontal_wall": {
+      "sha256": "50fbbefb965df7192569f8cc44cd5e1da994d2861af0b6f80cd861de1fadc3a1",
+      "provenance_sha256": "4d5d49daf710e8ac01fd2b7616f4b4d8007a8b40496439bb567795af7c371ddc",
+      "evidence": {
+        "schema": "piperx-four-mount-panel-v2-content-addressed",
+        "summary_sha256": "e5dec9f952731094c30e9048e9ad56c82f6938075728f00528dbcccb8ce99460",
+        "trajectory_sha256": "fa5a1565f3e6e428c9406a2e79ef2764af063bf66496a802e64bff168bdd2b9a",
+        "scene_sha256": "6af165af58057d037b3f22319804d47217ee6f14a48191f2eeacaac8f593adfc"
+      }
+    },
+    "inverted": {
+      "sha256": "2d851176fd1a23f9e36145356df1b9e4a091b743c0f799c5896bead5a137e961",
+      "provenance_sha256": "a83b63c2e1061921f06dd541812f150c8fd580de3701af934dd030ba140b3436",
+      "evidence": {
+        "schema": "piperx-four-mount-panel-v2-content-addressed",
+        "summary_sha256": "1a211532e33f211dd50edb5c09667e505a4903ffa03c894233626f39d134a28b",
+        "trajectory_sha256": "d894ea030cd9c26cb8799e2ff5ec2a1a480f4a237a0577c7149b699a3d4d99ed",
+        "scene_sha256": "84a509e0b3df8d89c76773bff9e128e1e3ac0f95efffaa284d984e7190b771eb"
+      }
+    }
+  }
+}

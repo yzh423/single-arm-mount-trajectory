@@ -47,12 +47,18 @@
     "left_accept_coverage": 0.0,
     "right_accept_coverage": 0.0,
     "both_accept_coverage": 0.0,
+    "source_valid_pair_frames": 2524,
+    "invalid_source_frames": 0,
+    "both_accept_coverage_valid_source": 0.0,
     "collision_frames": 0,
     "edge_collision_frames": 0,
     "topology_invalid_frames": 0,
     "longest_hold_frames": 2524,
+    "longest_hold_ratio": 1.0,
     "maximum_position_error_mm": 1262.086404819483,
-    "maximum_orientation_error_deg": 179.99807537254287
+    "maximum_orientation_error_deg": 179.99807537254287,
+    "maximum_accepted_position_error_mm": null,
+    "maximum_accepted_orientation_error_deg": null
   },
   "dynamics": {
     "maximum_velocity_rad_s": 0.0,
@@ -61,12 +67,14 @@
   },
   "artifacts": {
     "trajectory_npz": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\Screw_Cap\\162854\\horizontal_wall\\8-11_Screw_Cap_162854_horizontal_wall_fixed_time.trajectory.npz",
-      "sha256": "d044a274da085e65d77a0e65bbd8df62a74b074c1ae7ed87b8d6d44f10f2cc12"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Screw_Cap/162854/horizontal_wall/8-11_Screw_Cap_162854_horizontal_wall_fixed_time.trajectory.npz",
+      "sha256": "4f11d97a81c8f6c462be31eeeeaffaeab8a4e28e8a2a72ecda32930cb413c4bf"
     },
     "scene_xml": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\Screw_Cap\\162854\\horizontal_wall\\8-11_Screw_Cap_162854_horizontal_wall_fixed_time.scene.xml",
-      "sha256": "3e0e788e888b84aa8812ba26bebe9f05d3782aef7390b20b11ead62409842507"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Screw_Cap/162854/horizontal_wall/8-11_Screw_Cap_162854_horizontal_wall_fixed_time.scene.xml",
+      "sha256": "8e78e4a5a08050f708545c7d8784200f353bf70629b676775d100baf4ecfa4b3"
     }
-  }
+  },
+  "formal_fingerprint": "5d41d65daf02e3ef828803d561ea02ad06c4992935009fd791b0ef3fbfd32877",
+  "search_job_fingerprint": "6acdaff656602f38e33225c52da9482647642fd31deb231f592ad6950d5ace4f"
 }

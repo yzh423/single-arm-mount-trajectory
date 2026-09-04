@@ -47,12 +47,18 @@
     "left_accept_coverage": 0.0,
     "right_accept_coverage": 0.0,
     "both_accept_coverage": 0.0,
+    "source_valid_pair_frames": 4925,
+    "invalid_source_frames": 0,
+    "both_accept_coverage_valid_source": 0.0,
     "collision_frames": 0,
     "edge_collision_frames": 0,
     "topology_invalid_frames": 0,
     "longest_hold_frames": 4925,
+    "longest_hold_ratio": 1.0,
     "maximum_position_error_mm": 982.1737391658174,
-    "maximum_orientation_error_deg": 179.99691489788543
+    "maximum_orientation_error_deg": 179.99691489788543,
+    "maximum_accepted_position_error_mm": null,
+    "maximum_accepted_orientation_error_deg": null
   },
   "dynamics": {
     "maximum_velocity_rad_s": 0.0,
@@ -61,12 +67,14 @@
   },
   "artifacts": {
     "trajectory_npz": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\AluminumFoilPouch_BoxPackaging\\160555\\inverted\\8-11_AluminumFoilPouch_BoxPackaging_160555_inverted_fixed_time.trajectory.npz",
-      "sha256": "67fd0ce6afb2a4cc069ff3ece72b6833a13842744a573078341f3812b10d05f9"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/AluminumFoilPouch_BoxPackaging/160555/inverted/8-11_AluminumFoilPouch_BoxPackaging_160555_inverted_fixed_time.trajectory.npz",
+      "sha256": "a96a083e0dbb4168ff94c60692db53ef96504bed42c56e3a1da98639b52ca5bb"
     },
     "scene_xml": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\AluminumFoilPouch_BoxPackaging\\160555\\inverted\\8-11_AluminumFoilPouch_BoxPackaging_160555_inverted_fixed_time.scene.xml",
-      "sha256": "56d7eab27dcab2f94f5edc9a2d32eb0e82c1d794e4f0b0c1cc1e99c8729d1d5b"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/AluminumFoilPouch_BoxPackaging/160555/inverted/8-11_AluminumFoilPouch_BoxPackaging_160555_inverted_fixed_time.scene.xml",
+      "sha256": "cb129ba796055d308eb9e63654f39aed90f501c9715859306806c6bf6592e6cc"
     }
-  }
+  },
+  "formal_fingerprint": "25545ba37eeb4c757580e0ad1d3c168349cf9b797e812c7729b0475e5c3d9b65",
+  "search_job_fingerprint": "b2b833dbd9a10fbfda90ebd79dbd7cc360ab9afffae2eeede733a7dd079d4d58"
 }

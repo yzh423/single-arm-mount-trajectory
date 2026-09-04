@@ -40,15 +40,7 @@ runs/
 !/videos/single_arm/strict_video_job_manifest.json
 /data/*
 !/data/factory/
-/data/factory/*
-!/data/factory/8-11/
-/data/factory/8-11/*
-!/data/factory/8-11/Fold_Box/
-/data/factory/8-11/Fold_Box/*
-!/data/factory/8-11/Fold_Box/handheld_20260811_161044.csv
-!/data/factory/8-11/Seal_Bag/
-/data/factory/8-11/Seal_Bag/*
-!/data/factory/8-11/Seal_Bag/handheld_20260811_161504.csv
+!/data/factory/**
 
 /third_party/*
 !/third_party/official_robot_models/
@@ -90,6 +82,13 @@ runs/
 !/reports/single_arm/mount_ik_fidelity_pilot/pdf/
 /reports/single_arm/mount_ik_fidelity_pilot/pdf/*
 !/reports/single_arm/mount_ik_fidelity_pilot/pdf/mount_ik_fidelity_pilot_report.pdf
+!/reports/single_arm/mount_ik_fidelity_pilot/videos/
+/reports/single_arm/mount_ik_fidelity_pilot/videos/*
+!/reports/single_arm/mount_ik_fidelity_pilot/videos/openarm.mp4
+!/reports/single_arm/mount_ik_fidelity_pilot/videos/xarm6.mp4
+!/reports/single_arm/ten_arm_pick_right_left_three_episodes/
+/reports/single_arm/ten_arm_pick_right_left_three_episodes/*
+!/reports/single_arm/ten_arm_pick_right_left_three_episodes/report.pdf
 !/reports/single_arm/ten_arm_two_single_tasks_handbook_fixed_4096/
 /reports/single_arm/ten_arm_two_single_tasks_handbook_fixed_4096/*
 !/reports/single_arm/ten_arm_two_single_tasks_handbook_fixed_4096/ten_arm_fixed_vs_legacy_report.pdf
@@ -125,6 +124,7 @@ runs/
 !/reports/piperx_multitask_fixed_time_mount_study/PiperX多任务Fixed-Time四构型对比报告.pdf
 !/reports/piperx_multitask_fixed_time_mount_study/aggregate.csv
 !/reports/piperx_multitask_fixed_time_mount_study/bundle_manifest.json
+!/reports/piperx_multitask_fixed_time_mount_study/release_manifest.json
 !/reports/piperx_multitask_fixed_time_mount_study/shards/
 !/reports/piperx_multitask_fixed_time_mount_study/shards/**
 !/reports/piperx_multitask_fixed_time_mount_study/figures/

@@ -1,5 +1,8 @@
+from types import SimpleNamespace
+
 import numpy as np
 import scripts.search_fold_box_piperx_mount as mount_search
+import scripts.search_fold_box_piperx_paired_mount as paired_search
 
 from scripts.search_fold_box_piperx_mount import (
     BASE_Z_M,
@@ -14,6 +17,61 @@ from scripts.search_fold_box_piperx_mount import (
 from scripts.search_fold_box_piperx_paired_mount import (
     advance_connected_pairs, deterministic_pair_mounts,
 )
+
+
+def _evaluate_stubbed_pair(monkeypatch, *, state_valid, edge_valid=()):
+    candidate = SimpleNamespace(
+        q=np.zeros(6), singularity_margin=.5,
+        joint_limit_margin_rad=.5, position_error_m=0.,
+        orientation_error_rad=0.)
+    task = SimpleNamespace(
+        time_s=np.arange(len(state_valid), dtype=float),
+        left_position_m=np.zeros((len(state_valid), 3)),
+        right_position_m=np.zeros((len(state_valid), 3)))
+    mount = {
+        "xy": {"left": [-.2, 0.], "right": [.2, 0.]},
+        "yaw": {"left": 0., "right": 180.},
+        "shared_base_z_m": .81,
+    }
+
+    def report(valid):
+        return SimpleNamespace(
+            valid=valid, classes=(), maximum_structural_crossing_m=(
+                0.01 if not valid else 0.),
+            gripper_overlap_m=0., gripper_overlap_count=0,
+            structural_crossing_count=int(not valid))
+
+    state_reports = iter(report(valid) for valid in state_valid)
+    edge_reports = iter(report(valid) for valid in edge_valid)
+
+    monkeypatch.setattr(paired_search, "build_same_model_scene",
+                        lambda *args, **kwargs: None)
+    monkeypatch.setattr(paired_search, "layered_sample_indices",
+                        lambda *args, **kwargs: np.arange(len(state_valid)))
+    monkeypatch.setattr(paired_search, "_prepare_targets",
+                        lambda model, task, indices, **kwargs: task)
+    monkeypatch.setattr(
+        paired_search, "mujoco",
+        SimpleNamespace(
+            MjModel=SimpleNamespace(from_xml_path=lambda path: object()),
+            MjData=lambda model: object()))
+    monkeypatch.setattr(
+        paired_search, "MuJoCoCandidateGenerator",
+        lambda *args, **kwargs: (
+            lambda model, contract, sampled, row, side: [candidate]))
+    monkeypatch.setattr(
+        paired_search, "MuJoCoPairedCollisionChecker",
+        lambda *args, **kwargs: SimpleNamespace(
+            state=lambda left, right: report(True),
+            transition=lambda old, current: report(True)))
+    monkeypatch.setattr(
+        paired_search, "MuJoCoMountTopologyChecker",
+        lambda *args, **kwargs: SimpleNamespace(
+            config=SimpleNamespace(gripper_overlap_limit_m=.02),
+            state=lambda left, right: next(state_reports),
+            transition=lambda old, current: next(edge_reports)))
+
+    return paired_search.evaluate_pair(task, mount, serial=0)
 
 
 def _full_audit(record):
@@ -197,6 +255,31 @@ def test_missing_or_disconnected_layer_does_not_reset_pair_history():
         blocked, proposed, lambda old, new: old == previous[0])
     assert connected == proposed
     assert not disconnected
+
+
+def test_paired_search_excludes_collision_safe_topology_invalid_state(
+        monkeypatch):
+    result = _evaluate_stubbed_pair(monkeypatch, state_valid=[False])
+
+    assert result["synchronous_pair_coverage"] == 0.
+    assert result["continuous_pair_coverage"] == 0.
+    assert result["pair_candidate_sum"] == 0
+    assert result["disconnected_rows"] == [0]
+    assert result["pair_collision_frames"] == 0
+    assert result["structural_crossing_frames"] == 1
+
+
+def test_paired_search_excludes_collision_safe_topology_invalid_transition(
+        monkeypatch):
+    result = _evaluate_stubbed_pair(
+        monkeypatch, state_valid=[True, True], edge_valid=[False])
+
+    assert result["synchronous_pair_coverage"] == .5
+    assert result["continuous_pair_coverage"] == .5
+    assert result["pair_candidate_sum"] == 2
+    assert result["disconnected_rows"] == [1]
+    assert result["pair_edge_collision_frames"] == 0
+    assert result["structural_edge_crossing_frames"] == 1
 
 
 def test_expanded_pair_grid_is_deterministic_bounded_and_spatially_diverse():

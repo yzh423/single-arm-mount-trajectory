@@ -53,12 +53,18 @@
     "left_accept_coverage": 0.07115646258503401,
     "right_accept_coverage": 0.06843537414965986,
     "both_accept_coverage": 0.06829931972789116,
+    "source_valid_pair_frames": 7350,
+    "invalid_source_frames": 0,
+    "both_accept_coverage_valid_source": 0.06829931972789116,
     "collision_frames": 0,
     "edge_collision_frames": 0,
     "topology_invalid_frames": 0,
     "longest_hold_frames": 3986,
+    "longest_hold_ratio": 0.542312925170068,
     "maximum_position_error_mm": 915.1656284421207,
-    "maximum_orientation_error_deg": 104.54654188986741
+    "maximum_orientation_error_deg": 104.54654188986741,
+    "maximum_accepted_position_error_mm": 0.9999726927543056,
+    "maximum_accepted_orientation_error_deg": 0.4999999999999512
   },
   "dynamics": {
     "maximum_velocity_rad_s": 27.97320663200739,
@@ -67,12 +73,14 @@
   },
   "artifacts": {
     "trajectory_npz": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-12\\InsertSmallPackageIntoMachine\\111812\\baseline\\8-12_InsertSmallPackageIntoMachine_111812_baseline_fixed_time.trajectory.npz",
-      "sha256": "f656d4d89df769048af84d7d98b10a7e121288d7854e7d0a4eb35f09af21b814"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertSmallPackageIntoMachine/111812/baseline/8-12_InsertSmallPackageIntoMachine_111812_baseline_fixed_time.trajectory.npz",
+      "sha256": "f37dc38dae1b4b38a7d99765c8c3750465d3691e4d79d101c0ebacea61dde988"
     },
     "scene_xml": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-12\\InsertSmallPackageIntoMachine\\111812\\baseline\\8-12_InsertSmallPackageIntoMachine_111812_baseline_fixed_time.scene.xml",
-      "sha256": "51113319c29d70cd5cbb395c11667b8b4c00b2c3acf44c7acca807de33bca17c"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertSmallPackageIntoMachine/111812/baseline/8-12_InsertSmallPackageIntoMachine_111812_baseline_fixed_time.scene.xml",
+      "sha256": "e083a0b8055d561afc77dffa3c519c7c58732373b164969944c4cf752c61e176"
     }
-  }
+  },
+  "formal_fingerprint": "ff4bc9b8e66cb1418c90cc79236c247a55ed408f1a1162c35dcbf3acf5bbe047",
+  "search_job_fingerprint": "ad606b3f328f52e91fd16bc41327512801d198aff311255c89306044e9081f8e"
 }

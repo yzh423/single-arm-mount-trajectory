@@ -47,12 +47,18 @@
     "left_accept_coverage": 0.0,
     "right_accept_coverage": 0.0,
     "both_accept_coverage": 0.0,
+    "source_valid_pair_frames": 3180,
+    "invalid_source_frames": 0,
+    "both_accept_coverage_valid_source": 0.0,
     "collision_frames": 0,
     "edge_collision_frames": 0,
     "topology_invalid_frames": 0,
     "longest_hold_frames": 3180,
+    "longest_hold_ratio": 1.0,
     "maximum_position_error_mm": 534.6416563780276,
-    "maximum_orientation_error_deg": 179.99943590918681
+    "maximum_orientation_error_deg": 179.99943590918681,
+    "maximum_accepted_position_error_mm": null,
+    "maximum_accepted_orientation_error_deg": null
   },
   "dynamics": {
     "maximum_velocity_rad_s": 0.0,
@@ -61,12 +67,14 @@
   },
   "artifacts": {
     "trajectory_npz": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\WaterSoluble_AluminumPouch\\160201\\horizontal_wall\\8-11_WaterSoluble_AluminumPouch_160201_horizontal_wall_fixed_time.trajectory.npz",
-      "sha256": "f5b51025bece45de571031e1054735854fe8d5099f93f34a87a087016d9ac658"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/160201/horizontal_wall/8-11_WaterSoluble_AluminumPouch_160201_horizontal_wall_fixed_time.trajectory.npz",
+      "sha256": "0e2e0b1b8b786755672bd21aa9b92be5e363a59d9548588b14c869c12a38a5af"
     },
     "scene_xml": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\WaterSoluble_AluminumPouch\\160201\\horizontal_wall\\8-11_WaterSoluble_AluminumPouch_160201_horizontal_wall_fixed_time.scene.xml",
-      "sha256": "bf8c60a6df44934b862d81f4c12fb1645315a176fc520aab0ede0bb4d94eb15c"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/160201/horizontal_wall/8-11_WaterSoluble_AluminumPouch_160201_horizontal_wall_fixed_time.scene.xml",
+      "sha256": "f34aaca33aafbdaf8ea60b797922f67f3fd1ef64c9ce46c75f72580bb7788698"
     }
-  }
+  },
+  "formal_fingerprint": "1fb55ecea189e5ce5e5d2d27a5dd0042701a957d0721f0e233ec2f083a3b4f19",
+  "search_job_fingerprint": "badf7af46eb4fc044ac7cc7ec0c9f14f14cc38a59ac1a72d7768c6dbdb49afc0"
 }

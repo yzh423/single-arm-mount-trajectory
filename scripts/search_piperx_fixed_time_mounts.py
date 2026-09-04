@@ -225,7 +225,7 @@ def _load_failure_mask(task_name, row_count):
     path = spec.report_directory / f"{spec.output_stem}.trajectory.npz"
     if not path.exists():
         return np.ones(row_count, dtype=bool)
-    with np.load(path, allow_pickle=True) as payload:
+    with np.load(path, allow_pickle=False) as payload:
         values = ~np.asarray(payload["synchronous_success"], dtype=bool)
     return values if values.shape == (row_count,) else np.ones(row_count, bool)
 

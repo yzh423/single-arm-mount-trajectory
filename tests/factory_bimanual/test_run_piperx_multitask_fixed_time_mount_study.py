@@ -272,6 +272,43 @@ def test_candidate_cache_changes_with_tool_frame_contract():
     assert first != second
 
 
+def test_terminal_checkpoint_requires_exact_job_fingerprint():
+    spec = _spec(0)
+    target_contract = {"left_tool": [1, 0, 0, 0]}
+    expected = study._job_fingerprint(
+        spec, "upright_table", study.STUDY_SEARCH_CONFIG, target_contract)
+    state = {
+        "status": "complete",
+        "selected_mount": {"mode": "upright_table"},
+        "source_sha256": spec.source_sha256,
+        "job_fingerprint": expected,
+    }
+
+    assert study._terminal_checkpoint_reusable(state, expected)
+    assert not study._terminal_checkpoint_reusable(
+        state | {"job_fingerprint": "stale"}, expected)
+    assert not study._terminal_checkpoint_reusable(
+        state | {"selected_mount": None}, expected)
+
+
+def test_search_job_fingerprint_changes_with_tool_contract_and_budget():
+    spec = _spec(0)
+    first = study._job_fingerprint(
+        spec, "upright_table", study.STUDY_SEARCH_CONFIG,
+        {"left_tool": [1, 0, 0, 0]})
+    second = study._job_fingerprint(
+        spec, "upright_table", study.STUDY_SEARCH_CONFIG,
+        {"left_tool": [0, 1, 0, 0]})
+    changed_budget = replace(
+        study.STUDY_SEARCH_CONFIG,
+        coarse_budget=study.STUDY_SEARCH_CONFIG.coarse_budget + 1)
+    third = study._job_fingerprint(
+        spec, "upright_table", changed_budget,
+        {"left_tool": [1, 0, 0, 0]})
+
+    assert len({first, second, third}) == 3
+
+
 def test_funnel_fallback_uses_only_explicit_current_stage_rows():
     old_historical = {
         "mount": {"name": "old-1.5-degree"},

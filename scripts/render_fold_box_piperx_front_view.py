@@ -30,9 +30,13 @@ def main():
         encoding="utf-8"))
     mount = summary["mount"]["xy"]
     front_azimuth_deg = front_azimuth_from_mount(mount["left"], mount["right"])
-    arrays = np.load(REPORT / f"{SOURCE_STEM}.trajectory.npz", allow_pickle=True)
+    arrays = np.load(REPORT / f"{SOURCE_STEM}.trajectory.npz", allow_pickle=False)
     time_s = arrays["time_s"]
-    reasons = arrays["failure_reason"].astype(str)
+    success = arrays["synchronous_success"].astype(bool)
+    try:
+        reasons = arrays["failure_reason"].astype(str)
+    except ValueError:
+        reasons = np.where(success, "ok", "legacy_failure")
     collision = arrays["collision"].astype(bool)
     diagnostics = [FrameDiagnostics(
         index, float(timestamp), str(reasons[index]), str(reasons[index]),
@@ -43,7 +47,7 @@ def main():
         qpos=arrays["qpos"], diagnostics=diagnostics,
         left_targets=arrays["left_target_position"],
         right_targets=arrays["right_target_position"],
-        follow_success=arrays["synchronous_success"].astype(bool),
+        follow_success=success,
         failure_reasons=reasons,
         config=VideoRenderConfig(
             width=1280, height=720, fps=60, trajectory_radius_m=.008,

@@ -47,12 +47,18 @@
     "left_accept_coverage": 0.0,
     "right_accept_coverage": 0.0,
     "both_accept_coverage": 0.0,
+    "source_valid_pair_frames": 5942,
+    "invalid_source_frames": 0,
+    "both_accept_coverage_valid_source": 0.0,
     "collision_frames": 0,
     "edge_collision_frames": 0,
     "topology_invalid_frames": 0,
     "longest_hold_frames": 5942,
+    "longest_hold_ratio": 1.0,
     "maximum_position_error_mm": 1027.9721411054197,
-    "maximum_orientation_error_deg": 179.99665284722585
+    "maximum_orientation_error_deg": 179.99665284722585,
+    "maximum_accepted_position_error_mm": null,
+    "maximum_accepted_orientation_error_deg": null
   },
   "dynamics": {
     "maximum_velocity_rad_s": 0.0,
@@ -61,12 +67,14 @@
   },
   "artifacts": {
     "trajectory_npz": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-12\\PourRawMaterial\\111542\\inverted\\8-12_PourRawMaterial_111542_inverted_fixed_time.trajectory.npz",
-      "sha256": "f48902527d610c23a631c707daddc31edc3e7d680caf2b404d2c48751ad79cc2"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PourRawMaterial/111542/inverted/8-12_PourRawMaterial_111542_inverted_fixed_time.trajectory.npz",
+      "sha256": "f564148e46b97655713b8a012ebface4572e79d7f661bf7995577aac26499422"
     },
     "scene_xml": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-12\\PourRawMaterial\\111542\\inverted\\8-12_PourRawMaterial_111542_inverted_fixed_time.scene.xml",
-      "sha256": "ff587026fd2986c470fcdbf79324952f2f97a52ea916aced3b45179c3c9e453b"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PourRawMaterial/111542/inverted/8-12_PourRawMaterial_111542_inverted_fixed_time.scene.xml",
+      "sha256": "7f728f6e857e9373c1a07c08e386b90346e01fc8df02314d0a7b5097960846d3"
     }
-  }
+  },
+  "formal_fingerprint": "8e3b0eb6962800e94c6dbe4129b43326c04978e1930d9dcdd9cb00b2eedbbf10",
+  "search_job_fingerprint": "c61211a227f6871aa72289945788f3a30951a4c333498411dc493486f24cbb55"
 }

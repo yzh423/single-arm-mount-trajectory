@@ -47,12 +47,18 @@
     "left_accept_coverage": 0.0,
     "right_accept_coverage": 0.0,
     "both_accept_coverage": 0.0,
+    "source_valid_pair_frames": 977,
+    "invalid_source_frames": 0,
+    "both_accept_coverage_valid_source": 0.0,
     "collision_frames": 0,
     "edge_collision_frames": 0,
     "topology_invalid_frames": 0,
     "longest_hold_frames": 977,
+    "longest_hold_ratio": 1.0,
     "maximum_position_error_mm": 606.8001193882394,
-    "maximum_orientation_error_deg": 179.99808243131724
+    "maximum_orientation_error_deg": 179.99808243131724,
+    "maximum_accepted_position_error_mm": null,
+    "maximum_accepted_orientation_error_deg": null
   },
   "dynamics": {
     "maximum_velocity_rad_s": 0.0,
@@ -61,12 +67,14 @@
   },
   "artifacts": {
     "trajectory_npz": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\Fold_Box\\160829\\inverted\\8-11_Fold_Box_160829_inverted_fixed_time.trajectory.npz",
-      "sha256": "a274aebc29f6cf7768bc51b709bc204016d3ec47744db8e8a4f0d459b9eaa1e4"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/160829/inverted/8-11_Fold_Box_160829_inverted_fixed_time.trajectory.npz",
+      "sha256": "65649383e717311a2673c8ed338c672667a602b18077d99f1afcde9729103fe1"
     },
     "scene_xml": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\Fold_Box\\160829\\inverted\\8-11_Fold_Box_160829_inverted_fixed_time.scene.xml",
-      "sha256": "5eba1a5d2b2d703be60eaf8f688a231bc37030bd5b5f8668c128810284980b40"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/160829/inverted/8-11_Fold_Box_160829_inverted_fixed_time.scene.xml",
+      "sha256": "cc44d394f10ad356b80645d21572ffec18b559b69ec63a195a412640ed9862b9"
     }
-  }
+  },
+  "formal_fingerprint": "b304425a1e0a2dab232ff9f4d8b483a2818f707f8587812321b218184ea244b4",
+  "search_job_fingerprint": "1dbf79ad73505327f746eecb518660eb364df7c5f551dbe2e30b75da822b66f1"
 }

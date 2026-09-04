@@ -1,0 +1,9 @@
+-r requirements.txt
+
+# Optional repository-wide single-arm analysis, conversion, and UI tools.
+torch
+PyYAML
+Pillow
+imageio-ffmpeg
+h5py
+PySide6

@@ -1,6 +1,7 @@
 from pathlib import Path
 import json
 
+import factory_bimanual.robot_contracts as contracts
 from factory_bimanual.robot_contracts import ROBOT_CONTRACTS, get_robot_contract
 
 
@@ -67,3 +68,18 @@ def test_contracts_retain_authoritative_native_joint_limits_in_radians():
     for contract in ROBOT_CONTRACTS.values():
         assert len(contract.joint_limits_rad) == contract.dof_per_arm
         assert all(lower < upper for lower, upper in contract.joint_limits_rad)
+
+
+def test_geometry_fingerprint_changes_when_a_mesh_changes(tmp_path):
+    model = tmp_path / "robot.urdf"
+    meshes = tmp_path / "meshes"
+    meshes.mkdir()
+    model.write_text("<robot name='test'/>", encoding="utf-8")
+    mesh = meshes / "link.stl"
+    mesh.write_bytes(b"first")
+
+    before = contracts._geometry_source_sha256(model, (meshes,))
+    mesh.write_bytes(b"second")
+    after = contracts._geometry_source_sha256(model, (meshes,))
+
+    assert before != after

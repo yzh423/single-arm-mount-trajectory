@@ -53,12 +53,18 @@
     "left_accept_coverage": 0.02928953097169998,
     "right_accept_coverage": 0.02968533544429052,
     "both_accept_coverage": 0.02830001979022363,
+    "source_valid_pair_frames": 5053,
+    "invalid_source_frames": 0,
+    "both_accept_coverage_valid_source": 0.02830001979022363,
     "collision_frames": 0,
     "edge_collision_frames": 0,
     "topology_invalid_frames": 0,
     "longest_hold_frames": 2233,
+    "longest_hold_ratio": 0.44191569364733824,
     "maximum_position_error_mm": 548.5142743615997,
-    "maximum_orientation_error_deg": 159.52306131115287
+    "maximum_orientation_error_deg": 159.52306131115287,
+    "maximum_accepted_position_error_mm": 0.9999227673948743,
+    "maximum_accepted_orientation_error_deg": 0.4999999999999809
   },
   "dynamics": {
     "maximum_velocity_rad_s": 89.32928487081267,
@@ -67,12 +73,14 @@
   },
   "artifacts": {
     "trajectory_npz": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\WaterSoluble_AluminumPouch\\160040\\baseline\\8-11_WaterSoluble_AluminumPouch_160040_baseline_fixed_time.trajectory.npz",
-      "sha256": "3f04e7ca7052f4920721299e6a8a7949ef37d243d1b2d1d065afa3840c76ab7f"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/160040/baseline/8-11_WaterSoluble_AluminumPouch_160040_baseline_fixed_time.trajectory.npz",
+      "sha256": "1c4e399962f232384d94389c37bc28fccef2b3d41cabb08b7881118297efc6d7"
     },
     "scene_xml": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\WaterSoluble_AluminumPouch\\160040\\baseline\\8-11_WaterSoluble_AluminumPouch_160040_baseline_fixed_time.scene.xml",
-      "sha256": "85d42f08f432b815570007caf182fc6fdb130c4c1af717135bf8731ff9e38d6f"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/160040/baseline/8-11_WaterSoluble_AluminumPouch_160040_baseline_fixed_time.scene.xml",
+      "sha256": "ce0e2d83572e4b1be40f90ed6a5231c4ba973e205b21c3f7c00fdba35c8aef63"
     }
-  }
+  },
+  "formal_fingerprint": "6d5d2c5f396eedfbf19bfe0d9b801a7d8d44eaf2319a9c3e8e091f1500220c34",
+  "search_job_fingerprint": "fc7954970c3bf182c507276fa192c8fcd01e148281509b4405ca5bb0cc7ac0c7"
 }

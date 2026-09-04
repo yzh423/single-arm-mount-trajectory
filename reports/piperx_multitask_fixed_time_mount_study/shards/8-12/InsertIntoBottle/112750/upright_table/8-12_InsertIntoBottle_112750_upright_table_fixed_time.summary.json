@@ -47,12 +47,18 @@
     "left_accept_coverage": 0.313588850174216,
     "right_accept_coverage": 0.3327526132404181,
     "both_accept_coverage": 0.31097560975609756,
+    "source_valid_pair_frames": 2296,
+    "invalid_source_frames": 0,
+    "both_accept_coverage_valid_source": 0.31097560975609756,
     "collision_frames": 0,
     "edge_collision_frames": 0,
     "topology_invalid_frames": 0,
     "longest_hold_frames": 478,
+    "longest_hold_ratio": 0.20818815331010454,
     "maximum_position_error_mm": 275.49653614614164,
-    "maximum_orientation_error_deg": 65.10436975832866
+    "maximum_orientation_error_deg": 65.10436975832866,
+    "maximum_accepted_position_error_mm": 0.9998893843010622,
+    "maximum_accepted_orientation_error_deg": 0.4999999999999689
   },
   "dynamics": {
     "maximum_velocity_rad_s": 28.885789206080396,
@@ -61,12 +67,14 @@
   },
   "artifacts": {
     "trajectory_npz": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-12\\InsertIntoBottle\\112750\\upright_table\\8-12_InsertIntoBottle_112750_upright_table_fixed_time.trajectory.npz",
-      "sha256": "87cd973a39232cbad4f0bd9c42b471738802681792bc7c7842dab3da7939fa79"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertIntoBottle/112750/upright_table/8-12_InsertIntoBottle_112750_upright_table_fixed_time.trajectory.npz",
+      "sha256": "a3c595d5a403e36ad29221157fe12561e6ca8429c7375500a168a709889c3182"
     },
     "scene_xml": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-12\\InsertIntoBottle\\112750\\upright_table\\8-12_InsertIntoBottle_112750_upright_table_fixed_time.scene.xml",
-      "sha256": "d8043bf6eee6812443f27a87679e66e1fda90a92a0165635f30b7d9af8509f4f"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertIntoBottle/112750/upright_table/8-12_InsertIntoBottle_112750_upright_table_fixed_time.scene.xml",
+      "sha256": "dba0413049c2b21a3ad52e4c5ee95f61e51609f505a74f6337a3cedae5554e4b"
     }
-  }
+  },
+  "formal_fingerprint": "ca570dcec7ece07a4ab90fcd51fc69159e44b35b6cc362274e767ec9af323a5f",
+  "search_job_fingerprint": "88dc43433c46a8d2a5cb7251735a836ec0b5d5b7173253e5461804fd0bdfc17b"
 }

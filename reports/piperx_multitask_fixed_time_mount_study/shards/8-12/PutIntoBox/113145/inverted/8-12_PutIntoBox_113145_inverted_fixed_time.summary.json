@@ -47,12 +47,18 @@
     "left_accept_coverage": 0.0,
     "right_accept_coverage": 0.0,
     "both_accept_coverage": 0.0,
+    "source_valid_pair_frames": 4367,
+    "invalid_source_frames": 437,
+    "both_accept_coverage_valid_source": 0.0,
     "collision_frames": 0,
     "edge_collision_frames": 0,
     "topology_invalid_frames": 0,
     "longest_hold_frames": 4804,
+    "longest_hold_ratio": 1.0,
     "maximum_position_error_mm": 2548.1507848352235,
-    "maximum_orientation_error_deg": 179.99458730026294
+    "maximum_orientation_error_deg": 179.99458730026294,
+    "maximum_accepted_position_error_mm": null,
+    "maximum_accepted_orientation_error_deg": null
   },
   "dynamics": {
     "maximum_velocity_rad_s": 0.0,
@@ -61,12 +67,14 @@
   },
   "artifacts": {
     "trajectory_npz": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-12\\PutIntoBox\\113145\\inverted\\8-12_PutIntoBox_113145_inverted_fixed_time.trajectory.npz",
-      "sha256": "ed9306b6d2770da80be25e4e61addcce4682a61220bc6d93505b3aad11107af7"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PutIntoBox/113145/inverted/8-12_PutIntoBox_113145_inverted_fixed_time.trajectory.npz",
+      "sha256": "b8886c5f4080f9d63a35e43fd149d9955d72453ad1bc0fd694b346fe5a49a83e"
     },
     "scene_xml": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-12\\PutIntoBox\\113145\\inverted\\8-12_PutIntoBox_113145_inverted_fixed_time.scene.xml",
-      "sha256": "0874922510956d083f7331808740c2be88d05901bfeef4272e8afffe0d933ef4"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PutIntoBox/113145/inverted/8-12_PutIntoBox_113145_inverted_fixed_time.scene.xml",
+      "sha256": "daf4fe2a8466e9b4da1a97465fc9256d82041c9b7ed38112b862b346c31764e5"
     }
-  }
+  },
+  "formal_fingerprint": "c94524f05a347cc18322b30c25efcf85d9ce32ce609ce3bba8c8c57ea20259b5",
+  "search_job_fingerprint": "a00fe9b14cf6c0c26668f4a5846d467bfb26f7835ea16b5b718715f2f12e39c4"
 }

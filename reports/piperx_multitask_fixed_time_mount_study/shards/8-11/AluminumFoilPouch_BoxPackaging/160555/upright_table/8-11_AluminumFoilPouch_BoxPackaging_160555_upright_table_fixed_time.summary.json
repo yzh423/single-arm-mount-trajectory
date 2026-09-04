@@ -47,12 +47,18 @@
     "left_accept_coverage": 0.4895431472081218,
     "right_accept_coverage": 0.489746192893401,
     "both_accept_coverage": 0.4873096446700508,
+    "source_valid_pair_frames": 4925,
+    "invalid_source_frames": 0,
+    "both_accept_coverage_valid_source": 0.4873096446700508,
     "collision_frames": 0,
     "edge_collision_frames": 0,
     "topology_invalid_frames": 0,
     "longest_hold_frames": 1406,
+    "longest_hold_ratio": 0.2854822335025381,
     "maximum_position_error_mm": 403.96176468125077,
-    "maximum_orientation_error_deg": 85.94921492931557
+    "maximum_orientation_error_deg": 85.94921492931557,
+    "maximum_accepted_position_error_mm": 0.9999840861486442,
+    "maximum_accepted_orientation_error_deg": 0.49798338915119944
   },
   "dynamics": {
     "maximum_velocity_rad_s": 27.9620283610765,
@@ -61,12 +67,14 @@
   },
   "artifacts": {
     "trajectory_npz": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\AluminumFoilPouch_BoxPackaging\\160555\\upright_table\\8-11_AluminumFoilPouch_BoxPackaging_160555_upright_table_fixed_time.trajectory.npz",
-      "sha256": "5167bf56a4f5611304bd2507f2170e5602a92c60bccc3c04c37978e7f2c32ae0"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/AluminumFoilPouch_BoxPackaging/160555/upright_table/8-11_AluminumFoilPouch_BoxPackaging_160555_upright_table_fixed_time.trajectory.npz",
+      "sha256": "c0777bcf8411edd792558a72faa8c37a946bf385b9e5cc1d920b8be246e713ba"
     },
     "scene_xml": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\AluminumFoilPouch_BoxPackaging\\160555\\upright_table\\8-11_AluminumFoilPouch_BoxPackaging_160555_upright_table_fixed_time.scene.xml",
-      "sha256": "2676f4d726080c269c9b8a6b2babe9a86b0cd2bc2dd98df39ccf3a43a8b31c90"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/AluminumFoilPouch_BoxPackaging/160555/upright_table/8-11_AluminumFoilPouch_BoxPackaging_160555_upright_table_fixed_time.scene.xml",
+      "sha256": "aae1effbfc7db3190a5149af2c08370a279d46d9178bdb348a739314bd7ff99d"
     }
-  }
+  },
+  "formal_fingerprint": "8cee9e5ba2d5df6565f3599f2f7e2c3bf5663067c3c84287841601ff43d39d29",
+  "search_job_fingerprint": "94767d923245287e3e04ef440c5c1d8be8b232b74cfca352072351a90d7ce273"
 }

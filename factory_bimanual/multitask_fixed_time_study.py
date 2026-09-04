@@ -124,6 +124,27 @@ def _array(payload: Mapping, name: str, shape: tuple[int, ...]) -> np.ndarray:
     return value
 
 
+def _source_timestamps(path: Path, count: int) -> np.ndarray:
+    """Read the authoritative prefix of the recorded source timeline."""
+    values = []
+    with Path(path).open("r", encoding="utf-8-sig", newline="") as stream:
+        for row in csv.DictReader(stream):
+            if len(values) == count:
+                break
+            values.append(float(row["t"]))
+    if len(values) != count:
+        raise ValueError("raw CSV contains fewer timestamps than the shard")
+    timestamps = np.asarray(values, dtype=float)
+    return timestamps - timestamps[0]
+
+
+def _finite_array(payload: Mapping, name: str, shape: tuple[int, ...]) -> np.ndarray:
+    value = _array(payload, name, shape).astype(float)
+    if not np.all(np.isfinite(value)):
+        raise ValueError(f"{name} must contain only finite values")
+    return value
+
+
 def validate_shard(payload: Mapping, spec: TrajectorySpec, mode: str):
     """Validate fixed-time identity and mandatory per-frame evidence."""
     if payload.get("schema") != SHARD_SCHEMA:
@@ -133,27 +154,60 @@ def validate_shard(payload: Mapping, spec: TrajectorySpec, mode: str):
     if payload.get("retiming_applied") is not False:
         raise ValueError("fixed-time shard must not apply retiming")
     count = spec.row_count
-    source_time = _array(payload, "source_time_s", (count,)).astype(float)
-    fixed_time = _array(payload, "fixed_time_s", (count,)).astype(float)
+    source_time = _finite_array(payload, "source_time_s", (count,))
+    fixed_time = _finite_array(payload, "fixed_time_s", (count,))
     if not np.array_equal(fixed_time, source_time):
         raise ValueError("fixed-time schedule must equal source timestamps")
     if not np.all(np.diff(source_time) > 0):
         raise ValueError("source timestamps must be strictly increasing")
+    if not np.array_equal(source_time, _source_timestamps(spec.path, count)):
+        raise ValueError("source timestamps must equal the raw CSV timeline")
     for name in ("left_accept", "right_accept", "both_accept", "collision",
-                 "edge_collision", "topology_valid"):
+                 "edge_collision", "topology_valid", "left_source_valid",
+                 "right_source_valid"):
         _array(payload, name, (count,))
     left = np.asarray(payload["left_accept"], bool)
     right = np.asarray(payload["right_accept"], bool)
     both = np.asarray(payload["both_accept"], bool)
+    left_source_valid = np.asarray(payload["left_source_valid"], bool)
+    right_source_valid = np.asarray(payload["right_source_valid"], bool)
     if not np.array_equal(both, left & right):
         raise ValueError("both_accept must equal left_accept and right_accept")
-    _array(payload, "position_error_m", (count, 2))
-    _array(payload, "orientation_error_rad", (count, 2))
-    velocity = np.asarray(payload.get("velocity_rad_s"))
-    acceleration = np.asarray(payload.get("acceleration_rad_s2"))
+    position = _finite_array(payload, "position_error_m", (count, 2))
+    orientation = _finite_array(payload, "orientation_error_rad", (count, 2))
+    if np.any(left & ~left_source_valid) or np.any(right & ~right_source_valid):
+        raise ValueError("accepted frames must use source-valid TCP poses")
+    expected_left = (left_source_valid
+                     & (position[:, 0] <= 0.001 + 1e-12)
+                     & (orientation[:, 0] <= np.deg2rad(0.5) + 1e-12))
+    expected_right = (right_source_valid
+                      & (position[:, 1] <= 0.001 + 1e-12)
+                      & (orientation[:, 1] <= np.deg2rad(0.5) + 1e-12))
+    if not (np.array_equal(left, expected_left)
+            and np.array_equal(right, expected_right)):
+        raise ValueError("accept flags must exactly match the 1 mm / 0.5 degree pose tolerances")
+    collision = np.asarray(payload["collision"], dtype=bool)
+    edge_collision = np.asarray(payload["edge_collision"], dtype=bool)
+    topology_valid = np.asarray(payload["topology_valid"], dtype=bool)
+    if np.any(collision):
+        raise ValueError("fixed-time shard must be collision-free")
+    if np.any(edge_collision):
+        raise ValueError("fixed-time shard must be edge-collision-free")
+    if not np.all(topology_valid):
+        raise ValueError("fixed-time shard must be topology-valid")
+    qpos = np.asarray(payload.get("qpos"), dtype=float)
+    if qpos.ndim != 2 or qpos.shape[0] != count:
+        raise ValueError("qpos evidence shape is invalid")
+    if not np.all(np.isfinite(qpos)):
+        raise ValueError("qpos must contain only finite values")
+    velocity = np.asarray(payload.get("velocity_rad_s"), dtype=float)
+    acceleration = np.asarray(payload.get("acceleration_rad_s2"), dtype=float)
     if (velocity.ndim != 2 or velocity.shape[0] != count
             or acceleration.shape != velocity.shape):
         raise ValueError("velocity and acceleration evidence shapes are invalid")
+    if not (np.all(np.isfinite(velocity))
+            and np.all(np.isfinite(acceleration))):
+        raise ValueError("velocity and acceleration must contain only finite values")
     return payload
 
 

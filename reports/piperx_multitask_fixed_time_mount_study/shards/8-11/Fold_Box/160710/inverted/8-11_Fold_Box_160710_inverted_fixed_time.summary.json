@@ -47,12 +47,18 @@
     "left_accept_coverage": 0.0,
     "right_accept_coverage": 0.0,
     "both_accept_coverage": 0.0,
+    "source_valid_pair_frames": 2506,
+    "invalid_source_frames": 0,
+    "both_accept_coverage_valid_source": 0.0,
     "collision_frames": 0,
     "edge_collision_frames": 0,
     "topology_invalid_frames": 0,
     "longest_hold_frames": 2506,
+    "longest_hold_ratio": 1.0,
     "maximum_position_error_mm": 717.3656017952692,
-    "maximum_orientation_error_deg": 179.99495091079612
+    "maximum_orientation_error_deg": 179.99495091079612,
+    "maximum_accepted_position_error_mm": null,
+    "maximum_accepted_orientation_error_deg": null
   },
   "dynamics": {
     "maximum_velocity_rad_s": 0.0,
@@ -61,12 +67,14 @@
   },
   "artifacts": {
     "trajectory_npz": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\Fold_Box\\160710\\inverted\\8-11_Fold_Box_160710_inverted_fixed_time.trajectory.npz",
-      "sha256": "06b861659468a49d289d4bbca632de5d0f889e9517c1e1a65d03724fb2220206"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/160710/inverted/8-11_Fold_Box_160710_inverted_fixed_time.trajectory.npz",
+      "sha256": "d894ea030cd9c26cb8799e2ff5ec2a1a480f4a237a0577c7149b699a3d4d99ed"
     },
     "scene_xml": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\Fold_Box\\160710\\inverted\\8-11_Fold_Box_160710_inverted_fixed_time.scene.xml",
-      "sha256": "4e570cde9e268fab5d0e4c1329928165e183cdbe738b7a97f8d63232c7b3b059"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/160710/inverted/8-11_Fold_Box_160710_inverted_fixed_time.scene.xml",
+      "sha256": "84a509e0b3df8d89c76773bff9e128e1e3ac0f95efffaa284d984e7190b771eb"
     }
-  }
+  },
+  "formal_fingerprint": "3d92c41db7615bd69aa408021a7bb8e4762d1f7667e572d08be1c2ca97f32666",
+  "search_job_fingerprint": "2ab59a2c035289dbf56330d77b3c13354ed11a978f09a4e2211872c5b80a96f6"
 }

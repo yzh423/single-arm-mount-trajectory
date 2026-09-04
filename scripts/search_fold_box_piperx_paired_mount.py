@@ -273,9 +273,8 @@ def evaluate_pair(task, mount, serial, *, uniform_count=14,
         gripper_overlap_violation_frames += int(structural_blocked and any(
             report.gripper_overlap_m > topology.config.gripper_overlap_limit_m
             for _, report in topology_reports))
-        # Projection crossing is diagnostic only. 3-D MuJoCo contact is the
-        # safety boundary; a projected overlap can be vertically separated.
-        valid_pairs = collision_safe_pairs
+        valid_pairs = [pair for pair, report in topology_reports
+                       if report.valid]
         pair_counts.append(len(valid_pairs))
         if not valid_pairs:
             for _pair, report in pair_reports:
@@ -289,6 +288,7 @@ def evaluate_pair(task, mount, serial, *, uniform_count=14,
             transition_safe = valid_pairs
         else:
             collision_edges = []
+            valid_edges = []
             topology_edges = []
             for previous in previous_pairs:
                 old = (previous[0].q, previous[1].q)
@@ -305,7 +305,9 @@ def evaluate_pair(task, mount, serial, *, uniform_count=14,
                         maximum_gripper_overlap_m,
                         report.gripper_overlap_m)
                     topology_edges.append(report)
-            transition_safe = {id(pair) for _, pair in collision_edges}
+                    if report.valid:
+                        valid_edges.append((previous, pair))
+            transition_safe = {id(pair) for _, pair in valid_edges}
             transition_safe = [pair for pair in valid_pairs
                                if id(pair) in transition_safe]
             if not transition_safe:
@@ -410,10 +412,6 @@ def _full_pose_errors(model, qpos, task, mapped):
     data = mujoco.MjData(model)
     actual = {}; position_error = {}; orientation_error = {}
     for side in ("left", "right"):
-        joint_ids = [mujoco.mj_name2id(
-            model, mujoco.mjtObj.mjOBJ_JOINT, f"{side}_joint{i}")
-            for i in range(1, 7)]
-        qids = np.asarray(model.jnt_qposadr[joint_ids], dtype=int)
         site_id = mujoco.mj_name2id(
             model, mujoco.mjtObj.mjOBJ_SITE, f"{side}_tcp")
         reached = np.zeros((len(qpos), 7)); pe = np.zeros(len(qpos))

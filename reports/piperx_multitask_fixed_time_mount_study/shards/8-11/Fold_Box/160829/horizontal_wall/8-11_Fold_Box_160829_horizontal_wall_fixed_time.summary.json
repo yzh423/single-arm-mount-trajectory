@@ -47,12 +47,18 @@
     "left_accept_coverage": 0.0,
     "right_accept_coverage": 0.0,
     "both_accept_coverage": 0.0,
+    "source_valid_pair_frames": 977,
+    "invalid_source_frames": 0,
+    "both_accept_coverage_valid_source": 0.0,
     "collision_frames": 0,
     "edge_collision_frames": 0,
     "topology_invalid_frames": 0,
     "longest_hold_frames": 977,
+    "longest_hold_ratio": 1.0,
     "maximum_position_error_mm": 442.7434790612337,
-    "maximum_orientation_error_deg": 179.477635654865
+    "maximum_orientation_error_deg": 179.477635654865,
+    "maximum_accepted_position_error_mm": null,
+    "maximum_accepted_orientation_error_deg": null
   },
   "dynamics": {
     "maximum_velocity_rad_s": 0.0,
@@ -61,12 +67,14 @@
   },
   "artifacts": {
     "trajectory_npz": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\Fold_Box\\160829\\horizontal_wall\\8-11_Fold_Box_160829_horizontal_wall_fixed_time.trajectory.npz",
-      "sha256": "bbbcd8382da73d54109cf9cc5dda529b0ab3ae217f4753d0479bc2794dc57603"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/160829/horizontal_wall/8-11_Fold_Box_160829_horizontal_wall_fixed_time.trajectory.npz",
+      "sha256": "17ab10d1583eef5c49822f2bd2bac30e41274781f8cf12d2ce8a8a00586030c7"
     },
     "scene_xml": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\Fold_Box\\160829\\horizontal_wall\\8-11_Fold_Box_160829_horizontal_wall_fixed_time.scene.xml",
-      "sha256": "bfa604247078b8658ca86f3006b56736d23b45bce4d48e46097c40f2a37b59fb"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/160829/horizontal_wall/8-11_Fold_Box_160829_horizontal_wall_fixed_time.scene.xml",
+      "sha256": "eab880deb93a1b9ad70384bcc585186e6ea1892c9be077694149a1148a6b9063"
     }
-  }
+  },
+  "formal_fingerprint": "21ed88eafb9739deaeb537ac38f98a504326ff915e4b34538b93187dfe740efa",
+  "search_job_fingerprint": "860970489f4ef45edf0daf0501b941ef6b762924bdfab022c6e03b1a0269a76a"
 }

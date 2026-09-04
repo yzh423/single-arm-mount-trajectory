@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from dataclasses import asdict, dataclass
 import json
+import os
 from pathlib import Path
 import xml.etree.ElementTree as ET
 
@@ -154,6 +155,13 @@ def build_same_model_scene(
     # retain their source names, so remove only an attach-added side prefix
     # when the corresponding cached file exists.
     mesh_directory = Path(scene.meshdir)
+    compiler = root.find("compiler")
+    if compiler is None:
+        raise ValueError("generated scene is missing its compiler element")
+    compiler.set(
+        "meshdir",
+        Path(os.path.relpath(mesh_directory, output_path.parent)).as_posix(),
+    )
     for mesh in root.findall(".//asset/mesh"):
         filename = mesh.get("file", "")
         for side in ("left", "right"):
@@ -178,8 +186,9 @@ def build_same_model_scene(
     )
     manifest = SceneManifest(
         robot=contract.name,
-        source_urdf=str(contract.source_urdf),
-        output_xml=str(output_path),
+        source_urdf=Path(os.path.relpath(
+            contract.source_urdf, output_path.parent)).as_posix(),
+        output_xml=output_path.name,
         spacing_m=float(spacing_m),
         table_height_m=float(table_height_m),
         left_base_position=(float(xy["left"][0]), float(xy["left"][1]),

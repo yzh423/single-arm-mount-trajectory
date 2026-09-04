@@ -47,12 +47,18 @@
     "left_accept_coverage": 0.0,
     "right_accept_coverage": 0.0,
     "both_accept_coverage": 0.0,
+    "source_valid_pair_frames": 1964,
+    "invalid_source_frames": 0,
+    "both_accept_coverage_valid_source": 0.0,
     "collision_frames": 0,
     "edge_collision_frames": 0,
     "topology_invalid_frames": 0,
     "longest_hold_frames": 1964,
+    "longest_hold_ratio": 1.0,
     "maximum_position_error_mm": 617.1645502000003,
-    "maximum_orientation_error_deg": 179.99222671039283
+    "maximum_orientation_error_deg": 179.99222671039283,
+    "maximum_accepted_position_error_mm": null,
+    "maximum_accepted_orientation_error_deg": null
   },
   "dynamics": {
     "maximum_velocity_rad_s": 0.0,
@@ -61,12 +67,14 @@
   },
   "artifacts": {
     "trajectory_npz": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\Fold_Box\\160754\\inverted\\8-11_Fold_Box_160754_inverted_fixed_time.trajectory.npz",
-      "sha256": "3d8003158c6855e51d52fc6cfc313aed8f96aa3faf582c552313bcf48f77156e"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/160754/inverted/8-11_Fold_Box_160754_inverted_fixed_time.trajectory.npz",
+      "sha256": "4c1687fb6c07957d579b3e1fd4baa09924b53625a7d22adc3723df6444c3fba9"
     },
     "scene_xml": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\Fold_Box\\160754\\inverted\\8-11_Fold_Box_160754_inverted_fixed_time.scene.xml",
-      "sha256": "4e570cde9e268fab5d0e4c1329928165e183cdbe738b7a97f8d63232c7b3b059"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/160754/inverted/8-11_Fold_Box_160754_inverted_fixed_time.scene.xml",
+      "sha256": "84a509e0b3df8d89c76773bff9e128e1e3ac0f95efffaa284d984e7190b771eb"
     }
-  }
+  },
+  "formal_fingerprint": "2267d0f9c2069a49d66ae403ae08c78de16544c6aa266ddf2d913cc73f29213b",
+  "search_job_fingerprint": "b12dffb1d4346683afb2a810670b1ec199071fff8f9746a84f0d3f3492fafda1"
 }

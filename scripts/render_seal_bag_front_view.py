@@ -33,9 +33,13 @@ def main(argv=None) -> None:
     source_stem = args.source_stem
     report = report_directory_for_robot(args.robot)
     output = report / f"{args.output_stem}.mp4"
-    arrays = np.load(report / f"{source_stem}.trajectory.npz", allow_pickle=True)
+    arrays = np.load(report / f"{source_stem}.trajectory.npz", allow_pickle=False)
     time_s = arrays["time_s"]
-    reasons = arrays["failure_reason"].astype(str)
+    success = arrays["synchronous_success"].astype(bool)
+    try:
+        reasons = arrays["failure_reason"].astype(str)
+    except ValueError:
+        reasons = np.where(success, "ok", "legacy_failure")
     collision = arrays["collision"].astype(bool)
     diagnostics = [FrameDiagnostics(
         index, float(timestamp), str(reasons[index]), str(reasons[index]),
@@ -46,7 +50,7 @@ def main(argv=None) -> None:
         qpos=arrays["qpos"], diagnostics=diagnostics,
         left_targets=arrays["left_target_position"],
         right_targets=arrays["right_target_position"],
-        follow_success=arrays["synchronous_success"].astype(bool),
+        follow_success=success,
         failure_reasons=reasons,
         config=VideoRenderConfig(
             width=1280, height=720, fps=60, trajectory_radius_m=.008,

@@ -47,12 +47,18 @@
     "left_accept_coverage": 0.16675406397482959,
     "right_accept_coverage": 0.16570529627687466,
     "both_accept_coverage": 0.16518091242789723,
+    "source_valid_pair_frames": 1907,
+    "invalid_source_frames": 0,
+    "both_accept_coverage_valid_source": 0.16518091242789723,
     "collision_frames": 0,
     "edge_collision_frames": 0,
     "topology_invalid_frames": 0,
     "longest_hold_frames": 1382,
+    "longest_hold_ratio": 0.724698479286838,
     "maximum_position_error_mm": 1514.901433418512,
-    "maximum_orientation_error_deg": 147.9411435012418
+    "maximum_orientation_error_deg": 147.9411435012418,
+    "maximum_accepted_position_error_mm": 0.9993543930136568,
+    "maximum_accepted_orientation_error_deg": 0.4477573034826707
   },
   "dynamics": {
     "maximum_velocity_rad_s": 28.127803138931434,
@@ -61,12 +67,14 @@
   },
   "artifacts": {
     "trajectory_npz": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\Screw_Cap\\162818\\horizontal_wall\\8-11_Screw_Cap_162818_horizontal_wall_fixed_time.trajectory.npz",
-      "sha256": "c2253e2259f73c37ab89acf238c24232a36c115982d5fbffcd1ed6c6789cdccf"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Screw_Cap/162818/horizontal_wall/8-11_Screw_Cap_162818_horizontal_wall_fixed_time.trajectory.npz",
+      "sha256": "e07806feb69470167269b0e316db9dcd0c3904fce28fe2b9f7ab18e7c4d958a7"
     },
     "scene_xml": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\Screw_Cap\\162818\\horizontal_wall\\8-11_Screw_Cap_162818_horizontal_wall_fixed_time.scene.xml",
-      "sha256": "c02e2d46dfa9b18d438dccc5e702dfd7d3434a16cd4ad4abe8a6aa6f637a1f41"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Screw_Cap/162818/horizontal_wall/8-11_Screw_Cap_162818_horizontal_wall_fixed_time.scene.xml",
+      "sha256": "ade2635faaec54a273e870c9534dd2913c4d0095c528d70289cb98c19b1a26ef"
     }
-  }
+  },
+  "formal_fingerprint": "ababa3d239908f90beea1bd0b635c2d748ae4fa466737c982a0a6551e829f310",
+  "search_job_fingerprint": "1b83141acc2e163d8263707da011e7611c1c6c6e35cb006ca1f58bb8c585e7b8"
 }

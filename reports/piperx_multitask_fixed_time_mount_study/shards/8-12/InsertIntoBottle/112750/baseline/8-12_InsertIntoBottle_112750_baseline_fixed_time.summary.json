@@ -53,12 +53,18 @@
     "left_accept_coverage": 0.26306620209059234,
     "right_accept_coverage": 0.2748257839721254,
     "both_accept_coverage": 0.26306620209059234,
+    "source_valid_pair_frames": 2296,
+    "invalid_source_frames": 0,
+    "both_accept_coverage_valid_source": 0.26306620209059234,
     "collision_frames": 0,
     "edge_collision_frames": 0,
     "topology_invalid_frames": 0,
     "longest_hold_frames": 919,
+    "longest_hold_ratio": 0.40026132404181186,
     "maximum_position_error_mm": 228.896465086916,
-    "maximum_orientation_error_deg": 72.71761718536672
+    "maximum_orientation_error_deg": 72.71761718536672,
+    "maximum_accepted_position_error_mm": 0.9998085360018026,
+    "maximum_accepted_orientation_error_deg": 0.4999999999980351
   },
   "dynamics": {
     "maximum_velocity_rad_s": 27.33056209868724,
@@ -67,12 +73,14 @@
   },
   "artifacts": {
     "trajectory_npz": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-12\\InsertIntoBottle\\112750\\baseline\\8-12_InsertIntoBottle_112750_baseline_fixed_time.trajectory.npz",
-      "sha256": "cd7db4cab37c6d682c922761f3beb9d71cae81ca404ffcb48067c1e0a60377c6"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertIntoBottle/112750/baseline/8-12_InsertIntoBottle_112750_baseline_fixed_time.trajectory.npz",
+      "sha256": "e9f1033aef8bbb43cd148d989736afb0e0629544e411fa27d36b861abbad58f5"
     },
     "scene_xml": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-12\\InsertIntoBottle\\112750\\baseline\\8-12_InsertIntoBottle_112750_baseline_fixed_time.scene.xml",
-      "sha256": "51f4d9b4f18af4f46f49c83dee492902ea292ef239d95217b4b109ff82c5ee76"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertIntoBottle/112750/baseline/8-12_InsertIntoBottle_112750_baseline_fixed_time.scene.xml",
+      "sha256": "e4cddd8419bfd378e47d1a513e9b03ea77df956e551ada11bf657937a832fd19"
     }
-  }
+  },
+  "formal_fingerprint": "19433ad445473940eeb668a64f61b62331792fe7528fdb65c3339179f9e62046",
+  "search_job_fingerprint": "264636013d9a6c67e425f31a7fb0be527cc8ec6bac1b4492bc332f64d13e6830"
 }

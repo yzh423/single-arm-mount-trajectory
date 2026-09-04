@@ -1,7 +1,12 @@
 import numpy as np
 import pytest
+import csv
 from types import SimpleNamespace
+from pathlib import Path
 import scripts.build_piperx_multitask_fixed_time_bundle as bundle
+
+from factory_bimanual.multitask_fixed_time_study import TrajectorySpec
+from factory_bimanual.task_family import TaskFamily
 
 from scripts.build_piperx_multitask_fixed_time_bundle import (
     _piperx_collision_checker_kwargs,
@@ -193,19 +198,73 @@ def test_recovery_waits_until_preinitialized_follow_segment_begins():
     assert bundle._recovery_allowed(40, initialization_row=40)
 
 
-def test_formal_shard_cache_requires_current_solver_protocol(tmp_path):
+def test_formal_shard_cache_requires_exact_input_fingerprint(tmp_path):
     summary = tmp_path / "trajectory.summary.json"
     summary.write_text(
         '{"schema":"piperx-multitask-fixed-time-summary-v1"}',
         encoding="utf-8")
 
-    assert not bundle._formal_summary_reusable(summary)
+    assert not bundle._formal_summary_reusable(summary, "expected")
 
     summary.write_text(
         '{"schema":"piperx-multitask-fixed-time-summary-v1",'
-        '"solver_protocol":"piperx-fixed-time-paired-topology-safe-recovery-v3"}',
+        '"solver_protocol":"piperx-fixed-time-paired-topology-safe-recovery-v3",'
+        '"formal_fingerprint":"different"}',
         encoding="utf-8")
-    assert bundle._formal_summary_reusable(summary)
+    assert not bundle._formal_summary_reusable(summary, "expected")
+
+    summary.write_text(
+        '{"schema":"piperx-multitask-fixed-time-summary-v1",'
+        '"solver_protocol":"piperx-fixed-time-paired-topology-safe-recovery-v3",'
+        '"formal_fingerprint":"expected"}',
+        encoding="utf-8")
+    assert bundle._formal_summary_reusable(summary, "expected")
+
+
+def test_artifact_resolver_rejects_absolute_and_parent_escape_paths(tmp_path):
+    with pytest.raises(ValueError, match="repository-relative"):
+        bundle._resolve_artifact(tmp_path / "outside.npz")
+    with pytest.raises(ValueError, match="outside repository"):
+        bundle._resolve_artifact("../outside.npz")
+
+
+def _summary_contract_fixture():
+    spec = TrajectorySpec(
+        family=TaskFamily("8-11", "Fold_Box"), take="161044",
+        path=Path("source.csv"), source_sha256="a" * 64, row_count=3)
+    shard = {
+        "trajectory": spec.key, "family": spec.family.key,
+        "take": spec.take, "mode": "upright_table",
+    }
+    summary = {
+        "schema": "piperx-multitask-fixed-time-summary-v1",
+        "solver_protocol": bundle.FORMAL_SOLVER_PROTOCOL,
+        "formal_fingerprint": "fingerprint",
+        "trajectory": spec.key, "family": spec.family.key,
+        "take": spec.take, "mode": "upright_table",
+        "timing_mode": "fixed_source_time", "retiming_applied": False,
+        "source_sha256": spec.source_sha256,
+    }
+    return spec, shard, summary
+
+
+@pytest.mark.parametrize(
+    ("field", "bad_value"),
+    [
+        ("schema", "old"), ("solver_protocol", "old"),
+        ("formal_fingerprint", "stale"), ("trajectory", "wrong"),
+        ("family", "wrong"), ("take", "000000"),
+        ("mode", "inverted"), ("timing_mode", "retimed"),
+        ("retiming_applied", True), ("source_sha256", "b" * 64),
+    ],
+)
+def test_summary_contract_rejects_identity_or_provenance_drift(field, bad_value):
+    spec, shard, summary = _summary_contract_fixture()
+    summary[field] = bad_value
+
+    with pytest.raises(ValueError, match="summary contract"):
+        bundle._validate_summary_contract(
+            summary, shard, spec, expected_fingerprint="fingerprint")
 
 
 def test_aggregate_recomputes_accept_and_collision_counts():
@@ -216,6 +275,8 @@ def test_aggregate_recomputes_accept_and_collision_counts():
         "collision": np.asarray([False, True, False, False]),
         "edge_collision": np.asarray([False, False, True, False]),
         "topology_valid": np.asarray([True, True, False, True]),
+        "left_source_valid": np.ones(4, dtype=bool),
+        "right_source_valid": np.asarray([True, True, False, True]),
         "position_error_m": np.asarray([
             [0.0, 0.0], [0.001, 0.002], [0.003, 0.004], [0.0, 0.0]]),
         "orientation_error_rad": np.zeros((4, 2)),
@@ -229,8 +290,13 @@ def test_aggregate_recomputes_accept_and_collision_counts():
     assert row["collision_frames"] == 1
     assert row["edge_collision_frames"] == 1
     assert row["topology_invalid_frames"] == 1
+    assert row["invalid_source_frames"] == 1
+    assert row["source_valid_pair_frames"] == 3
+    assert row["both_accept_coverage_valid_source"] == pytest.approx(2 / 3)
     assert row["longest_hold_frames"] == 2
+    assert row["longest_hold_ratio"] == pytest.approx(.5)
     assert row["maximum_position_error_mm"] == 4.0
+    assert row["maximum_accepted_position_error_mm"] == 0.0
 
 
 def test_shard_arrays_keep_source_time_and_separate_pose_from_dynamics():
@@ -245,7 +311,9 @@ def test_shard_arrays_keep_source_time_and_separate_pose_from_dynamics():
         mode="upright_table", source_time_s=source_time, qpos=qpos,
         position_error_m=position, orientation_error_rad=orientation,
         collision=np.zeros(3, bool), edge_collision=np.zeros(3, bool),
-        topology_valid=np.ones(3, bool), velocity_rad_s=velocity,
+        topology_valid=np.ones(3, bool),
+        left_source_valid=np.ones(3, bool),
+        right_source_valid=np.ones(3, bool), velocity_rad_s=velocity,
         acceleration_rad_s2=acceleration)
 
     np.testing.assert_array_equal(payload["fixed_time_s"], source_time)
@@ -253,3 +321,84 @@ def test_shard_arrays_keep_source_time_and_separate_pose_from_dynamics():
     np.testing.assert_array_equal(payload["both_accept"], [True, True, False])
     assert payload["retiming_applied"] is False
     assert np.max(payload["velocity_rad_s"]) == 99.0
+
+
+def test_aggregate_csv_must_exactly_match_recomputed_shard_rows(tmp_path):
+    aggregate = tmp_path / "aggregate.csv"
+    expected = [{
+        "trajectory": "8-11/Fold_Box/161044",
+        "mode": "upright_table",
+        "source_frames": 3,
+        "both_accept_coverage": 1.0 / 3.0,
+        "limits_passed": False,
+        "maximum_accepted_position_error_mm": None,
+    }]
+    with aggregate.open("w", encoding="utf-8", newline="") as stream:
+        writer = csv.DictWriter(stream, fieldnames=list(expected[0]))
+        writer.writeheader()
+        writer.writerows(expected)
+
+    bundle._validate_aggregate_csv(aggregate, expected)
+
+    aggregate.write_text(
+        aggregate.read_text(encoding="utf-8").replace(
+            "0.3333333333333333", "0.5"),
+        encoding="utf-8")
+    with pytest.raises(ValueError, match="aggregate CSV drift"):
+        bundle._validate_aggregate_csv(aggregate, expected)
+
+
+def test_dynamics_summary_is_recomputed_from_formal_arrays():
+    payload = {
+        "velocity_rad_s": np.asarray([[0.0, 1.1], [0.2, 0.3]]),
+        "acceleration_rad_s2": np.asarray([[0.0, 3.0], [4.1, 0.3]]),
+    }
+
+    assert bundle._dynamics_summary(payload) == {
+        "maximum_velocity_rad_s": 1.1,
+        "maximum_acceleration_rad_s2": 4.1,
+        "limits_passed": False,
+    }
+
+
+def _formal_evidence_fixture():
+    count = 2
+    actual = np.asarray([
+        [0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0],
+        [0.1, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0],
+    ])
+    return {
+        "left_actual_tcp": actual.copy(),
+        "right_actual_tcp": actual.copy(),
+        "left_target_position_m": actual[:, :3].copy(),
+        "right_target_position_m": actual[:, :3].copy(),
+        "left_target_quaternion_wxyz": actual[:, 3:].copy(),
+        "right_target_quaternion_wxyz": actual[:, 3:].copy(),
+        "position_error_m": np.zeros((count, 2)),
+        "orientation_error_rad": np.zeros((count, 2)),
+        "collision": np.zeros(count, dtype=bool),
+        "edge_collision": np.zeros(count, dtype=bool),
+        "left_discontinuity": np.zeros(count, dtype=bool),
+        "right_discontinuity": np.zeros(count, dtype=bool),
+        "state_collision_classes": np.asarray(["", ""]),
+        "edge_collision_classes": np.asarray(["", ""]),
+        "paired_failure_reason": np.asarray(["ok", "ok"]),
+        "dls_solve_mode": np.asarray([["hold", "hold"], ["hold", "hold"]]),
+    }
+
+
+def test_formal_evidence_binds_pose_errors_to_target_and_actual_tcp():
+    payload = _formal_evidence_fixture()
+    bundle._validate_formal_evidence(payload, 2)
+
+    payload["position_error_m"][0, 0] = 0.001
+    with pytest.raises(ValueError, match="position error drift"):
+        bundle._validate_formal_evidence(payload, 2)
+
+
+def test_formal_evidence_binds_collision_flags_to_class_evidence():
+    payload = _formal_evidence_fixture()
+    payload["state_collision_classes"][1] = "cross_arm"
+
+    with pytest.raises(ValueError, match="collision class drift"):
+        bundle._validate_formal_evidence(payload, 2)

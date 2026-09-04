@@ -47,12 +47,18 @@
     "left_accept_coverage": 0.0,
     "right_accept_coverage": 0.0,
     "both_accept_coverage": 0.0,
+    "source_valid_pair_frames": 1490,
+    "invalid_source_frames": 0,
+    "both_accept_coverage_valid_source": 0.0,
     "collision_frames": 0,
     "edge_collision_frames": 0,
     "topology_invalid_frames": 0,
     "longest_hold_frames": 1490,
+    "longest_hold_ratio": 1.0,
     "maximum_position_error_mm": 1329.4799241995247,
-    "maximum_orientation_error_deg": 179.99413567402212
+    "maximum_orientation_error_deg": 179.99413567402212,
+    "maximum_accepted_position_error_mm": null,
+    "maximum_accepted_orientation_error_deg": null
   },
   "dynamics": {
     "maximum_velocity_rad_s": 0.0,
@@ -61,12 +67,14 @@
   },
   "artifacts": {
     "trajectory_npz": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\Screw_Cap\\162751\\inverted\\8-11_Screw_Cap_162751_inverted_fixed_time.trajectory.npz",
-      "sha256": "13df0ba4d178dfdfbb04e4307ce12aaf0565ec2b0de8968db734f843f21ada00"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Screw_Cap/162751/inverted/8-11_Screw_Cap_162751_inverted_fixed_time.trajectory.npz",
+      "sha256": "cfcfa0b460fc8c3f64f1be621d25cf8b1c8234498ffd4bf1a8449f8599e2fa9d"
     },
     "scene_xml": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\Screw_Cap\\162751\\inverted\\8-11_Screw_Cap_162751_inverted_fixed_time.scene.xml",
-      "sha256": "b2365516343f1f7a90d876d58dbe975ba135030c9b68639e2535b8a87cbd2893"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Screw_Cap/162751/inverted/8-11_Screw_Cap_162751_inverted_fixed_time.scene.xml",
+      "sha256": "5b2cc1ed772c4425e45c77238c81b22c3d41313714a5c86b0bf6627ffa3db037"
     }
-  }
+  },
+  "formal_fingerprint": "96be7ab4e61d4109b07f1bf564b70ad1f43130bdf69638229bcaa9a3fc2f528b",
+  "search_job_fingerprint": "81604f1b0c5fa328b8a655bbb40ef0c1f31c7047ae65123fc8099c252ac2db73"
 }

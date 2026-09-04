@@ -16,7 +16,7 @@ Start with the PiperX workflow when the input contains synchronized left- and ri
 
 When both recorded hands must be evaluated as one synchronized system without changing task timing, use the published PiperX Fixed-time experiment. It covers 27 dual-hand trajectories from 12 task families and compares four mount configurations in a fixed order: `baseline`, `upright_table`, `horizontal_wall`, and `inverted`.
 
-The study contract is fixed at 1 mm position error and 0.5 degree orientation error against the published conditioned TCP targets. Before IK, the recorded TCP stream receives a deterministic 9-frame calibration/conditioning pass bounded to at most 5 mm translation and 1 degree orientation change from the recorded target. This conditioning suppresses capture noise; it is not retiming and does not add, remove, reorder, or shift timestamps. A frame counts as successful only when both hands pass both strict pose limits at the same source timestamp. Retiming is disabled, and the solved timeline must equal the source timestamps exactly.
+The study contract is fixed at 1 mm position error and 0.5 degree orientation error against the published conditioned TCP targets. Before IK, the recorded TCP stream receives a deterministic 9-frame calibration/conditioning pass bounded to at most 5 mm translation and 1 degree orientation change from the recorded target. This conditioning suppresses capture noise; it is not retiming and does not add, remove, reorder, or shift timestamps. A frame counts as successful only when both hands pass both strict pose limits at the same source timestamp. Retiming is disabled, and the solved timeline must equal the exact relative source schedule after subtracting its first timestamp to use a zero origin.
 
 Safety is not a ranking preference. Every published shard must satisfy all three hard gates:
 
@@ -28,9 +28,10 @@ The current validated bundle contains all 108 trajectory and mount cells. The ba
 
 Published evidence:
 
-- [Final 36-page PDF report](reports/piperx_multitask_fixed_time_mount_study/PiperX多任务Fixed-Time四构型对比报告.pdf)
+- [Final 38-page PDF report](reports/piperx_multitask_fixed_time_mount_study/PiperX多任务Fixed-Time四构型对比报告.pdf)
 - [Aggregate metrics for all 108 cells](reports/piperx_multitask_fixed_time_mount_study/aggregate.csv)
 - [Validated bundle manifest](reports/piperx_multitask_fixed_time_mount_study/bundle_manifest.json)
+- [Content-addressed release manifest](reports/piperx_multitask_fixed_time_mount_study/release_manifest.json)
 - [Comparison figures](reports/piperx_multitask_fixed_time_mount_study/figures/)
 - [All 27 synchronized four-mount MuJoCo comparison videos](reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/)
 
@@ -39,6 +40,14 @@ The trajectory `8-12/PourRawMaterial/111542` is the running example in this READ
 ### Run or resume the PiperX study
 
 When reproducing or extending the published experiment, begin from the versioned parameter contract rather than reconstructing settings from command history. The recommended configuration is [`configs/piperx_recommended_v31.json`](configs/piperx_recommended_v31.json); it stores calibrated family-specific tool frames, mount poses, solver budgets, and bounded wrist adaptations.
+
+Use Python 3.11. Install `requirements.txt` for the Fixed-time study, report, and tests; install `requirements-full.txt` when running the optional repository-wide single-arm, conversion, and desktop UI tools.
+
+```powershell
+python -m pip install -r requirements.txt
+# Optional full workspace:
+python -m pip install -r requirements-full.txt
+```
 
 ```powershell
 # Discover the experiment matrix without solving it
@@ -50,6 +59,9 @@ python -m scripts.run_piperx_multitask_fixed_time_mount_study
 # Build formal shards, aggregate, and validate the complete bundle
 python -m scripts.build_piperx_multitask_fixed_time_bundle
 python -m scripts.build_piperx_multitask_fixed_time_bundle --validate-only
+
+# Verify the published PDF, figures, videos, provenance, and implementation hashes
+python -m scripts.build_piperx_multitask_release_manifest --validate-only
 ```
 
 Rebuild figures, real MuJoCo comparison videos, and the PDF from validated evidence:
@@ -58,6 +70,7 @@ Rebuild figures, real MuJoCo comparison videos, and the PDF from validated evide
 python -m scripts.plot_piperx_multitask_mount_results
 python -m scripts.render_piperx_multitask_mount_comparisons
 python -m scripts.build_piperx_multitask_mount_report
+python -m scripts.build_piperx_multitask_release_manifest
 ```
 
 Use `--trajectory` and `--mode` on the study and bundle scripts for a focused investigation. Focused output is useful for debugging, but it is not a replacement for validating the complete 27 by 4 publication bundle.
@@ -184,13 +197,13 @@ Each trajectory and mount cell becomes a formal shard so that aggregate coverage
 
 When a summary number must remain independently auditable, retain the per-frame arrays from which it is computed. `build_shard_arrays`, `solve_selected_shard`, `aggregate_shard`, and `validate_shard` in [`scripts/build_piperx_multitask_fixed_time_bundle.py`](scripts/build_piperx_multitask_fixed_time_bundle.py) store source time, joint state, both-hand pose errors, strict acceptance, collision flags, topology validity, velocity, acceleration, and failure reasons.
 
-Summary metrics are recomputed from these arrays. Reports do not infer success from prose, screenshots, or video overlays.
+Summary metrics are recomputed from these arrays. Raw left/right TCP validity masks are retained; invalid source poses are forced to reject and are disclosed separately from the valid-source denominator. Reports do not infer success from prose, screenshots, or video overlays.
 
 For `8-12/PourRawMaterial/111542`, four shards preserve the same 5942-frame source schedule. The upright-table arrays contain the 1918 paired acceptances used to compute 32.28%, while the collision and topology arrays prove the three zero-count safety claims for that cell.
 
 ### Reject stale caches
 
-When source data, tool conventions, mounts, or solver behavior changes, reusing an older result would make the evidence internally inconsistent. Search candidates therefore include source hashes, mount parameters, tool-frame contracts, and schema versions in their fingerprints. Formal summaries are reusable only when their solver protocol equals the current protocol. A schema-compatible result from an older solver protocol is recomputed.
+When source data, tool conventions, mounts, robot geometry, collision settings, or solver behavior changes, reusing an older result would make the evidence internally inconsistent. Search checkpoints and candidates therefore include exact source hashes, budgets, mount parameters, tool-frame contracts, safety settings, and implementation protocols in their fingerprints. Formal summaries additionally bind the selected mount, source prefix, robot URDF hash, scene settings, and strict solver contract. Matching only a schema or protocol name is insufficient.
 
 ### Assemble and validate the bundle
 
@@ -208,17 +221,19 @@ When comparing task families and mount modes across all 108 cells, start from th
 
 - [strict both-hand coverage](reports/piperx_multitask_fixed_time_mount_study/figures/coverage_heatmap.png)
 - [collision and topology audit](reports/piperx_multitask_fixed_time_mount_study/figures/collision_topology_heatmap.png)
-- [maximum position error](reports/piperx_multitask_fixed_time_mount_study/figures/maximum_position_error_heatmap.png)
-- [longest safe hold](reports/piperx_multitask_fixed_time_mount_study/figures/longest_hold_heatmap.png)
+- [maximum accepted-frame position error](reports/piperx_multitask_fixed_time_mount_study/figures/maximum_position_error_heatmap.png)
+- [maximum accepted-frame orientation error](reports/piperx_multitask_fixed_time_mount_study/figures/maximum_orientation_error_heatmap.png)
+- [longest hold ratio](reports/piperx_multitask_fixed_time_mount_study/figures/longest_hold_heatmap.png)
 - [velocity evidence](reports/piperx_multitask_fixed_time_mount_study/figures/velocity_heatmap.png)
 - [acceleration evidence](reports/piperx_multitask_fixed_time_mount_study/figures/acceleration_heatmap.png)
+- [coverage, dynamics, and safety deployability gate](reports/piperx_multitask_fixed_time_mount_study/figures/deployability_heatmap.png)
 - [winning-mount counts](reports/piperx_multitask_fixed_time_mount_study/figures/winner_counts.png)
 
 ### Compare synchronized videos
 
 When visually comparing installations, every panel must represent the same source instant so apparent synchronization cannot be created during rendering. `comparison_timeline` and `source_frame_indices` in [`factory_bimanual/mount_comparison_visuals.py`](factory_bimanual/mount_comparison_visuals.py) enforce one common four-panel schedule. The renderer loads the validated MuJoCo scene and formal joint arrays for each panel.
 
-> **Note:** The comparison renderer does not independently shorten, resample, or retime a mount mode. All four panels use identical source timestamps.
+> **Note:** The comparison renderer does not shorten or retime a mount mode. It samples each formal result onto one common 30 fps visualization timeline; all four panels still use the same zero-origin relative source schedule and duration.
 
 The [comparison-video directory](reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/) contains one MP4 for each of the 27 trajectories. Each filename includes the task family and take.
 
@@ -254,6 +269,8 @@ The published collision result applies to the checked native MuJoCo geometry, tr
 
 Dynamic failures are not repaired by retiming in this study. Velocity and acceleration results describe execution at the recorded schedule. Use a separate retiming experiment only when changing task timing is acceptable, and do not compare it as Fixed-time evidence.
 
+Under the joint publication gate of 100% strict both-hand coverage, PiperX velocity/acceleration limits, and zero safety violations, the current result is 0 of 108 cells. Coverage winners in the report therefore describe relative fixed-time pose-following capability, not deployment readiness.
+
 ## Repository layout
 
 | Path | Purpose |
@@ -269,7 +286,7 @@ Dynamic failures are not repaired by retiming in this study. Velocity and accele
 
 ## Publication boundary
 
-The GitHub repository includes the generated multi-task report, validated evidence, 27 comparison videos, retained single-arm reports and videos, and all required `third_party` models. Licenses and provenance in third-party model directories must remain intact.
+The GitHub repository includes all 27 formal dual-hand source CSVs, the generated multi-task report, validated evidence, 27 comparison videos and their provenance sidecars, retained single-arm reports and videos, and all required `third_party` models. Licenses and provenance in third-party model directories must remain intact; unresolved vendor redistribution status is disclosed in [`third_party/official_robot_models/NOTICE.md`](third_party/official_robot_models/NOTICE.md) rather than guessed.
 
 The following four reference PDFs are local input material only and are intentionally excluded from GitHub. They are not published artifacts and are not linked from the repository:
 

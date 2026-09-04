@@ -27,6 +27,7 @@ from factory_bimanual.video import (
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = ROOT / "reports/piperx_multitask_fixed_time_mount_study"
 PANEL_RENDER_PROTOCOL = "piperx-four-mount-panel-v2-content-addressed"
+COMPOSITE_RENDER_PROTOCOL = "piperx-four-mount-composite-v1"
 
 
 def _sha256(path):
@@ -39,7 +40,15 @@ def _sha256(path):
 
 def _artifact_path(path):
     path = Path(path)
-    return path if path.is_absolute() else ROOT / path
+    if path.is_absolute():
+        raise ValueError("artifact paths must be repository-relative")
+    root = ROOT.resolve()
+    resolved = (root / path).resolve()
+    try:
+        resolved.relative_to(root)
+    except ValueError as exc:
+        raise ValueError("artifact path resolves outside repository") from exc
+    return resolved
 
 
 def _panel_provenance(summary_path):
@@ -68,6 +77,41 @@ def _write_panel_provenance(panel_path, summary_path):
     return sidecar
 
 
+def _composite_panel_record(panel_path):
+    panel_path = Path(panel_path)
+    provenance_path = _provenance_path(panel_path)
+    evidence = json.loads(provenance_path.read_text(encoding="utf-8"))
+    return {
+        "sha256": _sha256(panel_path),
+        "provenance_sha256": _sha256(provenance_path),
+        "evidence": evidence,
+    }
+
+
+def _write_composite_provenance(
+        output_path, panel_paths, trajectory, check):
+    output_path = Path(output_path)
+    sidecar = output_path.with_suffix(".provenance.json")
+    payload = {
+        "schema": COMPOSITE_RENDER_PROTOCOL,
+        "trajectory": trajectory,
+        "output_sha256": _sha256(output_path),
+        "frame_count": int(check.frame_count),
+        "fps": float(check.fps),
+        "duration_s": float(check.frame_count / check.fps),
+        "width": int(check.width),
+        "height": int(check.height),
+        "panels": {
+            mode: _composite_panel_record(panel_paths[mode])
+            for mode in STUDY_PANEL_ORDER
+        },
+    }
+    sidecar.write_text(
+        json.dumps(payload, indent=2, ensure_ascii=False) + "\n",
+        encoding="utf-8")
+    return sidecar
+
+
 def _cached_panel_is_valid(path, summary_path):
     """Reuse only decodable panels bound to the current shard and scene."""
     try:
@@ -83,12 +127,9 @@ def _cached_panel_is_valid(path, summary_path):
 def _load_shard(summary_path):
     summary_path = Path(summary_path)
     summary = json.loads(summary_path.read_text(encoding="utf-8"))
-    trajectory = Path(summary["artifacts"]["trajectory_npz"]["path"])
-    if not trajectory.is_absolute():
-        trajectory = ROOT / trajectory
-    scene = Path(summary["artifacts"]["scene_xml"]["path"])
-    if not scene.is_absolute():
-        scene = ROOT / scene
+    trajectory = _artifact_path(
+        summary["artifacts"]["trajectory_npz"]["path"])
+    scene = _artifact_path(summary["artifacts"]["scene_xml"]["path"])
     with np.load(trajectory, allow_pickle=False) as archive:
         arrays = {name: archive[name] for name in archive.files}
     return summary, arrays, scene
@@ -219,6 +260,7 @@ def render_trajectory(output_root, trajectory):
               / f"{safe_name}_four_mount_fixed_time.mp4")
     check = compose_four_panel(
         panel_paths, output, trajectory_label=trajectory)
+    _write_composite_provenance(output, panel_paths, trajectory, check)
     return output, check
 
 

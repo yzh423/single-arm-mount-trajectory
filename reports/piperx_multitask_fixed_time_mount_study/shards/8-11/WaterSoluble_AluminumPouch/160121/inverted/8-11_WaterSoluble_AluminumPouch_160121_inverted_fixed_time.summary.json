@@ -47,12 +47,18 @@
     "left_accept_coverage": 0.0,
     "right_accept_coverage": 0.0,
     "both_accept_coverage": 0.0,
+    "source_valid_pair_frames": 2693,
+    "invalid_source_frames": 0,
+    "both_accept_coverage_valid_source": 0.0,
     "collision_frames": 0,
     "edge_collision_frames": 0,
     "topology_invalid_frames": 0,
     "longest_hold_frames": 2693,
+    "longest_hold_ratio": 1.0,
     "maximum_position_error_mm": 632.059244686492,
-    "maximum_orientation_error_deg": 179.99002949843833
+    "maximum_orientation_error_deg": 179.99002949843833,
+    "maximum_accepted_position_error_mm": null,
+    "maximum_accepted_orientation_error_deg": null
   },
   "dynamics": {
     "maximum_velocity_rad_s": 0.0,
@@ -61,12 +67,14 @@
   },
   "artifacts": {
     "trajectory_npz": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\WaterSoluble_AluminumPouch\\160121\\inverted\\8-11_WaterSoluble_AluminumPouch_160121_inverted_fixed_time.trajectory.npz",
-      "sha256": "5ae111f99f314ec82326fce4fbdacf333eef52296da695204b1c7607edc746e3"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/160121/inverted/8-11_WaterSoluble_AluminumPouch_160121_inverted_fixed_time.trajectory.npz",
+      "sha256": "13543d6ae9603f75b6d437e21491d26ce5b0b9659689711f95b1314b27687ed8"
     },
     "scene_xml": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\WaterSoluble_AluminumPouch\\160121\\inverted\\8-11_WaterSoluble_AluminumPouch_160121_inverted_fixed_time.scene.xml",
-      "sha256": "12654f6a2f4bba679e081fed1a1e0c7fc341e5c31f6c407d2514faa0a09bc245"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/160121/inverted/8-11_WaterSoluble_AluminumPouch_160121_inverted_fixed_time.scene.xml",
+      "sha256": "a6eb8ec08d0ef6f5cd84e6ad0162e6de6eb3168c33e1531d55acf36cb2a74388"
     }
-  }
+  },
+  "formal_fingerprint": "0b8f15e11c52cde5d5eec30714e06083af9abfe729543794ee0e3c27a4c03e9e",
+  "search_job_fingerprint": "e76b9bf2cf6d69ddd4921fa55b8208594d2f2f5165e66210c3711053345b4b0b"
 }

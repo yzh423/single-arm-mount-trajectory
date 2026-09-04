@@ -1,7 +1,7 @@
 {
   "robot": "piperx",
-  "source_urdf": "E:\\YZH123123\\single-arm-mount\\third_party\\official_robot_models\\piperx\\PiperX.urdf",
-  "output_xml": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\WaterSoluble_AluminumPouch\\160121\\baseline\\8-11_WaterSoluble_AluminumPouch_160121_baseline_fixed_time.scene.xml",
+  "source_urdf": "../../../../../../../third_party/official_robot_models/piperx/PiperX.urdf",
+  "output_xml": "8-11_WaterSoluble_AluminumPouch_160121_baseline_fixed_time.scene.xml",
   "spacing_m": 0.5099019513592785,
   "table_height_m": 0.75,
   "left_base_position": [

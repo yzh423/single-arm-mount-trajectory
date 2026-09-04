@@ -53,12 +53,18 @@
     "left_accept_coverage": 0.0,
     "right_accept_coverage": 0.0,
     "both_accept_coverage": 0.0,
+    "source_valid_pair_frames": 4157,
+    "invalid_source_frames": 0,
+    "both_accept_coverage_valid_source": 0.0,
     "collision_frames": 0,
     "edge_collision_frames": 0,
     "topology_invalid_frames": 0,
     "longest_hold_frames": 4157,
+    "longest_hold_ratio": 1.0,
     "maximum_position_error_mm": 881.3769360029257,
-    "maximum_orientation_error_deg": 179.99129844725027
+    "maximum_orientation_error_deg": 179.99129844725027,
+    "maximum_accepted_position_error_mm": null,
+    "maximum_accepted_orientation_error_deg": null
   },
   "dynamics": {
     "maximum_velocity_rad_s": 0.0,
@@ -67,12 +73,14 @@
   },
   "artifacts": {
     "trajectory_npz": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-12\\PutIntoBox\\113250\\baseline\\8-12_PutIntoBox_113250_baseline_fixed_time.trajectory.npz",
-      "sha256": "0b6cd14ab59c43d43ee15f13db878cdf18f0726fbaa8f6b23dec3110bab0a87b"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PutIntoBox/113250/baseline/8-12_PutIntoBox_113250_baseline_fixed_time.trajectory.npz",
+      "sha256": "1f7204468724e889a5421e5f201ff4f2a9ebc8ad17993b443ebc2c15d467f72d"
     },
     "scene_xml": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-12\\PutIntoBox\\113250\\baseline\\8-12_PutIntoBox_113250_baseline_fixed_time.scene.xml",
-      "sha256": "3a8434f6918321ac5077b036c95ece78d34e726810f2a9f8e283cc59af626e1b"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PutIntoBox/113250/baseline/8-12_PutIntoBox_113250_baseline_fixed_time.scene.xml",
+      "sha256": "953042ba121b5881ff83fbda15409eb82798c51b354430ed3e30b29bf161d15d"
     }
-  }
+  },
+  "formal_fingerprint": "1d771776e967caca3bb3a0b939f71cc6113a9fa7366d5de0afb94c3bb1164c64",
+  "search_job_fingerprint": "15eb5870d4ccc3c766ffc718b0dd87bd31784c0501e73d269bea0d760c361bde"
 }

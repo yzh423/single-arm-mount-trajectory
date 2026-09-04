@@ -1,0 +1,52 @@
+{
+  "schema": "piperx-four-mount-composite-v1",
+  "trajectory": "8-11/AluminumFoilPouch_BoxPackaging/160555",
+  "output_sha256": "bda3b58dbcd95f8612cd487bb443fa22a9ee6c0f9fb950ae1c20286e4540be51",
+  "frame_count": 1768,
+  "fps": 30.0,
+  "duration_s": 58.93333333333333,
+  "width": 1280,
+  "height": 720,
+  "panels": {
+    "baseline": {
+      "sha256": "8fb1a529362199c8b5cf4716d695cbd3af0c8517621a3e2648c8d1b3c5b25480",
+      "provenance_sha256": "50d94e5f15ecc5181b1c4b1cdf0fe6f00e3311d9455bb3392e5fcfc13a023821",
+      "evidence": {
+        "schema": "piperx-four-mount-panel-v2-content-addressed",
+        "summary_sha256": "c7b9db438c0a19a445720737925558330e93b9814a3b3db30432caef39bec9c5",
+        "trajectory_sha256": "118ee8edf1cf3aef7ae4f66e7035d0e7b03fe518626ac9558c46364e2576fd80",
+        "scene_sha256": "761e016bf61a25bf6630c66af34be5c663a6680bdc6551f6eb21648fa8478add"
+      }
+    },
+    "upright_table": {
+      "sha256": "328032a19f49d55c158c670c3e09958b1b6fc790a15426b260083466a108ff7c",
+      "provenance_sha256": "48e5e4d9927dbf4f6395450a602ffc6ee4adb676d63436ff7c995ada70749f0f",
+      "evidence": {
+        "schema": "piperx-four-mount-panel-v2-content-addressed",
+        "summary_sha256": "ed3c961f877bafee98237aa2b0e63224c4df6895c086b6e32fcffe98739c7c5e",
+        "trajectory_sha256": "c0777bcf8411edd792558a72faa8c37a946bf385b9e5cc1d920b8be246e713ba",
+        "scene_sha256": "aae1effbfc7db3190a5149af2c08370a279d46d9178bdb348a739314bd7ff99d"
+      }
+    },
+    "horizontal_wall": {
+      "sha256": "c1c52abbbe416ed2c2b6ea8996ad429c4e39168da4aca80f20dbe643fdd87b21",
+      "provenance_sha256": "2a42de1a0da3a68de2e967bb24dd7c572b2bafd8cd60d99c8f61172436036339",
+      "evidence": {
+        "schema": "piperx-four-mount-panel-v2-content-addressed",
+        "summary_sha256": "e49bd0fc63f8c460b411804caa27dfd68434a38c072d61470f232a2377bc08c5",
+        "trajectory_sha256": "49445db0af63f390301a05b2b5b6eb9a34b5aa0e559477e1768d4502eeb6de75",
+        "scene_sha256": "42a8c9ed26e2ca554b80a7a7d3dee9c5dbd4f18f13283a60d63db95eab518136"
+      }
+    },
+    "inverted": {
+      "sha256": "d1068b2a987a9db0479a9caba8c7f77ce19743464429fd94e32c87eee37b9132",
+      "provenance_sha256": "4679e3e793124accfba940183c8efe9a063bbaeb22fcd5536d41c1d354b5341c",
+      "evidence": {
+        "schema": "piperx-four-mount-panel-v2-content-addressed",
+        "summary_sha256": "a8cb9d9297e5fef33033be590fe47050ab24c57c9de57dcde0c119c9bf73bfe3",
+        "trajectory_sha256": "a96a083e0dbb4168ff94c60692db53ef96504bed42c56e3a1da98639b52ca5bb",
+        "scene_sha256": "cb129ba796055d308eb9e63654f39aed90f501c9715859306806c6bf6592e6cc"
+      }
+    }
+  }
+}

@@ -53,12 +53,18 @@
     "left_accept_coverage": 0.1793392763502884,
     "right_accept_coverage": 0.17881489250131097,
     "both_accept_coverage": 0.17881489250131097,
+    "source_valid_pair_frames": 1907,
+    "invalid_source_frames": 0,
+    "both_accept_coverage_valid_source": 0.17881489250131097,
     "collision_frames": 0,
     "edge_collision_frames": 0,
     "topology_invalid_frames": 0,
     "longest_hold_frames": 1387,
+    "longest_hold_ratio": 0.7273203985317253,
     "maximum_position_error_mm": 1514.7860513947105,
-    "maximum_orientation_error_deg": 147.38208897815582
+    "maximum_orientation_error_deg": 147.38208897815582,
+    "maximum_accepted_position_error_mm": 0.999864489497509,
+    "maximum_accepted_orientation_error_deg": 0.4705653088588354
   },
   "dynamics": {
     "maximum_velocity_rad_s": 16.71517669386772,
@@ -67,12 +73,14 @@
   },
   "artifacts": {
     "trajectory_npz": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\Screw_Cap\\162818\\baseline\\8-11_Screw_Cap_162818_baseline_fixed_time.trajectory.npz",
-      "sha256": "6f6e1d1482d1a144caa0e59c0a4ecda505154fb8e9e3ac34357d09d9740dda71"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Screw_Cap/162818/baseline/8-11_Screw_Cap_162818_baseline_fixed_time.trajectory.npz",
+      "sha256": "66bfefd58107447f06a583ee6ade04d00a4c3ae6f4ebd05186777c08c29a5a5b"
     },
     "scene_xml": {
-      "path": "E:\\YZH123123\\single-arm-mount\\reports\\piperx_multitask_fixed_time_mount_study\\shards\\8-11\\Screw_Cap\\162818\\baseline\\8-11_Screw_Cap_162818_baseline_fixed_time.scene.xml",
-      "sha256": "fbb5de59d472923c5f818367b0dbe2dfdc68fb04ab2fe2223414e55487f110ad"
+      "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Screw_Cap/162818/baseline/8-11_Screw_Cap_162818_baseline_fixed_time.scene.xml",
+      "sha256": "ae788d9241a2e33dc949f6ac840c43b48d9fe478c2a57b3bf4aae62ffe3c5ca6"
     }
-  }
+  },
+  "formal_fingerprint": "38d32021c74db89f0128a86e132b3ce1ff6603c8484989ca1ed063f7e0e44fb3",
+  "search_job_fingerprint": "9398ab7d5262c52f0b4fab8b6cec81265dff346f9ce1417f05d34c81e5c774b4"
 }

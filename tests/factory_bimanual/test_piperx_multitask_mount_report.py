@@ -23,7 +23,9 @@ def _manifest(count=108):
                 "collision_frames": 0,
                 "edge_collision_frames": 0,
                 "topology_invalid_frames": 0,
+                "invalid_source_frames": 0,
             },
+            "dynamics": {"limits_passed": False},
         })
     return {
         "schema": "piperx-multitask-fixed-time-bundle-v1",
@@ -50,6 +52,19 @@ def test_report_claims_count_one_winner_per_trajectory():
     assert claims["total_experiments"] == 108
     assert claims["winner_counts"]["upright_table"] == 27
     assert sum(claims["winner_counts"].values()) == 27
+    assert claims["deployable_experiments"] == 0
+
+
+def test_deployability_requires_full_coverage_dynamics_and_safety():
+    manifest = _manifest()
+    candidate = manifest["shards"][1]
+    candidate["metrics"]["both_accept_coverage"] = 1.0
+    candidate["dynamics"]["limits_passed"] = True
+
+    claims = build_report_claims(manifest)
+
+    assert claims["deployable_experiments"] == 1
+    assert claims["deployable_trajectories"] == 1
 
 
 def test_report_cites_official_robot_and_collision_sources():
