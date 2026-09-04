@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from pathlib import Path
 
@@ -26,21 +27,45 @@ IMPLEMENTATION_FILES = (
     ROOT / "scripts/plot_piperx_multitask_mount_results.py",
     ROOT / "scripts/build_piperx_multitask_mount_report.py",
 )
+_CANONICAL_TEXT_SUFFIXES = frozenset({
+    ".csv", ".json", ".md", ".py", ".toml", ".xml", ".yaml", ".yml",
+})
+
+
+def _record_content(path, hash_mode=None):
+    path = Path(path)
+    expected_mode = (
+        "canonical_utf8_lf"
+        if path.suffix.lower() in _CANONICAL_TEXT_SUFFIXES else "raw")
+    mode = expected_mode if hash_mode is None else hash_mode
+    if mode not in ("canonical_utf8_lf", "raw"):
+        raise ValueError(f"unsupported release hash mode: {mode!r}")
+    if mode != expected_mode:
+        raise ValueError(f"release hash mode drift: {path}")
+    data = path.read_bytes()
+    if mode == "canonical_utf8_lf":
+        text = data.decode("utf-8-sig")
+        data = text.replace("\r\n", "\n").replace(
+            "\r", "\n").encode("utf-8")
+    return mode, data
 
 
 def _file_record(path):
     path = Path(path).resolve()
+    hash_mode, data = _record_content(path)
     return {
         "path": bundle._repo_relative(path),
-        "bytes": path.stat().st_size,
-        "sha256": bundle._sha256(path),
+        "bytes": len(data),
+        "sha256": hashlib.sha256(data).hexdigest(),
+        "hash_mode": hash_mode,
     }
 
 
 def _validate_file_record(record):
     path = bundle._resolve_artifact(record["path"])
-    if (path.stat().st_size != int(record["bytes"])
-            or bundle._sha256(path) != record["sha256"]):
+    _mode, data = _record_content(path, record.get("hash_mode"))
+    if (len(data) != int(record["bytes"])
+            or hashlib.sha256(data).hexdigest() != record["sha256"]):
         raise ValueError(f"release artifact drift: {record['path']}")
     return path
 

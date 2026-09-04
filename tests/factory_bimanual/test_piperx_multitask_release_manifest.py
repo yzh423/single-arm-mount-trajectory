@@ -16,6 +16,18 @@ def test_release_file_record_detects_content_drift(tmp_path):
         release._validate_file_record(record)
 
 
+def test_release_text_record_is_stable_across_checkout_line_endings(tmp_path):
+    artifact = tmp_path / "config.json"
+    content = '{\n  "value": 1\n}\n'
+    artifact.write_bytes(content.encode("utf-8"))
+    record = release._file_record(artifact)
+
+    artifact.write_bytes(content.replace("\n", "\r\n").encode("utf-8"))
+
+    assert record["hash_mode"] == "canonical_utf8_lf"
+    assert release._validate_file_record(record) == artifact.resolve()
+
+
 def test_composite_provenance_must_bind_the_published_video():
     check = SimpleNamespace(
         frame_count=3, fps=30.0, duration_s=0.1, width=1280, height=720)

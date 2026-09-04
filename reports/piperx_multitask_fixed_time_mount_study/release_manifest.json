@@ -11,69 +11,82 @@
   },
   "bundle_manifest": {
     "path": "reports/piperx_multitask_fixed_time_mount_study/bundle_manifest.json",
-    "bytes": 41269,
-    "sha256": "6e811e6c880917a5050a49a37c1e37851fc3b1951184098279a389e81b244174"
+    "bytes": 40394,
+    "sha256": "ae1b0cb71b997c9230d732b4ed89ac1adc9251f7daa9ae9f02091d27cf293c9a",
+    "hash_mode": "canonical_utf8_lf"
   },
   "aggregate_csv": {
     "path": "reports/piperx_multitask_fixed_time_mount_study/aggregate.csv",
-    "bytes": 30566,
-    "sha256": "fd680a495666c19fb7ba86bd07bd13029303632da86791f9f43970179f2e2685"
+    "bytes": 30454,
+    "sha256": "b2a8431d05ccead8c51bb410952c1a20a4addf05c85fc71f6b243beb79f3fe79",
+    "hash_mode": "canonical_utf8_lf"
   },
   "report_pdf": {
     "path": "reports/piperx_multitask_fixed_time_mount_study/PiperX多任务Fixed-Time四构型对比报告.pdf",
     "bytes": 16627721,
-    "sha256": "0eabc72ad836b88f804d0c448cc81e54a91049a2ea845b1636aa1301af95f45e"
+    "sha256": "0eabc72ad836b88f804d0c448cc81e54a91049a2ea845b1636aa1301af95f45e",
+    "hash_mode": "raw"
   },
   "implementation_files": [
     {
       "path": "configs/piperx_recommended_v31.json",
       "bytes": 8630,
-      "sha256": "d1d1e2b63299d8520f9a1f70f7fa2f797e8e182868b3880ba5062c5e2d721a1f"
+      "sha256": "d1d1e2b63299d8520f9a1f70f7fa2f797e8e182868b3880ba5062c5e2d721a1f",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "factory_bimanual/multitask_fixed_time_study.py",
       "bytes": 8973,
-      "sha256": "85b1c7e1e93d63642dc23b0490fa2b0ee4d39983a2803ce62da2bd27e395d0a6"
+      "sha256": "85b1c7e1e93d63642dc23b0490fa2b0ee4d39983a2803ce62da2bd27e395d0a6",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "factory_bimanual/robot_contracts.py",
       "bytes": 4316,
-      "sha256": "3d9062e28b73a6cbf37d913b66d0395bb4083e2711887217a2fa045d4da43a46"
+      "sha256": "3d9062e28b73a6cbf37d913b66d0395bb4083e2711887217a2fa045d4da43a46",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "factory_bimanual/scene_builder.py",
       "bytes": 8998,
-      "sha256": "7b9588deced7d9ef22fdc580aab48cadeecfc4f825abbe8b43f17b726e860a22"
+      "sha256": "7b9588deced7d9ef22fdc580aab48cadeecfc4f825abbe8b43f17b726e860a22",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "scripts/strict_urdf_model_audit.py",
       "bytes": 19890,
-      "sha256": "1fc3d2ddbc4cea25fdf0bbe8a4dd0f3b8f0752dfad56248f1a0b7606209a202b"
+      "sha256": "1fc3d2ddbc4cea25fdf0bbe8a4dd0f3b8f0752dfad56248f1a0b7606209a202b",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "scripts/run_piperx_multitask_fixed_time_mount_study.py",
       "bytes": 25963,
-      "sha256": "db1655849f334b2f6418887305557e12785b24d24b8a735b236b76d8ea1369b4"
+      "sha256": "db1655849f334b2f6418887305557e12785b24d24b8a735b236b76d8ea1369b4",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "scripts/build_piperx_multitask_fixed_time_bundle.py",
       "bytes": 51728,
-      "sha256": "b3fc05399a3bec969bfbb98e3c3d6413dcd77774106ed682cd755ef804068174"
+      "sha256": "b3fc05399a3bec969bfbb98e3c3d6413dcd77774106ed682cd755ef804068174",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "scripts/render_piperx_multitask_mount_comparisons.py",
       "bytes": 11193,
-      "sha256": "0399c9c94cf5ef71f0568e64725adad0e5dc9192bb7bdea900994d547207d55e"
+      "sha256": "0399c9c94cf5ef71f0568e64725adad0e5dc9192bb7bdea900994d547207d55e",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "scripts/plot_piperx_multitask_mount_results.py",
       "bytes": 8417,
-      "sha256": "dd44a530cb530030c1c0a9556ddd92d199a64297e7c820744fd20731b096634d"
+      "sha256": "dd44a530cb530030c1c0a9556ddd92d199a64297e7c820744fd20731b096634d",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "scripts/build_piperx_multitask_mount_report.py",
       "bytes": 16855,
-      "sha256": "36cf7a060e5105d159b27c2cc302baf3e4874220faecbb6b36c86aa46b885733"
+      "sha256": "36cf7a060e5105d159b27c2cc302baf3e4874220faecbb6b36c86aa46b885733",
+      "hash_mode": "canonical_utf8_lf"
     }
   ],
   "source_sha256_by_trajectory": {
@@ -108,590 +121,707 @@
   "summary_files": [
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/AluminumFoilPouch_BoxPackaging/160555/baseline/8-11_AluminumFoilPouch_BoxPackaging_160555_baseline_fixed_time.summary.json",
-      "bytes": 3325,
-      "sha256": "c7b9db438c0a19a445720737925558330e93b9814a3b3db30432caef39bec9c5"
+      "bytes": 3239,
+      "sha256": "2e083901bf1e1a5ada18abf6a0a12ed5c8f94acedca966c44676f15ea4338a78",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/AluminumFoilPouch_BoxPackaging/160555/upright_table/8-11_AluminumFoilPouch_BoxPackaging_160555_upright_table_fixed_time.summary.json",
-      "bytes": 3021,
-      "sha256": "ed3c961f877bafee98237aa2b0e63224c4df6895c086b6e32fcffe98739c7c5e"
+      "bytes": 2941,
+      "sha256": "dc483c11ba4161bb236fb4a2838b6599b9c6ff7660786cda2bb9a41a7c5e538e",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/AluminumFoilPouch_BoxPackaging/160555/horizontal_wall/8-11_AluminumFoilPouch_BoxPackaging_160555_horizontal_wall_fixed_time.summary.json",
-      "bytes": 2940,
-      "sha256": "e49bd0fc63f8c460b411804caa27dfd68434a38c072d61470f232a2377bc08c5"
+      "bytes": 2860,
+      "sha256": "a569a69e887f6951a31caccab5798edb003494e454680e9241ce00c006db2d6d",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/AluminumFoilPouch_BoxPackaging/160555/inverted/8-11_AluminumFoilPouch_BoxPackaging_160555_inverted_fixed_time.summary.json",
-      "bytes": 2854,
-      "sha256": "a8cb9d9297e5fef33033be590fe47050ab24c57c9de57dcde0c119c9bf73bfe3"
+      "bytes": 2774,
+      "sha256": "d882521dbd96b9f4e281d319bb3eaf024b4304ae76a54b76038139fbf29e2950",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/160710/baseline/8-11_Fold_Box_160710_baseline_fixed_time.summary.json",
-      "bytes": 3174,
-      "sha256": "098f9239ea770a298e314a1851f87cf0092e00ccca0b188e688c5c4d4207128b"
+      "bytes": 3088,
+      "sha256": "9aa5f11cd1602ce80f83718b936a084a6b4bc16480418126e8d11c795c033bc9",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/160710/upright_table/8-11_Fold_Box_160710_upright_table_fixed_time.summary.json",
-      "bytes": 2895,
-      "sha256": "317aae0aa5cb6843cccdc631f13628630adbed0479e9a7bb1396f36cb030a9ff"
+      "bytes": 2815,
+      "sha256": "ac730a60ec33558b592ebd3d59e43ff1883cdd107ac974529bfd915757764579",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/160710/horizontal_wall/8-11_Fold_Box_160710_horizontal_wall_fixed_time.summary.json",
-      "bytes": 2950,
-      "sha256": "e5dec9f952731094c30e9048e9ad56c82f6938075728f00528dbcccb8ce99460"
+      "bytes": 2870,
+      "sha256": "193d9e19bd9729f840cd6c5bce5994c12eedbef516132004364675f1e0a093a0",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/160710/inverted/8-11_Fold_Box_160710_inverted_fixed_time.summary.json",
-      "bytes": 2720,
-      "sha256": "1a211532e33f211dd50edb5c09667e505a4903ffa03c894233626f39d134a28b"
+      "bytes": 2640,
+      "sha256": "b2ad9394aca35c61f59bb48041a87bb0f5a894dbdbca806ee32e427feae2e092",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/160754/baseline/8-11_Fold_Box_160754_baseline_fixed_time.summary.json",
-      "bytes": 3178,
-      "sha256": "b7676d0a524e80e6b8f3e71e66edb11eca09cc5f62ad88d700a27dcbbd66c3f5"
+      "bytes": 3092,
+      "sha256": "e6827b92b9018196e121ccbea6b971a7b9b2cb35bc3b9f251dbeb439f7ff6e6c",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/160754/upright_table/8-11_Fold_Box_160754_upright_table_fixed_time.summary.json",
-      "bytes": 2897,
-      "sha256": "4c4923876ea1f0fbc9bccc059508dfe420482a449fafa585b81db2f658e4abeb"
+      "bytes": 2817,
+      "sha256": "499aa67c8867bb4ffbccc156b7c37abafbaaf4629469b37ef0b97df8a068d3fc",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/160754/horizontal_wall/8-11_Fold_Box_160754_horizontal_wall_fixed_time.summary.json",
-      "bytes": 2951,
-      "sha256": "4f805197a15084ca6fb94b86a4cdf8aec913184df7d78a71719c8cf76ca2b9cc"
+      "bytes": 2871,
+      "sha256": "d952ac57ef2bc7d72808a51feea919aa4558fbfe41b642cc48db9beedcec85ec",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/160754/inverted/8-11_Fold_Box_160754_inverted_fixed_time.summary.json",
-      "bytes": 2720,
-      "sha256": "f1596704d3053e6297f6c3108cb18b11491cf5fb431977545254fed8b6e19dad"
+      "bytes": 2640,
+      "sha256": "db15c3bb52cfacb25a4d0cb82a16ef8414aed2a34a1238e127f23129488e8e52",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/160829/baseline/8-11_Fold_Box_160829_baseline_fixed_time.summary.json",
-      "bytes": 3173,
-      "sha256": "4e9694b93aca5fd7f8403553da2947a50a81f10b68d366fe7ee982dbd09f3cae"
+      "bytes": 3087,
+      "sha256": "ca7b53c71554936feab47f5059c8cf08cccf553ac160a5a1886c4ad316d628cd",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/160829/upright_table/8-11_Fold_Box_160829_upright_table_fixed_time.summary.json",
-      "bytes": 2888,
-      "sha256": "0710e86c7417022f53820c05ccbab56977f0a83a805b94f08c3099d7f001ef02"
+      "bytes": 2808,
+      "sha256": "03095f6fd6f4b5a6188dfa985633eb096115406ef418e84ab1bd22c3cca5d9d4",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/160829/horizontal_wall/8-11_Fold_Box_160829_horizontal_wall_fixed_time.summary.json",
-      "bytes": 2799,
-      "sha256": "836d58ff26b054a636545826c4c46ed8ed7b09250eaecd33478a165fe3540f23"
+      "bytes": 2719,
+      "sha256": "a1a043de0c6e658a9b268c31913e922cf3c328400fb2c900ee851b3f2ca1284a",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/160829/inverted/8-11_Fold_Box_160829_inverted_fixed_time.summary.json",
-      "bytes": 2717,
-      "sha256": "68623d0a60af5a2c8dd767699d28dc3be2caaa6ff24ec58953ddd4a575181ca6"
+      "bytes": 2637,
+      "sha256": "302687541a7c1da9febb48958d570b80dd08d3042e4466ff58d438eb32a18211",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/161044/baseline/8-11_Fold_Box_161044_baseline_fixed_time.summary.json",
-      "bytes": 3175,
-      "sha256": "436149c7a1f451edd4490f59ae463c3165c5add6f66cff566af247663a0a95a3"
+      "bytes": 3089,
+      "sha256": "cccbdd63906c7c2f631648bf4984fd5eaf08fc4e7c4fef892d0580169dcfdb55",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/161044/upright_table/8-11_Fold_Box_161044_upright_table_fixed_time.summary.json",
-      "bytes": 2888,
-      "sha256": "45d785e5e7346b292435d73e3fdedbfce42e2d5e53f95f0da60c15b760a3653f"
+      "bytes": 2808,
+      "sha256": "c245a5ef1690949e1a94871462698b7b0f5ff51398403b7e6b744691b5d4a3c1",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/161044/horizontal_wall/8-11_Fold_Box_161044_horizontal_wall_fixed_time.summary.json",
-      "bytes": 2960,
-      "sha256": "b88e23733035a77ec7819d18005980f4c20f5303d8087f9b488702258bbc526b"
+      "bytes": 2880,
+      "sha256": "9b00dcce81afc8622a232c4a8f47936b39cb6a0f1c0001303facf588e9d12ba7",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/161044/inverted/8-11_Fold_Box_161044_inverted_fixed_time.summary.json",
-      "bytes": 2860,
-      "sha256": "799e37c34ed417052bdf53c1fd9fc359faf0366e4518bd88b5895e6b506e9939"
+      "bytes": 2780,
+      "sha256": "088a1ed14ca096856bf9efeec9533fa2e5cd710d13a685cdc347ee65194be041",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/161159/baseline/8-11_Fold_Box_161159_baseline_fixed_time.summary.json",
-      "bytes": 3180,
-      "sha256": "e4ad65a2c9ee0dcbc749132218fcf398956c86074ea35d52e556e30b4b35edc7"
+      "bytes": 3094,
+      "sha256": "f67d43168f2f640a626e5cd1e3a94c50d07fdbb262dc96d9909bb295818e306c",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/161159/upright_table/8-11_Fold_Box_161159_upright_table_fixed_time.summary.json",
-      "bytes": 2893,
-      "sha256": "e12de84f54c08b214b04e4a8bcec277680cb14135c580083aef21e7e4ef0d443"
+      "bytes": 2813,
+      "sha256": "54d7ddd62ad33e958dd988561c1623ae40e87d3a90deb9f676080896fe2df6b3",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/161159/horizontal_wall/8-11_Fold_Box_161159_horizontal_wall_fixed_time.summary.json",
-      "bytes": 2806,
-      "sha256": "e350f8bb2a9d096bb4da7a8f8141efc953287076faa8143365b93f237b9eed38"
+      "bytes": 2726,
+      "sha256": "5167a5dfa9409c1e10c5feb5a6e9f8a32b0ecf4309238f8d6cea8a827e70e323",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/161159/inverted/8-11_Fold_Box_161159_inverted_fixed_time.summary.json",
-      "bytes": 2858,
-      "sha256": "a63de87a7e7bdf582a327f7bdbf7fc7076c7c8f33f80b889cb0d07b7affc9f0d"
+      "bytes": 2778,
+      "sha256": "78aa5cebf7a477a547dd7ea4556403dfd5682b8fcc83338941ffee1b2f99a17a",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Screw_Cap/162751/baseline/8-11_Screw_Cap_162751_baseline_fixed_time.summary.json",
-      "bytes": 3202,
-      "sha256": "af8b634d0e3efbcfb1b0abb870bf4394c8f5cdf38ce49cf04c793467c32c2b65"
+      "bytes": 3116,
+      "sha256": "f885a76d2b31fd27deba4b2fb4935bc441e80c3f349b0116665e77215978a7e7",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Screw_Cap/162751/upright_table/8-11_Screw_Cap_162751_upright_table_fixed_time.summary.json",
-      "bytes": 2902,
-      "sha256": "e6055450e5c2f31c625b9a3e26ae701400f4b719f320b51274b341a66f9f130b"
+      "bytes": 2822,
+      "sha256": "6dc20d74f62f17965fdf8b544bff005387e91b83087c8b77c3c20efe1f2d1cab",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Screw_Cap/162751/horizontal_wall/8-11_Screw_Cap_162751_horizontal_wall_fixed_time.summary.json",
-      "bytes": 2811,
-      "sha256": "865225f6c5340a80f20ea560994bf4efe6dc0f06023bcf54d30c6ecb1b4ef124"
+      "bytes": 2731,
+      "sha256": "bea3f2c576521a7c1b4701e8cf3825f546af5c8d9e2deaf6990a4468adbd1ba1",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Screw_Cap/162751/inverted/8-11_Screw_Cap_162751_inverted_fixed_time.summary.json",
-      "bytes": 2729,
-      "sha256": "68d117056bf3686e9882b5162feced27303b12b5526ff0aa659fde8d7b2934b1"
+      "bytes": 2649,
+      "sha256": "96d47ee76a55706b1bfa98848749e4e1eea50f7f42e76ceb05dca1fa6a299405",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Screw_Cap/162818/baseline/8-11_Screw_Cap_162818_baseline_fixed_time.summary.json",
-      "bytes": 3198,
-      "sha256": "f659b2e6b597c8396a10902e4bbd7d751c7112e28e9b72be3b4ccaa45d56beff"
+      "bytes": 3112,
+      "sha256": "bff6aa1775a7d79d03f8c0f5bd24116fce058a28f9d98ca92fefb9b7f46bf772",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Screw_Cap/162818/upright_table/8-11_Screw_Cap_162818_upright_table_fixed_time.summary.json",
-      "bytes": 2899,
-      "sha256": "c1d855659ce2b130f3586f4ffa2b4ed748a72bf6fc377310f9e3a6e18b7eb63f"
+      "bytes": 2819,
+      "sha256": "ae5be98aca56b94153899f7070155f806036f591fd00f8cbe2de4df6e3fd81b1",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Screw_Cap/162818/horizontal_wall/8-11_Screw_Cap_162818_horizontal_wall_fixed_time.summary.json",
-      "bytes": 2955,
-      "sha256": "af699902cbad5fecd27b9838ee4ce240c7cd84c120558f5d08f4b975205c2b59"
+      "bytes": 2875,
+      "sha256": "c8e9cfc2b2eb85a111cc7b4c5b3ce772bff708a7dbc08c253c48ba330b2a9ed7",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Screw_Cap/162818/inverted/8-11_Screw_Cap_162818_inverted_fixed_time.summary.json",
-      "bytes": 2869,
-      "sha256": "3092c6cd5d9651ebaa4d9357bb5ed9c5a84edf3f04cb24bbdec5a65b2fae4997"
+      "bytes": 2789,
+      "sha256": "22ff202a35a35f9eb3562e5c8ae95d685d926cf42fdee572afeebd43e3a3cbf6",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Screw_Cap/162854/baseline/8-11_Screw_Cap_162854_baseline_fixed_time.summary.json",
-      "bytes": 3199,
-      "sha256": "b33191708eefe0c2ce3a52d67282bf04c3ea8b9c4dcd3551013a26345c812542"
+      "bytes": 3113,
+      "sha256": "2ded5b853d8a8b80921cb6bbbdbbfe8586035b198b5d4929ea5b1505dae5dc10",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Screw_Cap/162854/upright_table/8-11_Screw_Cap_162854_upright_table_fixed_time.summary.json",
-      "bytes": 2907,
-      "sha256": "275325b9302d103b0ce5e68c1edbc13964ebb3e99b4d7a3823994712aef04078"
+      "bytes": 2827,
+      "sha256": "9f97b56a07f00a9f63c06a313d692f8e8164c2cb37baecb6bbaf42179f6091e5",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Screw_Cap/162854/horizontal_wall/8-11_Screw_Cap_162854_horizontal_wall_fixed_time.summary.json",
-      "bytes": 2814,
-      "sha256": "d608aec22cdd2dd8176911179440f684df3c29fa90b645921729e050328a4366"
+      "bytes": 2734,
+      "sha256": "7c92feb7d2078c9da081df19326d0dd8c120f9068f59fc3395155d536187686d",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Screw_Cap/162854/inverted/8-11_Screw_Cap_162854_inverted_fixed_time.summary.json",
-      "bytes": 2866,
-      "sha256": "9f3aa756dcf4a50153d287114696ee5be4956ac6f5d95a437047bb1b6e477934"
+      "bytes": 2786,
+      "sha256": "2d858baab46be178893e6624b1b9705abd5bb1e241c24a17b2c9c8c8ec63ac99",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Seal_Bag/161504/baseline/8-11_Seal_Bag_161504_baseline_fixed_time.summary.json",
-      "bytes": 3103,
-      "sha256": "3026aab510329bacfef13b3610a193513a6a2ed74564f3ec136b953eb64f1f37"
+      "bytes": 3017,
+      "sha256": "a9a57b0ec6a2a9ac922e77c3b9127eafea26f28f1d68e406ffec197fd9cfcf6d",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Seal_Bag/161504/upright_table/8-11_Seal_Bag_161504_upright_table_fixed_time.summary.json",
-      "bytes": 2891,
-      "sha256": "df61da1dbf114fd62d322f0041df9c5385006437461c99777a05dbea0460d789"
+      "bytes": 2811,
+      "sha256": "0b7eb025a7953e667a3a2d383b8ef9000d4e62f2b6be18763a03bad36578e008",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Seal_Bag/161504/horizontal_wall/8-11_Seal_Bag_161504_horizontal_wall_fixed_time.summary.json",
-      "bytes": 2941,
-      "sha256": "c1ee71722e08f4e2ea1a39ed0ff0cb868a98579d704b1b261badb0f448547cd0"
+      "bytes": 2861,
+      "sha256": "039058eb1b4b81eb5b9d7710e999ba678685528dd34277f68f61c68c895975dc",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Seal_Bag/161504/inverted/8-11_Seal_Bag_161504_inverted_fixed_time.summary.json",
-      "bytes": 2865,
-      "sha256": "f7537cfde3c9bad265b921557e8cbea41cfff1ad11baa8f70b0a991b8194f333"
+      "bytes": 2785,
+      "sha256": "d339f4e1f04facf902f183fcee44b24b2eda2bf94aef23b82c534186b0c97819",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Seal_Bag/161532/baseline/8-11_Seal_Bag_161532_baseline_fixed_time.summary.json",
-      "bytes": 3176,
-      "sha256": "a89077f6329a8a5ddc256c3fff80b1bfe5873a3732cd79af57d593bcf73b9743"
+      "bytes": 3090,
+      "sha256": "8e851dda66a3f9dd03d880811a9ff52fd44185b366ed62b87286dcb25fe15de4",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Seal_Bag/161532/upright_table/8-11_Seal_Bag_161532_upright_table_fixed_time.summary.json",
-      "bytes": 2890,
-      "sha256": "7894a1fd37284cd0937406f9d721c7144226e1b504aeb4b969541b6f0f72b4a8"
+      "bytes": 2810,
+      "sha256": "1501778c0968e9865b6311306a374f0bde0be70c7a7a35d84ed96931e4e7cf95",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Seal_Bag/161532/horizontal_wall/8-11_Seal_Bag_161532_horizontal_wall_fixed_time.summary.json",
-      "bytes": 2801,
-      "sha256": "4dbd5bfaa08c2d48e9faa24cd34019a90c014d132f700f763b3dba90be175664"
+      "bytes": 2721,
+      "sha256": "355f9ec53faacda8695cf7e7eef53f43ea426103598c195a7d2b7336a88e2daa",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Seal_Bag/161532/inverted/8-11_Seal_Bag_161532_inverted_fixed_time.summary.json",
-      "bytes": 2862,
-      "sha256": "c9699b262b3b20ab01dcf3554a847da777f572602bb3ccec7fc0e972bd3fc383"
+      "bytes": 2782,
+      "sha256": "aa9b4e9a4de0318e6bca575b95f14cde5b2b4dac97d8d3ab593e4b8d013904ec",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Seal_Bag/161549/baseline/8-11_Seal_Bag_161549_baseline_fixed_time.summary.json",
-      "bytes": 3173,
-      "sha256": "d54ccdd1f1c2461b0603e83f2df2af1e23960227d7710d9e3386d362adbab58a"
+      "bytes": 3087,
+      "sha256": "9a4c24f8f226a6e52c984f998c0255da767b7db9998b62c842de278d5f997a48",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Seal_Bag/161549/upright_table/8-11_Seal_Bag_161549_upright_table_fixed_time.summary.json",
-      "bytes": 2877,
-      "sha256": "d3ef2b6c814bb6979048caf1c8ee9bfd483969b0ad71d04d9e60fff4d4eac953"
+      "bytes": 2797,
+      "sha256": "3621deed9fcade45b766e54f62233023a29b8cb7189617c9467db067b7fb0193",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Seal_Bag/161549/horizontal_wall/8-11_Seal_Bag_161549_horizontal_wall_fixed_time.summary.json",
-      "bytes": 2799,
-      "sha256": "c0e672fe2dab93c701e2cbd43bd088cfaa8526f30cb5df03d0f3e7bf90069aeb"
+      "bytes": 2719,
+      "sha256": "f23f407c5afd7bce8e21c634f70398ec021818790e6cbd66f8cac82f198f6e4d",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Seal_Bag/161549/inverted/8-11_Seal_Bag_161549_inverted_fixed_time.summary.json",
-      "bytes": 2855,
-      "sha256": "2eaa780d22fb933d545c1559634a734b6614c1454b1109f428ced03233ee42b6"
+      "bytes": 2775,
+      "sha256": "1dce7cd0423ee8849def801d5b53efeb12bf1aaf72fb3850a84cf1acd6d92b7b",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/155911/baseline/8-11_WaterSoluble_AluminumPouch_155911_baseline_fixed_time.summary.json",
-      "bytes": 3317,
-      "sha256": "a85a63a4af9b1dc63d50c973cd35d1b18ed9985108e3c15de3c333659de2a4ed"
+      "bytes": 3231,
+      "sha256": "1a32a59f2b781aa00db087b0d560b786e9a96231df686a9f1dfc1ed8f4f4914c",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/155911/upright_table/8-11_WaterSoluble_AluminumPouch_155911_upright_table_fixed_time.summary.json",
-      "bytes": 2999,
-      "sha256": "133c0f1ca138ecec4166acda150dcc613ef0f72a5246362e8e64171a085eaf73"
+      "bytes": 2919,
+      "sha256": "a1b803cf6628285a437161e364909cc40669bf42fcfd13d8ef61a0c40eefa456",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/155911/horizontal_wall/8-11_WaterSoluble_AluminumPouch_155911_horizontal_wall_fixed_time.summary.json",
-      "bytes": 3055,
-      "sha256": "6ff49ed14d1a144866dee2fa81c82a7dcf22a02cbdd6e2da9ef1e3e8b1143e38"
+      "bytes": 2975,
+      "sha256": "b2447b7813c3ad8163f9d63c845e85144b470970c2513e71609c7f8e11d58473",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/155911/inverted/8-11_WaterSoluble_AluminumPouch_155911_inverted_fixed_time.summary.json",
-      "bytes": 2830,
-      "sha256": "d95e5ec84291e49a51ac37745c9e10ea3cda9dde8479a5c0cb7995428b15ea41"
+      "bytes": 2750,
+      "sha256": "9003a4736867ab25d9f5c161a881bd90af0cc6bf103f77a020990efe1a500c75",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/160040/baseline/8-11_WaterSoluble_AluminumPouch_160040_baseline_fixed_time.summary.json",
-      "bytes": 3316,
-      "sha256": "9c4290b195cafaf627186999f95285961706503a382ddc8245d873bcc7774da7"
+      "bytes": 3230,
+      "sha256": "d8d74908a6f36a2b781ee1c7b41c3d66836baa1852e6b39c9132a68af22a0c0b",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/160040/upright_table/8-11_WaterSoluble_AluminumPouch_160040_upright_table_fixed_time.summary.json",
-      "bytes": 3018,
-      "sha256": "b3e50fe5b55de72e3d1e4ccc7776eefb6e5a151608298a4515d3b96eb55dd7df"
+      "bytes": 2938,
+      "sha256": "c100d5eeac2c480d78cd986b055f3e2fb47370dc0ee3a28fd9c5604c3c5750e6",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/160040/horizontal_wall/8-11_WaterSoluble_AluminumPouch_160040_horizontal_wall_fixed_time.summary.json",
-      "bytes": 2916,
-      "sha256": "74070d7459c7e70eb6f5570da5b0ce128addc627f5486334764fdb49821da8a1"
+      "bytes": 2836,
+      "sha256": "a615783fd7ce08153c38be1005a8aad46a73b189dd509ba49a184dcfa8481a72",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/160040/inverted/8-11_WaterSoluble_AluminumPouch_160040_inverted_fixed_time.summary.json",
-      "bytes": 2832,
-      "sha256": "02079eaca34d71550d54a4736eb4ec71a460069dcd9277cf7539ea8995159b35"
+      "bytes": 2752,
+      "sha256": "69c3df9e939a35fd12722c9f8ddb2e82885c4740c4870ccccc5860085e0f5788",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/160121/baseline/8-11_WaterSoluble_AluminumPouch_160121_baseline_fixed_time.summary.json",
-      "bytes": 3319,
-      "sha256": "d702ff661a048a6bd4382ade8939bfcdf12567b7f9777909d840f900915fc102"
+      "bytes": 3233,
+      "sha256": "e44428414681e9468118a944e4e87fa5b0c11d1f17f86f3c283c3c188d6634c7",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/160121/upright_table/8-11_WaterSoluble_AluminumPouch_160121_upright_table_fixed_time.summary.json",
-      "bytes": 2999,
-      "sha256": "7bb6146e05e638180bdfe1254ae7608d22494990f7facb80cc1307b5fc356474"
+      "bytes": 2919,
+      "sha256": "fd333d21c05a74b7342f3762af9231438cfb1f38740b3f3fb924983f81bab76e",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/160121/horizontal_wall/8-11_WaterSoluble_AluminumPouch_160121_horizontal_wall_fixed_time.summary.json",
-      "bytes": 2913,
-      "sha256": "4691bc451e56c5e89f3d618b7d79283a0bbcb9c306c5f61d75833304de5cb8c9"
+      "bytes": 2833,
+      "sha256": "1eb87f773f732b6ca1b6cda4c97bea2c9bb0e765731e3a705a807b9feabe4113",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/160121/inverted/8-11_WaterSoluble_AluminumPouch_160121_inverted_fixed_time.summary.json",
-      "bytes": 2829,
-      "sha256": "86a752e01daaec8d73d5b3bded777eb2854e3684833fef54032309d56fc8b249"
+      "bytes": 2749,
+      "sha256": "c4faba5a376d089642051f4a170907c7925e752c319d97a8cf43cfcf1554a23f",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/160201/baseline/8-11_WaterSoluble_AluminumPouch_160201_baseline_fixed_time.summary.json",
-      "bytes": 3316,
-      "sha256": "2844372bcd9493676b1f7794c2f268d038fcd060d02227de011a10bcba03a7f5"
+      "bytes": 3230,
+      "sha256": "0a74ba7a4730bdb2875e3b5203c2f355769472a95299b807745cd8dde67c4e31",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/160201/upright_table/8-11_WaterSoluble_AluminumPouch_160201_upright_table_fixed_time.summary.json",
-      "bytes": 3017,
-      "sha256": "1175f016ae507940486a92d8052b7b5682570309fd3a7ba07b5f210a8fd0efe5"
+      "bytes": 2937,
+      "sha256": "a8caddac0f5d22bc0a499dc44016918a38af717822c3bef25c7ad894a787c91e",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/160201/horizontal_wall/8-11_WaterSoluble_AluminumPouch_160201_horizontal_wall_fixed_time.summary.json",
-      "bytes": 2916,
-      "sha256": "26b31841894320b73fa5d0e1464f39a23b155389ea5e0156d63f6db66feb5e16"
+      "bytes": 2836,
+      "sha256": "adbd85133f28599a8c7ddd9b809dd7943071e70c9c3fa43635f6010c2202fd7a",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/160201/inverted/8-11_WaterSoluble_AluminumPouch_160201_inverted_fixed_time.summary.json",
-      "bytes": 2970,
-      "sha256": "a2ad7c6f61bd2f16cfb03cf696b2739b75f57af82f5b56cdd9240bfa0d9a0e13"
+      "bytes": 2890,
+      "sha256": "b427b3acf5ab951e12a7da60d6f850c168ddb3d14aa898e6b235ead575aae456",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/Bag_BoxPacking/110914/baseline/8-12_Bag_BoxPacking_110914_baseline_fixed_time.summary.json",
-      "bytes": 3224,
-      "sha256": "66f48195d7a009331ac269613d0d45155cfe68c901a4aa4f98d69fb7bdaeabd1"
+      "bytes": 3138,
+      "sha256": "1151381b6fb25e6840febf774bbbf8620ba1cdea3dd1b88a16ed2112b14833c0",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/Bag_BoxPacking/110914/upright_table/8-12_Bag_BoxPacking_110914_upright_table_fixed_time.summary.json",
-      "bytes": 2932,
-      "sha256": "55723fdfb20cbe722fb537c4a9d09726f148462534d03023db135c56c09be4fa"
+      "bytes": 2852,
+      "sha256": "3519e50b82217483849c6bc1fc69a546827a870829b94af795cba88e7add6822",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/Bag_BoxPacking/110914/horizontal_wall/8-12_Bag_BoxPacking_110914_horizontal_wall_fixed_time.summary.json",
-      "bytes": 2842,
-      "sha256": "b5c10ee9656d711eb8c23e936b5311e52c1e2d829af7511f0e28afc784f0a3a5"
+      "bytes": 2762,
+      "sha256": "d0035fe0c8d33cd0f44d33b2820b7a95c9a12139ad8da7001a80930f4536d44d",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/Bag_BoxPacking/110914/inverted/8-12_Bag_BoxPacking_110914_inverted_fixed_time.summary.json",
-      "bytes": 2901,
-      "sha256": "8fca05e8846acd414f963e625c9fb82dc338287f60cb98d2f9e223ae0a23e386"
+      "bytes": 2821,
+      "sha256": "cfbf927b7611b88468336791becab39f5b452f72be0f4b8d134b075b9a99fee4",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/Fold_Box/111132/baseline/8-12_Fold_Box_111132_baseline_fixed_time.summary.json",
-      "bytes": 3179,
-      "sha256": "c3794e2c3b14212c4a69461f1dae8c1032541c985d62be2a36d530f8db43f7ee"
+      "bytes": 3093,
+      "sha256": "2357c8aa1cf9ab5503eb87757d852c8fb15e5655d2a445ef015e0e752a6f340b",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/Fold_Box/111132/upright_table/8-12_Fold_Box_111132_upright_table_fixed_time.summary.json",
-      "bytes": 2893,
-      "sha256": "a7c7d17cbc0dd7ca292fa82019ff6aad85ff61b41e6a90a4c835ce703dbfbb22"
+      "bytes": 2813,
+      "sha256": "14e4a739960c803375b3a5809e09a90c397395e86028f2470e227e783fcfd778",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/Fold_Box/111132/horizontal_wall/8-12_Fold_Box_111132_horizontal_wall_fixed_time.summary.json",
-      "bytes": 2803,
-      "sha256": "1a85f038fe954b8ef4a17f12a622646fe13fcaae3aa51aff211ab866b0caaea9"
+      "bytes": 2723,
+      "sha256": "fccc6531acd98b167944e77bd3ef9416386ccff29c6234d612febaca0b921fa4",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/Fold_Box/111132/inverted/8-12_Fold_Box_111132_inverted_fixed_time.summary.json",
-      "bytes": 2864,
-      "sha256": "f0f372b542cdb5084eaf153bb477778f68f4e9be1f4b89ef9a3892d99c87bc80"
+      "bytes": 2784,
+      "sha256": "dedc9e025383083d992078f2c23ea2341f0824d4da66c7e526b0b8d498d0172e",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertIntoBottle/112750/baseline/8-12_InsertIntoBottle_112750_baseline_fixed_time.summary.json",
-      "bytes": 3243,
-      "sha256": "ad035bd98afc1ecde5c5b3b46c98ab02e071f9159cb62264f84c6971d9e93820"
+      "bytes": 3157,
+      "sha256": "ce22bfea7c8546eee637035487ef38579fbd13671990388ec643f97299f594e7",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertIntoBottle/112750/upright_table/8-12_InsertIntoBottle_112750_upright_table_fixed_time.summary.json",
-      "bytes": 2940,
-      "sha256": "bd52bd69f6db6f78a40e689f50bbbe9e3c920283c52637d18c3232094f5b5b4a"
+      "bytes": 2860,
+      "sha256": "793adde5e4febf51e6012da57a7b6bce5ec9a95695ab7ec1f1e4d2de8606c44d",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertIntoBottle/112750/horizontal_wall/8-12_InsertIntoBottle_112750_horizontal_wall_fixed_time.summary.json",
-      "bytes": 2856,
-      "sha256": "c36e095d0e38f2f6959c0c700b9a01ca9108779d4af07a9a0c28029f316da71c"
+      "bytes": 2776,
+      "sha256": "cdf8b14377518c3f86d994a83049560a3635d3ee68245752b4a4404299853af2",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertIntoBottle/112750/inverted/8-12_InsertIntoBottle_112750_inverted_fixed_time.summary.json",
-      "bytes": 2771,
-      "sha256": "5e386fab23ab24fe28515fee36aad649353e032ec35187718ffb703a783cdccf"
+      "bytes": 2691,
+      "sha256": "3d635329334bcf49552d05a9604d2ee0ea52c7eaf23d6d43addd818eb3eb7181",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertIntoBottle/112858/baseline/8-12_InsertIntoBottle_112858_baseline_fixed_time.summary.json",
-      "bytes": 3242,
-      "sha256": "a33592e52613a840327065b9cbf6eb4636dd90a8d769c828a453b776ab10156e"
+      "bytes": 3156,
+      "sha256": "9d44ec9db743ceb776b6b330bc81bcfc192204bab7f5eed2379b0ba07998e146",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertIntoBottle/112858/upright_table/8-12_InsertIntoBottle_112858_upright_table_fixed_time.summary.json",
-      "bytes": 2943,
-      "sha256": "6643011103d3d4c57ef78dba627047714c195d8dc882820f7e25e3bdf89de0a8"
+      "bytes": 2863,
+      "sha256": "f9f61c2b079a8c531381da5a0188961128d3eea557a11bcf3a5b843ed59ae98d",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertIntoBottle/112858/horizontal_wall/8-12_InsertIntoBottle_112858_horizontal_wall_fixed_time.summary.json",
-      "bytes": 2999,
-      "sha256": "7bc9882539a0beeb0ee4327010a89922f3ac687fc245d961ef79a196309bc880"
+      "bytes": 2919,
+      "sha256": "f2e0de36c41e9df1573a425d29e2ffdec9f2edee084ae4b2de51eb74aeac15dc",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertIntoBottle/112858/inverted/8-12_InsertIntoBottle_112858_inverted_fixed_time.summary.json",
-      "bytes": 2768,
-      "sha256": "c6bfbbac8eb3695692acdb86b11fe96f9b2e39261e7d8b7500e6f1f3b8cf5b82"
+      "bytes": 2688,
+      "sha256": "4cbffc820556a7cbaf7178402fb778394175bdd3374b5c3a1c85e97382a4b147",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertIntoBottle/112945/baseline/8-12_InsertIntoBottle_112945_baseline_fixed_time.summary.json",
-      "bytes": 3244,
-      "sha256": "9bde592fdc6ada3da7a9ece9f5c8c7902efc5106471eccc9a0b6cdf03538a881"
+      "bytes": 3158,
+      "sha256": "3c35fa3dd1df0e93d2f8e91b45f8407b7d5c2f34452c5e223097caa241fc1385",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertIntoBottle/112945/upright_table/8-12_InsertIntoBottle_112945_upright_table_fixed_time.summary.json",
-      "bytes": 2952,
-      "sha256": "21aad4d28683e82ba57ff359a39874ec35f282d0e0bea5b73a22d7ee0a37f9d5"
+      "bytes": 2872,
+      "sha256": "33c4199b537ead6f3d87c918801608e3ab9ba80e7881b0fe1f7e1f8b64ad3564",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertIntoBottle/112945/horizontal_wall/8-12_InsertIntoBottle_112945_horizontal_wall_fixed_time.summary.json",
-      "bytes": 2852,
-      "sha256": "d6c6ec4f033320a5f022a1b32efa322e52053c190dcacea84b318b84cf4e998a"
+      "bytes": 2772,
+      "sha256": "79b78b9fdd1ceaba14a186eb8dee96f41ab09c7070a04735193b9b35618bd73e",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertIntoBottle/112945/inverted/8-12_InsertIntoBottle_112945_inverted_fixed_time.summary.json",
-      "bytes": 2915,
-      "sha256": "1a258331448717f15809d965c423cd0093212b015cbe65c34743a99f53ca444e"
+      "bytes": 2835,
+      "sha256": "a2c8a2c134239875086a61488b573cee7784a79b8b5f9c0e346fabf636b9d4b6",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertSmallPackageIntoMachine/111812/baseline/8-12_InsertSmallPackageIntoMachine_111812_baseline_fixed_time.summary.json",
-      "bytes": 3333,
-      "sha256": "403758d8d5079fd85ff25edcad11f0dd1385f6ef4537dc9d72213c4c0de3feea"
+      "bytes": 3247,
+      "sha256": "95bfd6b18a94af124d90a4e84be55c5e11aa52aeddbcdc9297a847fad016d941",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertSmallPackageIntoMachine/111812/upright_table/8-12_InsertSmallPackageIntoMachine_111812_upright_table_fixed_time.summary.json",
-      "bytes": 2879,
-      "sha256": "d870b3fe830e5af4355606d017dbf8b0fad41d4935039968cc9250c46b9143b8"
+      "bytes": 2799,
+      "sha256": "5343fc470addf5650a84e7d2023b0ceeeb47f285f1ce229d769ccd3719bf7e28",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertSmallPackageIntoMachine/111812/horizontal_wall/8-12_InsertSmallPackageIntoMachine_111812_horizontal_wall_fixed_time.summary.json",
-      "bytes": 3027,
-      "sha256": "557738517a58fdb5445be735d442a641ebf7afc80364e80adb4513cf5045950f"
+      "bytes": 2947,
+      "sha256": "424eaff077b11f06dba4ca93706ebf74ce64662133cdafbc679143cd70242009",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertSmallPackageIntoMachine/111812/inverted/8-12_InsertSmallPackageIntoMachine_111812_inverted_fixed_time.summary.json",
-      "bytes": 2850,
-      "sha256": "55580612ae67c2ac1f60abcf251ba2526d43db5183fe69bf713b5501f4439970"
+      "bytes": 2770,
+      "sha256": "db1cb0a5e6540e1fe8e620180ceda80ef1e2dd4a4cfdc32f997a3a218f7e9533",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PackIntoBox/112524/baseline/8-12_PackIntoBox_112524_baseline_fixed_time.summary.json",
-      "bytes": 3211,
-      "sha256": "3af7cbee4cd44f1b1500178e4c6b103ac6028da6a559c9411d182ce1694a8ed3"
+      "bytes": 3125,
+      "sha256": "81c99b85d2b7b8514c0ecab3de23a96de99914b47f30c99615fd48dae4dc0751",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PackIntoBox/112524/upright_table/8-12_PackIntoBox_112524_upright_table_fixed_time.summary.json",
-      "bytes": 2931,
-      "sha256": "8bb3f8cf979cd9609cf2d2a935b352a6a2386fd1ea43e0f04beedae23b6a4103"
+      "bytes": 2851,
+      "sha256": "8edf354e4c72945c1774a97a7e41d58d9489a77d460bb95baae88a5149d9fac1",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PackIntoBox/112524/horizontal_wall/8-12_PackIntoBox_112524_horizontal_wall_fixed_time.summary.json",
-      "bytes": 2819,
-      "sha256": "063e10c171e502572e85632321ae7df539d425fe1faefa15777ed682beed5ec7"
+      "bytes": 2739,
+      "sha256": "8af6ec1abcea8994316a0a84a0a281150d0c226668497e5f6e895e61793767ad",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PackIntoBox/112524/inverted/8-12_PackIntoBox_112524_inverted_fixed_time.summary.json",
-      "bytes": 2738,
-      "sha256": "3eef53db13d9d39687537cab507f7f07b946c68c5ba9815db2123b0d410a4398"
+      "bytes": 2658,
+      "sha256": "83252e601cee8423be8bb6d3583d9b731b5f341bafb5b97e48a3196068b58e72",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PackIntoBox/112633/baseline/8-12_PackIntoBox_112633_baseline_fixed_time.summary.json",
-      "bytes": 3209,
-      "sha256": "8cac0c5c827a42bb37db6e2352564f7390bd0db2ef3fb1f49590092b980aeb30"
+      "bytes": 3123,
+      "sha256": "c945b3b324bad5d0fc9f4d59e95478632e985a91ead0c1a6d5321a25df648d0b",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PackIntoBox/112633/upright_table/8-12_PackIntoBox_112633_upright_table_fixed_time.summary.json",
-      "bytes": 2926,
-      "sha256": "b9c3bcc19de74a49b362480e5f0df379ddebb482d65bc8806665266bcb5801a0"
+      "bytes": 2846,
+      "sha256": "c16808281c8c245132eb3e74c18a461eec5cb1975eaa904223a6989d255751cc",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PackIntoBox/112633/horizontal_wall/8-12_PackIntoBox_112633_horizontal_wall_fixed_time.summary.json",
-      "bytes": 2821,
-      "sha256": "f81f9ad04c27927be928b8ae16869677cf9b81add204f3069d033e619f6beb99"
+      "bytes": 2741,
+      "sha256": "e44550ddd52208de0578babbbdf69323cbf9277ca31e61519ee95a6a4e908166",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PackIntoBox/112633/inverted/8-12_PackIntoBox_112633_inverted_fixed_time.summary.json",
-      "bytes": 2737,
-      "sha256": "6ad4a86cfda2b2204dca62edcb0b895efd74ef9bba46e80791a24e61961f431c"
+      "bytes": 2657,
+      "sha256": "7dce04c7c3ccd842390c5cae6ba11a5c3b472ef1f7599c97175b6794e445fda6",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PourRawMaterial/111542/baseline/8-12_PourRawMaterial_111542_baseline_fixed_time.summary.json",
-      "bytes": 3071,
-      "sha256": "6b27a0f6dde2d5e0d5208b5d28c45444de035f175918f1a85bc9aa76753aadea"
+      "bytes": 2985,
+      "sha256": "c482ba2a614c721ae752c911d8730cb6c66f5dad27d7baae8e63549b0e42e081",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PourRawMaterial/111542/upright_table/8-12_PourRawMaterial_111542_upright_table_fixed_time.summary.json",
-      "bytes": 2940,
-      "sha256": "cf3e2fd99a74dfe201b670962bf3f97fcc0c42f0c0a0a6eab579d6b7053a031c"
+      "bytes": 2860,
+      "sha256": "9841f89bffca1c36d5374b87b9fcb1b7640ffa3b9dfb68168dad7d4ff10d4516",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PourRawMaterial/111542/horizontal_wall/8-12_PourRawMaterial_111542_horizontal_wall_fixed_time.summary.json",
-      "bytes": 2952,
-      "sha256": "4ea799696bea576a137dfc1ead610d46f73a1bb69112515a28c443b9fec590e3"
+      "bytes": 2872,
+      "sha256": "0742c05b110d22b049be2ffbd38d2bd8e3f5e014ee00cb4a7b86f7589d473d65",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PourRawMaterial/111542/inverted/8-12_PourRawMaterial_111542_inverted_fixed_time.summary.json",
-      "bytes": 2767,
-      "sha256": "3690271e25198d2d1f5c6f31077e47bcb4f1f18fd4f0430431f2215fc8b4662e"
+      "bytes": 2687,
+      "sha256": "9f82b5c66aff861e7114aa152c4f3dbe43b6b0a1e76d67b48eaf135566eb77bc",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PutIntoBox/113145/baseline/8-12_PutIntoBox_113145_baseline_fixed_time.summary.json",
-      "bytes": 3090,
-      "sha256": "b12a0b3ca3d67cdd051a11d842be90c94d7a20b6e7c97bcef843f305b6710240"
+      "bytes": 3004,
+      "sha256": "a336c368ac92211ec18e191537002775a25948666fece33737bce24c58e916a1",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PutIntoBox/113145/upright_table/8-12_PutIntoBox_113145_upright_table_fixed_time.summary.json",
-      "bytes": 2904,
-      "sha256": "85526d2449d00fe53511bfefb481027a2e6292fd738227ba147c6c852345da68"
+      "bytes": 2824,
+      "sha256": "cbf99f93c89cf056627208aa8608a8e8b9c924f9d36e7620b030897cdf926473",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PutIntoBox/113145/horizontal_wall/8-12_PutIntoBox_113145_horizontal_wall_fixed_time.summary.json",
-      "bytes": 2962,
-      "sha256": "33af64cdd6e0a77b17ceb408d130638ff87cbdb947dbeacbaa398b261d2c3399"
+      "bytes": 2882,
+      "sha256": "a3df48270d84a8593a8f142af3f51591e15f2408c4cb1a83ba44329af5802d06",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PutIntoBox/113145/inverted/8-12_PutIntoBox_113145_inverted_fixed_time.summary.json",
-      "bytes": 2731,
-      "sha256": "10c25365a11c986214fd22a0ff7ed09a061ea168a18c4e5657afe3e67cbeb9df"
+      "bytes": 2651,
+      "sha256": "9b14645c856098106282bc3fac366c44862f55d6b4140874eba8a70f9903a38a",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PutIntoBox/113250/baseline/8-12_PutIntoBox_113250_baseline_fixed_time.summary.json",
-      "bytes": 3089,
-      "sha256": "d2506be68dc3c176a6f5dc07502ad955713205c23f342b10c01140d582410935"
+      "bytes": 3003,
+      "sha256": "2bb9aaf9ac04dc63c2c825cdcde863b20232a0d4ddf214d78444abb09def03be",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PutIntoBox/113250/upright_table/8-12_PutIntoBox_113250_upright_table_fixed_time.summary.json",
-      "bytes": 2903,
-      "sha256": "963f37684296e928708eb179e9695f1e462d1e9c3b054f2a3075f9bdb069c9c3"
+      "bytes": 2823,
+      "sha256": "7e9d84ffa957bc3183e71c30484469e2b5b29ca632683d3b991d412c4a1ea247",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PutIntoBox/113250/horizontal_wall/8-12_PutIntoBox_113250_horizontal_wall_fixed_time.summary.json",
-      "bytes": 2953,
-      "sha256": "8abdaa2b05c24ee4ae19d02cbe174878d2b1b42ba360f7f1e23b6172053b31b3"
+      "bytes": 2873,
+      "sha256": "3b67bd9568851816436cf0e1dd4506e9d1f8ee5a0e92ab31baf90af502e2f3e5",
+      "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PutIntoBox/113250/inverted/8-12_PutIntoBox_113250_inverted_fixed_time.summary.json",
-      "bytes": 2876,
-      "sha256": "5acdaa18b05dfcfe573c77a7f8e88bda9e39fd7074a244510f6de2ed6a72af5e"
+      "bytes": 2796,
+      "sha256": "d78e374556e121880dd52ef974e574263c204d2fb90b2ebe39b14aa616040c8d",
+      "hash_mode": "canonical_utf8_lf"
     }
   ],
   "figures": [
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/figures/acceleration_heatmap.png",
       "bytes": 364208,
-      "sha256": "de4e56ee34b8b0216971f422e046ccdb82d10b0aa723653a1f230d563d460c92"
+      "sha256": "de4e56ee34b8b0216971f422e046ccdb82d10b0aa723653a1f230d563d460c92",
+      "hash_mode": "raw"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/figures/collision_topology_heatmap.png",
       "bytes": 237154,
-      "sha256": "4491fba3ab57f25b8909c308789e91a81e03dd32237fbc73e270e1b1109ffe3c"
+      "sha256": "4491fba3ab57f25b8909c308789e91a81e03dd32237fbc73e270e1b1109ffe3c",
+      "hash_mode": "raw"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/figures/coverage_heatmap.png",
       "bytes": 342748,
-      "sha256": "31da5543f6df2f5a6aa3263151f1a611770a7e89f0d60e99cec8796d1fd30526"
+      "sha256": "31da5543f6df2f5a6aa3263151f1a611770a7e89f0d60e99cec8796d1fd30526",
+      "hash_mode": "raw"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/figures/deployability_heatmap.png",
       "bytes": 227959,
-      "sha256": "c6d8a84ba15dc074feaeff45237dcc005499e1b1b452210a8101acaad54ac98d"
+      "sha256": "c6d8a84ba15dc074feaeff45237dcc005499e1b1b452210a8101acaad54ac98d",
+      "hash_mode": "raw"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/figures/longest_hold_heatmap.png",
       "bytes": 363061,
-      "sha256": "f9c7bfb34e1ff226a6252b95ca5346f529e044e1c9c3f108c26be066dc6de7b4"
+      "sha256": "f9c7bfb34e1ff226a6252b95ca5346f529e044e1c9c3f108c26be066dc6de7b4",
+      "hash_mode": "raw"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/figures/maximum_orientation_error_heatmap.png",
       "bytes": 308092,
-      "sha256": "8b3732546e4307c4d108fd65bdd59fc76db6d0276c5cb6db7b1263a30fedc49f"
+      "sha256": "8b3732546e4307c4d108fd65bdd59fc76db6d0276c5cb6db7b1263a30fedc49f",
+      "hash_mode": "raw"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/figures/maximum_position_error_heatmap.png",
       "bytes": 291736,
-      "sha256": "4faa9c27dd30c2c8cca6ebcb189cef222101adc7b8f62c99a5e529c72e2ac55e"
+      "sha256": "4faa9c27dd30c2c8cca6ebcb189cef222101adc7b8f62c99a5e529c72e2ac55e",
+      "hash_mode": "raw"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/figures/velocity_heatmap.png",
       "bytes": 331817,
-      "sha256": "3b18de44a24e5386649ba10795d6324bb646b1d63099bf6dbf24b6fbd895a044"
+      "sha256": "3b18de44a24e5386649ba10795d6324bb646b1d63099bf6dbf24b6fbd895a044",
+      "hash_mode": "raw"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/figures/winner_counts.png",
       "bytes": 58400,
-      "sha256": "8dd93206d9dc19671dc23ee2235921034980a2a730502abdbc7667369c83467e"
+      "sha256": "8dd93206d9dc19671dc23ee2235921034980a2a730502abdbc7667369c83467e",
+      "hash_mode": "raw"
     }
   ],
   "videos": [
@@ -699,6 +829,7 @@
       "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-11_AluminumFoilPouch_BoxPackaging_160555_four_mount_fixed_time.mp4",
       "bytes": 27505677,
       "sha256": "bda3b58dbcd95f8612cd487bb443fa22a9ee6c0f9fb950ae1c20286e4540be51",
+      "hash_mode": "raw",
       "frame_count": 1768,
       "fps": 30.0,
       "duration_s": 58.9,
@@ -706,14 +837,16 @@
       "height": 720,
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-11_AluminumFoilPouch_BoxPackaging_160555_four_mount_fixed_time.provenance.json",
-        "bytes": 2707,
-        "sha256": "686db73d16be82dd04d9a61ec606092c680d050c68b328e5d359099960690ccb"
+        "bytes": 2655,
+        "sha256": "a0f8e2f706d63d4ed3926d41b871689b2300c07d8f487b659a5fcd3f81d1c451",
+        "hash_mode": "canonical_utf8_lf"
       }
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-11_Fold_Box_160710_four_mount_fixed_time.mp4",
       "bytes": 14059031,
       "sha256": "a7bf1a73761db00d4654e103cf61dbfe2957b0073f526dc6b8915e54edac0b5e",
+      "hash_mode": "raw",
       "frame_count": 903,
       "fps": 30.0,
       "duration_s": 30.066666666666666,
@@ -721,14 +854,16 @@
       "height": 720,
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-11_Fold_Box_160710_four_mount_fixed_time.provenance.json",
-        "bytes": 2671,
-        "sha256": "9c089bc4c51c318dcd86cd8d9fc5054fa3c27b2cc76da87f9662549c1789e4d3"
+        "bytes": 2619,
+        "sha256": "e846b4826f35f858e4e2440a8ab64171d95b3548f93ae877fc8d81b32fa86b5e",
+        "hash_mode": "canonical_utf8_lf"
       }
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-11_Fold_Box_160754_four_mount_fixed_time.mp4",
       "bytes": 11097114,
       "sha256": "789e42515c2c753c06fbc47c5e93451390129b57f8fa18030ad6644f9967be85",
+      "hash_mode": "raw",
       "frame_count": 706,
       "fps": 30.0,
       "duration_s": 23.5,
@@ -736,14 +871,16 @@
       "height": 720,
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-11_Fold_Box_160754_four_mount_fixed_time.provenance.json",
-        "bytes": 2685,
-        "sha256": "a768b36803d22a7a8e6ebaaf6ba6a3c898785166beaf70ef66219e7d3c4edabd"
+        "bytes": 2633,
+        "sha256": "7481343316ea218a686bb58d0d6fe2ce5c170bad9e955719ece383865850fbf0",
+        "hash_mode": "canonical_utf8_lf"
       }
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-11_Fold_Box_160829_four_mount_fixed_time.mp4",
       "bytes": 5527463,
       "sha256": "9871a43bf8e112255b8d74e5ab9ac687d05e1c2e81a28647e16dd1ef7cbfdb9b",
+      "hash_mode": "raw",
       "frame_count": 349,
       "fps": 30.0,
       "duration_s": 11.6,
@@ -751,14 +888,16 @@
       "height": 720,
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-11_Fold_Box_160829_four_mount_fixed_time.provenance.json",
-        "bytes": 2685,
-        "sha256": "5cf102fe1a66c512aea7227506e765b53f4317019c0b8e0bf67f4405d1eb23db"
+        "bytes": 2633,
+        "sha256": "62cc6f35fdd402cd38a007448222a69bdf57cf86982497533b083d923be0ca68",
+        "hash_mode": "canonical_utf8_lf"
       }
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-11_Fold_Box_161044_four_mount_fixed_time.mp4",
       "bytes": 8276119,
       "sha256": "502e27506d51cc81c9316c3dd460c092d145d48d0ee6eb1860f2b65552139375",
+      "hash_mode": "raw",
       "frame_count": 531,
       "fps": 30.0,
       "duration_s": 17.666666666666668,
@@ -766,14 +905,16 @@
       "height": 720,
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-11_Fold_Box_161044_four_mount_fixed_time.provenance.json",
-        "bytes": 2671,
-        "sha256": "ca2207eb6d475d2b39f16bf12ec5d11804d1bc1b411f6000237614c09ffd96f0"
+        "bytes": 2619,
+        "sha256": "3e6d97ae463437603fbe06cd12cbee6a5b6b188fb8e0ecca21217b112cca6e77",
+        "hash_mode": "canonical_utf8_lf"
       }
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-11_Fold_Box_161159_four_mount_fixed_time.mp4",
       "bytes": 25120607,
       "sha256": "39cebb0b0cacef2630a67ba3bc12a9863bfaf5ccb36827a7da95ef475cbf8d50",
+      "hash_mode": "raw",
       "frame_count": 1560,
       "fps": 30.0,
       "duration_s": 51.96666666666667,
@@ -781,14 +922,16 @@
       "height": 720,
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-11_Fold_Box_161159_four_mount_fixed_time.provenance.json",
-        "bytes": 2672,
-        "sha256": "c2e2f420ab7408359fc47fa09fab0fa267f65596b475c6cc82be78861bb1ee46"
+        "bytes": 2620,
+        "sha256": "1257fb80610aa64c406f3e3dec35de2a056c535627cba4a2fe6e3a6fb010561b",
+        "hash_mode": "canonical_utf8_lf"
       }
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-11_Screw_Cap_162751_four_mount_fixed_time.mp4",
       "bytes": 7983946,
       "sha256": "9b9732d8e7a728828479daf0c6e9d1914fbe03fe54a0547e9f820785f0e50960",
+      "hash_mode": "raw",
       "frame_count": 536,
       "fps": 30.0,
       "duration_s": 17.833333333333332,
@@ -796,14 +939,16 @@
       "height": 720,
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-11_Screw_Cap_162751_four_mount_fixed_time.provenance.json",
-        "bytes": 2686,
-        "sha256": "665f36ceed0895f29c7c779828edbfccead2150ce15494d1849b93d50b44e60c"
+        "bytes": 2634,
+        "sha256": "78f62fa9ac267707cb7f59770d3f24c15b5a506ae7c10d287ea3817ab6278f07",
+        "hash_mode": "canonical_utf8_lf"
       }
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-11_Screw_Cap_162818_four_mount_fixed_time.mp4",
       "bytes": 10584781,
       "sha256": "dfbeff009d0bc78a540fde8098388531ebcb87cfc6a348363fe059497e7f91a7",
+      "hash_mode": "raw",
       "frame_count": 687,
       "fps": 30.0,
       "duration_s": 22.866666666666667,
@@ -811,14 +956,16 @@
       "height": 720,
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-11_Screw_Cap_162818_four_mount_fixed_time.provenance.json",
-        "bytes": 2672,
-        "sha256": "f1c6d1efcf280ffe19f2f91e5992ec14c14ce6ca28b043b58130032c42e3ae47"
+        "bytes": 2620,
+        "sha256": "cd4659540c75074a5f3913c633adbdb35f30e831649f505240bdb9b0a7235fcf",
+        "hash_mode": "canonical_utf8_lf"
       }
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-11_Screw_Cap_162854_four_mount_fixed_time.mp4",
       "bytes": 13686530,
       "sha256": "e2ca6eea904317485aa919d2aaeb1faa7dfd038fa4b115d2b69b8279f8853f4a",
+      "hash_mode": "raw",
       "frame_count": 906,
       "fps": 30.0,
       "duration_s": 30.166666666666668,
@@ -826,14 +973,16 @@
       "height": 720,
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-11_Screw_Cap_162854_four_mount_fixed_time.provenance.json",
-        "bytes": 2672,
-        "sha256": "35961d74ccaeb41ad6a80b8c78e5e60e50c5c5b4d679247bddd17c969ef95126"
+        "bytes": 2620,
+        "sha256": "46b6c3ea4a3c4aed53484f948d9041798071428fdce34c2a0d627b01221391ed",
+        "hash_mode": "canonical_utf8_lf"
       }
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-11_Seal_Bag_161504_four_mount_fixed_time.mp4",
       "bytes": 13534440,
       "sha256": "ab36636316899e90fa57c1a061e0c62d5242f10b33385bd4a53e270cffbfce52",
+      "hash_mode": "raw",
       "frame_count": 879,
       "fps": 30.0,
       "duration_s": 29.266666666666666,
@@ -841,14 +990,16 @@
       "height": 720,
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-11_Seal_Bag_161504_four_mount_fixed_time.provenance.json",
-        "bytes": 2671,
-        "sha256": "042d494a1655155bf37d36d88bbc39d88d118f33186bcf072dc4e87d5e5ddb50"
+        "bytes": 2619,
+        "sha256": "2b828bdc0b691cad2a2295d45568ee522f29d8a1f1cfe28cc888ef575cb69d23",
+        "hash_mode": "canonical_utf8_lf"
       }
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-11_Seal_Bag_161532_four_mount_fixed_time.mp4",
       "bytes": 7452702,
       "sha256": "f4d2aee99dc94161b6a9f5f6fcea8d18245c0df39afe2a1c20feda59982313ea",
+      "hash_mode": "raw",
       "frame_count": 485,
       "fps": 30.0,
       "duration_s": 16.133333333333333,
@@ -856,14 +1007,16 @@
       "height": 720,
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-11_Seal_Bag_161532_four_mount_fixed_time.provenance.json",
-        "bytes": 2685,
-        "sha256": "222ea3ede66a0e00ca7e1f292738986659a8fe5f7cde87d63e52d7d769463f85"
+        "bytes": 2633,
+        "sha256": "301ecc104e1e594203612da0a7a52b7e2ac618de2caba893a6346d91714fbfbe",
+        "hash_mode": "canonical_utf8_lf"
       }
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-11_Seal_Bag_161549_four_mount_fixed_time.mp4",
       "bytes": 5536820,
       "sha256": "b53db51fc14fa63cc73aa4f4fdc5201d58b5386ab34078120034f7f4705fd59d",
+      "hash_mode": "raw",
       "frame_count": 353,
       "fps": 30.0,
       "duration_s": 11.733333333333333,
@@ -871,14 +1024,16 @@
       "height": 720,
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-11_Seal_Bag_161549_four_mount_fixed_time.provenance.json",
-        "bytes": 2685,
-        "sha256": "e37f049ef984ab0dfcd6ed97c3d2ae69264256050ba96b4e57c7ab752797d150"
+        "bytes": 2633,
+        "sha256": "4f176303191672f1b236f8219adcedfddd4f1cae66cbe1349e8cbc9e57f431df",
+        "hash_mode": "canonical_utf8_lf"
       }
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-11_WaterSoluble_AluminumPouch_155911_four_mount_fixed_time.mp4",
       "bytes": 33858157,
       "sha256": "e684a03ceffb5a647e1bf32e962890d8a630c007a87c60021ef68218567d546d",
+      "hash_mode": "raw",
       "frame_count": 2122,
       "fps": 30.0,
       "duration_s": 70.7,
@@ -886,14 +1041,16 @@
       "height": 720,
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-11_WaterSoluble_AluminumPouch_155911_four_mount_fixed_time.provenance.json",
-        "bytes": 2703,
-        "sha256": "98bf761d44fc424c4167b216ef29a39fdc3a6d9f9785d0d74923f84de958cc67"
+        "bytes": 2651,
+        "sha256": "6b3e454b876dc6fb793e2e30679626b58c9603fe59d17f0fe97dc34bd4947e42",
+        "hash_mode": "canonical_utf8_lf"
       }
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-11_WaterSoluble_AluminumPouch_160040_four_mount_fixed_time.mp4",
       "bytes": 28060832,
       "sha256": "54f2a32db44a96c2bf00c4a1559caf68819f516abb1f89d352115c1039ac5e04",
+      "hash_mode": "raw",
       "frame_count": 1810,
       "fps": 30.0,
       "duration_s": 60.3,
@@ -901,14 +1058,16 @@
       "height": 720,
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-11_WaterSoluble_AluminumPouch_160040_four_mount_fixed_time.provenance.json",
-        "bytes": 2704,
-        "sha256": "a12d7daf94dfda0ab07d8ab6cdf739b82787be015f98c8e2e3428980775c6f41"
+        "bytes": 2652,
+        "sha256": "25a1b10af9d745c4f511d8b97b170f7ba1381b99df458bdb01b6411f56124982",
+        "hash_mode": "canonical_utf8_lf"
       }
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-11_WaterSoluble_AluminumPouch_160121_four_mount_fixed_time.mp4",
       "bytes": 14955773,
       "sha256": "54181c3d71b301fa48522e51dcb6147bb2bc290fa90afa3c2c8ea05acafff26b",
+      "hash_mode": "raw",
       "frame_count": 966,
       "fps": 30.0,
       "duration_s": 32.166666666666664,
@@ -916,14 +1075,16 @@
       "height": 720,
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-11_WaterSoluble_AluminumPouch_160121_four_mount_fixed_time.provenance.json",
-        "bytes": 2689,
-        "sha256": "68fbf3abd7d88cbeb4cbd92c3d1104642f392975bc73f58dec90ed3916588dcc"
+        "bytes": 2637,
+        "sha256": "16c44d9fb42415118b6ec82fe2f72a30df2889758902c9dba4dcf79fdf0f20f6",
+        "hash_mode": "canonical_utf8_lf"
       }
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-11_WaterSoluble_AluminumPouch_160201_four_mount_fixed_time.mp4",
       "bytes": 18006139,
       "sha256": "b7a2ad13618c251d426ca23aad6eb2048ac7bc7bbe7dfc4ce94e1ce29414604a",
+      "hash_mode": "raw",
       "frame_count": 1141,
       "fps": 30.0,
       "duration_s": 38.0,
@@ -931,14 +1092,16 @@
       "height": 720,
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-11_WaterSoluble_AluminumPouch_160201_four_mount_fixed_time.provenance.json",
-        "bytes": 2703,
-        "sha256": "a13c2f374470bedaacf58b974c416bda56fb306d857c6461aafa094e98da12d5"
+        "bytes": 2651,
+        "sha256": "6641a92125398fcfc024d514bea8421437ca2909fb5dea9f887d9538ccbe5490",
+        "hash_mode": "canonical_utf8_lf"
       }
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-12_Bag_BoxPacking_110914_four_mount_fixed_time.mp4",
       "bytes": 63833201,
       "sha256": "dd72d8f93e555c96e7b9b67390572fb3db203027aa33d8084947391d3de5a3c2",
+      "hash_mode": "raw",
       "frame_count": 3955,
       "fps": 30.0,
       "duration_s": 131.8,
@@ -946,14 +1109,16 @@
       "height": 720,
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-12_Bag_BoxPacking_110914_four_mount_fixed_time.provenance.json",
-        "bytes": 2692,
-        "sha256": "563bf6cfcf5b8441402f89201ca17cba30c4065615422615806cea90f27c6723"
+        "bytes": 2640,
+        "sha256": "e1e1c74e3a86f33513ebe39617228f8d179443a58827d210cb1470796f0b7af3",
+        "hash_mode": "canonical_utf8_lf"
       }
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-12_Fold_Box_111132_four_mount_fixed_time.mp4",
       "bytes": 54126553,
       "sha256": "673fc56610fd9abeb950b3efb29fb62adc1d6fc9b0a4b9a0f77449b881704bb4",
+      "hash_mode": "raw",
       "frame_count": 3402,
       "fps": 30.0,
       "duration_s": 113.36666666666666,
@@ -961,14 +1126,16 @@
       "height": 720,
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-12_Fold_Box_111132_four_mount_fixed_time.provenance.json",
-        "bytes": 2673,
-        "sha256": "871d89fbd6746ea983fbc77258ff1814b06a52c8bb4455d95973c26a175504f1"
+        "bytes": 2621,
+        "sha256": "21d8244cdd6b37344f2f8ca56fe3336ba960093d8fd5b2083806daf0446db5bc",
+        "hash_mode": "canonical_utf8_lf"
       }
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-12_InsertIntoBottle_112750_four_mount_fixed_time.mp4",
       "bytes": 12738665,
       "sha256": "5c93f1fda0898c8be726a052186c5527405e0bd3e0325001bafcfdb7c95914bb",
+      "hash_mode": "raw",
       "frame_count": 826,
       "fps": 30.0,
       "duration_s": 27.5,
@@ -976,14 +1143,16 @@
       "height": 720,
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-12_InsertIntoBottle_112750_four_mount_fixed_time.provenance.json",
-        "bytes": 2693,
-        "sha256": "ce6aaa70493a701be22dff12b1d83d5ce4d80aebc5977eac3c3e08081a1386d1"
+        "bytes": 2641,
+        "sha256": "074c7bf7407db95ec1df82a390a314f2260914c1b9d4f830ddd34f0081db0a54",
+        "hash_mode": "canonical_utf8_lf"
       }
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-12_InsertIntoBottle_112858_four_mount_fixed_time.mp4",
       "bytes": 15559494,
       "sha256": "cad52e3a9f38ff320ec9e3fa07a4bf9d2a708fe7b155a7c87d000367c295e9b0",
+      "hash_mode": "raw",
       "frame_count": 1016,
       "fps": 30.0,
       "duration_s": 33.833333333333336,
@@ -991,14 +1160,16 @@
       "height": 720,
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-12_InsertIntoBottle_112858_four_mount_fixed_time.provenance.json",
-        "bytes": 2693,
-        "sha256": "4c0e5268aa64be7401c32982b3356624bab1fdd1c893be6baa06638f968b49a9"
+        "bytes": 2641,
+        "sha256": "363b3af4695d8c56fbe93156f923d618ff79fa9c86c055823b1eb1a28e941541",
+        "hash_mode": "canonical_utf8_lf"
       }
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-12_InsertIntoBottle_112945_four_mount_fixed_time.mp4",
       "bytes": 11823607,
       "sha256": "4c2a08294bcbde9936385782df9d54327e16cfc2991f2bb5e9df2bc47bbffffb",
+      "hash_mode": "raw",
       "frame_count": 780,
       "fps": 30.0,
       "duration_s": 25.966666666666665,
@@ -1006,14 +1177,16 @@
       "height": 720,
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-12_InsertIntoBottle_112945_four_mount_fixed_time.provenance.json",
-        "bytes": 2679,
-        "sha256": "817a653f91996b11d0ff98fd4149d5269c94790a1b1eecc2c0c430f71c5ac0a2"
+        "bytes": 2627,
+        "sha256": "f316149e7361af1dfd3cb5085d2ca2c5fe6c210db8c7897b8dd6ab4b16766967",
+        "hash_mode": "canonical_utf8_lf"
       }
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-12_InsertSmallPackageIntoMachine_111812_four_mount_fixed_time.mp4",
       "bytes": 40891622,
       "sha256": "a69f0752c7c87c7b7a5a7ddee8aa87040e0a9a884c1387abb3c7918ccb5cc67e",
+      "hash_mode": "raw",
       "frame_count": 2637,
       "fps": 30.0,
       "duration_s": 87.86666666666666,
@@ -1021,14 +1194,16 @@
       "height": 720,
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-12_InsertSmallPackageIntoMachine_111812_four_mount_fixed_time.provenance.json",
-        "bytes": 2693,
-        "sha256": "458d711c949ff66609e75e2774e99a81784335148148057ec7161538db5cc5ce"
+        "bytes": 2641,
+        "sha256": "3183523f57634c2ed8f3702a8c7b757e9891817b95ce3ce26b5dbbfa4de69b22",
+        "hash_mode": "canonical_utf8_lf"
       }
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-12_PackIntoBox_112524_four_mount_fixed_time.mp4",
       "bytes": 24365380,
       "sha256": "dfee729045a223aa0eec408f64a98c9cbadc6f6964d02bcf69efe0f5cb9f33ad",
+      "hash_mode": "raw",
       "frame_count": 1583,
       "fps": 30.0,
       "duration_s": 52.733333333333334,
@@ -1036,14 +1211,16 @@
       "height": 720,
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-12_PackIntoBox_112524_four_mount_fixed_time.provenance.json",
-        "bytes": 2689,
-        "sha256": "9575180104eb1629b936b32db92352e9b6a9acdae89f7beb37131effed2fe0d1"
+        "bytes": 2637,
+        "sha256": "429d8861a2d110ac137162a94184990649e72fde2863f96b5ee0bad1601f8e01",
+        "hash_mode": "canonical_utf8_lf"
       }
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-12_PackIntoBox_112633_four_mount_fixed_time.mp4",
       "bytes": 26312520,
       "sha256": "4022bbafffc5f78cd4f45c416369640e5214ed40b6b94f887cd07795b0f39bcc",
+      "hash_mode": "raw",
       "frame_count": 1688,
       "fps": 30.0,
       "duration_s": 56.233333333333334,
@@ -1051,14 +1228,16 @@
       "height": 720,
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-12_PackIntoBox_112633_four_mount_fixed_time.provenance.json",
-        "bytes": 2689,
-        "sha256": "acc27646af5057beb1e943091336540b508f4de84ee5500fe222cd3aedbdeb7e"
+        "bytes": 2637,
+        "sha256": "0f704d24e55e47360f7bfaf9bbc0313d2c8bdfd9537c350bc281aa220a94a7e5",
+        "hash_mode": "canonical_utf8_lf"
       }
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-12_PourRawMaterial_111542_four_mount_fixed_time.mp4",
       "bytes": 33111696,
       "sha256": "811776a0e36f267d07ade603b949fb8084c9e7079b2b291816d2953f86309293",
+      "hash_mode": "raw",
       "frame_count": 2131,
       "fps": 30.0,
       "duration_s": 71.0,
@@ -1066,14 +1245,16 @@
       "height": 720,
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-12_PourRawMaterial_111542_four_mount_fixed_time.provenance.json",
-        "bytes": 2692,
-        "sha256": "d4046fb17344e3e9370162030d04b8fdc8b990b17dbcf5de29166da2d53bdd6f"
+        "bytes": 2640,
+        "sha256": "8a49051809b123b8bab6f1c6100801f39034ce29e542d42f81cf7f71c2600567",
+        "hash_mode": "canonical_utf8_lf"
       }
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-12_PutIntoBox_113145_four_mount_fixed_time.mp4",
       "bytes": 28402532,
       "sha256": "9f26868ce7fdc8ea6aa1a648187fe6c915035b4dcb42afe3a0bc587d01aea92e",
+      "hash_mode": "raw",
       "frame_count": 1773,
       "fps": 30.0,
       "duration_s": 59.06666666666667,
@@ -1081,14 +1262,16 @@
       "height": 720,
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-12_PutIntoBox_113145_four_mount_fixed_time.provenance.json",
-        "bytes": 2674,
-        "sha256": "087982bef65f9d9d1c8ececdadb861c2520c9fa547222516a055406507e5ebf3"
+        "bytes": 2622,
+        "sha256": "d40c501a26cbadc66d6231e270ffe92182f543164f4c40b2eda3e5c693176858",
+        "hash_mode": "canonical_utf8_lf"
       }
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-12_PutIntoBox_113250_four_mount_fixed_time.mp4",
       "bytes": 23522398,
       "sha256": "473e35e282f81fcf59ce3f82898d99ba9382bacab389514bff93b1c74bd10c37",
+      "hash_mode": "raw",
       "frame_count": 1490,
       "fps": 30.0,
       "duration_s": 49.63333333333333,
@@ -1096,8 +1279,9 @@
       "height": 720,
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-12_PutIntoBox_113250_four_mount_fixed_time.provenance.json",
-        "bytes": 2688,
-        "sha256": "01fa3f755cf989dcc86d62bb64ab43e8b82ddeea33989d470f9621d94b5e0bca"
+        "bytes": 2636,
+        "sha256": "2507461e6d1e8b45f936b8d9cdec3ec2efe5dbd0c3ffc738c4647141622c24a1",
+        "hash_mode": "canonical_utf8_lf"
       }
     }
   ]
