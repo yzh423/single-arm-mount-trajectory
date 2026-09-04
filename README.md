@@ -26,6 +26,8 @@ Safety is not a ranking preference. Every published shard must satisfy all three
 
 The current validated bundle contains all 108 trajectory and mount cells. The baseline and upright-table configurations have substantially higher average strict coverage than the wall and inverted configurations. This is a measured workspace and orientation limitation under the exact timing and pose constraints, not a missing-data artifact. See [Limitations](#limitations) before interpreting coverage as task-level deployability.
 
+Under the joint publication gate of 100% strict both-hand coverage, PiperX velocity/acceleration limits, and zero safety violations, the current result is 0 of 108 cells. Coverage winners in the report therefore describe relative fixed-time pose-following capability, not deployment readiness.
+
 Published evidence:
 
 - [Final 38-page PDF report](reports/piperx_multitask_fixed_time_mount_study/PiperX多任务Fixed-Time四构型对比报告.pdf)
@@ -40,6 +42,8 @@ The trajectory `8-12/PourRawMaterial/111542` is the running example in this READ
 ### Run or resume the PiperX study
 
 When reproducing or extending the published experiment, begin from the versioned parameter contract rather than reconstructing settings from command history. The recommended configuration is [`configs/piperx_recommended_v31.json`](configs/piperx_recommended_v31.json); it stores calibrated family-specific tool frames, mount poses, solver budgets, and bounded wrist adaptations.
+
+> **Caution:** On Windows, run `git config --global core.longpaths true` before cloning or checking out the complete official-model tree; otherwise Git for Windows can fail on tracked paths longer than the legacy 260-character limit.
 
 Use Python 3.11. Install `requirements.txt` for the Fixed-time study, report, and tests; install `requirements-full.txt` when running the optional repository-wide single-arm, conversion, and desktop UI tools.
 
@@ -63,6 +67,8 @@ python -m scripts.build_piperx_multitask_fixed_time_bundle --validate-only
 # Verify the published PDF, figures, videos, provenance, and implementation hashes
 python -m scripts.build_piperx_multitask_release_manifest --validate-only
 ```
+
+> **Note:** `--validate-only` on the release manifest first reruns complete bundle validation. For the published 27 by 4 matrix, that reloads all 108 NPZ shards, recomputes pose, dynamics, and aggregate evidence, and compiles all 108 MuJoCo scene XMLs so missing or corrupt model inputs fail closed.
 
 Rebuild figures, real MuJoCo comparison videos, and the PDF from validated evidence:
 
@@ -121,6 +127,8 @@ When reachability, IK, and collision claims depend on link dimensions and joint 
 
 Official and vendored robot assets are retained under [`third_party/official_robot_models/`](third_party/official_robot_models/). Model provenance and licenses remain with those assets. Do not substitute display meshes or approximate link geometry for formal collision evidence.
 
+> **Note:** The current release manifest content-addresses exactly 22 unique PiperX mesh files actually referenced by the 108 published scenes. Other trees under `third_party/official_robot_models/` remain broader source assets, not direct dependencies of this PiperX Fixed-time release.
+
 ## Compare installation configurations
 
 Mount comparison combines calibrated task-family defaults with per-trajectory search because one family-wide pose does not place every recording in the same reachable and collision-free workspace. Unlike score-only selection, the final choice excludes incomplete safety evidence before comparing IK coverage.
@@ -139,7 +147,11 @@ When comparing table, wall, and inverted installations, change the physical base
 
 When family defaults do not place a particular recording in a reachable and collision-free region, search that trajectory's layout without weakening the final safety contract. `PerTaskSearchConfig`, `candidate_fingerprint`, `rank_full_finalist`, and `select_safe_layout` in [`factory_bimanual/per_task_mount_search.py`](factory_bimanual/per_task_mount_search.py) manage staged search and caching. Orientation, spacing, workspace, coarse, dense, and local refinement modules progressively reduce the candidate set before formal audit.
 
+> **Note:** `baseline` is frozen from the configured task-family representative and is not searched per trajectory; only `upright_table`, `horizontal_wall`, and `inverted` pass through the per-trajectory coarse, dense, local, and full search funnel.
+
 Only fully audited candidates are eligible for final selection. Selection raises when no collision-free, topology-valid layout exists. Incomplete evidence cannot be treated as a successful mount merely because its sparse IK score is high.
+
+> **Caution:** Search ranking maximizes safe paired coverage while preserving reachability and safety frontiers, whereas published winner ranking first rejects any nonzero safety count and only then compares synchronized coverage. Do not reuse either comparator as a substitute for the other.
 
 This distinction is visible on `8-12/PourRawMaterial/111542`: upright-table reaches 32.28% strict both-hand coverage, horizontal-wall reaches 4.98%, and baseline and inverted reach 0%. The modes retain the same 5942 deterministically conditioned targets and original timestamps, so the difference measures installation and IK capability rather than a different playback schedule.
 
@@ -162,6 +174,8 @@ On the running PourRawMaterial trajectory, the upright-table shard records 1926 
 ### Refine and recover without changing time
 
 When an exact next-frame connection fails, recovery may preserve a safe executable path, but it must not alter the timestamp or relabel the missed target as success. The fixed-time refinement, complete-follow, collision-safe-follow, and rescue modules therefore attempt exact connections first, then bounded safe recovery. A safe hold can preserve collision safety when the next target is unreachable, but the held frame remains a strict-follow failure.
+
+> **Caution:** A shard may initialize from a later search-proven safe segment, but recovery is forbidden before that segment begins. Earlier unsolved source frames remain HOLD; the solver cannot teleport into the later state or delete those timestamps.
 
 > **Caution:** Missing IK must not be relabeled as collision-free success when the controller holds the last safe posture.
 
@@ -203,7 +217,7 @@ For `8-12/PourRawMaterial/111542`, four shards preserve the same 5942-frame sour
 
 ### Reject stale caches
 
-When source data, tool conventions, mounts, robot geometry, collision settings, or solver behavior changes, reusing an older result would make the evidence internally inconsistent. Search checkpoints and candidates therefore include exact source hashes, budgets, mount parameters, tool-frame contracts, safety settings, and implementation protocols in their fingerprints. Formal summaries additionally bind the selected mount, source prefix, robot URDF hash, scene settings, and strict solver contract. Matching only a schema or protocol name is insufficient.
+When source data, tool conventions, mounts, robot geometry, collision settings, or solver behavior changes, reusing an older result would make the evidence internally inconsistent. Search checkpoints and candidates therefore include exact source hashes, budgets, mount parameters, tool-frame contracts, safety settings, and implementation protocols in their fingerprints. Formal summaries use `robot_geometry_sha256` to fingerprint the model text plus the vendored mesh and package asset trees alongside source identity, mount, tool-frame, collision, scene, and solver settings. Only an exact formal fingerprint may be reused; matching only a schema or protocol name is insufficient.
 
 ### Assemble and validate the bundle
 
@@ -243,6 +257,8 @@ The running example is published as [`8-12_PourRawMaterial_111542_four_mount_fix
 
 When producing the final report, require the same complete, non-retimed evidence contract used by the plots and videos. [`scripts/build_piperx_multitask_mount_report.py`](scripts/build_piperx_multitask_mount_report.py) enforces that manifest requirement. The final [PiperX multi-task four-mount report](reports/piperx_multitask_fixed_time_mount_study/PiperX多任务Fixed-Time四构型对比报告.pdf) contains the experiment contract, task-level tables, figures, safety audit, and synchronized visual comparisons.
 
+> **Note:** Release hashing normalizes text to UTF-8 with LF line endings, but hashes NPZ, MP4, PDF, PNG, and other binary artifacts as raw bytes. Cross-platform text checkout differences therefore do not change text identity, while any binary-byte drift fails release validation.
+
 ## Extend single-arm optimization
 
 The single-arm surfaces are useful when the research question is robot selection or mount optimization rather than synchronized dual-hand Fixed-time following.
@@ -268,8 +284,6 @@ Wall and inverted mounts have low or zero strict coverage on many trajectories b
 The published collision result applies to the checked native MuJoCo geometry, transition sampling, clearance settings, and mount-topology contract. It does not replace hardware commissioning, calibration, torque limits, environmental collision checking, or emergency-stop validation.
 
 Dynamic failures are not repaired by retiming in this study. Velocity and acceleration results describe execution at the recorded schedule. Use a separate retiming experiment only when changing task timing is acceptable, and do not compare it as Fixed-time evidence.
-
-Under the joint publication gate of 100% strict both-hand coverage, PiperX velocity/acceleration limits, and zero safety violations, the current result is 0 of 108 cells. Coverage winners in the report therefore describe relative fixed-time pose-following capability, not deployment readiness.
 
 ## Repository layout
 
