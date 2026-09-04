@@ -8,4 +8,4 @@ PiPER-X records its public repository and pinned revision in `piperx/SOURCE.md`.
 
 The ARX and Doosan snapshot directories do not currently contain a complete upstream license/provenance record. They are retained to preserve the model inputs used by the experiments, but downstream users must verify the applicable vendor terms before redistribution or commercial use.
 
-Corrupt redundant ZIP files were removed from the publication. The expanded model trees remain authoritative, and every remaining top-level ZIP is covered by an archive-integrity test.
+Corrupt redundant ZIP files were removed from the publication. The former `incomplete/` directory was also removed because it contained failed or partial downloads of PiPER, Universal Robots, and Doosan sources rather than additional qualified robot models; those models remain in their complete expanded directories. The expanded model trees remain authoritative, and every remaining top-level ZIP is covered by an archive-integrity test.
