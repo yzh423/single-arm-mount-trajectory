@@ -83,3 +83,17 @@ def test_geometry_fingerprint_changes_when_a_mesh_changes(tmp_path):
     after = contracts._geometry_source_sha256(model, (meshes,))
 
     assert before != after
+
+
+def test_geometry_fingerprint_ignores_model_checkout_line_endings(tmp_path):
+    meshes = tmp_path / "meshes"
+    meshes.mkdir()
+    (meshes / "link.stl").write_bytes(b"mesh")
+    lf = tmp_path / "lf.urdf"
+    crlf = tmp_path / "crlf.urdf"
+    model = "<robot name='test'>\n  <link name='base'/>\n</robot>\n"
+    lf.write_bytes(model.encode("utf-8"))
+    crlf.write_bytes(model.replace("\n", "\r\n").encode("utf-8"))
+
+    assert contracts._geometry_source_sha256(lf, (meshes,)) == (
+        contracts._geometry_source_sha256(crlf, (meshes,)))

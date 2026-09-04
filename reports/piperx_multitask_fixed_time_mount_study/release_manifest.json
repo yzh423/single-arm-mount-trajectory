@@ -36,9 +36,19 @@
       "sha256": "85b1c7e1e93d63642dc23b0490fa2b0ee4d39983a2803ce62da2bd27e395d0a6"
     },
     {
+      "path": "factory_bimanual/robot_contracts.py",
+      "bytes": 4316,
+      "sha256": "3d9062e28b73a6cbf37d913b66d0395bb4083e2711887217a2fa045d4da43a46"
+    },
+    {
       "path": "factory_bimanual/scene_builder.py",
       "bytes": 8998,
       "sha256": "7b9588deced7d9ef22fdc580aab48cadeecfc4f825abbe8b43f17b726e860a22"
+    },
+    {
+      "path": "scripts/strict_urdf_model_audit.py",
+      "bytes": 19890,
+      "sha256": "1fc3d2ddbc4cea25fdf0bbe8a4dd0f3b8f0752dfad56248f1a0b7606209a202b"
     },
     {
       "path": "scripts/run_piperx_multitask_fixed_time_mount_study.py",

@@ -17,6 +17,10 @@ from scripts.strict_urdf_model_audit import load_native_spec
 
 Side = Literal["left", "right"]
 ROOT = Path(__file__).resolve().parents[1]
+_TEXT_GEOMETRY_SUFFIXES = frozenset({
+    ".dae", ".json", ".mtl", ".obj", ".sdf", ".urdf", ".xacro",
+    ".xml", ".yaml", ".yml",
+})
 
 
 @dataclass(frozen=True)
@@ -62,9 +66,16 @@ def _geometry_source_sha256(model_path: Path, asset_roots) -> str:
         label_bytes = label.encode("utf-8")
         digest.update(len(label_bytes).to_bytes(8, "big"))
         digest.update(label_bytes)
-        with path.open("rb") as stream:
-            for chunk in iter(lambda: stream.read(1024 * 1024), b""):
-                digest.update(chunk)
+        data = path.read_bytes()
+        if path.suffix.lower() in _TEXT_GEOMETRY_SUFFIXES:
+            try:
+                text = data.decode("utf-8-sig")
+            except UnicodeDecodeError:
+                pass
+            else:
+                data = text.replace("\r\n", "\n").replace(
+                    "\r", "\n").encode("utf-8")
+        digest.update(data)
     return digest.hexdigest()
 
 

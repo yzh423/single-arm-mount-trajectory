@@ -17,7 +17,9 @@ DEFAULT_OUTPUT = ROOT / "reports/piperx_multitask_fixed_time_mount_study"
 IMPLEMENTATION_FILES = (
     ROOT / "configs/piperx_recommended_v31.json",
     ROOT / "factory_bimanual/multitask_fixed_time_study.py",
+    ROOT / "factory_bimanual/robot_contracts.py",
     ROOT / "factory_bimanual/scene_builder.py",
+    ROOT / "scripts/strict_urdf_model_audit.py",
     ROOT / "scripts/run_piperx_multitask_fixed_time_mount_study.py",
     ROOT / "scripts/build_piperx_multitask_fixed_time_bundle.py",
     ROOT / "scripts/render_piperx_multitask_mount_comparisons.py",

@@ -47,6 +47,12 @@ runs/
 !/third_party/official_robot_models/**
 /third_party/**/.git/
 
+# Runtime mesh conversion caches are reproducible from the tracked vendor
+# snapshots. Existing published derived assets remain tracked; new cache keys
+# must not make a clean checkout dirty.
+/third_party/official_robot_models/official_derived/converted_meshes/*.stl
+/third_party/official_robot_models/official_derived/resolved_meshes/
+
 /reports/*
 !/reports/README.md
 !/reports/piperx_two_task_fixed_time/
