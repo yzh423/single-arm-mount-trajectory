@@ -898,6 +898,14 @@ def _validate_scene_manifest(scene):
         raise ValueError("scene manifest output XML mismatch")
 
 
+def _validate_scene_loadable(scene):
+    """Compile a published scene so missing or corrupt mesh inputs fail closed."""
+    try:
+        return mujoco.MjModel.from_xml_path(str(Path(scene).resolve()))
+    except (OSError, RuntimeError, ValueError) as exc:
+        raise ValueError(f"scene cannot be compiled: {scene}") from exc
+
+
 def _validate_aggregate_csv(path, expected_rows):
     """Require the published table to be an exact serialization of shards."""
     path = Path(path)
@@ -985,6 +993,7 @@ def validate_bundle_artifacts(manifest_path, *, require_complete=True):
             raise ValueError(
                 f"{shard['trajectory']}/{shard['mode']}: scene hash mismatch")
         _validate_scene_manifest(scene)
+        _validate_scene_loadable(scene)
         recomputed = aggregate_shard(payload)
         if recomputed != summary["metrics"]:
             raise ValueError(f"{shard['trajectory']}/{shard['mode']}: summary drift")

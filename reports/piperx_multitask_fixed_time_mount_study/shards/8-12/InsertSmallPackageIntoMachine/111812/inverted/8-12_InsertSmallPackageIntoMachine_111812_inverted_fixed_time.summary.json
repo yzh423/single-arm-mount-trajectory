@@ -72,7 +72,7 @@
     },
     "scene_xml": {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertSmallPackageIntoMachine/111812/inverted/8-12_InsertSmallPackageIntoMachine_111812_inverted_fixed_time.scene.xml",
-      "sha256": "32466830710c1c15096749305d3d65b89667a5fd1768a5cd5f2479d692ca3e44"
+      "sha256": "c559f06b614c1149ca3347801c49c6c1b021ee6d4d4fc0240455d0ee22d02413"
     }
   },
   "formal_fingerprint": "c05067a9687b6c135f88ab02ff58308b248c38ea983948eda0d980724da2be0d",

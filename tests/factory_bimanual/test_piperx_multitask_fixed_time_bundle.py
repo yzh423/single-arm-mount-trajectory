@@ -228,6 +228,19 @@ def test_artifact_resolver_rejects_absolute_and_parent_escape_paths(tmp_path):
         bundle._resolve_artifact("../outside.npz")
 
 
+def test_scene_dependency_validation_compiles_the_published_scene(tmp_path):
+    scene = tmp_path / "scene.xml"
+    scene.write_text(
+        "<mujoco><compiler meshdir='missing'/><asset>"
+        "<mesh name='body' file='absent.stl'/></asset>"
+        "<worldbody><geom type='mesh' mesh='body'/></worldbody></mujoco>",
+        encoding="utf-8",
+    )
+
+    with pytest.raises(ValueError, match="scene cannot be compiled"):
+        bundle._validate_scene_loadable(scene)
+
+
 def _summary_contract_fixture():
     spec = TrajectorySpec(
         family=TaskFamily("8-11", "Fold_Box"), take="161044",

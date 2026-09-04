@@ -78,7 +78,7 @@
     },
     "scene_xml": {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/160121/baseline/8-11_WaterSoluble_AluminumPouch_160121_baseline_fixed_time.scene.xml",
-      "sha256": "ce0e2d83572e4b1be40f90ed6a5231c4ba973e205b21c3f7c00fdba35c8aef63"
+      "sha256": "c70994706c846db243e3e743ff47dc02364359b25aea99522427552e380d81db"
     }
   },
   "formal_fingerprint": "acb1f385a3c3a8ec83c62e51074aa2ffd5b1b44152222a40a11d7116aee7a201",

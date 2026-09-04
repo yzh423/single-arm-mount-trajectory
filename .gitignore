@@ -51,7 +51,9 @@ runs/
 # snapshots. Existing published derived assets remain tracked; new cache keys
 # must not make a clean checkout dirty.
 /third_party/official_robot_models/official_derived/converted_meshes/*.stl
-/third_party/official_robot_models/official_derived/resolved_meshes/
+/third_party/official_robot_models/official_derived/resolved_meshes/*
+!/third_party/official_robot_models/official_derived/resolved_meshes/piperx-*/
+!/third_party/official_robot_models/official_derived/resolved_meshes/piperx-*/**
 
 /reports/*
 !/reports/README.md

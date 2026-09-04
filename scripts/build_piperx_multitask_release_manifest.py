@@ -5,6 +5,7 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
+import xml.etree.ElementTree as ET
 
 import numpy as np
 
@@ -70,6 +71,33 @@ def _validate_file_record(record):
     return path
 
 
+def _scene_mesh_dependencies(scene_path):
+    """Resolve every mesh file actually loaded by a published scene."""
+    scene_path = Path(scene_path).resolve()
+    root = ET.parse(scene_path).getroot()
+    compiler = root.find("compiler")
+    meshdir = Path(compiler.get("meshdir", ".") if compiler is not None else ".")
+    if meshdir.is_absolute():
+        raise ValueError("published scene meshdir must be scene-relative")
+    mesh_root = (scene_path.parent / meshdir).resolve()
+    dependencies = set()
+    for mesh in root.findall("./asset/mesh"):
+        filename = Path(mesh.get("file", ""))
+        if not filename.parts or filename.is_absolute():
+            raise ValueError("published scene mesh file must be relative")
+        dependency = (mesh_root / filename).resolve()
+        try:
+            dependency.relative_to(ROOT.resolve())
+        except ValueError as exc:
+            raise ValueError("published scene mesh resolves outside repository") from exc
+        if not dependency.is_file():
+            raise FileNotFoundError(dependency)
+        dependencies.add(dependency)
+    if not dependencies:
+        raise ValueError("published scene must load real mesh dependencies")
+    return tuple(sorted(dependencies, key=lambda path: path.as_posix()))
+
+
 def _validate_video_provenance(provenance, record, check):
     decoded = {
         "frame_count": check.frame_count,
@@ -133,11 +161,15 @@ def build_release_manifest(output_root=DEFAULT_OUTPUT):
 
     summaries = []
     source_hashes = {}
+    scene_mesh_dependencies = set()
     for shard in manifest["shards"]:
         path = bundle._resolve_artifact(shard["summary_json"])
         summary = json.loads(path.read_text(encoding="utf-8"))
         summaries.append(_file_record(path))
         source_hashes[summary["trajectory"]] = summary["source_sha256"]
+        scene = bundle._resolve_artifact(
+            summary["artifacts"]["scene_xml"]["path"])
+        scene_mesh_dependencies.update(_scene_mesh_dependencies(scene))
 
     figures = [
         _file_record(path)
@@ -178,6 +210,10 @@ def build_release_manifest(output_root=DEFAULT_OUTPUT):
         ],
         "source_sha256_by_trajectory": dict(sorted(source_hashes.items())),
         "summary_files": summaries,
+        "scene_mesh_dependencies": [
+            _file_record(path) for path in sorted(
+                scene_mesh_dependencies, key=lambda item: item.as_posix())
+        ],
         "figures": figures,
         "videos": videos,
     }
@@ -228,15 +264,29 @@ def validate_release_manifest(path=DEFAULT_OUTPUT / "release_manifest.json"):
 
     source_hashes = {}
     expected_panel_evidence = {}
+    expected_scene_dependencies = set()
     for record in summary_records:
         summary_path = _validate_file_record(record)
         summary = json.loads(summary_path.read_text(encoding="utf-8"))
         source_hashes[summary["trajectory"]] = summary["source_sha256"]
         expected_panel_evidence.setdefault(summary["trajectory"], {})[
             summary["mode"]] = renderer._panel_provenance(summary_path)
+        scene_path = bundle._resolve_artifact(
+            summary["artifacts"]["scene_xml"]["path"])
+        expected_scene_dependencies.update(
+            _scene_mesh_dependencies(scene_path))
     if dict(sorted(source_hashes.items())) != payload.get(
             "source_sha256_by_trajectory"):
         raise ValueError("release source hash index drift")
+    dependency_records = payload.get("scene_mesh_dependencies", [])
+    expected_dependency_paths = {
+        bundle._repo_relative(path) for path in expected_scene_dependencies
+    }
+    if ({record.get("path") for record in dependency_records}
+            != expected_dependency_paths):
+        raise ValueError("release scene mesh dependency set drift")
+    for record in dependency_records:
+        _validate_file_record(record)
     for record in figure_records:
         _validate_file_record(record)
     video_trajectories = set()

@@ -1,5 +1,5 @@
 <mujoco model="factory_bimanual_piperx">
-  <compiler angle="radian" meshdir="../../../../../../../third_party/official_robot_models/official_derived/resolved_meshes/c7625947587d28e8" />
+  <compiler angle="radian" meshdir="../../../../../../../third_party/official_robot_models/official_derived/resolved_meshes/piperx-ba7ef94798a106e9" />
 
   <default>
     <default class="left_main" />

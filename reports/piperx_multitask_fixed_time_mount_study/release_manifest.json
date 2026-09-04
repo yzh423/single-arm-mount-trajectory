@@ -54,8 +54,8 @@
     },
     {
       "path": "scripts/strict_urdf_model_audit.py",
-      "bytes": 19890,
-      "sha256": "1fc3d2ddbc4cea25fdf0bbe8a4dd0f3b8f0752dfad56248f1a0b7606209a202b",
+      "bytes": 21131,
+      "sha256": "b5cb0ba9d2872bd71ef7ddcb91805de4e8fd81b454eec0dabdd84220114e295c",
       "hash_mode": "canonical_utf8_lf"
     },
     {
@@ -66,8 +66,8 @@
     },
     {
       "path": "scripts/build_piperx_multitask_fixed_time_bundle.py",
-      "bytes": 51728,
-      "sha256": "b3fc05399a3bec969bfbb98e3c3d6413dcd77774106ed682cd755ef804068174",
+      "bytes": 52098,
+      "sha256": "19c855449f457c252dabd02e3108bc059ebd0c134834b98a55e83b2df6e690f2",
       "hash_mode": "canonical_utf8_lf"
     },
     {
@@ -122,650 +122,784 @@
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/AluminumFoilPouch_BoxPackaging/160555/baseline/8-11_AluminumFoilPouch_BoxPackaging_160555_baseline_fixed_time.summary.json",
       "bytes": 3239,
-      "sha256": "2e083901bf1e1a5ada18abf6a0a12ed5c8f94acedca966c44676f15ea4338a78",
+      "sha256": "f30ef3e5dd8d8a8f782094581fca038d82484266775a11566540c1582bae3571",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/AluminumFoilPouch_BoxPackaging/160555/upright_table/8-11_AluminumFoilPouch_BoxPackaging_160555_upright_table_fixed_time.summary.json",
       "bytes": 2941,
-      "sha256": "dc483c11ba4161bb236fb4a2838b6599b9c6ff7660786cda2bb9a41a7c5e538e",
+      "sha256": "e595c4ef3cc9054fdd0c91fcd953bf6f35979ff67ee4c06a0669c58eb4a76372",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/AluminumFoilPouch_BoxPackaging/160555/horizontal_wall/8-11_AluminumFoilPouch_BoxPackaging_160555_horizontal_wall_fixed_time.summary.json",
       "bytes": 2860,
-      "sha256": "a569a69e887f6951a31caccab5798edb003494e454680e9241ce00c006db2d6d",
+      "sha256": "6d4653d0c57f89ec3e47908b49a08424c8010be3d659a3d3e6c1f83ed96d1e3a",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/AluminumFoilPouch_BoxPackaging/160555/inverted/8-11_AluminumFoilPouch_BoxPackaging_160555_inverted_fixed_time.summary.json",
       "bytes": 2774,
-      "sha256": "d882521dbd96b9f4e281d319bb3eaf024b4304ae76a54b76038139fbf29e2950",
+      "sha256": "bab7709f49aca58ab275bc99d3c3cf321a1a034d1aafdbd40c43bb55c8c78a46",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/160710/baseline/8-11_Fold_Box_160710_baseline_fixed_time.summary.json",
       "bytes": 3088,
-      "sha256": "9aa5f11cd1602ce80f83718b936a084a6b4bc16480418126e8d11c795c033bc9",
+      "sha256": "dcc7445383fd916891f3069b80f321c67d835da8e29d85b6b6de2d9a057ce7d3",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/160710/upright_table/8-11_Fold_Box_160710_upright_table_fixed_time.summary.json",
       "bytes": 2815,
-      "sha256": "ac730a60ec33558b592ebd3d59e43ff1883cdd107ac974529bfd915757764579",
+      "sha256": "4f8b8d861c4bb6b942331c56ed087263d4c9ffdc9875a784dd7dde035d8a2f8b",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/160710/horizontal_wall/8-11_Fold_Box_160710_horizontal_wall_fixed_time.summary.json",
       "bytes": 2870,
-      "sha256": "193d9e19bd9729f840cd6c5bce5994c12eedbef516132004364675f1e0a093a0",
+      "sha256": "087dbc97308f010e0e95d0a40f142364c6c3cc6bb0d0972ae7a40d0640830ad2",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/160710/inverted/8-11_Fold_Box_160710_inverted_fixed_time.summary.json",
       "bytes": 2640,
-      "sha256": "b2ad9394aca35c61f59bb48041a87bb0f5a894dbdbca806ee32e427feae2e092",
+      "sha256": "dfb3e9c463ddfd1b3dddc86ed016ceca343a24a52b272422f085c2b91375d7d4",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/160754/baseline/8-11_Fold_Box_160754_baseline_fixed_time.summary.json",
       "bytes": 3092,
-      "sha256": "e6827b92b9018196e121ccbea6b971a7b9b2cb35bc3b9f251dbeb439f7ff6e6c",
+      "sha256": "e87ce624d4b11268b779afb8742f36f269c518c67ff10cc7cce45f6748a72838",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/160754/upright_table/8-11_Fold_Box_160754_upright_table_fixed_time.summary.json",
       "bytes": 2817,
-      "sha256": "499aa67c8867bb4ffbccc156b7c37abafbaaf4629469b37ef0b97df8a068d3fc",
+      "sha256": "77e39701afe52ff8ab6cfdda7492f1b9f4443158c8d8fdecc31e810d6f4cf0d5",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/160754/horizontal_wall/8-11_Fold_Box_160754_horizontal_wall_fixed_time.summary.json",
       "bytes": 2871,
-      "sha256": "d952ac57ef2bc7d72808a51feea919aa4558fbfe41b642cc48db9beedcec85ec",
+      "sha256": "987f5d53046cc32e7c4b6f171879fe20bd9ec9be2ba664b29ea447316af2e3c1",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/160754/inverted/8-11_Fold_Box_160754_inverted_fixed_time.summary.json",
       "bytes": 2640,
-      "sha256": "db15c3bb52cfacb25a4d0cb82a16ef8414aed2a34a1238e127f23129488e8e52",
+      "sha256": "d2d732edf0e3eeed6f3a7d7cccd30f3cf1d863a4ffc0b2663bd0604bdaed9ddd",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/160829/baseline/8-11_Fold_Box_160829_baseline_fixed_time.summary.json",
       "bytes": 3087,
-      "sha256": "ca7b53c71554936feab47f5059c8cf08cccf553ac160a5a1886c4ad316d628cd",
+      "sha256": "b648a5cff00380eab39ce2b9f8ed82e5dc7d1ec503ff8a6cb04d1ba7f2981683",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/160829/upright_table/8-11_Fold_Box_160829_upright_table_fixed_time.summary.json",
       "bytes": 2808,
-      "sha256": "03095f6fd6f4b5a6188dfa985633eb096115406ef418e84ab1bd22c3cca5d9d4",
+      "sha256": "886615ad0cbe63f59d2f64268d079d0ea52c98e46d7ca19e5d33e22995dd7fd6",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/160829/horizontal_wall/8-11_Fold_Box_160829_horizontal_wall_fixed_time.summary.json",
       "bytes": 2719,
-      "sha256": "a1a043de0c6e658a9b268c31913e922cf3c328400fb2c900ee851b3f2ca1284a",
+      "sha256": "a3fc58201a051fcc94c9065d3b535b6100b2ad7c529232586b67567d41e1d4c4",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/160829/inverted/8-11_Fold_Box_160829_inverted_fixed_time.summary.json",
       "bytes": 2637,
-      "sha256": "302687541a7c1da9febb48958d570b80dd08d3042e4466ff58d438eb32a18211",
+      "sha256": "686a639e3523467f1a093d1ba7b1c17d724bbf31ca873f223e6278d7039ee51d",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/161044/baseline/8-11_Fold_Box_161044_baseline_fixed_time.summary.json",
       "bytes": 3089,
-      "sha256": "cccbdd63906c7c2f631648bf4984fd5eaf08fc4e7c4fef892d0580169dcfdb55",
+      "sha256": "3fc5ca4331c918665827b4ff9caa2bf71b2c2d0753970579296dd9fc1fab62c7",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/161044/upright_table/8-11_Fold_Box_161044_upright_table_fixed_time.summary.json",
       "bytes": 2808,
-      "sha256": "c245a5ef1690949e1a94871462698b7b0f5ff51398403b7e6b744691b5d4a3c1",
+      "sha256": "4a55a93a4c303880a6521c5184ec2c610eaf204a3f2e2b7f90fe5fb6d174db73",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/161044/horizontal_wall/8-11_Fold_Box_161044_horizontal_wall_fixed_time.summary.json",
       "bytes": 2880,
-      "sha256": "9b00dcce81afc8622a232c4a8f47936b39cb6a0f1c0001303facf588e9d12ba7",
+      "sha256": "3e6e43f6dfa3dd49fb304ee7a12b1b2a739184614a77f8e3c0b0d2b474a47963",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/161044/inverted/8-11_Fold_Box_161044_inverted_fixed_time.summary.json",
       "bytes": 2780,
-      "sha256": "088a1ed14ca096856bf9efeec9533fa2e5cd710d13a685cdc347ee65194be041",
+      "sha256": "35eb16ab4651a7ebc59abc7402b1a4697458cd1d5c3ca1e08e059e8792b414d9",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/161159/baseline/8-11_Fold_Box_161159_baseline_fixed_time.summary.json",
       "bytes": 3094,
-      "sha256": "f67d43168f2f640a626e5cd1e3a94c50d07fdbb262dc96d9909bb295818e306c",
+      "sha256": "15a8e1b4d2a7b3743d8ee2fc1baee4a76186ba47fa7fc82a5995a16111022e20",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/161159/upright_table/8-11_Fold_Box_161159_upright_table_fixed_time.summary.json",
       "bytes": 2813,
-      "sha256": "54d7ddd62ad33e958dd988561c1623ae40e87d3a90deb9f676080896fe2df6b3",
+      "sha256": "c84ce2cdef60a33f8bc2645f47e48e06bbbc02fdaa98fb1e5edac5517e04943a",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/161159/horizontal_wall/8-11_Fold_Box_161159_horizontal_wall_fixed_time.summary.json",
       "bytes": 2726,
-      "sha256": "5167a5dfa9409c1e10c5feb5a6e9f8a32b0ecf4309238f8d6cea8a827e70e323",
+      "sha256": "4ce2e4f18c7d14ff985ae5c1f552c208a26b5715380ba90a38e01d9a1ef999d4",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Fold_Box/161159/inverted/8-11_Fold_Box_161159_inverted_fixed_time.summary.json",
       "bytes": 2778,
-      "sha256": "78aa5cebf7a477a547dd7ea4556403dfd5682b8fcc83338941ffee1b2f99a17a",
+      "sha256": "d739f1a5763a1c4d048e5cf2c281116633e71a9b38e54a998002c9b5a2daf3f3",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Screw_Cap/162751/baseline/8-11_Screw_Cap_162751_baseline_fixed_time.summary.json",
       "bytes": 3116,
-      "sha256": "f885a76d2b31fd27deba4b2fb4935bc441e80c3f349b0116665e77215978a7e7",
+      "sha256": "8984a759a7a0141f46f0749c99010f124e6c63ac9009c5fe36698d34636327b1",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Screw_Cap/162751/upright_table/8-11_Screw_Cap_162751_upright_table_fixed_time.summary.json",
       "bytes": 2822,
-      "sha256": "6dc20d74f62f17965fdf8b544bff005387e91b83087c8b77c3c20efe1f2d1cab",
+      "sha256": "799b95574b95d05128ff822f96d4690ec91eac7ada365a312bd18786d2a7c72b",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Screw_Cap/162751/horizontal_wall/8-11_Screw_Cap_162751_horizontal_wall_fixed_time.summary.json",
       "bytes": 2731,
-      "sha256": "bea3f2c576521a7c1b4701e8cf3825f546af5c8d9e2deaf6990a4468adbd1ba1",
+      "sha256": "625c9c70bfd97470f8a8d230533afa6a41d56a70a772650061c04f80f2feb76a",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Screw_Cap/162751/inverted/8-11_Screw_Cap_162751_inverted_fixed_time.summary.json",
       "bytes": 2649,
-      "sha256": "96d47ee76a55706b1bfa98848749e4e1eea50f7f42e76ceb05dca1fa6a299405",
+      "sha256": "cb973247b4ad1e42e82a31ee712b97027c2416f4bab75d1960f9d5b1b98d7a61",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Screw_Cap/162818/baseline/8-11_Screw_Cap_162818_baseline_fixed_time.summary.json",
       "bytes": 3112,
-      "sha256": "bff6aa1775a7d79d03f8c0f5bd24116fce058a28f9d98ca92fefb9b7f46bf772",
+      "sha256": "7f2fc0c4891df63d1cde56112d967dc219179ea9037f26b66303d592ccd6abc6",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Screw_Cap/162818/upright_table/8-11_Screw_Cap_162818_upright_table_fixed_time.summary.json",
       "bytes": 2819,
-      "sha256": "ae5be98aca56b94153899f7070155f806036f591fd00f8cbe2de4df6e3fd81b1",
+      "sha256": "c0a04201df2bc3739913fbe05ea5859cad4c5b06727596e2978233fecd3294a0",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Screw_Cap/162818/horizontal_wall/8-11_Screw_Cap_162818_horizontal_wall_fixed_time.summary.json",
       "bytes": 2875,
-      "sha256": "c8e9cfc2b2eb85a111cc7b4c5b3ce772bff708a7dbc08c253c48ba330b2a9ed7",
+      "sha256": "18e17409889034557e7da0ac1cfc8a66f344723f5e47ea928ab6de2695a7d837",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Screw_Cap/162818/inverted/8-11_Screw_Cap_162818_inverted_fixed_time.summary.json",
       "bytes": 2789,
-      "sha256": "22ff202a35a35f9eb3562e5c8ae95d685d926cf42fdee572afeebd43e3a3cbf6",
+      "sha256": "7cc8761eee24cab2fd47d36fb414a4a2a87f7c21d057391cabd92548e3fdc682",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Screw_Cap/162854/baseline/8-11_Screw_Cap_162854_baseline_fixed_time.summary.json",
       "bytes": 3113,
-      "sha256": "2ded5b853d8a8b80921cb6bbbdbbfe8586035b198b5d4929ea5b1505dae5dc10",
+      "sha256": "ea96091ec70c9d39c67b470986543c153700e3952fe8e148eee5610023061d22",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Screw_Cap/162854/upright_table/8-11_Screw_Cap_162854_upright_table_fixed_time.summary.json",
       "bytes": 2827,
-      "sha256": "9f97b56a07f00a9f63c06a313d692f8e8164c2cb37baecb6bbaf42179f6091e5",
+      "sha256": "4c35b053ed011f75d35e2c2b9d9617c9c18336a961dd5e948e0ecd25a5530ec4",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Screw_Cap/162854/horizontal_wall/8-11_Screw_Cap_162854_horizontal_wall_fixed_time.summary.json",
       "bytes": 2734,
-      "sha256": "7c92feb7d2078c9da081df19326d0dd8c120f9068f59fc3395155d536187686d",
+      "sha256": "df658025983aab9946cc78ef13370516e0edf7668411ed3a69ad7dc79f8b5e4d",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Screw_Cap/162854/inverted/8-11_Screw_Cap_162854_inverted_fixed_time.summary.json",
       "bytes": 2786,
-      "sha256": "2d858baab46be178893e6624b1b9705abd5bb1e241c24a17b2c9c8c8ec63ac99",
+      "sha256": "8878462d577f211a43b8cd590644f94e6998b0a8135d6a5a396c86898d80a214",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Seal_Bag/161504/baseline/8-11_Seal_Bag_161504_baseline_fixed_time.summary.json",
       "bytes": 3017,
-      "sha256": "a9a57b0ec6a2a9ac922e77c3b9127eafea26f28f1d68e406ffec197fd9cfcf6d",
+      "sha256": "a6d4c22eaeb40e6489d54a23e710fa5343e57ddebbbe119b2cf6ce130a1df5b4",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Seal_Bag/161504/upright_table/8-11_Seal_Bag_161504_upright_table_fixed_time.summary.json",
       "bytes": 2811,
-      "sha256": "0b7eb025a7953e667a3a2d383b8ef9000d4e62f2b6be18763a03bad36578e008",
+      "sha256": "c2194da77448b4a035f44e2b7b361c66302f46be919e0de092844ec68af354ed",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Seal_Bag/161504/horizontal_wall/8-11_Seal_Bag_161504_horizontal_wall_fixed_time.summary.json",
       "bytes": 2861,
-      "sha256": "039058eb1b4b81eb5b9d7710e999ba678685528dd34277f68f61c68c895975dc",
+      "sha256": "0a3fa81baf3a65f42e7a32ecdb601e995ab2849a471beb1bd33064b4afd2e47d",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Seal_Bag/161504/inverted/8-11_Seal_Bag_161504_inverted_fixed_time.summary.json",
       "bytes": 2785,
-      "sha256": "d339f4e1f04facf902f183fcee44b24b2eda2bf94aef23b82c534186b0c97819",
+      "sha256": "952d505421489f9dc07e939b7d36ded614b1a335177fce0f7dd9cb7e8540d5e1",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Seal_Bag/161532/baseline/8-11_Seal_Bag_161532_baseline_fixed_time.summary.json",
       "bytes": 3090,
-      "sha256": "8e851dda66a3f9dd03d880811a9ff52fd44185b366ed62b87286dcb25fe15de4",
+      "sha256": "d5fdc9eba134cba3d6979ca17034fface032b01b30b013cf2083a3074b88b6f3",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Seal_Bag/161532/upright_table/8-11_Seal_Bag_161532_upright_table_fixed_time.summary.json",
       "bytes": 2810,
-      "sha256": "1501778c0968e9865b6311306a374f0bde0be70c7a7a35d84ed96931e4e7cf95",
+      "sha256": "e71c1888f233b4532f30ad3a0dd279f42603dfdae7b52acfe505eab48e3019cc",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Seal_Bag/161532/horizontal_wall/8-11_Seal_Bag_161532_horizontal_wall_fixed_time.summary.json",
       "bytes": 2721,
-      "sha256": "355f9ec53faacda8695cf7e7eef53f43ea426103598c195a7d2b7336a88e2daa",
+      "sha256": "1108157bb7e81612dc5afcbfb84f0dc9e08272cac88fa82484c797eba7420bb9",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Seal_Bag/161532/inverted/8-11_Seal_Bag_161532_inverted_fixed_time.summary.json",
       "bytes": 2782,
-      "sha256": "aa9b4e9a4de0318e6bca575b95f14cde5b2b4dac97d8d3ab593e4b8d013904ec",
+      "sha256": "73bd387a1248351f33186861120a2a9c7bca63fb16ea6ab5450115e031489f7c",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Seal_Bag/161549/baseline/8-11_Seal_Bag_161549_baseline_fixed_time.summary.json",
       "bytes": 3087,
-      "sha256": "9a4c24f8f226a6e52c984f998c0255da767b7db9998b62c842de278d5f997a48",
+      "sha256": "ea02fb1c25967067626e4dc7b77ec4b5ffdab20400682fd6a2bc2ca27c101347",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Seal_Bag/161549/upright_table/8-11_Seal_Bag_161549_upright_table_fixed_time.summary.json",
       "bytes": 2797,
-      "sha256": "3621deed9fcade45b766e54f62233023a29b8cb7189617c9467db067b7fb0193",
+      "sha256": "94f21057ed9738f22498c5bb09878519305eff59c270f5b56fbc16972f220423",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Seal_Bag/161549/horizontal_wall/8-11_Seal_Bag_161549_horizontal_wall_fixed_time.summary.json",
       "bytes": 2719,
-      "sha256": "f23f407c5afd7bce8e21c634f70398ec021818790e6cbd66f8cac82f198f6e4d",
+      "sha256": "8d365d0f4e824327073a2a80b04a66d17b57c14c66c14060f050caf97f8f86b2",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/Seal_Bag/161549/inverted/8-11_Seal_Bag_161549_inverted_fixed_time.summary.json",
       "bytes": 2775,
-      "sha256": "1dce7cd0423ee8849def801d5b53efeb12bf1aaf72fb3850a84cf1acd6d92b7b",
+      "sha256": "5049f73f50ad90d4feefc6f17f645a44c0c2c33a6251fd9d90c2ef00c602fe96",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/155911/baseline/8-11_WaterSoluble_AluminumPouch_155911_baseline_fixed_time.summary.json",
       "bytes": 3231,
-      "sha256": "1a32a59f2b781aa00db087b0d560b786e9a96231df686a9f1dfc1ed8f4f4914c",
+      "sha256": "733a238ebd7135cab42e61d4632977a403fbbd23dc976c20b5a7b6662d992594",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/155911/upright_table/8-11_WaterSoluble_AluminumPouch_155911_upright_table_fixed_time.summary.json",
       "bytes": 2919,
-      "sha256": "a1b803cf6628285a437161e364909cc40669bf42fcfd13d8ef61a0c40eefa456",
+      "sha256": "db3eb8c365e2109bb51da6744e87495165f3764ed5aa2a36fd948777877f3cf7",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/155911/horizontal_wall/8-11_WaterSoluble_AluminumPouch_155911_horizontal_wall_fixed_time.summary.json",
       "bytes": 2975,
-      "sha256": "b2447b7813c3ad8163f9d63c845e85144b470970c2513e71609c7f8e11d58473",
+      "sha256": "5549fa0498b04c1d0f81a5bad046a2eaa0fa76926e07baae0d73efcd456ff52f",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/155911/inverted/8-11_WaterSoluble_AluminumPouch_155911_inverted_fixed_time.summary.json",
       "bytes": 2750,
-      "sha256": "9003a4736867ab25d9f5c161a881bd90af0cc6bf103f77a020990efe1a500c75",
+      "sha256": "9bced7f640da532420cdd186c63c700ee675ed224d451376e5c17435b14ce1c4",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/160040/baseline/8-11_WaterSoluble_AluminumPouch_160040_baseline_fixed_time.summary.json",
       "bytes": 3230,
-      "sha256": "d8d74908a6f36a2b781ee1c7b41c3d66836baa1852e6b39c9132a68af22a0c0b",
+      "sha256": "7ace5bcef467f6f1d3c3c23dbacbb312364c19452e07f22f1441c4c4734d6c27",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/160040/upright_table/8-11_WaterSoluble_AluminumPouch_160040_upright_table_fixed_time.summary.json",
       "bytes": 2938,
-      "sha256": "c100d5eeac2c480d78cd986b055f3e2fb47370dc0ee3a28fd9c5604c3c5750e6",
+      "sha256": "79920e589901190386973074103f6db37e84ae2f20051a2b38a8fe486d0a11a3",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/160040/horizontal_wall/8-11_WaterSoluble_AluminumPouch_160040_horizontal_wall_fixed_time.summary.json",
       "bytes": 2836,
-      "sha256": "a615783fd7ce08153c38be1005a8aad46a73b189dd509ba49a184dcfa8481a72",
+      "sha256": "e4e140a20973ad4075c20a0586c268d847b17b81d4627b71d13608a33e8f4fef",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/160040/inverted/8-11_WaterSoluble_AluminumPouch_160040_inverted_fixed_time.summary.json",
       "bytes": 2752,
-      "sha256": "69c3df9e939a35fd12722c9f8ddb2e82885c4740c4870ccccc5860085e0f5788",
+      "sha256": "7f19eba78666b04bb5804d6f2e4b2b4c467af29fb5d9bfac9c25e47e243527ff",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/160121/baseline/8-11_WaterSoluble_AluminumPouch_160121_baseline_fixed_time.summary.json",
       "bytes": 3233,
-      "sha256": "e44428414681e9468118a944e4e87fa5b0c11d1f17f86f3c283c3c188d6634c7",
+      "sha256": "371f8912f85211b3061d3871a181334d4ea6ec38d78789260bdc6a5e323448d9",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/160121/upright_table/8-11_WaterSoluble_AluminumPouch_160121_upright_table_fixed_time.summary.json",
       "bytes": 2919,
-      "sha256": "fd333d21c05a74b7342f3762af9231438cfb1f38740b3f3fb924983f81bab76e",
+      "sha256": "0d556b5424f7f75cbb435227fa485d4e7dd824c337c3c680b706456da518a1ef",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/160121/horizontal_wall/8-11_WaterSoluble_AluminumPouch_160121_horizontal_wall_fixed_time.summary.json",
       "bytes": 2833,
-      "sha256": "1eb87f773f732b6ca1b6cda4c97bea2c9bb0e765731e3a705a807b9feabe4113",
+      "sha256": "631be257bf32080906f100e38ecf64dc7100050ca4d6fb3f3921e8cf09e87228",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/160121/inverted/8-11_WaterSoluble_AluminumPouch_160121_inverted_fixed_time.summary.json",
       "bytes": 2749,
-      "sha256": "c4faba5a376d089642051f4a170907c7925e752c319d97a8cf43cfcf1554a23f",
+      "sha256": "f0ed7c852daf6a502dc22becd17fb8d5cf82f48ad7b8391232148f3adbbbbf49",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/160201/baseline/8-11_WaterSoluble_AluminumPouch_160201_baseline_fixed_time.summary.json",
       "bytes": 3230,
-      "sha256": "0a74ba7a4730bdb2875e3b5203c2f355769472a95299b807745cd8dde67c4e31",
+      "sha256": "79d915e1eeae1f4afc4b1d9b71624b64457b4933a8be2e6861f16aaea6370a31",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/160201/upright_table/8-11_WaterSoluble_AluminumPouch_160201_upright_table_fixed_time.summary.json",
       "bytes": 2937,
-      "sha256": "a8caddac0f5d22bc0a499dc44016918a38af717822c3bef25c7ad894a787c91e",
+      "sha256": "fa038caff9fe64f01a6cecb0425d20d62512c3a4dfd0cc9cdd3dfabb054b2025",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/160201/horizontal_wall/8-11_WaterSoluble_AluminumPouch_160201_horizontal_wall_fixed_time.summary.json",
       "bytes": 2836,
-      "sha256": "adbd85133f28599a8c7ddd9b809dd7943071e70c9c3fa43635f6010c2202fd7a",
+      "sha256": "374618af64fa98e57cfdf908fdebdb072a22f6e9fbe39f7a9a7122d3fd7c05d8",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-11/WaterSoluble_AluminumPouch/160201/inverted/8-11_WaterSoluble_AluminumPouch_160201_inverted_fixed_time.summary.json",
       "bytes": 2890,
-      "sha256": "b427b3acf5ab951e12a7da60d6f850c168ddb3d14aa898e6b235ead575aae456",
+      "sha256": "3e25218825c2cdd64b3b15357e577dabfdf55014597bf82f40e1d5d7a9a32d3f",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/Bag_BoxPacking/110914/baseline/8-12_Bag_BoxPacking_110914_baseline_fixed_time.summary.json",
       "bytes": 3138,
-      "sha256": "1151381b6fb25e6840febf774bbbf8620ba1cdea3dd1b88a16ed2112b14833c0",
+      "sha256": "96c59c1d521850f9a8463985e551fed53c11db2a37295ff0644b53c32e340038",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/Bag_BoxPacking/110914/upright_table/8-12_Bag_BoxPacking_110914_upright_table_fixed_time.summary.json",
       "bytes": 2852,
-      "sha256": "3519e50b82217483849c6bc1fc69a546827a870829b94af795cba88e7add6822",
+      "sha256": "714871aeb0e990593b658a4558e77137447bc77951965c33189b7771086a70ce",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/Bag_BoxPacking/110914/horizontal_wall/8-12_Bag_BoxPacking_110914_horizontal_wall_fixed_time.summary.json",
       "bytes": 2762,
-      "sha256": "d0035fe0c8d33cd0f44d33b2820b7a95c9a12139ad8da7001a80930f4536d44d",
+      "sha256": "f127a250b1505ae13c06dbe4d6ca73e7b915f3730953c84b4ae1c226d0712428",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/Bag_BoxPacking/110914/inverted/8-12_Bag_BoxPacking_110914_inverted_fixed_time.summary.json",
       "bytes": 2821,
-      "sha256": "cfbf927b7611b88468336791becab39f5b452f72be0f4b8d134b075b9a99fee4",
+      "sha256": "607c08538f412848593ad3b748618a20a7ca5334dad5e107a1087462230dcc89",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/Fold_Box/111132/baseline/8-12_Fold_Box_111132_baseline_fixed_time.summary.json",
       "bytes": 3093,
-      "sha256": "2357c8aa1cf9ab5503eb87757d852c8fb15e5655d2a445ef015e0e752a6f340b",
+      "sha256": "b994d61367203cc8939aa778eba36db17504bbc0dc4ee721492c1ff3c714aa8d",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/Fold_Box/111132/upright_table/8-12_Fold_Box_111132_upright_table_fixed_time.summary.json",
       "bytes": 2813,
-      "sha256": "14e4a739960c803375b3a5809e09a90c397395e86028f2470e227e783fcfd778",
+      "sha256": "9c90feef1faf837a354dfd2c6617f6a5b93477562a0400db725176c1d9922f54",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/Fold_Box/111132/horizontal_wall/8-12_Fold_Box_111132_horizontal_wall_fixed_time.summary.json",
       "bytes": 2723,
-      "sha256": "fccc6531acd98b167944e77bd3ef9416386ccff29c6234d612febaca0b921fa4",
+      "sha256": "4b2492a9e59d46710079a8d01d8d0d8f3955598e028eac1e1316a14a72a726d8",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/Fold_Box/111132/inverted/8-12_Fold_Box_111132_inverted_fixed_time.summary.json",
       "bytes": 2784,
-      "sha256": "dedc9e025383083d992078f2c23ea2341f0824d4da66c7e526b0b8d498d0172e",
+      "sha256": "e9c0cd3c9a8834a5359f6ef0e034977bc746b73e79b0d00d3fd336c3c6e72572",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertIntoBottle/112750/baseline/8-12_InsertIntoBottle_112750_baseline_fixed_time.summary.json",
       "bytes": 3157,
-      "sha256": "ce22bfea7c8546eee637035487ef38579fbd13671990388ec643f97299f594e7",
+      "sha256": "0786e785c9698e7921589da3452f6e915c1b84fe093308ba7f95ef6dad804f6f",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertIntoBottle/112750/upright_table/8-12_InsertIntoBottle_112750_upright_table_fixed_time.summary.json",
       "bytes": 2860,
-      "sha256": "793adde5e4febf51e6012da57a7b6bce5ec9a95695ab7ec1f1e4d2de8606c44d",
+      "sha256": "c1d37d4ed62f1458c7571c019a3f283d4c7af82088aabb203f3eda431e63f569",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertIntoBottle/112750/horizontal_wall/8-12_InsertIntoBottle_112750_horizontal_wall_fixed_time.summary.json",
       "bytes": 2776,
-      "sha256": "cdf8b14377518c3f86d994a83049560a3635d3ee68245752b4a4404299853af2",
+      "sha256": "e50a03508544dfabc7104a4a8aee72df57c1ea75ebd9db3ddf09106aec3a2a44",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertIntoBottle/112750/inverted/8-12_InsertIntoBottle_112750_inverted_fixed_time.summary.json",
       "bytes": 2691,
-      "sha256": "3d635329334bcf49552d05a9604d2ee0ea52c7eaf23d6d43addd818eb3eb7181",
+      "sha256": "769a48663a951a8e2c240a2e7023e9803f534241b5ea844bf51d1e27c45e0cdb",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertIntoBottle/112858/baseline/8-12_InsertIntoBottle_112858_baseline_fixed_time.summary.json",
       "bytes": 3156,
-      "sha256": "9d44ec9db743ceb776b6b330bc81bcfc192204bab7f5eed2379b0ba07998e146",
+      "sha256": "d816116c1fa390c73e24bbd1b85602afea3abcc058d8c7f6e9a26c6d8a267889",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertIntoBottle/112858/upright_table/8-12_InsertIntoBottle_112858_upright_table_fixed_time.summary.json",
       "bytes": 2863,
-      "sha256": "f9f61c2b079a8c531381da5a0188961128d3eea557a11bcf3a5b843ed59ae98d",
+      "sha256": "86ef3f55ecb7fee27189ed4742f662bd7126ac70d0b287801d1c90e77ec0da02",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertIntoBottle/112858/horizontal_wall/8-12_InsertIntoBottle_112858_horizontal_wall_fixed_time.summary.json",
       "bytes": 2919,
-      "sha256": "f2e0de36c41e9df1573a425d29e2ffdec9f2edee084ae4b2de51eb74aeac15dc",
+      "sha256": "c41da1f3cd1d10c1fc44c0c8d70c7bad2d94bf693209110583217e658c69a497",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertIntoBottle/112858/inverted/8-12_InsertIntoBottle_112858_inverted_fixed_time.summary.json",
       "bytes": 2688,
-      "sha256": "4cbffc820556a7cbaf7178402fb778394175bdd3374b5c3a1c85e97382a4b147",
+      "sha256": "46db99e199596a74d5e7093af2c29efe451a5bcc0e99e6935b30a9b9906bdc1b",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertIntoBottle/112945/baseline/8-12_InsertIntoBottle_112945_baseline_fixed_time.summary.json",
       "bytes": 3158,
-      "sha256": "3c35fa3dd1df0e93d2f8e91b45f8407b7d5c2f34452c5e223097caa241fc1385",
+      "sha256": "360b1f97e12e29ad5b93198a09cf39b6da43528e91f5006b6cd7b15298610abd",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertIntoBottle/112945/upright_table/8-12_InsertIntoBottle_112945_upright_table_fixed_time.summary.json",
       "bytes": 2872,
-      "sha256": "33c4199b537ead6f3d87c918801608e3ab9ba80e7881b0fe1f7e1f8b64ad3564",
+      "sha256": "e307b863b56a728308b29a083d133760cd294045ad8e44b8e6ef170ed6da7416",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertIntoBottle/112945/horizontal_wall/8-12_InsertIntoBottle_112945_horizontal_wall_fixed_time.summary.json",
       "bytes": 2772,
-      "sha256": "79b78b9fdd1ceaba14a186eb8dee96f41ab09c7070a04735193b9b35618bd73e",
+      "sha256": "75cbbda8a34fcf2da9b84da977c76683bc3c4aeb35ff1cbb4921afd700538315",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertIntoBottle/112945/inverted/8-12_InsertIntoBottle_112945_inverted_fixed_time.summary.json",
       "bytes": 2835,
-      "sha256": "a2c8a2c134239875086a61488b573cee7784a79b8b5f9c0e346fabf636b9d4b6",
+      "sha256": "191c7c278a5699b7a6a884c9542152bc8bd19b72ef457923546faccd5a5b0896",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertSmallPackageIntoMachine/111812/baseline/8-12_InsertSmallPackageIntoMachine_111812_baseline_fixed_time.summary.json",
       "bytes": 3247,
-      "sha256": "95bfd6b18a94af124d90a4e84be55c5e11aa52aeddbcdc9297a847fad016d941",
+      "sha256": "304a2aae5c25218c2327ef039f7e54df014337d12687ffa896f6ba5f165d936e",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertSmallPackageIntoMachine/111812/upright_table/8-12_InsertSmallPackageIntoMachine_111812_upright_table_fixed_time.summary.json",
       "bytes": 2799,
-      "sha256": "5343fc470addf5650a84e7d2023b0ceeeb47f285f1ce229d769ccd3719bf7e28",
+      "sha256": "0c229edbec2b9b99234df782929d0f468fc9cf2893a51f5f029e3d00e402c2c6",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertSmallPackageIntoMachine/111812/horizontal_wall/8-12_InsertSmallPackageIntoMachine_111812_horizontal_wall_fixed_time.summary.json",
       "bytes": 2947,
-      "sha256": "424eaff077b11f06dba4ca93706ebf74ce64662133cdafbc679143cd70242009",
+      "sha256": "97bcd55eb1ee29c6b0ac102cfd56c7281de435a51d30095485e5b92a597c133e",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertSmallPackageIntoMachine/111812/inverted/8-12_InsertSmallPackageIntoMachine_111812_inverted_fixed_time.summary.json",
       "bytes": 2770,
-      "sha256": "db1cb0a5e6540e1fe8e620180ceda80ef1e2dd4a4cfdc32f997a3a218f7e9533",
+      "sha256": "0e67a317417cb38e7d4c24648bb0acf52029fd978a641bfd62bdeac54b98c3bd",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PackIntoBox/112524/baseline/8-12_PackIntoBox_112524_baseline_fixed_time.summary.json",
       "bytes": 3125,
-      "sha256": "81c99b85d2b7b8514c0ecab3de23a96de99914b47f30c99615fd48dae4dc0751",
+      "sha256": "b774f7ccc3a1719aeeb2a4f9905be151e61f575b31051b6563f9e3940f41e314",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PackIntoBox/112524/upright_table/8-12_PackIntoBox_112524_upright_table_fixed_time.summary.json",
       "bytes": 2851,
-      "sha256": "8edf354e4c72945c1774a97a7e41d58d9489a77d460bb95baae88a5149d9fac1",
+      "sha256": "48718fe0ad8af40405d62210501e94c0db0636d3a8a9baccaef27cffb9ca37f3",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PackIntoBox/112524/horizontal_wall/8-12_PackIntoBox_112524_horizontal_wall_fixed_time.summary.json",
       "bytes": 2739,
-      "sha256": "8af6ec1abcea8994316a0a84a0a281150d0c226668497e5f6e895e61793767ad",
+      "sha256": "f24c0970b2fdc5faf64bddcb5c0bd24507d0d5e7b6ebbc616c2d238348f123eb",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PackIntoBox/112524/inverted/8-12_PackIntoBox_112524_inverted_fixed_time.summary.json",
       "bytes": 2658,
-      "sha256": "83252e601cee8423be8bb6d3583d9b731b5f341bafb5b97e48a3196068b58e72",
+      "sha256": "f41af137b9ad18a7b02e0ec27822bd86d7df4d22ed95549be87a81623ae2071b",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PackIntoBox/112633/baseline/8-12_PackIntoBox_112633_baseline_fixed_time.summary.json",
       "bytes": 3123,
-      "sha256": "c945b3b324bad5d0fc9f4d59e95478632e985a91ead0c1a6d5321a25df648d0b",
+      "sha256": "215c5c1cd767650c584f3f1200a153e59738a8149de111ebe8ba9a152a5deb94",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PackIntoBox/112633/upright_table/8-12_PackIntoBox_112633_upright_table_fixed_time.summary.json",
       "bytes": 2846,
-      "sha256": "c16808281c8c245132eb3e74c18a461eec5cb1975eaa904223a6989d255751cc",
+      "sha256": "4463ae39c4154efc2c97692ba45ca2678ab874ea31482b8212a76ce65296601a",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PackIntoBox/112633/horizontal_wall/8-12_PackIntoBox_112633_horizontal_wall_fixed_time.summary.json",
       "bytes": 2741,
-      "sha256": "e44550ddd52208de0578babbbdf69323cbf9277ca31e61519ee95a6a4e908166",
+      "sha256": "7e26add3203bd4d4fa61483a37bc69d2e86789822edbee9edbae5de2fa0a29fa",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PackIntoBox/112633/inverted/8-12_PackIntoBox_112633_inverted_fixed_time.summary.json",
       "bytes": 2657,
-      "sha256": "7dce04c7c3ccd842390c5cae6ba11a5c3b472ef1f7599c97175b6794e445fda6",
+      "sha256": "9ce458894ffd058db483aac8d6205abd585289af686361d6b3bb93d052e917a0",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PourRawMaterial/111542/baseline/8-12_PourRawMaterial_111542_baseline_fixed_time.summary.json",
       "bytes": 2985,
-      "sha256": "c482ba2a614c721ae752c911d8730cb6c66f5dad27d7baae8e63549b0e42e081",
+      "sha256": "f937cb83c6521c55bc4917c78b3b85811892f2aa30b839f431a2dcfd2f48efb0",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PourRawMaterial/111542/upright_table/8-12_PourRawMaterial_111542_upright_table_fixed_time.summary.json",
       "bytes": 2860,
-      "sha256": "9841f89bffca1c36d5374b87b9fcb1b7640ffa3b9dfb68168dad7d4ff10d4516",
+      "sha256": "58246cc2bb010e256459693cde0f064d95091a02b903e94ebcd8e0f6b3265c4b",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PourRawMaterial/111542/horizontal_wall/8-12_PourRawMaterial_111542_horizontal_wall_fixed_time.summary.json",
       "bytes": 2872,
-      "sha256": "0742c05b110d22b049be2ffbd38d2bd8e3f5e014ee00cb4a7b86f7589d473d65",
+      "sha256": "80a44d3d593ba3fca3b4bc5839180f62cc90816424b6f22f0c9243cda66145ce",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PourRawMaterial/111542/inverted/8-12_PourRawMaterial_111542_inverted_fixed_time.summary.json",
       "bytes": 2687,
-      "sha256": "9f82b5c66aff861e7114aa152c4f3dbe43b6b0a1e76d67b48eaf135566eb77bc",
+      "sha256": "d772d2412132d49def9740234e42f657cc24c62a272b8a5909be8f33c9dd197f",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PutIntoBox/113145/baseline/8-12_PutIntoBox_113145_baseline_fixed_time.summary.json",
       "bytes": 3004,
-      "sha256": "a336c368ac92211ec18e191537002775a25948666fece33737bce24c58e916a1",
+      "sha256": "b2291b7ee0196a68c250094cae2d5ccac3a1b7b4e00650079b17017d97428f6b",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PutIntoBox/113145/upright_table/8-12_PutIntoBox_113145_upright_table_fixed_time.summary.json",
       "bytes": 2824,
-      "sha256": "cbf99f93c89cf056627208aa8608a8e8b9c924f9d36e7620b030897cdf926473",
+      "sha256": "2c6afca936bda1fabde4c08574c84fdae92c5ec85b2d921f0785cb44ea61373c",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PutIntoBox/113145/horizontal_wall/8-12_PutIntoBox_113145_horizontal_wall_fixed_time.summary.json",
       "bytes": 2882,
-      "sha256": "a3df48270d84a8593a8f142af3f51591e15f2408c4cb1a83ba44329af5802d06",
+      "sha256": "2899bda72fa27624e97f10c3457e77db803d932f86170d1f99286908bf093c1e",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PutIntoBox/113145/inverted/8-12_PutIntoBox_113145_inverted_fixed_time.summary.json",
       "bytes": 2651,
-      "sha256": "9b14645c856098106282bc3fac366c44862f55d6b4140874eba8a70f9903a38a",
+      "sha256": "93ab38f733e449a0b4ab6733faf0f1ef4495eebd5d0964f64aabc8494771240b",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PutIntoBox/113250/baseline/8-12_PutIntoBox_113250_baseline_fixed_time.summary.json",
       "bytes": 3003,
-      "sha256": "2bb9aaf9ac04dc63c2c825cdcde863b20232a0d4ddf214d78444abb09def03be",
+      "sha256": "deab701651a7dfff0dc4e42f50567579adcb9ccc854469f6cfa7d7df25f29ca0",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PutIntoBox/113250/upright_table/8-12_PutIntoBox_113250_upright_table_fixed_time.summary.json",
       "bytes": 2823,
-      "sha256": "7e9d84ffa957bc3183e71c30484469e2b5b29ca632683d3b991d412c4a1ea247",
+      "sha256": "05a1b72b04b62dbaa1ef2f9785d3d915b77fe346e198055d82d18677f61046af",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PutIntoBox/113250/horizontal_wall/8-12_PutIntoBox_113250_horizontal_wall_fixed_time.summary.json",
       "bytes": 2873,
-      "sha256": "3b67bd9568851816436cf0e1dd4506e9d1f8ee5a0e92ab31baf90af502e2f3e5",
+      "sha256": "17053aa8bb85ea332b1863a2cb4d38e7903d2a8fb1c091343672a0023a64153a",
       "hash_mode": "canonical_utf8_lf"
     },
     {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/PutIntoBox/113250/inverted/8-12_PutIntoBox_113250_inverted_fixed_time.summary.json",
       "bytes": 2796,
-      "sha256": "d78e374556e121880dd52ef974e574263c204d2fb90b2ebe39b14aa616040c8d",
+      "sha256": "be6756cb2f4a27cba5d0f70c8cae4df3b435e78ef2f901ac578a6a1b7a80e7eb",
       "hash_mode": "canonical_utf8_lf"
+    }
+  ],
+  "scene_mesh_dependencies": [
+    {
+      "path": "third_party/official_robot_models/official_derived/resolved_meshes/piperx-ba7ef94798a106e9/official_mesh_0000.stl",
+      "bytes": 605984,
+      "sha256": "b732cf8a1f8435f51e3ec860f11189c3ec63744d3df008b7d3e9b6505dfc483d",
+      "hash_mode": "raw"
+    },
+    {
+      "path": "third_party/official_robot_models/official_derived/resolved_meshes/piperx-ba7ef94798a106e9/official_mesh_0001.stl",
+      "bytes": 605984,
+      "sha256": "b732cf8a1f8435f51e3ec860f11189c3ec63744d3df008b7d3e9b6505dfc483d",
+      "hash_mode": "raw"
+    },
+    {
+      "path": "third_party/official_robot_models/official_derived/resolved_meshes/piperx-ba7ef94798a106e9/official_mesh_0002.stl",
+      "bytes": 1332084,
+      "sha256": "60c53c4d5d20c5b663cc4ced2f5e322d2a857baa6e79cef04a33b5f9f7c1e985",
+      "hash_mode": "raw"
+    },
+    {
+      "path": "third_party/official_robot_models/official_derived/resolved_meshes/piperx-ba7ef94798a106e9/official_mesh_0003.stl",
+      "bytes": 1332084,
+      "sha256": "60c53c4d5d20c5b663cc4ced2f5e322d2a857baa6e79cef04a33b5f9f7c1e985",
+      "hash_mode": "raw"
+    },
+    {
+      "path": "third_party/official_robot_models/official_derived/resolved_meshes/piperx-ba7ef94798a106e9/official_mesh_0004.stl",
+      "bytes": 2951684,
+      "sha256": "0316b881cd0bae6c9f8f794fabdee7fbf041f83f2f75980d34b67555fe8a3561",
+      "hash_mode": "raw"
+    },
+    {
+      "path": "third_party/official_robot_models/official_derived/resolved_meshes/piperx-ba7ef94798a106e9/official_mesh_0005.stl",
+      "bytes": 2951684,
+      "sha256": "0316b881cd0bae6c9f8f794fabdee7fbf041f83f2f75980d34b67555fe8a3561",
+      "hash_mode": "raw"
+    },
+    {
+      "path": "third_party/official_robot_models/official_derived/resolved_meshes/piperx-ba7ef94798a106e9/official_mesh_0006.stl",
+      "bytes": 2362084,
+      "sha256": "c51994fa4ca6a0577cfc65fe5a666ad47ad6af8dc98fbe81b71c4a7fe8ad09a5",
+      "hash_mode": "raw"
+    },
+    {
+      "path": "third_party/official_robot_models/official_derived/resolved_meshes/piperx-ba7ef94798a106e9/official_mesh_0007.stl",
+      "bytes": 2362084,
+      "sha256": "c51994fa4ca6a0577cfc65fe5a666ad47ad6af8dc98fbe81b71c4a7fe8ad09a5",
+      "hash_mode": "raw"
+    },
+    {
+      "path": "third_party/official_robot_models/official_derived/resolved_meshes/piperx-ba7ef94798a106e9/official_mesh_0008.stl",
+      "bytes": 1163284,
+      "sha256": "10b69bde5305c53fbb4a6dc4e910e8604d54d250a969e6cda8128d8244989831",
+      "hash_mode": "raw"
+    },
+    {
+      "path": "third_party/official_robot_models/official_derived/resolved_meshes/piperx-ba7ef94798a106e9/official_mesh_0009.stl",
+      "bytes": 1163284,
+      "sha256": "10b69bde5305c53fbb4a6dc4e910e8604d54d250a969e6cda8128d8244989831",
+      "hash_mode": "raw"
+    },
+    {
+      "path": "third_party/official_robot_models/official_derived/resolved_meshes/piperx-ba7ef94798a106e9/official_mesh_0010.stl",
+      "bytes": 1139184,
+      "sha256": "fb7ab27270e6b5fa0b2e6df9fa37722062f4ff397cd4f89883d23551bedd0801",
+      "hash_mode": "raw"
+    },
+    {
+      "path": "third_party/official_robot_models/official_derived/resolved_meshes/piperx-ba7ef94798a106e9/official_mesh_0011.stl",
+      "bytes": 1139184,
+      "sha256": "fb7ab27270e6b5fa0b2e6df9fa37722062f4ff397cd4f89883d23551bedd0801",
+      "hash_mode": "raw"
+    },
+    {
+      "path": "third_party/official_robot_models/official_derived/resolved_meshes/piperx-ba7ef94798a106e9/official_mesh_0012.stl",
+      "bytes": 162084,
+      "sha256": "8c391520fd963fe4f9b46afcde82ceeab2a93b73c01fc5debe039fe632f597e6",
+      "hash_mode": "raw"
+    },
+    {
+      "path": "third_party/official_robot_models/official_derived/resolved_meshes/piperx-ba7ef94798a106e9/official_mesh_0013.stl",
+      "bytes": 162084,
+      "sha256": "8c391520fd963fe4f9b46afcde82ceeab2a93b73c01fc5debe039fe632f597e6",
+      "hash_mode": "raw"
+    },
+    {
+      "path": "third_party/official_robot_models/official_derived/resolved_meshes/piperx-ba7ef94798a106e9/official_mesh_0014.stl",
+      "bytes": 204584,
+      "sha256": "f9ce752f93a6598858a779e3d8755a09e466b588efcffc3a1c3953773753a22b",
+      "hash_mode": "raw"
+    },
+    {
+      "path": "third_party/official_robot_models/official_derived/resolved_meshes/piperx-ba7ef94798a106e9/official_mesh_0015.stl",
+      "bytes": 204584,
+      "sha256": "f9ce752f93a6598858a779e3d8755a09e466b588efcffc3a1c3953773753a22b",
+      "hash_mode": "raw"
+    },
+    {
+      "path": "third_party/official_robot_models/official_derived/resolved_meshes/piperx-ba7ef94798a106e9/official_mesh_0016.stl",
+      "bytes": 1837884,
+      "sha256": "0b839dc0bcb7d94e3422c74f6396b54a0441ba4836448ab5586e7f372d1bdbf3",
+      "hash_mode": "raw"
+    },
+    {
+      "path": "third_party/official_robot_models/official_derived/resolved_meshes/piperx-ba7ef94798a106e9/official_mesh_0017.stl",
+      "bytes": 1837884,
+      "sha256": "0b839dc0bcb7d94e3422c74f6396b54a0441ba4836448ab5586e7f372d1bdbf3",
+      "hash_mode": "raw"
+    },
+    {
+      "path": "third_party/official_robot_models/official_derived/resolved_meshes/piperx-ba7ef94798a106e9/official_mesh_0018.stl",
+      "bytes": 104384,
+      "sha256": "475a7d8db056524d7659fadf5a2c307d62791047b6214d733dfc7846ed1c613d",
+      "hash_mode": "raw"
+    },
+    {
+      "path": "third_party/official_robot_models/official_derived/resolved_meshes/piperx-ba7ef94798a106e9/official_mesh_0019.stl",
+      "bytes": 104384,
+      "sha256": "475a7d8db056524d7659fadf5a2c307d62791047b6214d733dfc7846ed1c613d",
+      "hash_mode": "raw"
+    },
+    {
+      "path": "third_party/official_robot_models/official_derived/resolved_meshes/piperx-ba7ef94798a106e9/official_mesh_0020.stl",
+      "bytes": 104384,
+      "sha256": "3f88d534a85e28a33ef7d2061adacbd1d25214aa9325f9e464aad0f9e4b74606",
+      "hash_mode": "raw"
+    },
+    {
+      "path": "third_party/official_robot_models/official_derived/resolved_meshes/piperx-ba7ef94798a106e9/official_mesh_0021.stl",
+      "bytes": 104384,
+      "sha256": "3f88d534a85e28a33ef7d2061adacbd1d25214aa9325f9e464aad0f9e4b74606",
+      "hash_mode": "raw"
     }
   ],
   "figures": [
@@ -838,7 +972,7 @@
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-11_AluminumFoilPouch_BoxPackaging_160555_four_mount_fixed_time.provenance.json",
         "bytes": 2655,
-        "sha256": "a0f8e2f706d63d4ed3926d41b871689b2300c07d8f487b659a5fcd3f81d1c451",
+        "sha256": "590826dd6fa68dc0c8f21de79f13da02d3ca282597474154c91f46e3ccbdd680",
         "hash_mode": "canonical_utf8_lf"
       }
     },
@@ -855,7 +989,7 @@
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-11_Fold_Box_160710_four_mount_fixed_time.provenance.json",
         "bytes": 2619,
-        "sha256": "e846b4826f35f858e4e2440a8ab64171d95b3548f93ae877fc8d81b32fa86b5e",
+        "sha256": "f73d02256cb458833a265e817f52b5012ad755cfcfa08b9c88b711e5aa05e3fb",
         "hash_mode": "canonical_utf8_lf"
       }
     },
@@ -872,7 +1006,7 @@
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-11_Fold_Box_160754_four_mount_fixed_time.provenance.json",
         "bytes": 2633,
-        "sha256": "7481343316ea218a686bb58d0d6fe2ce5c170bad9e955719ece383865850fbf0",
+        "sha256": "528396d02f4ab13dad991d205e70fbf09f13093bf0310f6411c5a4d1789ae689",
         "hash_mode": "canonical_utf8_lf"
       }
     },
@@ -889,7 +1023,7 @@
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-11_Fold_Box_160829_four_mount_fixed_time.provenance.json",
         "bytes": 2633,
-        "sha256": "62cc6f35fdd402cd38a007448222a69bdf57cf86982497533b083d923be0ca68",
+        "sha256": "b74fed1317a7e1710d70361b7e044f5f56dd89a1ab238c54a818b0112bcd1500",
         "hash_mode": "canonical_utf8_lf"
       }
     },
@@ -906,7 +1040,7 @@
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-11_Fold_Box_161044_four_mount_fixed_time.provenance.json",
         "bytes": 2619,
-        "sha256": "3e6d97ae463437603fbe06cd12cbee6a5b6b188fb8e0ecca21217b112cca6e77",
+        "sha256": "644f14eb9028174abb06002556cdd04885c0357b458764d7bee5071375e9edd8",
         "hash_mode": "canonical_utf8_lf"
       }
     },
@@ -923,7 +1057,7 @@
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-11_Fold_Box_161159_four_mount_fixed_time.provenance.json",
         "bytes": 2620,
-        "sha256": "1257fb80610aa64c406f3e3dec35de2a056c535627cba4a2fe6e3a6fb010561b",
+        "sha256": "3279add5d221cfc0cbc65397cff6c1e3856b6ba2dbcd18f1f09ee48b0c1a46f7",
         "hash_mode": "canonical_utf8_lf"
       }
     },
@@ -940,7 +1074,7 @@
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-11_Screw_Cap_162751_four_mount_fixed_time.provenance.json",
         "bytes": 2634,
-        "sha256": "78f62fa9ac267707cb7f59770d3f24c15b5a506ae7c10d287ea3817ab6278f07",
+        "sha256": "7b96648138036c629cd91107645219104875ee9cfac47f0c59ec9232c068df34",
         "hash_mode": "canonical_utf8_lf"
       }
     },
@@ -957,7 +1091,7 @@
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-11_Screw_Cap_162818_four_mount_fixed_time.provenance.json",
         "bytes": 2620,
-        "sha256": "cd4659540c75074a5f3913c633adbdb35f30e831649f505240bdb9b0a7235fcf",
+        "sha256": "7cfff0a3864515212d3cd42f254f86042a16944fc156faf52085d2fee59d9c6a",
         "hash_mode": "canonical_utf8_lf"
       }
     },
@@ -974,7 +1108,7 @@
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-11_Screw_Cap_162854_four_mount_fixed_time.provenance.json",
         "bytes": 2620,
-        "sha256": "46b6c3ea4a3c4aed53484f948d9041798071428fdce34c2a0d627b01221391ed",
+        "sha256": "d6f7f963edf32eb2007dfc9372dcb7009611f4f64da8e328ec6e96325051f886",
         "hash_mode": "canonical_utf8_lf"
       }
     },
@@ -991,7 +1125,7 @@
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-11_Seal_Bag_161504_four_mount_fixed_time.provenance.json",
         "bytes": 2619,
-        "sha256": "2b828bdc0b691cad2a2295d45568ee522f29d8a1f1cfe28cc888ef575cb69d23",
+        "sha256": "e8b15582aa76fa37b67587e9dd5a007a2215f90af259a2efc4e42056b33971d5",
         "hash_mode": "canonical_utf8_lf"
       }
     },
@@ -1008,7 +1142,7 @@
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-11_Seal_Bag_161532_four_mount_fixed_time.provenance.json",
         "bytes": 2633,
-        "sha256": "301ecc104e1e594203612da0a7a52b7e2ac618de2caba893a6346d91714fbfbe",
+        "sha256": "fb69d6294a2a9bb192b0ebcb982db553380fecc27ac9b0235980f78aa90e1c9b",
         "hash_mode": "canonical_utf8_lf"
       }
     },
@@ -1025,7 +1159,7 @@
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-11_Seal_Bag_161549_four_mount_fixed_time.provenance.json",
         "bytes": 2633,
-        "sha256": "4f176303191672f1b236f8219adcedfddd4f1cae66cbe1349e8cbc9e57f431df",
+        "sha256": "0f4b97084d8a0cabdd8515d472826846b3d9ce8cf32d230bc57e48aa834bfc93",
         "hash_mode": "canonical_utf8_lf"
       }
     },
@@ -1042,7 +1176,7 @@
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-11_WaterSoluble_AluminumPouch_155911_four_mount_fixed_time.provenance.json",
         "bytes": 2651,
-        "sha256": "6b3e454b876dc6fb793e2e30679626b58c9603fe59d17f0fe97dc34bd4947e42",
+        "sha256": "0f109820f32375786aac5bfdec67df5396206f7a19c4c5d2eb30ff5e75cfa1b5",
         "hash_mode": "canonical_utf8_lf"
       }
     },
@@ -1059,7 +1193,7 @@
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-11_WaterSoluble_AluminumPouch_160040_four_mount_fixed_time.provenance.json",
         "bytes": 2652,
-        "sha256": "25a1b10af9d745c4f511d8b97b170f7ba1381b99df458bdb01b6411f56124982",
+        "sha256": "778dfd6c63f07e4db667a625f205f09cbe126f4f5d34d5b207da22281c30bfe3",
         "hash_mode": "canonical_utf8_lf"
       }
     },
@@ -1076,7 +1210,7 @@
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-11_WaterSoluble_AluminumPouch_160121_four_mount_fixed_time.provenance.json",
         "bytes": 2637,
-        "sha256": "16c44d9fb42415118b6ec82fe2f72a30df2889758902c9dba4dcf79fdf0f20f6",
+        "sha256": "e57c3947293f6034a3ec19c8115e9ba2e7e1d6696d4821a93b529b403c7696cb",
         "hash_mode": "canonical_utf8_lf"
       }
     },
@@ -1093,7 +1227,7 @@
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-11_WaterSoluble_AluminumPouch_160201_four_mount_fixed_time.provenance.json",
         "bytes": 2651,
-        "sha256": "6641a92125398fcfc024d514bea8421437ca2909fb5dea9f887d9538ccbe5490",
+        "sha256": "e4dfb75c2b7afff7ee58d5e7e085003ed59fdf3a309156208d8d7e71bf75ec0e",
         "hash_mode": "canonical_utf8_lf"
       }
     },
@@ -1110,7 +1244,7 @@
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-12_Bag_BoxPacking_110914_four_mount_fixed_time.provenance.json",
         "bytes": 2640,
-        "sha256": "e1e1c74e3a86f33513ebe39617228f8d179443a58827d210cb1470796f0b7af3",
+        "sha256": "bc53c5970953903628db9dfa8775c1d10601cb929c6b521b2732ef1769958352",
         "hash_mode": "canonical_utf8_lf"
       }
     },
@@ -1127,7 +1261,7 @@
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-12_Fold_Box_111132_four_mount_fixed_time.provenance.json",
         "bytes": 2621,
-        "sha256": "21d8244cdd6b37344f2f8ca56fe3336ba960093d8fd5b2083806daf0446db5bc",
+        "sha256": "7173260115ef321d89998f6ff9ca7daa4a8f46e1b48487c9cd8031ecaafd1ca3",
         "hash_mode": "canonical_utf8_lf"
       }
     },
@@ -1144,7 +1278,7 @@
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-12_InsertIntoBottle_112750_four_mount_fixed_time.provenance.json",
         "bytes": 2641,
-        "sha256": "074c7bf7407db95ec1df82a390a314f2260914c1b9d4f830ddd34f0081db0a54",
+        "sha256": "c4fd0e879d3533b0f14d1e7f619ebd390cd80fb6e71ba1f35a9e5876d8a29227",
         "hash_mode": "canonical_utf8_lf"
       }
     },
@@ -1161,7 +1295,7 @@
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-12_InsertIntoBottle_112858_four_mount_fixed_time.provenance.json",
         "bytes": 2641,
-        "sha256": "363b3af4695d8c56fbe93156f923d618ff79fa9c86c055823b1eb1a28e941541",
+        "sha256": "26208ed48a5f2a307c86087e77dda28e7a0b9e9a6327fc895d5ad0b2383e2706",
         "hash_mode": "canonical_utf8_lf"
       }
     },
@@ -1178,7 +1312,7 @@
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-12_InsertIntoBottle_112945_four_mount_fixed_time.provenance.json",
         "bytes": 2627,
-        "sha256": "f316149e7361af1dfd3cb5085d2ca2c5fe6c210db8c7897b8dd6ab4b16766967",
+        "sha256": "d1f6a51bbb85c5bc41dd11535bc96249ebf47c5321b8f17feb2cf5ab49949deb",
         "hash_mode": "canonical_utf8_lf"
       }
     },
@@ -1195,7 +1329,7 @@
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-12_InsertSmallPackageIntoMachine_111812_four_mount_fixed_time.provenance.json",
         "bytes": 2641,
-        "sha256": "3183523f57634c2ed8f3702a8c7b757e9891817b95ce3ce26b5dbbfa4de69b22",
+        "sha256": "34591699e920d8bb64194bc2c33bef3060aaabd30f7f053fa7275d9e5e102824",
         "hash_mode": "canonical_utf8_lf"
       }
     },
@@ -1212,7 +1346,7 @@
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-12_PackIntoBox_112524_four_mount_fixed_time.provenance.json",
         "bytes": 2637,
-        "sha256": "429d8861a2d110ac137162a94184990649e72fde2863f96b5ee0bad1601f8e01",
+        "sha256": "6178ee18f75e0f9a0218d721d34a658844985eb3d0075fdda08e5d9515467552",
         "hash_mode": "canonical_utf8_lf"
       }
     },
@@ -1229,7 +1363,7 @@
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-12_PackIntoBox_112633_four_mount_fixed_time.provenance.json",
         "bytes": 2637,
-        "sha256": "0f704d24e55e47360f7bfaf9bbc0313d2c8bdfd9537c350bc281aa220a94a7e5",
+        "sha256": "ce7688065148944bccf08d244e3c8181e6b549e34c7d5985c9a317cf886b9f5d",
         "hash_mode": "canonical_utf8_lf"
       }
     },
@@ -1246,7 +1380,7 @@
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-12_PourRawMaterial_111542_four_mount_fixed_time.provenance.json",
         "bytes": 2640,
-        "sha256": "8a49051809b123b8bab6f1c6100801f39034ce29e542d42f81cf7f71c2600567",
+        "sha256": "51ce21ab2fa4385bbbaea1238ce4555abb3d7715d102d1fdf87ae51a840dcfc6",
         "hash_mode": "canonical_utf8_lf"
       }
     },
@@ -1263,7 +1397,7 @@
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-12_PutIntoBox_113145_four_mount_fixed_time.provenance.json",
         "bytes": 2622,
-        "sha256": "d40c501a26cbadc66d6231e270ffe92182f543164f4c40b2eda3e5c693176858",
+        "sha256": "64aa2dd907ceaf7b5f4096df209778fb6b0ce63faf458b93a0ddbe4453e03037",
         "hash_mode": "canonical_utf8_lf"
       }
     },
@@ -1280,7 +1414,7 @@
       "provenance": {
         "path": "reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-12_PutIntoBox_113250_four_mount_fixed_time.provenance.json",
         "bytes": 2636,
-        "sha256": "2507461e6d1e8b45f936b8d9cdec3ec2efe5dbd0c3ffc738c4647141622c24a1",
+        "sha256": "d31de6fd1583864336057db0bf99b8189d3d2953c0d8e256df16bafc27285e7e",
         "hash_mode": "canonical_utf8_lf"
       }
     }

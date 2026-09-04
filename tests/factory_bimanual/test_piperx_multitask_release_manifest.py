@@ -28,6 +28,25 @@ def test_release_text_record_is_stable_across_checkout_line_endings(tmp_path):
     assert release._validate_file_record(record) == artifact.resolve()
 
 
+def test_scene_mesh_dependencies_are_resolved_and_must_exist(tmp_path):
+    meshes = tmp_path / "meshes"
+    meshes.mkdir()
+    mesh = meshes / "body.stl"
+    mesh.write_bytes(b"mesh")
+    scene = tmp_path / "scene.xml"
+    scene.write_text(
+        "<mujoco><compiler meshdir='meshes'/><asset>"
+        "<mesh name='body' file='body.stl'/></asset></mujoco>",
+        encoding="utf-8",
+    )
+
+    assert release._scene_mesh_dependencies(scene) == (mesh.resolve(),)
+
+    mesh.unlink()
+    with pytest.raises(FileNotFoundError):
+        release._scene_mesh_dependencies(scene)
+
+
 def test_composite_provenance_must_bind_the_published_video():
     check = SimpleNamespace(
         frame_count=3, fps=30.0, duration_s=0.1, width=1280, height=720)

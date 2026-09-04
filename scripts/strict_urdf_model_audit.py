@@ -1,6 +1,7 @@
 """Qualify all 13 real-mesh models before strict trajectory/video jobs run."""
 from __future__ import annotations
 
+import hashlib
 import json
 import sys
 import xml.etree.ElementTree as ET
@@ -58,6 +59,42 @@ class ModelEntry:
 
 
 OFFICIAL = ROOT / "third_party/official_robot_models"
+
+
+def _stable_source_sha256(path: Path) -> str:
+    """Hash model text independently of checkout path and line endings."""
+    path = Path(path)
+    data = path.read_bytes()
+    if path.suffix.lower() in {
+            ".dae", ".json", ".mtl", ".obj", ".sdf", ".urdf", ".xacro",
+            ".xml", ".yaml", ".yml"}:
+        try:
+            text = data.decode("utf-8-sig")
+        except UnicodeDecodeError:
+            pass
+        else:
+            data = text.replace("\r\n", "\n").replace(
+                "\r", "\n").encode("utf-8")
+    return hashlib.sha256(data).hexdigest()
+
+
+def _resolved_asset_cache_key(xml: str, assets: dict[str, bytes]) -> str:
+    """Return a path-independent content key for an imported native model."""
+    digest = hashlib.sha256()
+    canonical_xml = xml.replace("\r\n", "\n").replace("\r", "\n")
+    xml_bytes = canonical_xml.encode("utf-8")
+    digest.update(len(xml_bytes).to_bytes(8, "big"))
+    digest.update(xml_bytes)
+    for name in sorted(assets):
+        name_bytes = name.encode("utf-8")
+        content = assets[name]
+        digest.update(len(name_bytes).to_bytes(8, "big"))
+        digest.update(name_bytes)
+        digest.update(len(content).to_bytes(8, "big"))
+        digest.update(content)
+    return digest.hexdigest()[:16]
+
+
 MODELS = {
     "doosan": ModelEntry(OFFICIAL / "doosan_m0609.urdf", tuple(f"joint_{i}" for i in range(1, 7)), "tool0", 0.139, 6, package_roots={"dsr_description2": OFFICIAL / "doosan_description"}, base_link="base_link", tcp_authority="specified_139mm"),
     "xarm6": ModelEntry(OFFICIAL / "official_derived/xarm_description/xarm6_official.urdf", tuple(f"joint{i}" for i in range(1, 7)), "link_tcp", 0.0, 6, package_roots={"xarm_description": OFFICIAL / "official_derived/xarm_description"}, base_link="link_base", tcp_authority="official_frame"),
@@ -138,9 +175,8 @@ def load_native_spec(entry: ModelEntry) -> mujoco.MjSpec:
             if path is None:
                 raise FileNotFoundError(f"{entry.path}: missing mesh {filename}")
             if path.suffix.lower() == ".dae":
-                import hashlib
                 import trimesh
-                digest = hashlib.sha256(str(path).encode("utf-8")).hexdigest()[:16]
+                digest = _stable_source_sha256(path)[:16]
                 converted = OFFICIAL / "official_derived/converted_meshes" / f"{path.stem}_{digest}.stl"
                 converted.parent.mkdir(parents=True, exist_ok=True)
                 if not converted.is_file():
@@ -155,8 +191,9 @@ def load_native_spec(entry: ModelEntry) -> mujoco.MjSpec:
         # In-memory assets support immediate compilation. Persist the same
         # bytes under a deterministic third-party cache as well so a composed
         # MjSpec exported to XML can be reopened without any Assets lookup.
-        import hashlib
-        cache_key = hashlib.sha256(str(entry.path.resolve()).encode("utf-8")).hexdigest()[:16]
+        cache_key = (
+            f"{entry.path.stem.lower()}-"
+            f"{_resolved_asset_cache_key(xml, assets)}")
         runtime_meshes = OFFICIAL / "official_derived/resolved_meshes" / cache_key
         runtime_meshes.mkdir(parents=True, exist_ok=True)
         for asset_name, content in assets.items():

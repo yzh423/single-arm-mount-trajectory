@@ -78,7 +78,7 @@
     },
     "scene_xml": {
       "path": "reports/piperx_multitask_fixed_time_mount_study/shards/8-12/InsertSmallPackageIntoMachine/111812/baseline/8-12_InsertSmallPackageIntoMachine_111812_baseline_fixed_time.scene.xml",
-      "sha256": "e083a0b8055d561afc77dffa3c519c7c58732373b164969944c4cf752c61e176"
+      "sha256": "d0542ecbb42a3f032fc1ca56e1bb3cd221a4a715bc9badba538968f5989e12ea"
     }
   },
   "formal_fingerprint": "ff4bc9b8e66cb1418c90cc79236c247a55ed408f1a1162c35dcbf3acf5bbe047",
