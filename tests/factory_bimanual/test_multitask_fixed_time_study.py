@@ -6,6 +6,7 @@ import pytest
 from factory_bimanual.multitask_fixed_time_study import (
     STUDY_MODES,
     TrajectorySpec,
+    _sha256,
     discover_dual_hand_trajectories,
     validate_shard,
 )
@@ -60,6 +61,16 @@ def test_repository_inventory_is_all_nonrejected_dual_hand_data():
     assert all(item.row_count > 1 for item in specs)
     assert tuple(sorted(STUDY_MODES)) == (
         "baseline", "horizontal_wall", "inverted", "upright_table")
+
+
+def test_source_identity_is_stable_across_platform_line_endings(tmp_path):
+    lf = tmp_path / "lf.csv"
+    crlf = tmp_path / "crlf.csv"
+    content = "t,left_tcp_pos_x\n0.0,0.1\n0.1,0.2\n"
+    lf.write_bytes(content.encode("utf-8"))
+    crlf.write_bytes(content.replace("\n", "\r\n").encode("utf-8"))
+
+    assert _sha256(lf) == _sha256(crlf)
 
 
 def test_fixed_time_shard_rejects_substituted_timestamps(tmp_path):

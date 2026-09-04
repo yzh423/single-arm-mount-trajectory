@@ -32,8 +32,8 @@
     },
     {
       "path": "factory_bimanual/multitask_fixed_time_study.py",
-      "bytes": 8904,
-      "sha256": "4d4a6af8ece341bcbb84912115cacdf05f29204706ed3d070930b02cfdb473fc"
+      "bytes": 8973,
+      "sha256": "85b1c7e1e93d63642dc23b0490fa2b0ee4d39983a2803ce62da2bd27e395d0a6"
     },
     {
       "path": "factory_bimanual/scene_builder.py",
