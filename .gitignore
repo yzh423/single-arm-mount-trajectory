@@ -133,6 +133,10 @@ runs/
 !/reports/piperx_multitask_fixed_time_mount_study/aggregate.csv
 !/reports/piperx_multitask_fixed_time_mount_study/bundle_manifest.json
 !/reports/piperx_multitask_fixed_time_mount_study/release_manifest.json
+!/reports/piperx_multitask_fixed_time_mount_study/literature_audit/
+/reports/piperx_multitask_fixed_time_mount_study/literature_audit/*
+!/reports/piperx_multitask_fixed_time_mount_study/literature_audit/raw_source_audit_summary.json
+!/reports/piperx_multitask_fixed_time_mount_study/literature_audit/raw_source_shard_audit.csv
 !/reports/piperx_multitask_fixed_time_mount_study/shards/
 !/reports/piperx_multitask_fixed_time_mount_study/shards/**
 !/reports/piperx_multitask_fixed_time_mount_study/figures/

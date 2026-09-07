@@ -1,0 +1,79 @@
+{
+  "schema": "piperx-fixed-time-raw-source-evidence-audit-v1",
+  "contract": {
+    "timing": "fixed source timestamps; no retiming",
+    "strict_position_tolerance_m": 0.001,
+    "strict_orientation_tolerance_deg": 0.5,
+    "study_joint_velocity_limit_rad_s": 1.0,
+    "study_joint_acceleration_limit_rad_s2": 4.0,
+    "official_configurable_joint_velocity_ceiling_rad_s": 3.0,
+    "official_configurable_joint_acceleration_ceiling_rad_s2": 5.0
+  },
+  "shards": 108,
+  "valid_pair_frames": 409760,
+  "weighted_conditioned_pair_coverage": 0.11881101132370168,
+  "weighted_raw_pair_coverage": 0.01831315892229598,
+  "solver_target_position_budget_exceeded_shards": 108,
+  "solver_target_orientation_budget_exceeded_shards": 108,
+  "stored_solver_target_contract_match_shards": 108,
+  "study_dynamics_pass_shards": 35,
+  "official_ceiling_dynamics_pass_shards": 35,
+  "nonzero_raw_coverage_and_study_dynamics_pass_shards": 0,
+  "nonzero_raw_coverage_and_official_ceiling_pass_shards": 0,
+  "collision_frames": 0,
+  "edge_collision_frames": 0,
+  "topology_invalid_frames": 0,
+  "maximum_source_tcp_linear_speed_m_s": 15.054445896371792,
+  "maximum_source_tcp_angular_speed_rad_s": 45.17559454441663,
+  "by_mode": {
+    "baseline": {
+      "shards": 27,
+      "valid_pair_frames": 102440,
+      "conditioned_pair_coverage": 0.1997852401405701,
+      "raw_pair_coverage": 0.029656384224912145,
+      "study_dynamics_pass_shards": 3,
+      "official_ceiling_dynamics_pass_shards": 3
+    },
+    "upright_table": {
+      "shards": 27,
+      "valid_pair_frames": 102440,
+      "conditioned_pair_coverage": 0.2386372510737993,
+      "raw_pair_coverage": 0.03675322139789145,
+      "study_dynamics_pass_shards": 1,
+      "official_ceiling_dynamics_pass_shards": 1
+    },
+    "horizontal_wall": {
+      "shards": 27,
+      "valid_pair_frames": 102440,
+      "conditioned_pair_coverage": 0.0210464662241312,
+      "raw_pair_coverage": 0.002948067161265131,
+      "study_dynamics_pass_shards": 16,
+      "official_ceiling_dynamics_pass_shards": 16
+    },
+    "inverted": {
+      "shards": 27,
+      "valid_pair_frames": 102440,
+      "conditioned_pair_coverage": 0.01577508785630613,
+      "raw_pair_coverage": 0.0038949629051151895,
+      "study_dynamics_pass_shards": 15,
+      "official_ceiling_dynamics_pass_shards": 15
+    }
+  },
+  "primary_references": [
+    {
+      "topic": "Piper joint speed and acceleration settings",
+      "url": "https://github.com/agilexrobotics/piper_sdk/blob/master/asserts/V2/INTERFACE_V2.MD"
+    },
+    {
+      "topic": "fixed-path time parameterization",
+      "doi": "10.1109/TRO.2018.2819195"
+    },
+    {
+      "topic": "multi-objective continuous IK",
+      "doi": "10.15607/RSS.2018.XIV.043"
+    }
+  ],
+  "artifacts": {
+    "shard_csv": "reports/piperx_multitask_fixed_time_mount_study/literature_audit/raw_source_shard_audit.csv"
+  }
+}

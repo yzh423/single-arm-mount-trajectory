@@ -26,6 +26,10 @@ Safety is not a ranking preference. Every published shard must satisfy all three
 
 The current validated bundle contains all 108 trajectory and mount cells. The baseline and upright-table configurations have substantially higher average strict coverage than the wall and inverted configurations. This is a measured workspace and orientation limitation under the exact timing and pose constraints, not a missing-data artifact. See [Limitations](#limitations) before interpreting coverage as task-level deployability.
 
+An independent raw-source audit is now part of the workflow. Across 409,760 valid paired frames, the frame-weighted coverage is 11.88% against the conditioned solver targets but only 1.83% against fixed-tool-mapped targets with smoothing and time-varying wrist adaptation removed. All 108 solver-target tracks depart from that raw-source contract by more than the 1 mm / 0.5 degree acceptance budget. Treat the conditioned result as a mount/IK diagnostic, not as proof of strict follow of the recorded spatial path.
+
+The same audit identifies a stronger Fixed-time limitation: 35 of 108 shards satisfy the conservative 1 rad/s and 4 rad/s² study limits, and the same 35 satisfy the official configurable ceilings of 3 rad/s and 5 rad/s², but every dynamically passing shard has zero strict coverage. Measured source TCP segment peaks reach 15.05 m/s and 45.18 rad/s at a roughly 12.4 ms sample interval. With retiming forbidden, increasing IK restart counts cannot resolve that timing-versus-dynamics conflict.
+
 Under the joint publication gate of 100% strict both-hand coverage, PiperX velocity/acceleration limits, and zero safety violations, the current result is 0 of 108 cells. Coverage winners in the report therefore describe relative fixed-time pose-following capability, not deployment readiness.
 
 Published evidence:
@@ -34,6 +38,9 @@ Published evidence:
 - [Aggregate metrics for all 108 cells](reports/piperx_multitask_fixed_time_mount_study/aggregate.csv)
 - [Validated bundle manifest](reports/piperx_multitask_fixed_time_mount_study/bundle_manifest.json)
 - [Content-addressed release manifest](reports/piperx_multitask_fixed_time_mount_study/release_manifest.json)
+- [Raw-source audit summary](reports/piperx_multitask_fixed_time_mount_study/literature_audit/raw_source_audit_summary.json)
+- [Raw-source per-shard audit](reports/piperx_multitask_fixed_time_mount_study/literature_audit/raw_source_shard_audit.csv)
+- [Literature-grounded optimization report](output/pdf/PiperX双手多任务Fixed-Time项目优化与文献审计报告.pdf)
 - [Comparison figures](reports/piperx_multitask_fixed_time_mount_study/figures/)
 - [All 27 synchronized four-mount MuJoCo comparison videos](reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/)
 
@@ -63,6 +70,10 @@ python -m scripts.run_piperx_multitask_fixed_time_mount_study
 # Build formal shards, aggregate, and validate the complete bundle
 python -m scripts.build_piperx_multitask_fixed_time_bundle
 python -m scripts.build_piperx_multitask_fixed_time_bundle --validate-only
+
+# Recompute raw-source fidelity, measured cadence, dynamics, and safety evidence
+python -m scripts.audit_piperx_fixed_time_evidence
+python -m scripts.build_piperx_literature_optimization_report
 
 # Verify the published PDF, figures, videos, provenance, and implementation hashes
 python -m scripts.build_piperx_multitask_release_manifest --validate-only
@@ -149,7 +160,7 @@ When family defaults do not place a particular recording in a reachable and coll
 
 > **Note:** `baseline` is frozen from the configured task-family representative and is not searched per trajectory; only `upright_table`, `horizontal_wall`, and `inverted` pass through the per-trajectory coarse, dense, local, and full search funnel.
 
-Only fully audited candidates are eligible for final selection. Selection raises when no collision-free, topology-valid layout exists. Incomplete evidence cannot be treated as a successful mount merely because its sparse IK score is high.
+Sparse search probes preserve both reachability and safety frontiers, so a selected search checkpoint may contain collision observations. Those observations are not executed as formal motion: the formal solver rechecks the full trajectory and converts any unsafe state or transition to a failed safe HOLD. Only the formal NPZ shard, which must have zero collision, zero swept-edge collision, and zero topology violations, is publication evidence. Incomplete or unsafe probe evidence must never be reported as a successful trajectory.
 
 > **Caution:** Search ranking maximizes safe paired coverage while preserving reachability and safety frontiers, whereas published winner ranking first rejects any nonzero safety count and only then compares synchronized coverage. Do not reuse either comparator as a substitute for the other.
 
