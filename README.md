@@ -1,323 +1,803 @@
 # single-arm-mount
 
-This repository turns recorded robot end-effector trajectories into reproducible mount-and-IK studies. Choose a task dataset and robot model, run the corresponding search or fixed-time study, then inspect validated shards, aggregate metrics, figures, videos, and reports under [`reports/`](reports/). The primary workflow is the PiperX dual-hand multi-task study: both hands are solved as one synchronized system across four physical mount configurations, and every source timestamp is preserved without retiming.
+This repository turns recorded hand trajectories into robot mount comparisons and auditable MuJoCo motion evidence. A typical first action is a Python module command that selects a recording and mounting mode, then produces a scene, a trajectory archive, and metrics. The current PiperX controller-event v4 workflow reconstructs synchronized controller updates from repeated host observations, preserves those event intervals, and follows recorded targets after the configured fixed tool transform. Mount choice, pose accuracy, collision and topology checks, and joint dynamics are separate questions recorded as separate evidence.
 
-The central mental model is an evidence pipeline rather than a single solver call. Source validation and registration define the targets. Per-task mount search and branch-aware IK propose solutions. Frame collision, swept-edge collision, and mount-topology checks reject unsafe states. Bundle validation proves that every expected trajectory and mount cell is present and traceable. Plot, render, and report scripts consume the validated evidence. General single-arm design-optimization tools share this repository as a parallel workflow.
+The repository also contains single-arm design optimization, native robot model audits, and earlier factory bimanual experiments. Results are meaningful together with their recording, target mapping, time protocol, and evaluated window: full recordings, short prefixes, conditioned targets, and retimed executions are different experiments. Geometric tracking coverage does not certify a trajectory for physical execution.
+
+From the repository root, with the dependencies and saved mount checkpoints described below, reproduce one complete recording:
 
 ```powershell
-python -m scripts.build_piperx_multitask_fixed_time_bundle --validate-only
+python -m scripts.run_piperx_controller_event_v4 --trajectory 8-11/Seal_Bag/161504 --mode baseline
 ```
 
-## Choose a workflow
+## Reproducing controller-event tracking
 
-Start with the PiperX workflow when the input contains synchronized left- and right-hand trajectories and the original timing must remain fixed. Use the single-arm workflow when comparing robot models, installation positions, geometry, Pareto trade-offs, or robustness for one arm at a time. This separation exists because paired Fixed-time evidence and single-arm design exploration answer different questions and must not share success criteria.
+Start with one recorded take and one saved mounting configuration so that the resulting errors have an explicit source and geometry.
 
-### PiperX dual-hand multi-task Fixed-time study
+### Prepare the Python environment
 
-When both recorded hands must be evaluated as one synchronized system without changing task timing, use the published PiperX Fixed-time experiment. It covers 27 dual-hand trajectories from 12 task families and compares four mount configurations in a fixed order: `baseline`, `upright_table`, `horizontal_wall`, and `inverted`.
-
-The study contract is fixed at 1 mm position error and 0.5 degree orientation error against the published conditioned TCP targets. Before IK, the recorded TCP stream receives a deterministic 9-frame calibration/conditioning pass bounded to at most 5 mm translation and 1 degree orientation change from the recorded target. This conditioning suppresses capture noise; it is not retiming and does not add, remove, reorder, or shift timestamps. A frame counts as successful only when both hands pass both strict pose limits at the same source timestamp. Retiming is disabled, and the solved timeline must equal the exact relative source schedule after subtracting its first timestamp to use a zero origin.
-
-Safety is not a ranking preference. Every published shard must satisfy all three hard gates:
-
-- `collision_frames == 0`
-- `edge_collision_frames == 0`
-- `topology_invalid_frames == 0`
-
-The current validated bundle contains all 108 trajectory and mount cells. The baseline and upright-table configurations have substantially higher average strict coverage than the wall and inverted configurations. This is a measured workspace and orientation limitation under the exact timing and pose constraints, not a missing-data artifact. See [Limitations](#limitations) before interpreting coverage as task-level deployability.
-
-An independent raw-source audit is now part of the workflow. Across 409,760 valid paired frames, the frame-weighted coverage is 11.88% against the conditioned solver targets but only 1.83% against fixed-tool-mapped targets with smoothing and time-varying wrist adaptation removed. All 108 solver-target tracks depart from that raw-source contract by more than the 1 mm / 0.5 degree acceptance budget. Treat the conditioned result as a mount/IK diagnostic, not as proof of strict follow of the recorded spatial path.
-
-The same audit identifies a stronger Fixed-time limitation: 35 of 108 shards satisfy the conservative 1 rad/s and 4 rad/s² study limits, and the same 35 satisfy the official configurable ceilings of 3 rad/s and 5 rad/s², but every dynamically passing shard has zero strict coverage. Measured source TCP segment peaks reach 15.05 m/s and 45.18 rad/s at a roughly 12.4 ms sample interval. With retiming forbidden, increasing IK restart counts cannot resolve that timing-versus-dynamics conflict.
-
-Under the joint publication gate of 100% strict both-hand coverage, PiperX velocity/acceleration limits, and zero safety violations, the current result is 0 of 108 cells. Coverage winners in the report therefore describe relative fixed-time pose-following capability, not deployment readiness.
-
-Published evidence:
-
-- [Final 38-page PDF report](reports/piperx_multitask_fixed_time_mount_study/PiperX多任务Fixed-Time四构型对比报告.pdf)
-- [Aggregate metrics for all 108 cells](reports/piperx_multitask_fixed_time_mount_study/aggregate.csv)
-- [Validated bundle manifest](reports/piperx_multitask_fixed_time_mount_study/bundle_manifest.json)
-- [Content-addressed release manifest](reports/piperx_multitask_fixed_time_mount_study/release_manifest.json)
-- [Raw-source audit summary](reports/piperx_multitask_fixed_time_mount_study/literature_audit/raw_source_audit_summary.json)
-- [Raw-source per-shard audit](reports/piperx_multitask_fixed_time_mount_study/literature_audit/raw_source_shard_audit.csv)
-- [Literature-grounded optimization report](output/pdf/PiperX双手多任务Fixed-Time项目优化与文献审计报告.pdf)
-- [Comparison figures](reports/piperx_multitask_fixed_time_mount_study/figures/)
-- [All 27 synchronized four-mount MuJoCo comparison videos](reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/)
-
-The trajectory `8-12/PourRawMaterial/111542` is the running example in this README. Its upright-table result accepts both hands on 1918 of 5942 original frames, or 32.28%, while all four of its mount cells record zero frame collisions, zero swept-edge collisions, and zero topology-invalid frames. Its [four-mount Fixed-time comparison video](reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-12_PourRawMaterial_111542_four_mount_fixed_time.mp4) uses the same source schedule in all four panels.
-
-### Run or resume the PiperX study
-
-When reproducing or extending the published experiment, begin from the versioned parameter contract rather than reconstructing settings from command history. The recommended configuration is [`configs/piperx_recommended_v31.json`](configs/piperx_recommended_v31.json); it stores calibrated family-specific tool frames, mount poses, solver budgets, and bounded wrist adaptations.
-
-> **Caution:** On Windows, run `git config --global core.longpaths true` before cloning or checking out the complete official-model tree; otherwise Git for Windows can fail on tracked paths longer than the legacy 260-character limit.
-
-Use Python 3.11. Install `requirements.txt` for the Fixed-time study, report, and tests; install `requirements-full.txt` when running the optional repository-wide single-arm, conversion, and desktop UI tools.
+To run the current solver, use Python 3.11 (as specified in [environment-arm-design.yml](environment-arm-design.yml)) and install the core dependencies from the repository root:
 
 ```powershell
-python -m pip install -r requirements.txt
-# Optional full workspace:
-python -m pip install -r requirements-full.txt
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
 ```
 
+Use the environment's Python for subsequent commands, or activate it before using `python`. Python examples below run from this same root. [requirements.txt](requirements.txt) includes MuJoCo, NumPy, SciPy, Pandas, Matplotlib, OpenCV, ReportLab, Trimesh, and pytest. [requirements-full.txt](requirements-full.txt) adds Torch, PyYAML, Pillow, imageio-ffmpeg, HDF5, and Qt for the wider research and viewer workflows:
+
 ```powershell
-# Discover the experiment matrix without solving it
+.\.venv\Scripts\python.exe -m pip install -r requirements-full.txt
+```
+
+Keep [data/factory](data/factory/) and [third_party/official_robot_models](third_party/official_robot_models/) available. The CLI discovers recordings under `data/factory`; its `--source-root` option selects mount-search checkpoints, not a different CSV dataset. Offscreen rendering also needs a working MuJoCo graphics backend and video encoder in the execution environment.
+
+> **Note:** Importing `factory_bimanual.robot_contracts` constructs contracts for all five configured robot models, so a PiperX command can require other vendored model assets even when its scene uses only PiperX geometry.
+
+### Solve a recording using its selected mount
+
+For a small comparison window, evaluate the first 300 controller events of `8-11/Seal_Bag/161504` in a separate output directory:
+
+```powershell
+python -m scripts.run_piperx_controller_event_v4 --trajectory 8-11/Seal_Bag/161504 --mode baseline --source-prefix 300 --output reports/piperx_controller_event_v4_prefix300
+```
+
+The [v4 runner](scripts/run_piperx_controller_event_v4.py) calls `solve_event_shard`, writes a `.scene.xml`, `.trajectory.npz`, and `.summary.json` under `shards/8-11/Seal_Bag/161504/baseline/`, and prints the summary path, paired coverage, safety counts, and derivative maxima. Omitting `--source-prefix` evaluates the full event sequence. The output identity is `EVENT_SOLVER_PROTOCOL = "piperx-controller-event-raw-fixed-time-v4"`.
+
+| Option | Meaning |
+|---|---|
+| `--trajectory` | Required discovered recording key, such as `8-11/Seal_Bag/161504` |
+| `--mode` | Required `baseline`, `upright_table`, `horizontal_wall`, or `inverted` |
+| `--source-root` | Checkpoint root; defaults to `reports/piperx_multitask_fixed_time_mount_study` |
+| `--output` | Destination root; defaults to `reports/piperx_controller_event_v4` |
+| `--source-prefix` | Event-count window, with a minimum of two events and a maximum of the available sequence |
+| `--enforce-official-dynamics` | Opt in to the runner's 3 rad/s velocity and 5 rad/s² acceleration bounds |
+
+> **Caution:** The runner consumes an existing `selected_mount` from `checkpoints/<date>/<task>/<take>/<mode>.json` and fails when it is unavailable; solving a v4 shard does not perform a fresh v4 mount optimization.
+
+The [mount comparison section](#comparing-mounting-configurations) explains how those checkpoints are created. Use distinct output roots when comparing enforcement settings or source windows: each run writes the same mode-specific filenames within its chosen root.
+
+> **Note:** Only runs requested with `--enforce-official-dynamics` invoke the final `validate_enforced_dynamics` gate, which rejects non-finite velocity/acceleration evidence or magnitudes above 3 rad/s and 5 rad/s² (with a 1e-9 tolerance); strict paired pose coverage remains a separate metric.
+
+## Reading the current evidence
+
+Compare percentages only after choosing the same recording, target contract, and evaluated window.
+
+### Full recordings
+
+For whole-recording conclusions, use the four summaries under [reports/piperx_controller_event_v4](reports/piperx_controller_event_v4/). The available full runs cover two recordings and two mounting modes:
+
+| Recording | Host poll rows | Controller events | `baseline` paired coverage | `upright_table` paired coverage |
+|---|---:|---:|---:|---:|
+| `8-11/Seal_Bag/161504` | 2,439 | 1,872 | 100.000% | 89.850% |
+| `8-11/Fold_Box/161044` | 1,478 | 755 | 94.834% | 76.159% |
+
+All four full runs have `collision_frames = 0`, `edge_collision_frames = 0`, and `topology_invalid_frames = 0`. They all record `dynamics_enforced=false`. The directory does not contain complete `horizontal_wall` or `inverted` runs for these recordings, so it does not establish a full four-mount comparison.
+
+Read the evidence directly without starting a solver:
+
+```python
+import json
+from pathlib import Path
+
+root = Path("reports/piperx_controller_event_v4/shards/8-11/Seal_Bag/161504")
+for path in sorted(root.rglob("*.summary.json")):
+    result = json.loads(path.read_text(encoding="utf-8"))
+    print(result["mode"], result["controller_event_rows"],
+          f'{100 * result["both_accept_coverage"]:.3f}%',
+          result["dynamics_enforced"])
+```
+
+### Equal 300-event mount comparisons
+
+For a comparison across all four mounting modes, use [reports/piperx_controller_event_v4_prefix300](reports/piperx_controller_event_v4_prefix300/). It contains eight shards, each limited to the first 300 controller events of its recording:
+
+| Recording, prefix300 only | `baseline` | `upright_table` | `horizontal_wall` | `inverted` |
+|---|---:|---:|---:|---:|
+| `8-11/Seal_Bag/161504` | 100.000% | 59.667% | 0.000% | 0.000% |
+| `8-11/Fold_Box/161044` | 87.000% | 41.667% | 8.333% | 0.000% |
+
+All eight prefix shards also have zero state-collision, edge-collision, and topology-invalid counts, and `dynamics_enforced=false`. Their [bundle manifest](reports/piperx_controller_event_v4_prefix300/bundle_manifest.json) and videos describe this 300-event scope:
+
+| Recording | Synchronized four-panel video |
+|---|---|
+| Seal_Bag, first 300 events | [Watch mount comparison](reports/piperx_controller_event_v4_prefix300/videos/comparisons/8-11_Seal_Bag_161504_four_mount_fixed_time.mp4) |
+| Fold_Box, first 300 events | [Watch mount comparison](reports/piperx_controller_event_v4_prefix300/videos/comparisons/8-11_Fold_Box_161044_four_mount_fixed_time.mp4) |
+
+> **Note:** The four-mount videos and matrix are prefix300 results; the full-run evidence above contains only baseline and upright-table modes.
+
+### Pose acceptance, safety, and joint dynamics
+
+To interpret a successful row, first check both source-validity masks and both arms' pose errors. [build_shard_arrays](scripts/build_piperx_multitask_fixed_time_bundle.py) constructs per-arm acceptance at 1 mm translation and 0.5° orientation, then sets `both_accept = left_accept & right_accept`. `aggregate_shard` computes coverage over every evaluated row, including failures and invalid observations. It also reports the longest rejected run and a separately named valid-source-only coverage.
+
+> **Caution:** `validate_acceptance_evidence` recomputes left, right, and paired acceptance masks from source-valid flags and the strict 1 mm / 0.5° errors; a reported aggregate coverage cannot legitimize altered per-frame acceptance.
+
+Safety is checked independently through state collisions, swept transitions, and topology. Joint velocity and acceleration are further independent arrays. A zero safety count therefore does not mean every target was followed, and a high pose coverage does not mean joint dynamics passed.
+
+> **Caution:** `validate_zero_safety_evidence` checks the saved NPZ collision, swept-edge, and topology arrays; zero-valued JSON summary counts cannot override unsafe trajectory evidence.
+
+| Full-run baseline | Paired coverage | Maximum joint velocity | Maximum joint acceleration |
+|---|---:|---:|---:|
+| Seal_Bag | 100.000% | 9.295 rad/s | 540.063 rad/s² |
+| Fold_Box | 94.834% | 9.760 rad/s | 543.740 rad/s² |
+
+Both full baselines exceed the runner's recorded reference limits of 3 rad/s and 5 rad/s². These are geometric fixed-time tracking results with dynamics enforcement disabled, not trajectories certified for physical execution.
+
+To recompute metrics from the saved Seal_Bag trajectory:
+
+```python
+from pathlib import Path
+import numpy as np
+from scripts.build_piperx_multitask_fixed_time_bundle import aggregate_shard
+
+root = Path("reports/piperx_controller_event_v4/shards/8-11/Seal_Bag/161504/baseline")
+with np.load(next(root.glob("*.trajectory.npz")), allow_pickle=False) as archive:
+    payload = {name: archive[name] for name in archive.files}
+metrics = aggregate_shard(payload)
+print(metrics["both_accept_frames"], metrics["source_frames"])
+print(metrics["both_accept_coverage"], metrics["longest_hold_frames"])
+```
+
+### Diagnostic report
+
+For a shareable explanation of the timing, target, mount, and dynamics findings, open the [Chinese v4 diagnostic PDF](output/pdf/PiperX双手Fixed-Time-v4根因诊断与优化报告.pdf). It presents full baseline results plus the two-task prefix300 comparisons.
+
+```powershell
+python -m scripts.build_piperx_controller_event_v4_report
+```
+
+> **Note:** The report builder's `build` function uses fixed full/prefix roots, the two task keys above, and the prior raw-source audit; `--output` changes only the PDF destination, not its input dataset or experimental scope.
+
+> **Note:** `validate_report_scope` requires eight exact prefix windows and four full baseline/upright shards across the two tasks, checks solved/total/omitted event counts, and rejects a short prefix presented as a complete recording.
+
+## Keeping recordings and targets aligned
+
+The source row, event time, registration, and tool transform jointly define the target whose error is measured.
+
+### Select a recording and reconstruct its events
+
+When working in Python, discover the real `TrajectorySpec` instead of inventing a filename, checksum, or row count. `TaskFamily` identifies the date/task pair; `TrajectorySpec` adds the take, canonical source hash, path, and host-poll row count.
+
+```python
+from pathlib import Path
+from factory_bimanual.task_family import TaskFamily
+from factory_bimanual.multitask_fixed_time_study import discover_dual_hand_trajectories
+from factory_bimanual.source_data import load_factory_task
+
+family = TaskFamily(date="8-11", task="Seal_Bag")
+spec = next(item for item in discover_dual_hand_trajectories(Path("data/factory"))
+            if item.family == family and item.take == "161504")
+task = load_factory_task(spec.path, spec.family.key,
+                         timing_mode="controller_updates",
+                         max_translation_jump_m=0.20,
+                         repair_invalid_pose_rows=True)
+print(spec.key, spec.row_count, len(task.time_s), task.timing_source)
+print(task.source_row_index[:5])
+```
+
+The returned `FactoryBimanualTask` carries paired positions, `wxyz` quaternions, validity masks, optional gripper measurements, timestamps, and original poll-row indices. The full Seal_Bag recording has 2,439 poll rows and 1,872 controller events.
+
+> **Note:** `load_factory_task` defaults to `host_poll`; v4 explicitly requests `controller_updates`, removes paired repeated-frame observations, and retains their original CSV row indices.
+
+Event selection requires matching left/right frame-change masks. It uses the mean of the two receive times and permits a default skew of 1 ms. Missing timing columns, asynchronous updates, excessive receive skew, non-increasing time, and invalid coordinate frames raise `ValueError`.
+
+> **Caution:** Numerically repairing non-finite invalid poses leaves their validity masks intact, so repaired rows still cannot count as accepted tracking.
+
+### Validate a saved event trajectory
+
+Before comparing a saved path with its source, bind it to the selected event timeline and poll-row mapping:
+
+```python
+from pathlib import Path
+import numpy as np
+from factory_bimanual.multitask_fixed_time_study import discover_dual_hand_trajectories
+from scripts.run_piperx_controller_event_v4 import validate_event_shard
+
+spec = next(item for item in discover_dual_hand_trajectories(Path("data/factory"))
+            if item.key == "8-11/Seal_Bag/161504")
+root = Path("reports/piperx_controller_event_v4_prefix300/shards/8-11/Seal_Bag/161504/baseline")
+with np.load(next(root.glob("*.trajectory.npz")), allow_pickle=False) as archive:
+    payload = {name: archive[name] for name in archive.files}
+print(validate_event_shard(payload, spec, "baseline", source_prefix=300))
+bad = dict(payload, fixed_time_s=payload["fixed_time_s"] + 0.001)
+try:
+    validate_event_shard(bad, spec, "baseline", source_prefix=300)
+except ValueError as error:
+    print(error)  # event shard fixed time differs from source events
+```
+
+The successful call returns `True`; the altered schedule is rejected. `SHARD_SCHEMA` identifies the shared array format, while `EVENT_SOLVER_PROTOCOL` identifies the event-v4 solver contract. `event_validation_spec(spec, event_count)` creates a replacement row-count spec without mutating the original recording metadata. `event_initializer_rows` maps checkpoint initializer probes, expressed in host-poll rows, onto event indices using `searchsorted` and clipping. Reusing poll-row numbers as event indices selects different observations.
+
+> **Note:** Manifest and report callers pass the discovered source spec to `validate_archive_summary`, binding the NPZ protocol, source/fixed time, mandatory arrays, summary counts/coverage, raw fixed-tool targets, source-valid masks, and original source-row mapping before accepting the summary.
+
+> **Unlike** the original `validate_shard`, which compares against raw host CSV `t`, `validate_event_shard` compares against reconstructed controller receive events; the validators are not interchangeable.
+
+Both protocols normalize the timeline to a common zero origin and require the execution schedule to equal the chosen source schedule. Neither permits retiming under its fixed-time claim.
+
+### Apply the shared registration and fixed tool mapping
+
+To place a paired recording into a robot scene, use one proper rigid transformation for both hands. A `RigidTaskRegistration` rotates and translates the shared frame; `register_task` returns a `RegisteredBimanualTask` while preserving relative bimanual geometry.
+
+This example follows the runner's shared centering/height registration, then prepares raw fixed-tool targets:
+
+```python
+from pathlib import Path
+import numpy as np
+from factory_bimanual.multitask_fixed_time_study import discover_dual_hand_trajectories
+from factory_bimanual.source_data import load_factory_task
+from factory_bimanual.registration import RigidTaskRegistration, register_task
+from scripts.run_piperx_multitask_fixed_time_mount_study import prepare_family_follow_targets
+
+spec = next(item for item in discover_dual_hand_trajectories(Path("data/factory"))
+            if item.key == "8-11/Seal_Bag/161504")
+source = load_factory_task(spec.path, spec.family.key,
+                           timing_mode="controller_updates",
+                           max_translation_jump_m=0.20,
+                           repair_invalid_pose_rows=True)
+points = np.vstack((source.left_position_m, source.right_position_m))
+translation = [-points[:, 0].mean(), -points[:, 1].mean(), 0.90 - points[:, 2].min()]
+registered = register_task(source, RigidTaskRegistration(np.eye(3), translation))
+task, mapped, audit = prepare_family_follow_targets(
+    spec, registered, apply_conditioning=False, apply_wrist_adaptation=False)
+print(task.left_position_m.shape, mapped["left"].shape)
+print(audit.maximum_position_deviation_m, audit.maximum_orientation_deviation_rad)
+```
+
+> **Note:** Shared target preparation defaults to conditioning and wrist adaptation; v4 disables both while retaining configured fixed tool rotations and translations.
+
+The family configuration is read through `load_recommended_config`; `world_mount_for_family` relates its recommended mount to the registration. [tool_frame_calibration](factory_bimanual/tool_frame_calibration.py) contains `CalibrationArtifact`, fixed rotation/translation helpers, and source fingerprints for that mapping. Here “raw” means no conditioning or time-varying wrist adaptation after the fixed tool transform, not an identity transform between handheld and robot TCP frames.
+
+For earlier or explicitly adapted experiments, [trajectory_conditioning](factory_bimanual/trajectory_conditioning.py) exposes `bounded_savgol_se3`, [bounded_orientation_adaptation](factory_bimanual/bounded_orientation_adaptation.py) generates bounded orientation candidates, and [quaternion_trajectory](factory_bimanual/quaternion_trajectory.py) reconstructs held quaternions. These target-preparation choices require their own labeled metrics; their coverage cannot replace raw-target v4 coverage.
+
+## Comparing mounting configurations
+
+Choose installation geometry outside the trajectory solver, then test its ability to support a continuous paired-arm motion.
+
+### Search and reuse mount checkpoints
+
+To inspect the search workload before solving, write the planned job inventory:
+
+```powershell
 python -m scripts.run_piperx_multitask_fixed_time_mount_study --dry-run
-
-# Run or resume per-trajectory mount search
-python -m scripts.run_piperx_multitask_fixed_time_mount_study
-
-# Build formal shards, aggregate, and validate the complete bundle
-python -m scripts.build_piperx_multitask_fixed_time_bundle
-python -m scripts.build_piperx_multitask_fixed_time_bundle --validate-only
-
-# Recompute raw-source fidelity, measured cadence, dynamics, and safety evidence
-python -m scripts.audit_piperx_fixed_time_evidence
-python -m scripts.build_piperx_literature_optimization_report
-
-# Verify the published PDF, figures, videos, provenance, and implementation hashes
-python -m scripts.build_piperx_multitask_release_manifest --validate-only
 ```
 
-> **Note:** `--validate-only` on the release manifest first reruns complete bundle validation. For the published 27 by 4 matrix, that reloads all 108 NPZ shards, recomputes pose, dynamics, and aggregate evidence, and compiles all 108 MuJoCo scene XMLs so missing or corrupt model inputs fail closed.
+This writes `study_plan.json` under the study output root. `STUDY_MODES` fixes the order below; `StudyConfig` fixes the 1 mm / 0.5° tolerances. `StudyJob` and `plan_jobs` associate each discovered recording with its mode.
 
-Rebuild figures, real MuJoCo comparison videos, and the PDF from validated evidence:
+| Mode | Installation family |
+|---|---|
+| `baseline` | Configured family baseline mount |
+| `upright_table` | Upright tabletop installation |
+| `horizontal_wall` | Horizontal wall installation |
+| `inverted` | Inverted installation |
+
+When a required checkpoint is missing, run the corresponding search job:
 
 ```powershell
-python -m scripts.plot_piperx_multitask_mount_results
-python -m scripts.render_piperx_multitask_mount_comparisons
-python -m scripts.build_piperx_multitask_mount_report
-python -m scripts.build_piperx_multitask_release_manifest
+python -m scripts.run_piperx_multitask_fixed_time_mount_study --trajectory 8-11/Seal_Bag/161504 --mode baseline
 ```
 
-Use `--trajectory` and `--mode` on the study and bundle scripts for a focused investigation. Focused output is useful for debugging, but it is not a replacement for validating the complete 27 by 4 publication bundle.
+The [search runner](scripts/run_piperx_multitask_fixed_time_mount_study.py) saves its selected geometry and stage results. Its existing search protocol uses the earlier conditioned host-poll targets. The v4 runner then re-evaluates that saved mount under raw fixed-tool controller-event targets. These are two distinct operations: a v4 result does not establish that the mount was optimized under v4.
 
-### General single-arm design optimization
+For search extensions, [orientation_mount_search](factory_bimanual/orientation_mount_search.py) generates orientation candidates and fingerprints, [per_task_mount_search](factory_bimanual/per_task_mount_search.py) ranks full finalists and selects safe layouts, [staged_mount_search](factory_bimanual/staged_mount_search.py) selects full fixed-time candidates and targeted indices, and [spacing_scan](factory_bimanual/spacing_scan.py) generates/ranks base-spacing candidates. Preserve full-run safety and failure evidence when promoting a sparse-search winner.
 
-When the question concerns one arm's robot choice, geometry, installation, or performance trade-offs instead of synchronized two-hand following, use the repository-wide single-arm workflow under [`design_optimization/`](design_optimization/). It provides robot registries, URDF kinematics, mount and geometry search, hierarchical and best-first search, Pareto scoring, robustness checks, collision classification, trajectory-following metrics, real-time evaluation, and optional retiming experiments.
+### Keep native geometry consistent between solver and renderer
 
-When building a single-arm search around audited robot geometry, import the package-level public API instead of depending on topology internals. `load_templates` reads the robot audit into named `TopologyTemplate` values containing joint axes, link deltas, home rotation, joint bounds, and audited tool metadata; `DesignBatch` carries a topology-preserving batch of candidate geometries that share one template. These three names are the complete `design_optimization.__all__` surface and are loaded lazily so lightweight imports do not initialize the Torch runtime until they are used.
+To inspect the robot contract used by Seal_Bag's PiperX scene, retrieve its native joint and asset identities:
 
-Single-arm executable entry points live under [`scripts/`](scripts/). Examples include:
+```python
+from factory_bimanual.robot_contracts import get_robot_contract, robot_geometry_sha256
 
-- [`scripts/run_mount_ik_fidelity_pilot.py`](scripts/run_mount_ik_fidelity_pilot.py), a mount and IK fidelity comparison
-- [`scripts/run_ten_arm_two_single_tasks.py`](scripts/run_ten_arm_two_single_tasks.py), a multi-robot task study
-- [`scripts/run_twelve_arm_all_single_tasks.py`](scripts/run_twelve_arm_all_single_tasks.py), a broader single-arm matrix
-- [`scripts/search_strict_urdf_mount.py`](scripts/search_strict_urdf_mount.py), strict URDF-based mount search
-- [`scripts/render_strict_single_arm_task.py`](scripts/render_strict_single_arm_task.py), single-arm result rendering
+contract = get_robot_contract("piperx")
+print(contract.dof_per_arm, contract.prefixed_joint_names("left"))
+print(contract.source_urdf, robot_geometry_sha256("piperx"))
+```
 
-The retained single-arm publication area is [`reports/single_arm/`](reports/single_arm/). Useful starting points include the [mount and IK fidelity report](reports/single_arm/mount_ik_fidelity_pilot/pdf/mount_ik_fidelity_pilot_report.pdf), its [OpenArm video](reports/single_arm/mount_ik_fidelity_pilot/videos/openarm.mp4), its [xArm6 video](reports/single_arm/mount_ik_fidelity_pilot/videos/xarm6.mp4), and the [ten-arm three-episode report](reports/single_arm/ten_arm_pick_right_left_three_episodes/report.pdf).
+`BimanualRobotContract` contains native arm joints, joint limits, base/TCP links, and TCP offset. `ROBOT_CONTRACTS` configures `xarm6`, `franka_panda`, `i2rt_yam`, `piperx`, and `ur5`. The v4 solver passes its selected mount to [build_same_model_scene](factory_bimanual/scene_builder.py), which compiles the paired model and returns a `SceneManifest` recording the scene, base positions, spacing, and joint names.
 
-## Prepare trustworthy trajectory data
+For model development, [strict_urdf_model_audit](scripts/strict_urdf_model_audit.py) and [audit_thirteen_robot_models](scripts/audit_thirteen_robot_models.py) check native models; [build_official_model_provenance_gate](scripts/build_official_model_provenance_gate.py) records model/TCP provenance. Keep the vendored [official models](third_party/official_robot_models/) and their upstream notices/licenses with the assets. A scene's referenced meshes are only one part of runtime and provenance dependencies.
 
-Optimization begins only after model identity, timestamps, and coordinate frames are explicit. The factory pipeline rejects malformed input because silent timing repair would invalidate every later Fixed-time comparison.
+## Understanding tracking failures
 
-### Load synchronized dual-hand data
+A reachable isolated frame does not establish a collision-free, topology-valid, dynamically feasible path through the entire recording.
 
-Before registration or IK can be trusted, both hands and their shared schedule must enter the pipeline as one validated value. `FactoryBimanualTask` and `load_factory_task` in [`factory_bimanual/source_data.py`](factory_bimanual/source_data.py) load left and right positions, quaternions, and source timestamps. Timestamps must be finite and strictly increasing. The loader verifies pose-array shape and can repair explicitly supported invalid pose rows without changing the source schedule.
+### Follow paired branches and retain rejected targets
 
-For `8-12/PourRawMaterial/111542`, this stage produces one synchronized `FactoryBimanualTask` with 5942 source rows. Both hand targets and their shared timestamps remain paired as the same running value through registration, mount comparison, IK, and evidence generation.
+When Seal_Bag or Fold_Box rejects a target, inspect the NPZ's `paired_failure_reason`, `dls_solve_mode`, per-arm errors, source-validity masks, and discontinuity arrays alongside its joint states.
 
-> **Caution:** Fixed-time is an identity contract. Equal duration is insufficient. `retiming_applied` must be false, and every solved timestamp must equal its source timestamp.
+```python
+from pathlib import Path
+import numpy as np
 
-### Discover the complete task matrix
+root = Path("reports/piperx_controller_event_v4/shards/8-11/Seal_Bag/161504/upright_table")
+with np.load(next(root.glob("*.trajectory.npz")), allow_pickle=False) as archive:
+    rejected = np.flatnonzero(~archive["both_accept"])
+    for row in rejected[:5]:
+        print(int(archive["source_poll_row_index"][row]),
+              float(archive["source_time_s"][row]),
+              archive["paired_failure_reason"][row])
+```
 
-When a result is meant to represent the full dataset rather than a hand-picked recording, discovery must make both inclusion and exclusion explicit. `FactoryEpisode`, `TaskRepresentative`, and `FactoryTaskCatalog` discover eligible recordings and record exclusions. `discover_dual_hand_trajectories` turns that catalog into the formal `TrajectorySpec` matrix used by the multi-task study.
+The shared solver machinery uses [MuJoCoCandidateGenerator](factory_bimanual/mujoco_candidate_generator.py) for native-DOF candidates, [MuJoCoPairedCollisionChecker](factory_bimanual/mujoco_collision_adapter.py) for state and swept-transition collision gates, and [MuJoCoMountTopologyChecker](factory_bimanual/mount_topology.py) for paired-arm topology. [bimanual_collision](factory_bimanual/bimanual_collision.py) defines collision classifications and callback reports.
 
-The manifest is the publication authority for coverage. A complete PiperX bundle requires 27 trajectories, four modes per trajectory, and 108 unique cells. Missing, duplicated, stale, or mismatched cells fail validation.
+For alternate branch-selection research, [strict_bimanual_ik](factory_bimanual/strict_bimanual_ik.py) exposes `IKCandidate`, `BimanualIKConfig`, and `solve_strict_bimanual_path`; [collision_safe_follow](factory_bimanual/collision_safe_follow.py) adds explicit pose-tolerance tiers through `solve_collision_safe_follow`. Relaxed tiers must remain distinguishable from the strict 1 mm / 0.5° acceptance metric.
 
-### Register source coordinates
+Rejected rows stay on the fixed timeline. `HOLD_FIXED_TIME` in a rendered panel identifies rejected pose tracking; collision-free stationary output can have zero accepted coverage.
 
-Before comparing mounts, every recording must describe targets in the same physical frame and under the correct task-family tool convention. Registration utilities in [`factory_bimanual/registration.py`](factory_bimanual/registration.py) map source coordinates into the shared factory and world frames. Task-family utilities then apply configured tool translations, tool rotations, and target conventions. Source data, registration, and target contract are included in cache fingerprints so changed tool frames cannot reuse stale search results.
+### Measure and constrain motion on the immutable timeline
 
-For the running PourRawMaterial trajectory, family-specific tool rotations are part of that fingerprint. This means the 32.28% upright-table result cannot be loaded from a cache created under an older wrist or target-axis convention.
+To study a bounded recovery step, use `bounded_joint_step` and retain its returned `BoundedJointStep` velocity as state for the next interval:
 
-### Use authoritative robot geometry
+```python
+import numpy as np
+from factory_bimanual.fixed_time_tracking import bounded_joint_step, fixed_time_derivatives
 
-When reachability, IK, and collision claims depend on link dimensions and joint limits, the solver and renderer must share authoritative robot geometry. `RobotRegistry`, robot contracts, `URDFChain`, and kinematics utilities under [`design_optimization/`](design_optimization/) define robot identity for single-arm studies. PiperX formal solving and rendering use native MuJoCo model adapters under [`factory_bimanual/`](factory_bimanual/).
+step = bounded_joint_step(
+    previous_q=np.array([0.0]), desired_q=np.array([0.2]),
+    previous_velocity_rad_s=np.array([0.5]),
+    dt_s=0.02, previous_dt_s=0.02,
+    velocity_limit_rad_s=3.0, acceleration_limit_rad_s2=5.0,
+    lower_rad=np.array([-1.0]), upper_rad=np.array([1.0]))
+velocity, acceleration = fixed_time_derivatives(
+    np.array([[0.0], step.q]), np.array([0.0, 0.02]),
+    initial_velocity_rad_s=0.5)
+print(step.q, step.limited, velocity[-1], acceleration[-1])
+```
 
-Official and vendored robot assets are retained under [`third_party/official_robot_models/`](third_party/official_robot_models/). Model provenance and licenses remain with those assets. Do not substitute display meshes or approximate link geometry for formal collision evidence.
+This one-joint example isolates the timing primitive; it does not perform collision checking or certify a robot path. `fixed_time_derivatives` uses the actual event intervals and returns frame-aligned velocity/acceleration evidence. For a MuJoCo trajectory, select the actuated joint columns rather than treating all `qpos` columns as arm joints.
 
-> **Note:** The current release manifest content-addresses exactly 22 unique PiperX mesh files actually referenced by the 108 published scenes. Other trees under `third_party/official_robot_models/` remain broader source assets, not direct dependencies of this PiperX Fixed-time release.
+> **Caution:** An acceleration-bounded step can continue moving while braking after a hold request and can raise when no feasible step exists; HOLD does not imply an instantaneous zero-velocity command.
 
-## Compare installation configurations
+[fixed_time_refinement](factory_bimanual/fixed_time_refinement.py) projects a joint path under fixed timestamps and derivative bounds. [fixed_time_evidence_audit](factory_bimanual/fixed_time_evidence_audit.py) separates task-space segment rates, pose errors, strict paired acceptance, and comparisons between target tracks. Refinement changes a candidate path; an audit measures the path and target contract that were actually saved.
 
-Mount comparison combines calibrated task-family defaults with per-trajectory search because one family-wide pose does not place every recording in the same reachable and collision-free workspace. Unlike score-only selection, the final choice excludes incomplete safety evidence before comparing IK coverage.
+To run a separate enforced-dynamics experiment on the same Seal_Bag window:
 
-### Resolve calibrated family-specific mounts
+```powershell
+python -m scripts.run_piperx_controller_event_v4 --trajectory 8-11/Seal_Bag/161504 --mode baseline --source-prefix 300 --enforce-official-dynamics --output reports/piperx_controller_event_v4_dynamics_prefix300
+```
 
-When recordings from different task families use different tool directions or workspace regions, resolve their calibrated defaults before starting per-trajectory search. `PiperXRecommendedConfig`, `RecommendedMountSpec`, and `WorldMount` in [`factory_bimanual/piperx_recommended.py`](factory_bimanual/piperx_recommended.py) map each family to tool frames, mount placement, solver budgets, and optional wrist adaptation. The configuration is versioned so a result can be traced to the exact target and installation contract.
+The command requests bounded motion; its resulting pose coverage must be measured anew. It does not inherit the 100% geometric baseline result.
 
-### Construct physical mount orientations
+> **Caution:** With dynamics enforcement enabled, failure to find a safe bounded step stops the solve, and returned trajectories still face the final derivative gate; this local solver failure does not prove that every continuous IK branch is physically infeasible.
 
-When comparing table, wall, and inverted installations, change the physical base orientation while holding the recorded task schedule constant. `mount_quaternions` and the mount-mode constants construct upright-table, horizontal-wall, inverted, and supported forward orientations. Each mode changes the robot base frame, not the trajectory timebase.
+### Distinguish alternative execution contracts
 
-> **Caution:** The older synchronized-mount validator assumes upright bases. It cannot validate wall or inverted study modes. The multi-task workflow uses mount-aware topology checks for every mode.
+When studying execution changes, retain their time and target labels with the results. [complete_follow](factory_bimanual/complete_follow.py) exposes `CompleteFollowRunner` and `retime_complete_source_path`; [recommended_follow](factory_bimanual/recommended_follow.py) implements the recommended-v3.1 follower; [rescue_v31](factory_bimanual/rescue_v31.py) schedules branch rescue and transitions.
 
-### Search and select safe layouts
+> **Unlike** fixed-time v4, complete-follow can retime a source-order path; complete spatial coverage under that workflow is not fixed-time coverage.
 
-When family defaults do not place a particular recording in a reachable and collision-free region, search that trajectory's layout without weakening the final safety contract. `PerTaskSearchConfig`, `candidate_fingerprint`, `rank_full_finalist`, and `select_safe_layout` in [`factory_bimanual/per_task_mount_search.py`](factory_bimanual/per_task_mount_search.py) manage staged search and caching. Orientation, spacing, workspace, coarse, dense, and local refinement modules progressively reduce the candidate set before formal audit.
+For controller comparisons, [native_dof_easyik](factory_bimanual/native_dof_easyik.py), [native_dof_mpc](factory_bimanual/native_dof_mpc.py), [easyik_runner](factory_bimanual/easyik_runner.py), and [mpc_runner](factory_bimanual/mpc_runner.py) provide native-DOF EasyIK/MPC controllers and runners. [controller_adapter](factory_bimanual/controller_adapter.py) connects scene state and targets; [branch_equivalence](factory_bimanual/branch_equivalence.py) compares initial branches before scheduling conditional MPC runs. Their output contracts require separate validation before comparison with v4.
 
-> **Note:** `baseline` is frozen from the configured task-family representative and is not searched per trajectory; only `upright_table`, `horizontal_wall`, and `inverted` pass through the per-trajectory coarse, dense, local, and full search funnel.
+## Producing shareable comparisons
 
-Sparse search probes preserve both reachability and safety frontiers, so a selected search checkpoint may contain collision observations. Those observations are not executed as formal motion: the formal solver rechecks the full trajectory and converts any unsafe state or transition to a failed safe HOLD. Only the formal NPZ shard, which must have zero collision, zero swept-edge collision, and zero topology violations, is publication evidence. Incomplete or unsafe probe evidence must never be reported as a successful trajectory.
+Build videos from validated saved trajectories so that the same source window is visible in every mounting panel.
 
-> **Caution:** Search ranking maximizes safe paired coverage while preserving reachability and safety frontiers, whereas published winner ranking first rejects any nonzero safety count and only then compares synchronized coverage. Do not reuse either comparator as a substitute for the other.
+### Build a four-mode manifest
 
-This distinction is visible on `8-12/PourRawMaterial/111542`: upright-table reaches 32.28% strict both-hand coverage, horizontal-wall reaches 4.98%, and baseline and inverted reach 0%. The modes retain the same 5942 deterministically conditioned targets and original timestamps, so the difference measures installation and IK capability rather than a different playback schedule.
+Once all four prefix shards exist for each included trajectory, assemble their rendering manifest:
 
-## Follow both hands at fixed source time
+```powershell
+python -m scripts.build_piperx_controller_event_manifest --output reports/piperx_controller_event_v4_prefix300
+```
 
-Dual-hand following is a paired path problem because a left-arm solution is not valid evidence unless the right arm succeeds safely at the same source timestamp. Solving each arm independently can create branch discontinuities, cross-arm collisions, or visually unsynchronized behavior.
+[build_manifest](scripts/build_piperx_controller_event_manifest.py) checks the v4 protocol, no-retiming flag, zero safety counts, and identical event timelines across a recording's four modes. It then writes `bundle_manifest.json`.
 
-### Apply the study contract
+> **Caution:** Building this manifest normalizes and rewrites the source summary JSON files, so this command is not read-only validation.
 
-Before any solver result can enter the publication bundle, it must be evaluated against one immutable experiment matrix and tolerance contract. `TrajectorySpec`, `StudyConfig`, and `STUDY_MODES` in [`factory_bimanual/multitask_fixed_time_study.py`](factory_bimanual/multitask_fixed_time_study.py) define that matrix. The published mode order is fixed, and the position and orientation tolerances are locked to 0.001 m and 0.5 degree against the conditioned targets. Every shard records the conditioning contract and its bounded deviation from the raw recorded TCP stream so the distinction remains auditable.
+> **Note:** The manifest's gates do not require 100% pose coverage or passed dynamics; a renderable shard is not a deployable trajectory.
 
-### Solve paired branch-aware IK
+The full v4 directory currently lacks wall and inverted shards for both recordings and therefore cannot supply the required four-mode set. Use the prefix300 root for the existing four-panel deliverable.
 
-When both arms admit multiple IK branches, choose branches jointly so a locally valid single-arm posture cannot break bimanual continuity or safety. `IKCandidate`, `BimanualIKConfig`, `BimanualIKResult`, and `solve_strict_bimanual_path` in [`factory_bimanual/strict_bimanual_ik.py`](factory_bimanual/strict_bimanual_ik.py) search paired branches while enforcing continuity, joint limits, velocity constraints, collision checks, and swept-transition constraints.
+### Render synchronized panels
 
-Failure labels keep branch loss, state collision, transition collision, pose rejection, and dynamics separate. A rejected frame is not automatically an IK convergence failure.
+To render the Seal_Bag comparison, select its manifest entry:
 
-On the running PourRawMaterial trajectory, the upright-table shard records 1926 left-accepted frames and 1919 right-accepted frames, but only the 1918 simultaneous frames count. This comparison shows why the published 32.28% metric is paired coverage rather than the average or union of two single-arm scores.
+```powershell
+python -m scripts.render_piperx_multitask_mount_comparisons --output reports/piperx_controller_event_v4_prefix300 --trajectory 8-11/Seal_Bag/161504
+```
 
-### Refine and recover without changing time
+Omit `--trajectory` to render every recording in the manifest. `render_trajectory` coordinates `render_panel` and `compose_four_panel`, producing a synchronized 1280×720 MP4 at 30 fps. [mount_comparison_visuals](factory_bimanual/mount_comparison_visuals.py) defines comparison timelines, source-frame indices, and mount ranking; [video](factory_bimanual/video.py) handles timing, provenance, and `decode_check_mp4` checks.
 
-When an exact next-frame connection fails, recovery may preserve a safe executable path, but it must not alter the timestamp or relabel the missed target as success. The fixed-time refinement, complete-follow, collision-safe-follow, and rescue modules therefore attempt exact connections first, then bounded safe recovery. A safe hold can preserve collision safety when the next target is unreachable, but the held frame remains a strict-follow failure.
+> **Note:** Panel diagnostics retain source poll-row provenance and label rejected poses `HOLD_FIXED_TIME`, so a motionless collision-free panel can still represent zero accepted coverage.
 
-> **Caution:** A shard may initialize from a later search-proven safe segment, but recovery is forbidden before that segment begins. Earlier unsolved source frames remain HOLD; the solver cannot teleport into the later state or delete those timestamps.
+> **Note:** Render-cache validity depends on hashes of the summary, trajectory archive, scene, and render protocol, not on the existence of an MP4 alone.
 
-> **Caution:** Missing IK must not be relabeled as collision-free success when the controller holds the last safe posture.
+For additional report formats, [artifacts](factory_bimanual/artifacts.py) supplies `FrameDiagnostics`, `RunArtifactPaths`, and `RunArtifactWriter`; [report](factory_bimanual/report.py) writes common comparisons; [per_task_mount_report](factory_bimanual/per_task_mount_report.py) writes evidence-preserving metric rows; and [orientation_comparison_metrics](factory_bimanual/orientation_comparison_metrics.py) derives orientation metrics from immutable arrays. Generate summaries from the stored evidence before choosing a presentation format.
 
-> **Note:** Bounded orientation adaptation is attempted only after an exact orientation connection fails. Adapted tracking is reported separately and is not exact tracking.
+### Put the prefix workflow together
 
-### Report dynamics separately
+After the individual commands above, the complete two-task prefix comparison is one loop over saved mounts followed by manifest construction and rendering:
 
-When pose accuracy passes but the recorded schedule demands excessive joint motion, the result must expose a dynamics failure rather than slow the trajectory. Native-DOF and controller adapters produce executable joint-space trajectories and compute velocity and acceleration evidence on the unchanged source schedule. Dynamic feasibility is reported independently from pose coverage.
+```powershell
+$eventOutput = "reports/piperx_controller_event_v4_prefix300"
+$eventTasks = @("8-11/Seal_Bag/161504", "8-11/Fold_Box/161044")
+$eventModes = @("baseline", "upright_table", "horizontal_wall", "inverted")
+foreach ($eventTask in $eventTasks) {
+    foreach ($eventMode in $eventModes) {
+        python -m scripts.run_piperx_controller_event_v4 --trajectory $eventTask --mode $eventMode --source-prefix 300 --output $eventOutput
+        if ($LASTEXITCODE -ne 0) { throw "Event shard failed: $eventTask / $eventMode" }
+    }
+}
+python -m scripts.build_piperx_controller_event_manifest --output $eventOutput
+if ($LASTEXITCODE -ne 0) { throw "Event manifest failed" }
+python -m scripts.render_piperx_multitask_mount_comparisons --output $eventOutput
+if ($LASTEXITCODE -ne 0) { throw "Event rendering failed" }
+```
 
-## Enforce safety as a hard gate
+This recomputes the eight prefix artifacts. The diagnostic PDF additionally requires four full runs (baseline and upright-table for each task) and its fixed prior-audit input, so the prefix loop alone does not satisfy all report inputs.
 
-Formal safety combines geometric collision and installation topology because clear link geometry can still violate the intended left/right mounting relationship. Unlike a post-hoc penalty, either failure rejects initialization, rescue, and recovery before coverage can improve the candidate's rank.
+## Exploring the wider research toolkit
 
-### Classify frame and transition collisions
+Use the additional workflows for their stated recording, geometry, and execution contracts while keeping the current v4 evidence identifiable.
 
-When endpoint postures appear clear, the motion between them can still cross robot or environment geometry, so both states and transitions require explicit evidence. `CollisionClass`, `CollisionReport`, and `CallbackCollisionChecker` classify self-collision, cross-arm collision, table collision, base collision, and swept-transition collision. MuJoCo adapters audit native PiperX geometry at every solved frame and at interpolated transition samples.
+### Reproduce the earlier conditioned host-poll study
 
-Frame collision and swept-edge collision are stored separately. This identifies trajectories whose endpoint postures are clear but whose transition passes through geometry.
+For the historical 27-trajectory × 4-mode study, use [reports/piperx_multitask_fixed_time_mount_study](reports/piperx_multitask_fixed_time_mount_study/). Its 108 cells use the earlier conditioned host-poll fixed-time protocol. The [Chinese report](reports/piperx_multitask_fixed_time_mount_study/PiperX多任务Fixed-Time四构型对比报告.pdf), [aggregate CSV](reports/piperx_multitask_fixed_time_mount_study/aggregate.csv), [bundle manifest](reports/piperx_multitask_fixed_time_mount_study/bundle_manifest.json), [release manifest](reports/piperx_multitask_fixed_time_mount_study/release_manifest.json), and [27 comparison videos](reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/) remain available as historical evidence.
 
-### Enforce mount topology
+```powershell
+python -m scripts.build_piperx_multitask_fixed_time_bundle --validate-only
+python -m scripts.run_piperx_multitask_fixed_time_mount_study --trajectory 8-12/PourRawMaterial/111542 --mode baseline
+```
 
-When collision geometry is clear but the arms cross their intended sides or the bases violate the installation relationship, the candidate is still invalid. `MountTopologyConfig`, `MountTopologyReport`, and `MuJoCoMountTopologyChecker` in [`factory_bimanual/mount_topology.py`](factory_bimanual/mount_topology.py) enforce intended left/right base ordering and arm-side relationship. Initialization, paired rescue, and recovery all use the conjunction of collision and topology checks.
+The first command validates the existing historical bundle; the second resumes a historical mount-search job. [PourRawMaterial's comparison video](reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-12_PourRawMaterial_111542_four_mount_fixed_time.mp4) is an example of that earlier protocol, not a v4 recording result.
 
-> **Caution:** A candidate pair must pass both MuJoCo collision checking and mount-topology checking. Passing either checker alone is insufficient.
+The historical [raw-source audit](reports/piperx_multitask_fixed_time_mount_study/literature_audit/) and [project optimization/literature report](output/pdf/PiperX双手多任务Fixed-Time项目优化与文献审计报告.pdf) examine differences between conditioned and raw-target evidence. Their 27×4 matrix and deployment conclusions must retain that scope. Use [audit_piperx_fixed_time_evidence](scripts/audit_piperx_fixed_time_evidence.py) for the older bundle audit, [build_piperx_multitask_mount_report](scripts/build_piperx_multitask_mount_report.py) for its report, and [build_piperx_multitask_release_manifest](scripts/build_piperx_multitask_release_manifest.py) for its release identity.
 
-All four `8-12/PourRawMaterial/111542` cells pass this conjunction: each reports `collision_frames == 0`, `edge_collision_frames == 0`, and `topology_invalid_frames == 0`. The upright-table coverage gain is therefore not purchased by accepting the slight collisions that a frame-only visual inspection can miss.
+Earlier [two-task fixed-time](reports/piperx_two_task_fixed_time/), [complete-follow](reports/piperx_complete_follow/), [two-task complete-follow](reports/piperx_two_task_complete_follow/), and [recommended-v3.1](reports/piperx_recommended_v31/) artifacts are retained. Their corresponding [two-task validator](scripts/validate_piperx_two_task_bundle.py), [complete-follow report builder](scripts/build_piperx_complete_follow_report.py), and [recommended-v3.1 runner](scripts/run_piperx_recommended_v31.py) remain separate entry points. “v4.0” in an older complete-follow report title does not identify the controller-event v4 protocol.
 
-## Build auditable evidence
+### Stage a general multi-robot experiment
 
-Each trajectory and mount cell becomes a formal shard so that aggregate coverage, safety claims, and rendered media can be recomputed from per-frame evidence instead of copied from logs or screenshots.
+For the separate factory controller matrix, start by inspecting its planned workload and preflight outputs:
 
-### Validate per-frame shards
+```powershell
+python -m factory_bimanual.cli dry-run
+python -m factory_bimanual.cli preflight
+python -m factory_bimanual.cli short-prefix --rows 2
+```
 
-When a summary number must remain independently auditable, retain the per-frame arrays from which it is computed. `build_shard_arrays`, `solve_selected_shard`, `aggregate_shard`, and `validate_shard` in [`scripts/build_piperx_multitask_fixed_time_bundle.py`](scripts/build_piperx_multitask_fixed_time_bundle.py) store source time, joint state, both-hand pose errors, strict acceptance, collision flags, topology validity, velocity, acceleration, and failure reasons.
+The [general CLI](factory_bimanual/cli.py) wires `FactoryBimanualExperiment` to `ProductionExecutors` and writes under `reports/factory_bimanual`. Its task defaults, source catalog, workspace-feasibility checks, and spacing validation are in [defaults](factory_bimanual/defaults.py), [factory_task_catalog](factory_bimanual/factory_task_catalog.py), [workspace_feasibility](factory_bimanual/workspace_feasibility.py), and [preflight](factory_bimanual/preflight.py). [isolation](factory_bimanual/isolation.py) snapshots and checks protected single-arm files around these experiments.
 
-Summary metrics are recomputed from these arrays. Raw left/right TCP validity masks are retained; invalid source poses are forced to reject and are disclosed separately from the valid-source denominator. Reports do not infer success from prose, screenshots, or video overlays.
+> **Note:** Preflight writes reports and compiled scenes; a full general-CLI run requires `full --confirm-full` and successful preflight.
 
-For `8-12/PourRawMaterial/111542`, four shards preserve the same 5942-frame source schedule. The upright-table arrays contain the 1918 paired acceptances used to compute 32.28%, while the collision and topology arrays prove the three zero-count safety claims for that cell.
+```powershell
+python -m factory_bimanual.cli full --confirm-full
+```
 
-### Reject stale caches
+These commands execute the general factory workflow; use `scripts.run_piperx_controller_event_v4` for the event-v4 reproduction demonstrated above.
 
-When source data, tool conventions, mounts, robot geometry, collision settings, or solver behavior changes, reusing an older result would make the evidence internally inconsistent. Search checkpoints and candidates therefore include exact source hashes, budgets, mount parameters, tool-frame contracts, safety settings, and implementation protocols in their fingerprints. Formal summaries use `robot_geometry_sha256` to fingerprint the model text plus the vendored mesh and package asset trees alongside source identity, mount, tool-frame, collision, scene, and solver settings. Only an exact formal fingerprint may be reused; matching only a schema or protocol name is insufficient.
+### Retained single-arm reports and videos
 
-### Assemble and validate the bundle
+To inspect single-arm work without running a search, open the retained deliverables:
 
-When results are ready for comparison or publication, validate completeness and provenance across the entire matrix rather than trusting whichever shards happen to exist. `build_bundle`, `solve_shards`, `validate_manifest`, and `validate_bundle_artifacts` verify the complete 27 by 4 matrix. [`bundle_manifest.json`](reports/piperx_multitask_fixed_time_mount_study/bundle_manifest.json) records formal evidence paths and validation state.
+| Study | Report | Video or artifact directory |
+|---|---|---|
+| Mount/IK fidelity pilot | [PDF](reports/single_arm/mount_ik_fidelity_pilot/pdf/mount_ik_fidelity_pilot_report.pdf) | [OpenArm](reports/single_arm/mount_ik_fidelity_pilot/videos/openarm.mp4), [xArm6](reports/single_arm/mount_ik_fidelity_pilot/videos/xarm6.mp4) |
+| Ten arms, three pick episodes | [PDF](reports/single_arm/ten_arm_pick_right_left_three_episodes/report.pdf) | [Study artifacts](reports/single_arm/ten_arm_pick_right_left_three_episodes/) |
+| Fixed-time versus legacy, ten arms | [PDF](reports/single_arm/ten_arm_two_single_tasks_handbook_fixed_4096/ten_arm_fixed_vs_legacy_report.pdf) | [Study artifacts](reports/single_arm/ten_arm_two_single_tasks_handbook_fixed_4096/) |
 
-`RunArtifactPaths` and `RunArtifactWriter` under [`factory_bimanual/artifacts.py`](factory_bimanual/artifacts.py) constrain output locations and write structured run artifacts atomically, reducing the risk that an interrupted run appears complete.
+The [single-arm project manifest](SINGLE_ARM_PROJECT_MANIFEST.json) and [reports index](reports/README.md) provide additional navigation. Older report titles and recommendation language describe their own experiment revisions; the full/prefix scope tables in this README identify the controller-event v4 evidence.
 
-## Inspect and publish results
+### Extend geometry, search, and optimization
 
-Plots, videos, and reports are downstream views of the validated bundle so that presentation cannot alter the experiment that produced the numbers. Unlike independent video editing, every comparison panel is indexed from the formal source schedule and acceptance arrays.
+When adding robot models or alternative search policies, follow the native model through forward kinematics, candidate evaluation, and full-trajectory validation. The research modules group into these connected surfaces:
 
-### Read the aggregate and figures
-
-When comparing task families and mount modes across all 108 cells, start from the validated aggregate rather than reading values from video overlays. [`aggregate.csv`](reports/piperx_multitask_fixed_time_mount_study/aggregate.csv) is the compact comparison table. The figure directory contains:
-
-- [strict both-hand coverage](reports/piperx_multitask_fixed_time_mount_study/figures/coverage_heatmap.png)
-- [collision and topology audit](reports/piperx_multitask_fixed_time_mount_study/figures/collision_topology_heatmap.png)
-- [maximum accepted-frame position error](reports/piperx_multitask_fixed_time_mount_study/figures/maximum_position_error_heatmap.png)
-- [maximum accepted-frame orientation error](reports/piperx_multitask_fixed_time_mount_study/figures/maximum_orientation_error_heatmap.png)
-- [longest hold ratio](reports/piperx_multitask_fixed_time_mount_study/figures/longest_hold_heatmap.png)
-- [velocity evidence](reports/piperx_multitask_fixed_time_mount_study/figures/velocity_heatmap.png)
-- [acceleration evidence](reports/piperx_multitask_fixed_time_mount_study/figures/acceleration_heatmap.png)
-- [coverage, dynamics, and safety deployability gate](reports/piperx_multitask_fixed_time_mount_study/figures/deployability_heatmap.png)
-- [winning-mount counts](reports/piperx_multitask_fixed_time_mount_study/figures/winner_counts.png)
-
-### Compare synchronized videos
-
-When visually comparing installations, every panel must represent the same source instant so apparent synchronization cannot be created during rendering. `comparison_timeline` and `source_frame_indices` in [`factory_bimanual/mount_comparison_visuals.py`](factory_bimanual/mount_comparison_visuals.py) enforce one common four-panel schedule. The renderer loads the validated MuJoCo scene and formal joint arrays for each panel.
-
-> **Note:** The comparison renderer does not shorten or retime a mount mode. It samples each formal result onto one common 30 fps visualization timeline; all four panels still use the same zero-origin relative source schedule and duration.
-
-The [comparison-video directory](reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/) contains one MP4 for each of the 27 trajectories. Each filename includes the task family and take.
-
-The running example is published as [`8-12_PourRawMaterial_111542_four_mount_fixed_time.mp4`](reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/8-12_PourRawMaterial_111542_four_mount_fixed_time.mp4). Its four panels provide a visual comparison of the same baseline 0%, upright-table 32.28%, horizontal-wall 4.98%, and inverted 0% formal results without shortening any mode.
-
-### Rebuild the PDF
-
-When producing the final report, require the same complete, non-retimed evidence contract used by the plots and videos. [`scripts/build_piperx_multitask_mount_report.py`](scripts/build_piperx_multitask_mount_report.py) enforces that manifest requirement. The final [PiperX multi-task four-mount report](reports/piperx_multitask_fixed_time_mount_study/PiperX多任务Fixed-Time四构型对比报告.pdf) contains the experiment contract, task-level tables, figures, safety audit, and synchronized visual comparisons.
-
-> **Note:** Release hashing normalizes text to UTF-8 with LF line endings, but hashes NPZ, MP4, PDF, PNG, and other binary artifacts as raw bytes. Cross-platform text checkout differences therefore do not change text identity, while any binary-byte drift fails release validation.
-
-## Extend single-arm optimization
-
-The single-arm surfaces are useful when the research question is robot selection or mount optimization rather than synchronized dual-hand Fixed-time following.
-
-### Search at increasing fidelity
-
-When the single-arm candidate space is too large for strict native-model evaluation everywhere, narrow it in stages of increasing fidelity. `InstallationSearchSpace` and the mount-sweep, best-first, hierarchical, batched, incremental, fidelity-funnel, and SLP refinement modules explore candidates at increasing computational cost. Coarse reachability narrows the space before strict native-model evaluation.
-
-### Keep evaluation dimensions separate
-
-When one candidate improves reach but worsens safety, dynamics, robustness, or latency, a single blended score can hide the trade-off. Task-space, objective, Pareto, robustness, collision, episode-follow, real-time, and retiming modules therefore score these properties separately.
-
-### Inspect single-arm artifacts
-
-When numerical metrics need visual diagnosis or a reproducible presentation artifact, inspect the same single-arm result through the episode viewers and export scripts. They provide browser and desktop 3D inspection, montage generation, and reproducible video bundles. Retained examples and reports remain discoverable under [`reports/single_arm/`](reports/single_arm/), while official model assets remain under [`third_party/official_robot_models/`](third_party/official_robot_models/).
-
-## Limitations
-
-Strict coverage is intentionally narrow. It requires both hands to meet 1 mm and 0.5 degree simultaneously at the original source timestamp. Safe holds, bounded wrist adaptation, orientation relaxation, collision-free motion, and successful rendering do not convert a rejected target into strict success.
-
-Wall and inverted mounts have low or zero strict coverage on many trajectories because their reachable workspace and orientation branches differ from the recorded task geometry. The bundle keeps these cells and their failure evidence instead of dropping them. The report compares installation capability; it does not claim complete following for every task and mount.
-
-The published collision result applies to the checked native MuJoCo geometry, transition sampling, clearance settings, and mount-topology contract. It does not replace hardware commissioning, calibration, torque limits, environmental collision checking, or emergency-stop validation.
-
-Dynamic failures are not repaired by retiming in this study. Velocity and acceleration results describe execution at the recorded schedule. Use a separate retiming experiment only when changing task timing is acceptable, and do not compare it as Fixed-time evidence.
-
-## Repository layout
-
-| Path | Purpose |
-| --- | --- |
-| [`factory_bimanual/`](factory_bimanual/) | Dual-hand data, mount search, paired IK, collision, topology, artifacts, and visualization contracts |
-| [`design_optimization/`](design_optimization/) | General single-arm robot, kinematics, search, evaluation, Pareto, robustness, and visualization tools |
-| [`scripts/`](scripts/) | Reproducible experiment, validation, plotting, rendering, and report entry points |
-| [`configs/`](configs/) | Versioned robot, task-family, mount, tool-frame, and solver parameters |
-| [`reports/piperx_multitask_fixed_time_mount_study/`](reports/piperx_multitask_fixed_time_mount_study/) | Current 27-trajectory PiperX four-mount evidence bundle |
-| [`reports/single_arm/`](reports/single_arm/) | Retained single-arm reports, metrics, figures, and selected videos |
-| [`third_party/official_robot_models/`](third_party/official_robot_models/) | Vendored official robot models and provenance |
-| [`tests/`](tests/) | Unit and integration tests for contracts, search, IK, safety, bundle validation, and media |
-
-## Publication boundary
-
-The GitHub repository includes all 27 formal dual-hand source CSVs, the generated multi-task report, validated evidence, 27 comparison videos and their provenance sidecars, retained single-arm reports and videos, and all required `third_party` models. Licenses and provenance in third-party model directories must remain intact; unresolved vendor redistribution status is disclosed in [`third_party/official_robot_models/NOTICE.md`](third_party/official_robot_models/NOTICE.md) rather than guessed.
-
-The following four reference PDFs are local input material only and are intentionally excluded from GitHub. They are not published artifacts and are not linked from the repository:
-
-- `PiperX双任务严格完全跟随实验报告.pdf`
-- `单轨迹优化分析.pdf`
-- `Seal_Bag 轨迹上 PiperX 双臂三种安装构型的跟随能力对比 - 飞书云文档.pdf`
-- `双臂IK跟随方案四臂四种安装位姿报告.pdf`
-
-Keep these files out of commits and release bundles. Their conclusions may inform implementation choices, but the repository's published claims must remain traceable to the validated shards, aggregate, manifest, figures, videos, and final multi-task report listed above.
+| Task | Modules and principal interfaces |
+|---|---|
+| Load native robot geometry | [robot_registry](design_optimization/robot_registry.py): `RobotSpec`, `load_robot_registry`; [urdf_chain](design_optimization/urdf_chain.py): `NativeSerialChain`, `load_native_chain`, `load_urdf_chain`, `load_mjcf_chain`, `fk_flange`, `sampled_maximum_reach` |
+| Build parametric geometry and compute poses | [topology](design_optimization/topology.py): `TopologyTemplate`, `DesignBatch`, `load_templates`; [kinematics](design_optimization/kinematics.py): `build_designs`, `assemble_from_deltas`, `fk_tcp`, `geometric_jacobian`, joint-world positions |
+| Solve and select IK branches | [ik](design_optimization/ik.py): `IKResult`, `solve_multistart`, `solve_trajectory_multistart`, `select_continuous_branches`; [trajectory](design_optimization/trajectory.py): `BimanualTrajectory`, `select_bimanual_collision_aware` |
+| Map task frames and score clearance | [taskspace](design_optimization/taskspace.py): `BimanualTaskFrames`, transform/quaternion helpers, `world_to_base`; [collision](design_optimization/collision.py): `CollisionMetrics`, capsule clearances and penalties |
+| Prepare reproducible data | [experiment](design_optimization/experiment.py): data/IK/search/constraint configs, checkpoints and `reproducibility_manifest`; [egodex](design_optimization/egodex.py): `EgoDexPoseDataset`; [local_pose_dataset](design_optimization/local_pose_dataset.py) and [local_pose_sampling](design_optimization/local_pose_sampling.py): cleaning, splits, trimming and relative sampling |
+| Set installation bounds and candidate budgets | [installation_search_space](design_optimization/installation_search_space.py), [search_policy](design_optimization/search_policy.py), [mount_sweep](design_optimization/mount_sweep.py): feasible mounts, staged Sobol candidates and mount scores |
+| Promote candidates through evaluation fidelities | [best_first_mount_search](design_optimization/best_first_mount_search.py): `SearchBudget`, `CandidateState`, `Frontier`; [hierarchical_mount_search](design_optimization/hierarchical_mount_search.py): global/local candidates; [fidelity_funnel](design_optimization/fidelity_funnel.py): shortlist and cross-fidelity metrics |
+| Bound memory and reuse evaluated frames | [batched_search](design_optimization/batched_search.py): `safe_candidate_batch_size`, `evaluate_candidate_batches`; [incremental_mount_evaluator](design_optimization/incremental_mount_evaluator.py): `FrameResult`, `CandidateEvaluation`, `IncrementalMountEvaluator` |
+| Rank designs and quantify robustness | [objectives](design_optimization/objectives.py): `PopulationMetrics`, `evaluate_population`; [pareto](design_optimization/pareto.py): nondominated sorting and NSGA-II; [robustness](design_optimization/robustness.py): Sobol perturbations and upper-tail CVaR |
+| Learn approximations and refine paths | [surrogate](design_optimization/surrogate.py): `ObjectiveSurrogate`, ensemble prediction and UCB proposals; [reach](design_optimization/reach.py): numerical reach; [slp_refinement](design_optimization/slp_refinement.py): `refine_joint_window_slp` |
+| Explore runtime policies and diagnostics | [realtime](design_optimization/realtime.py): bounded solve scheduling and proposal mailbox; [retiming](design_optimization/retiming.py): `retime_joint_path`; [branch_policy](design_optimization/branch_policy.py), [collision_classifier](design_optimization/collision_classifier.py), [episode_follow_metrics](design_optimization/episode_follow_metrics.py): learned proposals and failure metrics |
+
+Native geometry auditing and parametric geometry optimization serve different purposes. A parametric winner needs native-model validation before its measured coverage can support a claim about a vendored robot. Likewise, collision proxies and learned proposals accelerate candidate evaluation; the final MuJoCo state and transition evidence still determines the reported safety counts.
+
+### Locate task-specific runners and viewers
+
+For a particular dataset or experiment revision, choose a script by the job it performs and inspect that script's arguments before running a long search:
+
+| Work | Entry points |
+|---|---|
+| Single-arm formal studies | [fidelity pilot](scripts/run_mount_ik_fidelity_pilot.py), [ten-arm three-episode study](scripts/run_ten_arm_three_pick_episodes.py), [ten-arm two-task study](scripts/run_ten_arm_two_single_tasks.py), [twelve-arm Local study](scripts/run_twelve_arm_all_single_tasks.py) |
+| Native model validation and replay | [strict model audit](scripts/strict_urdf_model_audit.py), [strict mount search](scripts/search_strict_urdf_mount.py), [strict task cache solver](scripts/solve_strict_urdf_task_cache.py), [single-arm renderer](scripts/render_strict_single_arm_task.py), [strict batch queue](scripts/run_strict_cache_batch.py) |
+| External-domain preparation and search | [Local benchmark preparation](scripts/prepare_local_pose_benchmark.py), [DROID trace preparation](scripts/build_droid_5min_trace.py), [EgoDex pose download](scripts/download_egodex_pose_only.py), [external-domain dense search](scripts/run_external_domain_dense_search.py), [held-out validation](scripts/validate_external_domain_test.py) |
+| Earlier PiperX search and calibration | [per-task mount search](scripts/run_piperx_factory_per_task_mount_search.py), [orientation comparison](scripts/run_piperx_seal_bag_orientation_comparison.py), [tool calibration](scripts/calibrate_piperx_tool_frames.py), [fixed-time mount search](scripts/search_piperx_fixed_time_mounts.py) |
+| Controller and branch investigations | [recommended Doosan MPC](scripts/run_recommended_doosan_mpc.py), [robot MPC tuning](scripts/tune_robot_mpc.py), [rolling branch selection](scripts/rolling_multibranch_ik.py), [branch-plan validation](scripts/validate_branch_plan.py), [realtime trace analysis](scripts/analyze_realtime_trace.py) |
+| Learning experiments | [branch policy training](scripts/train_branch_proposal_policy.py), [collision classifier training](scripts/train_collision_classifier_cuda.py), [surrogate training](scripts/train_surrogate_from_archive.py) |
+| Inspect motion and scene assembly | [desktop episode viewer](tools/episode-3d-desktop/), [web episode viewer](tools/episode-3d-viewer/), [Python desktop viewer](scripts/episode_3d_desktop.py), [MuJoCo viewer launcher](factory_bimanual/launch_viewer.py), [assembly renderer](scripts/render_model_assembly_qa.py) |
+
+For example, inspect the native single-arm solver's available inputs without launching a solve:
+
+```powershell
+python -m scripts.solve_strict_urdf_task_cache --help
+python -m scripts.episode_3d_desktop --help
+```
+
+The remaining [scripts](scripts/) include study-specific figure/PDF builders, cache re-audits, CUDA geometry searches, collision-proxy calibration, and older renderers. Keep saved configurations and provenance with exported results so that single-arm studies, historical bimanual experiments, and raw controller-event v4 results remain traceable to the experiment that produced them.
+
+### Public API inventory
+
+When you need an exact class or function name beyond the worked examples, use this source-module index. It lists 926 public top-level class/function definitions across 256 first-party modules (673 distinct names); repeated names such as `main` are listed under each defining module. Class methods are represented by their owning class. These names cover the current and historical workflows above, so an entry alone does not establish a v4 execution contract.
+
+<details>
+<summary>design_optimization: 31 modules, 147 definitions</summary>
+
+| Source module | Public classes and functions |
+|---|---|
+| [batched_search.py](design_optimization/batched_search.py) | `safe_candidate_batch_size`, `evaluate_candidate_batches` |
+| [best_first_mount_search.py](design_optimization/best_first_mount_search.py) | `Fidelity`, `SearchBudget`, `CandidateState`, `Frontier`, `promotion_target`, `should_stop_after_success`, `representative_frame_indices`, `representative_frame_windows`, `select_diverse_regions`, `generate_local_population` |
+| [branch_policy.py](design_optimization/branch_policy.py) | `BranchPolicyOutput`, `MultiBranchIKPolicy`, `wrapped_joint_error`, `branch_imitation_loss` |
+| [collision_classifier.py](design_optimization/collision_classifier.py) | `periodic_joint_features`, `ConfigurationCollisionClassifier`, `binary_metrics` |
+| [collision.py](design_optimization/collision.py) | `CollisionMetrics`, `segment_segment_distance`, `self_segment_pair_distances`, `self_capsule_clearance`, `dual_capsule_clearance`, `table_capsule_clearance`, `collision_penalty` |
+| [egodex.py](design_optimization/egodex.py) | `EgoDexSplit`, `EgoDexPoseDataset` |
+| [episode_follow_metrics.py](design_optimization/episode_follow_metrics.py) | `classify_solver_failures`, `planner_failure_diagnostics`, `failure_reason_diagnostics`, `episode_follow_metrics`, `follow_rank` |
+| [experiment.py](design_optimization/experiment.py) | `DataConfig`, `IKConfig`, `SearchConfig`, `ConstraintConfig`, `ExperimentConfig`, `seed_everything`, `save_checkpoint_atomic`, `load_checkpoint`, `append_jsonl`, `sha256_file`, `reproducibility_manifest` |
+| [fidelity_funnel.py](design_optimization/fidelity_funnel.py) | `select_diverse_candidates`, `cross_fidelity_metrics` |
+| [hierarchical_mount_search.py](design_optimization/hierarchical_mount_search.py) | `MountSearchBudget`, `global_mount_candidates`, `diverse_region_indices`, `local_mount_candidates` |
+| [ik.py](design_optimization/ik.py) | `IKResult`, `SelectedIKPath`, `reverse_ik_time`, `concatenate_ik_branches`, `rotation_log`, `pose_error`, `adaptive_damping`, `joint_limit_centering_velocity`, `solve_multistart`, `deterministic_seeds`, `solve_trajectory_multistart`, `select_continuous_branches` |
+| [incremental_mount_evaluator.py](design_optimization/incremental_mount_evaluator.py) | `FrameResult`, `CandidateEvaluation`, `IncrementalMountEvaluator` |
+| [installation_search_space.py](design_optimization/installation_search_space.py) | `InstallationSearchSpace`, `first_version_bounds`, `mount_rotation_matrix`, `tabletop_mount_feasible`, `mount_transform_from_record`, `torch_mount_rotation_matrices` |
+| [kinematics.py](design_optimization/kinematics.py) | `axis_angle_matrix`, `build_designs`, `assemble_from_deltas`, `fk_flange`, `fk_tcp`, `geometric_jacobian`, `joint_world_positions`, `deterministic_joint_samples` |
+| [local_pose_dataset.py](design_optimization/local_pose_dataset.py) | `CleanedPoseFrame`, `CleaningRecord`, `infer_hands`, `content_split`, `assign_stratified_splits`, `clean_pose_frame`, `prepare_local_pose_benchmark`, `trajectory_has_motion` |
+| [local_pose_sampling.py](design_optimization/local_pose_sampling.py) | `trim_episode_edges`, `relative_pose_sample` |
+| [mount_sweep.py](design_optimization/mount_sweep.py) | `sobol_mount_candidates`, `mount_quality_score` |
+| [objectives.py](design_optimization/objectives.py) | `PopulationMetrics`, `topology_intersection_error`, `motor_clearance_violation`, `evaluate_population` |
+| [pareto.py](design_optimization/pareto.py) | `ParetoRanking`, `constraint_dominates`, `nondominated_sort`, `crowding_distance`, `rank_population`, `nsga2_select`, `tournament_parents`, `make_offspring` |
+| [reach.py](design_optimization/reach.py) | `numerical_max_flange_reach` |
+| [realtime.py](design_optimization/realtime.py) | `ServoMode`, `RealtimeBudget`, `ServoObservation`, `SolveSchedule`, `BranchProposal`, `BranchProposalMailbox`, `schedule_bounded_solve`, `govern_cartesian_target` |
+| [retiming.py](design_optimization/retiming.py) | `RetimedPath`, `retime_joint_path` |
+| [robot_registry.py](design_optimization/robot_registry.py) | `RobotSpec`, `load_robot_registry` |
+| [robustness.py](design_optimization/robustness.py) | `symmetric_sobol_perturbations`, `upper_tail_cvar` |
+| [search_policy.py](design_optimization/search_policy.py) | `dimension_aware_candidate_budget`, `staged_sobol_candidates` |
+| [slp_refinement.py](design_optimization/slp_refinement.py) | `SLPRefinementResult`, `refine_joint_window_slp` |
+| [surrogate.py](design_optimization/surrogate.py) | `ObjectiveSurrogate`, `gaussian_nll`, `EnsemblePrediction`, `ensemble_predict`, `standardize_targets`, `propose_ucb_candidates` |
+| [taskspace.py](design_optimization/taskspace.py) | `BimanualTaskFrames`, `mirrored_mount_transforms`, `quaternion_wxyz_to_matrix`, `make_transform`, `canonical_egodex_targets`, `world_to_base`, `world_to_base_population` |
+| [topology.py](design_optimization/topology.py) | `TopologyTemplate`, `DesignBatch`, `load_templates` |
+| [trajectory.py](design_optimization/trajectory.py) | `BimanualTrajectory`, `outer_elbow_penalty`, `select_bimanual_collision_aware` |
+| [urdf_chain.py](design_optimization/urdf_chain.py) | `NativeSerialChain`, `load_urdf_chain`, `load_mjcf_chain`, `load_native_chain`, `fk_flange`, `sampled_maximum_reach` |
+
+</details>
+
+<details>
+<summary>factory_bimanual: 51 modules, 188 definitions</summary>
+
+| Source module | Public classes and functions |
+|---|---|
+| [artifacts.py](factory_bimanual/artifacts.py) | `FrameDiagnostics`, `RunArtifactPaths`, `RunArtifactWriter` |
+| [bimanual_collision.py](factory_bimanual/bimanual_collision.py) | `CollisionClass`, `CollisionReport`, `CallbackCollisionChecker` |
+| [bounded_orientation_adaptation.py](factory_bimanual/bounded_orientation_adaptation.py) | `OrientationAdaptationConfig`, `OrientationCandidate`, `orientation_offset_angles`, `orientation_adaptation_candidates` |
+| [branch_equivalence.py](factory_bimanual/branch_equivalence.py) | `BranchDecision`, `compare_initial_branches` |
+| [cli.py](factory_bimanual/cli.py) | `main` |
+| [collision_safe_follow.py](factory_bimanual/collision_safe_follow.py) | `PoseToleranceTier`, `CollisionSafeFollowConfig`, `CollisionSafeFollowResult`, `solve_collision_safe_follow` |
+| [complete_follow.py](factory_bimanual/complete_follow.py) | `CompleteRetiming`, `CompleteFollowResult`, `retime_complete_source_path`, `CompleteFollowInfeasibleError`, `CompleteFollowRunner` |
+| [controller_adapter.py](factory_bimanual/controller_adapter.py) | `make_easyik`, `make_mpc`, `set_bimanual_targets` |
+| [defaults.py](factory_bimanual/defaults.py) | `derive_initial_registration`, `TaskSpec` |
+| [easyik_runner.py](factory_bimanual/easyik_runner.py) | `EasyIKBudget`, `EasyIKScene`, `EasyIKResult`, `run_easyik_task` |
+| [executors.py](factory_bimanual/executors.py) | `ProductionExecutors` |
+| [factory_task_catalog.py](factory_bimanual/factory_task_catalog.py) | `FactoryEpisode`, `TaskRepresentative`, `ExcludedFactoryInput`, `FactoryTaskCatalog`, `build_factory_task_catalog`, `write_dataset_manifest` |
+| [fixed_time_evidence_audit.py](factory_bimanual/fixed_time_evidence_audit.py) | `TaskspaceSegmentRates`, `PoseTrackingErrors`, `TargetTrackComparison`, `taskspace_segment_rates`, `pose_tracking_errors`, `strict_pair_accept`, `compare_target_tracks` |
+| [fixed_time_refinement.py](factory_bimanual/fixed_time_refinement.py) | `FixedTimeRefinementResult`, `refine_fixed_time_joint_path` |
+| [fixed_time_run_contract.py](factory_bimanual/fixed_time_run_contract.py) | `source_time_schedule`, `validate_synchronized_mount` |
+| [fixed_time_tracking.py](factory_bimanual/fixed_time_tracking.py) | `BoundedJointStep`, `fixed_time_derivatives`, `bounded_joint_step` |
+| [four_cell_viewer.py](factory_bimanual/four_cell_viewer.py) | `assert_reference_demo_only`, `load_reference_model`, `lightweight_scene_text`, `mapped_relative_pose`, `LightweightFourCellIK`, `main` |
+| [isolation.py](factory_bimanual/isolation.py) | `protected_paths`, `snapshot_protected_files`, `assert_protected_files_unchanged` |
+| [launch_viewer.py](factory_bimanual/launch_viewer.py) | `main` |
+| [mount_comparison_visuals.py](factory_bimanual/mount_comparison_visuals.py) | `comparison_timeline`, `source_frame_indices`, `hex_to_bgr`, `audited_mount_rank` |
+| [mount_orientation.py](factory_bimanual/mount_orientation.py) | `mount_quaternions` |
+| [mount_topology.py](factory_bimanual/mount_topology.py) | `MountTopologyConfig`, `MountTopologyReport`, `evaluate_mount_topology_positions`, `MuJoCoMountTopologyChecker` |
+| [mpc_runner.py](factory_bimanual/mpc_runner.py) | `MPCScene`, `BimanualMPCResult`, `scheduled_mpc_runs`, `run_mpc_task` |
+| [mujoco_candidate_generator.py](factory_bimanual/mujoco_candidate_generator.py) | `normalized_pose_residual`, `stratified_joint_seeds`, `piperx_wrist_risk`, `CandidateGeneratorConfig`, `MuJoCoCandidateGenerator` |
+| [mujoco_collision_adapter.py](factory_bimanual/mujoco_collision_adapter.py) | `ClearanceReport`, `MuJoCoPairedCollisionChecker` |
+| [multitask_fixed_time_study.py](factory_bimanual/multitask_fixed_time_study.py) | `TrajectorySpec`, `StudyConfig`, `discover_dual_hand_trajectories`, `validate_shard` |
+| [native_dof_easyik.py](factory_bimanual/native_dof_easyik.py) | `NativeDofDualArmEasyIKPVT` |
+| [native_dof_mpc.py](factory_bimanual/native_dof_mpc.py) | `UnsupportedModelControllerContract`, `MPCConfig`, `ArmState`, `NativeDofDualArmMPCPVT`, `NativeDofDualArmQPServoPVT` |
+| [orientation_comparison_metrics.py](factory_bimanual/orientation_comparison_metrics.py) | `derive_orientation_metrics` |
+| [orientation_mount_search.py](factory_bimanual/orientation_mount_search.py) | `OrientationSearchConfig`, `generate_mounts`, `mount_fingerprint`, `evenly_spaced` |
+| [per_task_mount_report.py](factory_bimanual/per_task_mount_report.py) | `build_metric_rows`, `write_comparison_metrics` |
+| [per_task_mount_search.py](factory_bimanual/per_task_mount_search.py) | `PerTaskSearchConfig`, `load_registered_representative`, `prefix_registered_task`, `candidate_fingerprint`, `rank_full_finalist`, `summarize_quality_arrays`, `select_safe_layout` |
+| [piperx_recommended.py](factory_bimanual/piperx_recommended.py) | `StrictAcceptConfig`, `DLSConfig`, `ExecutionConfig`, `MountFunnelConfig`, `WristAdaptationSpec`, `RecommendedMountSpec`, `PiperXRecommendedConfig`, `WorldMount`, `load_recommended_config`, `world_mount_for_family` |
+| [preflight.py](factory_bimanual/preflight.py) | `validate_spacing_evidence`, `run_preflight` |
+| [quaternion_trajectory.py](factory_bimanual/quaternion_trajectory.py) | `QuaternionReconstruction`, `quaternion_poses_equal`, `reconstruct_held_quaternions` |
+| [recommended_follow.py](factory_bimanual/recommended_follow.py) | `RecommendedFollowResult`, `RecommendedFollowRunner` |
+| [registration.py](factory_bimanual/registration.py) | `RigidTaskRegistration`, `RegisteredBimanualTask`, `register_task` |
+| [report.py](factory_bimanual/report.py) | `ReportPaths`, `write_comparison_report` |
+| [rescue_v31.py](factory_bimanual/rescue_v31.py) | `StrictGate`, `shortest_joint_delta`, `wrist_branch_signature`, `trapezoidal_transition_time`, `minimum_jerk_transition`, `CandidateFrame`, `RescueScheduleConfig`, `RescueEvent`, `FollowSchedule`, `schedule_rescue_v31` |
+| [robot_contracts.py](factory_bimanual/robot_contracts.py) | `BimanualRobotContract`, `robot_geometry_sha256`, `get_robot_contract` |
+| [run_experiment.py](factory_bimanual/run_experiment.py) | `ExperimentConfig`, `ExperimentJob`, `FactoryBimanualExperiment` |
+| [scene_builder.py](factory_bimanual/scene_builder.py) | `SceneManifest`, `build_same_model_scene` |
+| [source_data.py](factory_bimanual/source_data.py) | `FactoryBimanualTask`, `load_factory_task` |
+| [spacing_scan.py](factory_bimanual/spacing_scan.py) | `SpacingCandidateRow`, `SpacingSelection`, `generate_spacing_candidates`, `rank_spacing_candidates` |
+| [staged_mount_search.py](factory_bimanual/staged_mount_search.py) | `rank_full_fixed_time_mount`, `select_full_fixed_time_mount`, `targeted_source_indices` |
+| [strict_bimanual_ik.py](factory_bimanual/strict_bimanual_ik.py) | `IKCandidate`, `BimanualIKConfig`, `BimanualIKResult`, `solve_strict_bimanual_path` |
+| [task_family.py](factory_bimanual/task_family.py) | `TaskFamily`, `family_from_path` |
+| [tool_frame_calibration.py](factory_bimanual/tool_frame_calibration.py) | `source_file_fingerprint`, `proper_axis_rotations`, `apply_fixed_tool_rotation`, `apply_fixed_tool_translation`, `apply_bounded_wrist_adaptation`, `validate_local_refinement_deg`, `fixed_offset_quaternion`, `representative_quaternion_indices`, `rank_calibration_result`, `CalibrationArtifact` |
+| [trajectory_conditioning.py](factory_bimanual/trajectory_conditioning.py) | `ConditioningAudit`, `ConditionedTrajectory`, `bounded_savgol_se3` |
+| [video.py](factory_bimanual/video.py) | `RealtimeVideoTiming`, `VideoRenderConfig`, `interpolation_sample`, `is_replanned_transition`, `execution_status_label`, `VideoDecodeCheck`, `VideoRenderResult`, `build_realtime_timing`, `write_video_provenance`, `decode_check_mp4`, `render_mujoco_mp4` |
+| [workspace_feasibility.py](factory_bimanual/workspace_feasibility.py) | `TrajectoryGeometry`, `trajectory_geometry`, `audit_workspace_feasibility` |
+
+</details>
+
+<details>
+<summary>scripts: 174 modules, 591 definitions</summary>
+
+| Source module | Public classes and functions |
+|---|---|
+| [analyze_axis_topology.py](scripts/analyze_axis_topology.py) | `unsigned_axis_angle_deg`, `line_distance`, `main` |
+| [analyze_legacy_realtime_latency.py](scripts/analyze_legacy_realtime_latency.py) | `main` |
+| [analyze_realtime_trace.py](scripts/analyze_realtime_trace.py) | `percentile`, `main` |
+| [audit_all_local_table_clearance.py](scripts/audit_all_local_table_clearance.py) | `audit_episode`, `main` |
+| [audit_egodex_input_dynamics.py](scripts/audit_egodex_input_dynamics.py) | `summarize`, `main` |
+| [audit_episode_collision_free_candidates.py](scripts/audit_episode_collision_free_candidates.py) | `main` |
+| [audit_external_domains.py](scripts/audit_external_domains.py) | `bucket` |
+| [audit_outer_elbow_posture.py](scripts/audit_outer_elbow_posture.py) | `main` |
+| [audit_parametric_topologies.py](scripts/audit_parametric_topologies.py) | `build_audit`, `main` |
+| [audit_piperx_fixed_time_evidence.py](scripts/audit_piperx_fixed_time_evidence.py) | `run`, `main` |
+| [audit_thirteen_robot_models.py](scripts/audit_thirteen_robot_models.py) | `canonical_chain_from_entry`, `audit_registry`, `main` |
+| [benchmark_realtime_scaffold.py](scripts/benchmark_realtime_scaffold.py) | `main` |
+| [benchmark_willow_trace.py](scripts/benchmark_willow_trace.py) | `quat_mul`, `quat_conjugate`, `quat_slerp`, `site_quaternion`, `percentile`, `load_trace`, `run_robot`, `main` |
+| [build_droid_20min_trace.py](scripts/build_droid_20min_trace.py) | `path_for`, `fetch`, `duration`, `main` |
+| [build_droid_5min_trace.py](scripts/build_droid_5min_trace.py) | `main` |
+| [build_egodex_challenge_trace.py](scripts/build_egodex_challenge_trace.py) | `qangle`, `resample`, `main` |
+| [build_fixed_vs_legacy_report.py](scripts/build_fixed_vs_legacy_report.py) | `load_legacy`, `load_fixed`, `write_csv`, `summaries`, `save`, `make_figures`, `build_pdf`, `main` |
+| [build_mount_ik_fidelity_pilot_report.py](scripts/build_mount_ik_fidelity_pilot_report.py) | `validate_pilot_completeness`, `build_report_payload`, `write_report`, `main` |
+| [build_official_model_provenance_gate.py](scripts/build_official_model_provenance_gate.py) | `build_gate`, `main` |
+| [build_piperx_complete_follow_report.py](scripts/build_piperx_complete_follow_report.py) | `parse_args`, `build_report`, `main` |
+| [build_piperx_controller_event_manifest.py](scripts/build_piperx_controller_event_manifest.py) | `validate_archive_summary`, `build_manifest`, `main` |
+| [build_piperx_controller_event_v4_report.py](scripts/build_piperx_controller_event_v4_report.py) | `validate_report_scope`, `build`, `main` |
+| [build_piperx_fixed_time_report.py](scripts/build_piperx_fixed_time_report.py) | `validate_report_manifest`, `build_report`, `main` |
+| [build_piperx_literature_optimization_report.py](scripts/build_piperx_literature_optimization_report.py) | `build`, `main` |
+| [build_piperx_multitask_fixed_time_bundle.py](scripts/build_piperx_multitask_fixed_time_bundle.py) | `build_shard_arrays`, `solve_selected_shard`, `aggregate_shard`, `validate_manifest`, `validate_bundle_artifacts`, `build_bundle`, `solve_shards`, `main` |
+| [build_piperx_multitask_mount_report.py](scripts/build_piperx_multitask_mount_report.py) | `validate_report_manifest`, `build_report_claims`, `build_report`, `main` |
+| [build_piperx_multitask_release_manifest.py](scripts/build_piperx_multitask_release_manifest.py) | `build_release_manifest`, `validate_release_manifest`, `main` |
+| [build_piperx_recommended_v31_report.py](scripts/build_piperx_recommended_v31_report.py) | `parse_args`, `build_report`, `main` |
+| [build_piperx_two_task_fixed_time_bundle.py](scripts/build_piperx_two_task_fixed_time_bundle.py) | `build_fixed_time_arrays`, `validate_fixed_time_arrays`, `build_task`, `validate_task`, `build_bundle`, `main` |
+| [build_piperx_two_task_report.py](scripts/build_piperx_two_task_report.py) | `load_report_data`, `build_report`, `parse_args`, `main` |
+| [build_strict_video_job_manifest.py](scripts/build_strict_video_job_manifest.py) | `task_names`, `main` |
+| [build_ten_arm_three_episode_report.py](scripts/build_ten_arm_three_episode_report.py) | `provenance_for_report`, `load_rows`, `matrix`, `build_report`, `main` |
+| [build_ten_arm_two_single_task_outputs.py](scripts/build_ten_arm_two_single_task_outputs.py) | `load_rows`, `build_data`, `figures`, `comparison_videos`, `report`, `main` |
+| [build_twelve_arm_all_single_task_outputs.py](scripts/build_twelve_arm_all_single_task_outputs.py) | `load_rows`, `write_tables`, `save_figures`, `render_comparisons`, `build_report`, `main` |
+| [calibrate_collision_capsules_cuda.py](scripts/calibrate_collision_capsules_cuda.py) | `rigid_alignment_rmse`, `classification_metrics`, `main` |
+| [calibrate_piperx_tool_frames.py](scripts/calibrate_piperx_tool_frames.py) | `Context`, `calibrate`, `main` |
+| [calibrate_thirteen_arm_collision_proxy.py](scripts/calibrate_thirteen_arm_collision_proxy.py) | `calibrate`, `main` |
+| [clean_short_episodes.py](scripts/clean_short_episodes.py) | `EpisodeInfo`, `inspect_episode`, `scan_episodes`, `is_short`, `quarantine_path`, `clean`, `build_parser`, `main` |
+| [compare_m0609_wrist_branches.py](scripts/compare_m0609_wrist_branches.py) | `wrist_flip`, `replay`, `main` |
+| [derive_openarm_single_arm.py](scripts/derive_openarm_single_arm.py) | `derive` |
+| [diagnose_piperx_complete_follow.py](scripts/diagnose_piperx_complete_follow.py) | `parse_args`, `run`, `main` |
+| [diagnose_result.py](scripts/diagnose_result.py) | `main` |
+| [download_egodex_pose_only.py](scripts/download_egodex_pose_only.py) | `HTTPRange`, `fetch_range`, `member_bytes`, `matrix_to_quat_wxyz`, `relative`, `pose_arrays`, `extract`, `consolidate`, `main` |
+| [episode_3d_desktop.py](scripts/episode_3d_desktop.py) | `TcpSeries`, `Episode`, `quaternion_to_matrix`, `nearest_index`, `load_episode`, `EpisodeViewerWindow`, `build_parser`, `main` |
+| [evaluate_mount_robustness_cuda.py](scripts/evaluate_mount_robustness_cuda.py) | `main` |
+| [execute_piperx_seal_bag_orientation_shortlists.py](scripts/execute_piperx_seal_bag_orientation_shortlists.py) | `select_collision_free_attempt`, `attempt_stem`, `main` |
+| [export_continuous_playback.py](scripts/export_continuous_playback.py) | `main` |
+| [export_external_domain_samples.py](scripts/export_external_domain_samples.py) | `relative`, `evenly` |
+| [export_formal_continuous_playback.py](scripts/export_formal_continuous_playback.py) | `finalists`, `transform_points`, `main` |
+| [export_mount_roll_coverage.py](scripts/export_mount_roll_coverage.py) | `transform_points`, `main` |
+| [formal_run_acceleration.py](scripts/formal_run_acceleration.py) | `input_fingerprint`, `search_fingerprint`, `solve_fingerprint`, `render_fingerprint`, `atomic_write_json`, `artifact_is_current`, `json_fingerprint_matches` |
+| [generate_branch_oracle_dataset.py](scripts/generate_branch_oracle_dataset.py) | `main` |
+| [high_quality_robot_scene.py](scripts/high_quality_robot_scene.py) | `align_robot_to_pedestal`, `base_mount_depth`, `decorate_high_quality_scene` |
+| [inspect_result_collisions.py](scripts/inspect_result_collisions.py) | `main` |
+| [local_refine_geometry_700_750.py](scripts/local_refine_geometry_700_750.py) | `main` |
+| [migrate_piperx_fixed_time_artifacts_v2.py](scripts/migrate_piperx_fixed_time_artifacts_v2.py) | `migrate`, `main` |
+| [mount_search_telemetry.py](scripts/mount_search_telemetry.py) | `StageTelemetry`, `SearchTelemetry` |
+| [optimize_doosan_730_geometry.py](scripts/optimize_doosan_730_geometry.py) | `candidate_scene`, `evaluate`, `main` |
+| [optimize_parametric_6r_droid.py](scripts/optimize_parametric_6r_droid.py) | `quat_rotation`, `sampled_tasks`, `seed_bank`, `follow_task`, `evaluate`, `main` |
+| [optimize_piperx_two_task_follow.py](scripts/optimize_piperx_two_task_follow.py) | `MountCandidate`, `local_mount_candidates`, `append_experiment_record`, `pending_candidates`, `seal_bag_seed_candidates`, `probe_candidate`, `parse_args`, `run`, `main` |
+| [optimize_universal_base_parametric.py](scripts/optimize_universal_base_parametric.py) | `rot`, `tasks`, `attempt`, `evaluate`, `main` |
+| [plan_collision_free_ik_branches.py](scripts/plan_collision_free_ik_branches.py) | `main` |
+| [plan_realtime_trace_ik_branches.py](scripts/plan_realtime_trace_ik_branches.py) | `main` |
+| [plot_collision_classifier_comparison.py](scripts/plot_collision_classifier_comparison.py) | `main` |
+| [plot_collision_proxy_audit.py](scripts/plot_collision_proxy_audit.py) | `main` |
+| [plot_continuous_ablation.py](scripts/plot_continuous_ablation.py) | `load`, `main` |
+| [plot_controller_gap.py](scripts/plot_controller_gap.py) | `main` |
+| [plot_final_study.py](scripts/plot_final_study.py) | `main` |
+| [plot_mount_roll_profiles.py](scripts/plot_mount_roll_profiles.py) | `main` |
+| [plot_piperx_multitask_mount_results.py](scripts/plot_piperx_multitask_mount_results.py) | `coverage_matrix`, `winner_counts`, `generate_figures`, `main` |
+| [plot_surrogate_ablation.py](scripts/plot_surrogate_ablation.py) | `rows`, `main` |
+| [plot_ten_arm_two_task_results.py](scripts/plot_ten_arm_two_task_results.py) | `load_rows`, `export`, `write_source_data`, `robot_order`, `plot_ranking`, `plot_coverage_heatmap`, `plot_errors`, `plot_failures`, `plot_mounts`, `main` |
+| [prepare_local_pose_benchmark.py](scripts/prepare_local_pose_benchmark.py) | `run`, `main` |
+| [profile_piperx_fixed_time.py](scripts/profile_piperx_fixed_time.py) | `main` |
+| [reaudit_805_two_task_caches.py](scripts/reaudit_805_two_task_caches.py) | `main` |
+| [refine_fold_box_piperx_collision_free_mount.py](scripts/refine_fold_box_piperx_collision_free_mount.py) | `safe`, `main` |
+| [refine_fold_box_piperx_mount.py](scripts/refine_fold_box_piperx_mount.py) | `main` |
+| [refine_parametric_6r_droid.py](scripts/refine_parametric_6r_droid.py) | `main` |
+| [refine_piperx_complete_follow_mount.py](scripts/refine_piperx_complete_follow_mount.py) | `run`, `main` |
+| [refine_seal_bag_right_mount_shortlist.py](scripts/refine_seal_bag_right_mount_shortlist.py) | `main` |
+| [refine_selected_failure_window_slp.py](scripts/refine_selected_failure_window_slp.py) | `main` |
+| [render_all_arm_task_videos.py](scripts/render_all_arm_task_videos.py) | `slug`, `project` |
+| [render_all_ten_arm_fixed_4096_videos.py](scripts/render_all_ten_arm_fixed_4096_videos.py) | `main` |
+| [render_continuous_playback.py](scripts/render_continuous_playback.py) | `main` |
+| [render_factory_dual_piperx_fixed_time.py](scripts/render_factory_dual_piperx_fixed_time.py) | `comparison_planning_indices`, `interpolate_joint_path`, `TaskSpec`, `task_spec`, `load_locked_piperx_calibration`, `fixed_time_timing_audit`, `validate_saved_trajectory`, `mount_separation_for_run`, `solve_fixed_time_motion`, `run_task`, `render_saved_run`, `main` |
+| [render_factory_dual_piperx_fold_box.py](scripts/render_factory_dual_piperx_fold_box.py) | `main` |
+| [render_factory_dual_xarm6_fold_box.py](scripts/render_factory_dual_xarm6_fold_box.py) | `SharedRetiming`, `AccelerationRetiming`, `bounded_smooth_pose_series`, `retime_for_joint_acceleration`, `shared_retimed_intervals`, `improvement_has_plateaued`, `shared_mount_height_candidates`, `synchronous_mount_score`, `map_source_quaternions_to_tcp`, `classify_ik_failure`, `pose_error`, `evaluate_joint_path`, `refine_fixed_time_bimanual_path`, `mapped_quaternions_at_joint_midpoint`, `solve`, `subset`, `solve_strict_single_arm_method`, `solve_multibranch_single_arm_method`, `audit_bimanual_collisions`, `failure_windows`, `run_fold_box`, `main` |
+| [render_factory_dual_xarm6_follow.py](scripts/render_factory_dual_xarm6_follow.py) | `solve_position_follow`, `main` |
+| [render_factory_dual_xarm6_insert_into_bottle.py](scripts/render_factory_dual_xarm6_insert_into_bottle.py) | `improvement_has_plateaued`, `shared_mount_height_candidates`, `synchronous_mount_score`, `map_source_quaternions_to_tcp`, `classify_ik_failure`, `pose_error`, `mapped_quaternions_at_joint_midpoint`, `solve`, `subset`, `solve_strict_single_arm_method`, `solve_multibranch_single_arm_method`, `audit_bimanual_collisions`, `enforce_paired_collision_safety`, `evaluate_realized_bimanual`, `failure_windows`, `main` |
+| [render_factory_dual_xarm6_pour_raw_material.py](scripts/render_factory_dual_xarm6_pour_raw_material.py) | `improvement_has_plateaued`, `shared_mount_height_candidates`, `synchronous_mount_score`, `map_source_quaternions_to_tcp`, `classify_ik_failure`, `pose_error`, `mapped_quaternions_at_joint_midpoint`, `solve`, `subset`, `solve_strict_single_arm_method`, `solve_multibranch_single_arm_method`, `audit_bimanual_collisions`, `failure_windows`, `main` |
+| [render_factory_dual_xarm6_se3_follow.py](scripts/render_factory_dual_xarm6_se3_follow.py) | `RunOptions`, `parse_run_options`, `output_path_for_robot`, `mount_selection_method`, `use_collision_safe_pair_planner`, `improvement_has_plateaued`, `shared_mount_height_candidates`, `synchronous_mount_score`, `map_source_quaternions_to_tcp`, `classify_ik_failure`, `pose_error`, `mapped_quaternions_at_joint_midpoint`, `prepare_follow_targets`, `solve`, `subset`, `solve_strict_single_arm_method`, `solve_multibranch_single_arm_method`, `solve_collision_safe_bimanual_method`, `audit_bimanual_collisions`, `failure_windows`, `main` |
+| [render_fold_box_piperx_front_view.py](scripts/render_fold_box_piperx_front_view.py) | `front_azimuth_from_mount`, `main` |
+| [render_model_assembly_qa.py](scripts/render_model_assembly_qa.py) | `main` |
+| [render_piperx_multitask_mount_comparisons.py](scripts/render_piperx_multitask_mount_comparisons.py) | `render_panel`, `compose_four_panel`, `render_trajectory`, `main` |
+| [render_result_frame.py](scripts/render_result_frame.py) | `main` |
+| [render_seal_bag_front_view.py](scripts/render_seal_bag_front_view.py) | `report_directory_for_robot`, `main` |
+| [render_strict_single_arm_task.py](scripts/render_strict_single_arm_task.py) | `playback_frame_count`, `interpolated_failure_reason`, `path_render_indices`, `interpolate_joint_positions`, `interpolate_quaternion_wxyz`, `font`, `sphere`, `connector`, `orientation_triad`, `configure_visual_only_render`, `main` |
+| [render_thirteen_arm_mujoco_panels.py](scripts/render_thirteen_arm_mujoco_panels.py) | `vals`, `build` |
+| [rerender_805_two_task_videos.py](scripts/rerender_805_two_task_videos.py) | `main` |
+| [result_provenance.py](scripts/result_provenance.py) | `validate_provenance`, `aggregate_scores` |
+| [retime_realtime_trace.py](scripts/retime_realtime_trace.py) | `main` |
+| [rolling_multibranch_ik.py](scripts/rolling_multibranch_ik.py) | `BranchCandidate`, `BranchSelection`, `RecedingHorizonPath`, `RetimedPath`, `build_collision_free_pair_layers`, `select_minimum_retime_path`, `select_global_feasible_path`, `transition_limit_rad`, `select_rolling_branch`, `select_receding_horizon_path` |
+| [run_805_native_strict_rerank.py](scripts/run_805_native_strict_rerank.py) | `main` |
+| [run_805_two_task_strict_validation.py](scripts/run_805_two_task_strict_validation.py) | `main` |
+| [run_doosan_realtime_mpc_50hz.py](scripts/run_doosan_realtime_mpc_50hz.py) | `tuned_profile` |
+| [run_expanded_validation.py](scripts/run_expanded_validation.py) | `main` |
+| [run_external_domain_dense_search.py](scripts/run_external_domain_dense_search.py) | `main` |
+| [run_formal_resampling.py](scripts/run_formal_resampling.py) | `main` |
+| [run_i2rt_cap_formal.py](scripts/run_i2rt_cap_formal.py) | `run`, `main` |
+| [run_mount_ik_fidelity_pilot.py](scripts/run_mount_ik_fidelity_pilot.py) | `build_parser`, `stage_counts`, `pilot_fingerprint`, `stage_input_fingerprint`, `load_stage_records`, `coarse_fingerprint`, `coarse_algorithm_fingerprint`, `official_model_contract`, `coarse_model_contract`, `load_completed_robot_result`, `full_episode_optimism_metrics`, `main` |
+| [run_piperx_controller_event_v4.py](scripts/run_piperx_controller_event_v4.py) | `validate_enforced_dynamics`, `validate_zero_safety_evidence`, `validate_acceptance_evidence`, `event_validation_spec`, `validate_event_shard`, `event_initializer_rows`, `solve_event_shard`, `main` |
+| [run_piperx_factory_per_task_mount_search.py](scripts/run_piperx_factory_per_task_mount_search.py) | `ModeJob`, `atomic_json`, `plan_mode_jobs`, `evaluate_stage_resumable`, `run_mode`, `main` |
+| [run_piperx_multitask_fixed_time_mount_study.py](scripts/run_piperx_multitask_fixed_time_mount_study.py) | `StudyJob`, `plan_jobs`, `family_representative_spec`, `rank_mount_result`, `atomic_json`, `study_status_path`, `prepare_family_follow_targets`, `run_job`, `run_study`, `write_dry_run`, `main` |
+| [run_piperx_recommended_v31.py](scripts/run_piperx_recommended_v31.py) | `parse_args`, `candidate_rank_key`, `scene_mount_kwargs`, `resample_task_60hz`, `smooth_follow_targets`, `condition_complete_follow_targets`, `build_summary`, `build_complete_summary`, `run`, `main` |
+| [run_piperx_seal_bag_orientation_comparison.py](scripts/run_piperx_seal_bag_orientation_comparison.py) | `run_mode`, `main` |
+| [run_recommended_doosan_mpc.py](scripts/run_recommended_doosan_mpc.py) | `run`, `main` |
+| [run_strict_cache_batch.py](scripts/run_strict_cache_batch.py) | `main` |
+| [run_strict_mount_search_batch.py](scripts/run_strict_mount_search_batch.py) | `main` |
+| [run_strict_render_batch.py](scripts/run_strict_render_batch.py) | `main` |
+| [run_ten_arm_three_pick_episodes.py](scripts/run_ten_arm_three_pick_episodes.py) | `job_fingerprint`, `coarse_fingerprint`, `selected_episodes`, `coarse_result_complete`, `run_one`, `main` |
+| [run_ten_arm_two_single_tasks.py](scripts/run_ten_arm_two_single_tasks.py) | `main` |
+| [run_ten_arm_two_single_tasks_current_rerun.py](scripts/run_ten_arm_two_single_tasks_current_rerun.py) | `main` |
+| [run_thirteen_arm_dense_search.py](scripts/run_thirteen_arm_dense_search.py) | `select_proxy_shortlist`, `load_official_search_templates`, `build_parser`, `load_search_samples`, `yaw_only_mount_space`, `expand_yaw_only_mounts`, `select_task_samples`, `select_robots`, `main` |
+| [run_twelve_arm_all_single_tasks.py](scripts/run_twelve_arm_all_single_tasks.py) | `main` |
+| [run_twelve_arm_stick_battery_formal.py](scripts/run_twelve_arm_stick_battery_formal.py) | `run`, `write_progress`, `main` |
+| [run_twelve_arm_two_single_tasks.py](scripts/run_twelve_arm_two_single_tasks.py) | `build_parser`, `run`, `write_progress`, `main` |
+| [run_two_arm_two_task_formal.py](scripts/run_two_arm_two_task_formal.py) | `run`, `main` |
+| [run_ur5_realtime_mpc_50hz.py](scripts/run_ur5_realtime_mpc_50hz.py) | `tuned_profile` |
+| [run_xarm6_realtime_mpc_50hz.py](scripts/run_xarm6_realtime_mpc_50hz.py) | `tuned_profile` |
+| [scan_doosan_spacing.py](scripts/scan_doosan_spacing.py) | `scene_for`, `evaluate` |
+| [scan_robot_installation.py](scripts/scan_robot_installation.py) | `make_scene`, `evaluate`, `main` |
+| [search_fold_box_piperx_fixed_time_mount.py](scripts/search_fold_box_piperx_fixed_time_mount.py) | `synchronized_mount_candidates`, `select_full_audited_mount`, `main` |
+| [search_fold_box_piperx_mount.py](scripts/search_fold_box_piperx_mount.py) | `layered_sample_indices`, `coarse_mount_candidates`, `rank_mount_candidate`, `rank_paired_mount_candidate`, `select_paired_mount`, `local_paired_refinements`, `collision_aware_pair_refinements`, `select_mount_pair`, `search`, `main` |
+| [search_fold_box_piperx_noncrossing_mount.py](scripts/search_fold_box_piperx_noncrossing_mount.py) | `main` |
+| [search_fold_box_piperx_paired_mount.py](scripts/search_fold_box_piperx_paired_mount.py) | `advance_connected_pairs`, `deterministic_pair_mounts`, `evaluate_pair`, `bounded_full_planning_indices`, `evaluate_full_pair`, `main` |
+| [search_piperx_fixed_time_mounts.py](scripts/search_piperx_fixed_time_mounts.py) | `xarm6_style_mount_candidates`, `local_mount_candidates`, `select_stage_finalists`, `screen_task`, `refine_task`, `refine_again_task`, `validate_task_finalists`, `main` |
+| [search_seal_bag_right_mount.py](scripts/search_seal_bag_right_mount.py) | `visual_wrist_flip_mask`, `exhaustive_tabletop_right_mounts`, `longest_failure_run`, `whole_trajectory_window_indices`, `generate_right_mount_candidates`, `right_mount_score`, `main` |
+| [search_strict_urdf_mount.py](scripts/search_strict_urdf_mount.py) | `build_parser`, `resolved_best_first_budget`, `resolved_hierarchy_budget`, `registered_targets`, `main` |
+| [select_safe_pareto_candidate.py](scripts/select_safe_pareto_candidate.py) | `main` |
+| [smoke_doosan_realtime_mpc.py](scripts/smoke_doosan_realtime_mpc.py) | `main` |
+| [smoke_gpu_design.py](scripts/smoke_gpu_design.py) | `main` |
+| [smoke_gpu_ik.py](scripts/smoke_gpu_ik.py) | `main` |
+| [smoke_xarm6_ur5_realtime_mpc.py](scripts/smoke_xarm6_ur5_realtime_mpc.py) | `run_robot`, `main` |
+| [solve_strict_urdf_task_cache.py](scripts/solve_strict_urdf_task_cache.py) | `vendor_allowed_collision_pairs`, `target_poses_for`, `targets_for`, `optimization`, `build_model`, `MountModelTemplate`, `build_mount_model_template`, `active_ancestor_map`, `active_chain_distance`, `hold_invalid_frames`, `evaluate_q_path`, `collision_flags`, `main` |
+| [status_learning_runs.py](scripts/status_learning_runs.py) | `last_matching`, `main` |
+| [strict_mujoco_ik.py](scripts/strict_mujoco_ik.py) | `joint_periodic_mask`, `wrapped_joint_delta`, `continuity_jump`, `continuity_recovery_step`, `realized_velocity_violation`, `joint_discontinuity_from_recovery_modes`, `PositionPathResult`, `PosePathResult`, `generate_pose_candidate_layers`, `solve_pose_path_layered`, `solve_pose_path`, `solve_pose_path_multibranch`, `solve_position_path` |
+| [strict_mujoco_model.py](scripts/strict_mujoco_model.py) | `active_chain_length_m`, `sampled_maximum_tcp_reach_m` |
+| [strict_trajectory_sources.py](scripts/strict_trajectory_sources.py) | `RelativeTrajectory`, `resample_trajectory`, `place_relative_positions`, `minimum_safe_anchor_z`, `local_task_anchor_z`, `task_anchor_rotations`, `load_relative_task_trajectory` |
+| [strict_urdf_model_audit.py](scripts/strict_urdf_model_audit.py) | `ModelEntry`, `load_native_spec`, `qualify`, `main` |
+| [summarize_collision_formal.py](scripts/summarize_collision_formal.py) | `main` |
+| [summarize_formal_benchmark.py](scripts/summarize_formal_benchmark.py) | `collect`, `main` |
+| [summarize_joint_geometry_base.py](scripts/summarize_joint_geometry_base.py) | `result_path`, `main` |
+| [summarize_pareto_runs.py](scripts/summarize_pareto_runs.py) | `main` |
+| [summarize_recommended_velocity.py](scripts/summarize_recommended_velocity.py) | `main` |
+| [summarize_task_level_topology.py](scripts/summarize_task_level_topology.py) | `main` |
+| [sweep_mount_roll_cuda.py](scripts/sweep_mount_roll_cuda.py) | `main` |
+| [train_branch_proposal_policy.py](scripts/train_branch_proposal_policy.py) | `main` |
+| [train_collision_classifier_cuda.py](scripts/train_collision_classifier_cuda.py) | `main` |
+| [train_surrogate_from_archive.py](scripts/train_surrogate_from_archive.py) | `main` |
+| [tune_robot_mpc.py](scripts/tune_robot_mpc.py) | `evaluate`, `main` |
+| [validate_branch_plan.py](scripts/validate_branch_plan.py) | `main` |
+| [validate_continuous_egodex_cuda.py](scripts/validate_continuous_egodex_cuda.py) | `select_challenge_episode`, `richest_contiguous_window`, `main` |
+| [validate_continuous_pareto_candidate_cuda.py](scripts/validate_continuous_pareto_candidate_cuda.py) | `main` |
+| [validate_doosan_730_candidate.py](scripts/validate_doosan_730_candidate.py) | `main` |
+| [validate_egodex_geometry_cuda.py](scripts/validate_egodex_geometry_cuda.py) | `main` |
+| [validate_episode_pointwise_candidate_cuda.py](scripts/validate_episode_pointwise_candidate_cuda.py) | `main` |
+| [validate_external_domain_test.py](scripts/validate_external_domain_test.py) | `main` |
+| [validate_parametric_6r_droid.py](scripts/validate_parametric_6r_droid.py) | `main` |
+| [validate_pareto_candidate_cuda.py](scripts/validate_pareto_candidate_cuda.py) | `main` |
+| [validate_piperx_two_task_bundle.py](scripts/validate_piperx_two_task_bundle.py) | `validate_task_bundle`, `validate_bundle`, `write_outputs`, `parse_args`, `main` |
+| [validate_thirteen_arm_test.py](scripts/validate_thirteen_arm_test.py) | `base_matrix` |
+| [video_timeline.py](scripts/video_timeline.py) | `validation_timeline`, `showcase_timeline` |
+| [view_mount_comparison.py](scripts/view_mount_comparison.py) | `main` |
+| [watch_piperx_factory_per_task_mount_search.py](scripts/watch_piperx_factory_per_task_mount_search.py) | `status_payload`, `should_restart`, `main` |
+
+</details>

@@ -63,6 +63,21 @@ def test_velocity_limit_uses_source_timestamps():
     assert fast.failures[1] == "velocity_jump_violation"
 
 
+def test_acceleration_limit_uses_adjacent_source_intervals():
+    positions = [0.0, 1.0, 3.0]
+    candidates = lambda _m, _c, _t, row, _side: [
+        _candidate(positions[row], branch=row)]
+    config = BimanualIKConfig(
+        candidates, CallbackCollisionChecker(),
+        max_velocity_rad_s=10.0, max_acceleration_rad_s2=0.5)
+
+    result = solve_strict_bimanual_path(
+        None, None, _task([0.0, 1.0, 2.0]), config)
+
+    assert result.success.tolist() == [True, True, False]
+    assert result.failures[2] == "acceleration_violation"
+
+
 def test_failures_and_outputs_remain_aligned_to_source_rows():
     def candidates(_m, _c, _t, row, _side):
         return [] if row == 1 else [_candidate(row, branch=row)]

@@ -145,6 +145,10 @@ runs/
 /reports/piperx_multitask_fixed_time_mount_study/videos/*
 !/reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/
 !/reports/piperx_multitask_fixed_time_mount_study/videos/comparisons/**
+!/reports/piperx_controller_event_v4/
+!/reports/piperx_controller_event_v4/**
+!/reports/piperx_controller_event_v4_prefix300/
+!/reports/piperx_controller_event_v4_prefix300/**
 
 # Local source/reference reports intentionally excluded from GitHub.
 /单轨迹优化分析.pdf

@@ -40,6 +40,7 @@ class BimanualIKConfig:
     collision_checker: CallbackCollisionChecker
     beam_width: int = 64
     max_velocity_rad_s: float | np.ndarray = np.inf
+    max_acceleration_rad_s2: float | np.ndarray = np.inf
     max_jump_rad: float | np.ndarray = np.inf
     transition_cost_weight: float = 1.0
     periodic_joints: np.ndarray | tuple[np.ndarray, np.ndarray] | None = None
@@ -91,18 +92,37 @@ def _motion_delta(new: np.ndarray, old: np.ndarray, periodic: np.ndarray) -> np.
     return delta
 
 
-def _within_motion(previous: _Node, left: IKCandidate, right: IKCandidate, dt: float, config: BimanualIKConfig) -> bool:
+def _motion_violation(previous: _Node, left: IKCandidate,
+                      right: IKCandidate, dt: float,
+                      config: BimanualIKConfig, *,
+                      previous_dt: float | None = None) -> str | None:
     if dt <= 0:
-        return False
+        return "velocity_jump_violation"
     for side_index, (old, new) in enumerate(
             ((previous.left.q, left.q), (previous.right.q, right.q))):
         periodic = _periodic_for_side(config, side_index, np.asarray(old).shape)
-        delta = np.abs(_motion_delta(new, old, periodic))
-        if np.any(delta > np.asarray(config.max_jump_rad)):
-            return False
-        if np.any(delta / dt > np.asarray(config.max_velocity_rad_s)):
-            return False
-    return True
+        signed_delta = _motion_delta(new, old, periodic)
+        if np.any(np.abs(signed_delta) > np.asarray(config.max_jump_rad)):
+            return "velocity_jump_violation"
+        current_velocity = signed_delta / dt
+        if np.any(np.abs(current_velocity)
+                  > np.asarray(config.max_velocity_rad_s)):
+            return "velocity_jump_violation"
+        if previous.parent is not None:
+            if previous_dt is None or previous_dt <= 0:
+                return "acceleration_violation"
+            previous_velocity = _motion_delta(
+                old,
+                (previous.parent.left.q, previous.parent.right.q)[side_index],
+                periodic,
+            ) / previous_dt
+            acceleration_dt = 0.5 * (previous_dt + dt)
+            acceleration = (
+                current_velocity - previous_velocity) / acceleration_dt
+            if np.any(np.abs(acceleration)
+                      > np.asarray(config.max_acceleration_rad_s2)):
+                return "acceleration_violation"
+    return None
 
 
 def _transition_cost(previous: _Node, left: IKCandidate, right: IKCandidate, config: BimanualIKConfig) -> float:
@@ -163,13 +183,21 @@ def solve_strict_bimanual_path(model: Any, contract: Any, task: Any, config: Bim
             next_frontier = [_Node(l, r, l.pose_cost + r.pose_cost, None, row) for l, r in valid_pairs]
         else:
             dt = times[row] - times[row - 1]
-            motion_rejected = False
+            motion_rejections: set[str] = set()
+            motion_passed = False
             transition_rejected: set[str] = set()
             for left, right in valid_pairs:
                 for previous in frontier:
-                    if not _within_motion(previous, left, right, dt, config):
-                        motion_rejected = True
+                    previous_dt = (None if previous.parent is None else
+                                   times[previous.row]
+                                   - times[previous.parent.row])
+                    violation = _motion_violation(
+                        previous, left, right, dt, config,
+                        previous_dt=previous_dt)
+                    if violation is not None:
+                        motion_rejections.add(violation)
                         continue
+                    motion_passed = True
                     report = config.collision_checker.transition(
                         (previous.left.q, previous.right.q), (left.q, right.q)
                     )
@@ -181,7 +209,13 @@ def solve_strict_bimanual_path(model: Any, contract: Any, task: Any, config: Bim
             if not next_frontier:
                 finish_segment()
                 frontier = []
-                failures[row] = "velocity_jump_violation" if motion_rejected and not transition_rejected else "transition_collision"
+                if not motion_passed and motion_rejections:
+                    failures[row] = (
+                        "acceleration_violation"
+                        if "acceleration_violation" in motion_rejections
+                        else "velocity_jump_violation")
+                else:
+                    failures[row] = "transition_collision"
                 collisions[row] = tuple(sorted(transition_rejected))
                 continue
         next_frontier.sort(key=lambda item: (item.cost, item.left.branch_index, item.right.branch_index))

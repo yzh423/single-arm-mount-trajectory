@@ -1,0 +1,66 @@
+{
+  "schema": "piperx-controller-event-render-manifest-v1",
+  "solver_protocol": "piperx-controller-event-raw-fixed-time-v4",
+  "timing_mode": "fixed_controller_event_time",
+  "retiming_applied": false,
+  "trajectory_count": 2,
+  "mode_count": 4,
+  "shards": [
+    {
+      "trajectory": "8-11/Fold_Box/161044",
+      "mode": "baseline",
+      "summary_json": "reports\\piperx_controller_event_v4_prefix300\\shards\\8-11\\Fold_Box\\161044\\baseline\\8-11_Fold_Box_161044_baseline_event_v4.summary.json",
+      "controller_event_rows": 300,
+      "both_accept_coverage": 0.87
+    },
+    {
+      "trajectory": "8-11/Fold_Box/161044",
+      "mode": "horizontal_wall",
+      "summary_json": "reports\\piperx_controller_event_v4_prefix300\\shards\\8-11\\Fold_Box\\161044\\horizontal_wall\\8-11_Fold_Box_161044_horizontal_wall_event_v4.summary.json",
+      "controller_event_rows": 300,
+      "both_accept_coverage": 0.08333333333333333
+    },
+    {
+      "trajectory": "8-11/Fold_Box/161044",
+      "mode": "inverted",
+      "summary_json": "reports\\piperx_controller_event_v4_prefix300\\shards\\8-11\\Fold_Box\\161044\\inverted\\8-11_Fold_Box_161044_inverted_event_v4.summary.json",
+      "controller_event_rows": 300,
+      "both_accept_coverage": 0.0
+    },
+    {
+      "trajectory": "8-11/Fold_Box/161044",
+      "mode": "upright_table",
+      "summary_json": "reports\\piperx_controller_event_v4_prefix300\\shards\\8-11\\Fold_Box\\161044\\upright_table\\8-11_Fold_Box_161044_upright_table_event_v4.summary.json",
+      "controller_event_rows": 300,
+      "both_accept_coverage": 0.4166666666666667
+    },
+    {
+      "trajectory": "8-11/Seal_Bag/161504",
+      "mode": "baseline",
+      "summary_json": "reports\\piperx_controller_event_v4_prefix300\\shards\\8-11\\Seal_Bag\\161504\\baseline\\8-11_Seal_Bag_161504_baseline_event_v4.summary.json",
+      "controller_event_rows": 300,
+      "both_accept_coverage": 1.0
+    },
+    {
+      "trajectory": "8-11/Seal_Bag/161504",
+      "mode": "horizontal_wall",
+      "summary_json": "reports\\piperx_controller_event_v4_prefix300\\shards\\8-11\\Seal_Bag\\161504\\horizontal_wall\\8-11_Seal_Bag_161504_horizontal_wall_event_v4.summary.json",
+      "controller_event_rows": 300,
+      "both_accept_coverage": 0.0
+    },
+    {
+      "trajectory": "8-11/Seal_Bag/161504",
+      "mode": "inverted",
+      "summary_json": "reports\\piperx_controller_event_v4_prefix300\\shards\\8-11\\Seal_Bag\\161504\\inverted\\8-11_Seal_Bag_161504_inverted_event_v4.summary.json",
+      "controller_event_rows": 300,
+      "both_accept_coverage": 0.0
+    },
+    {
+      "trajectory": "8-11/Seal_Bag/161504",
+      "mode": "upright_table",
+      "summary_json": "reports\\piperx_controller_event_v4_prefix300\\shards\\8-11\\Seal_Bag\\161504\\upright_table\\8-11_Seal_Bag_161504_upright_table_event_v4.summary.json",
+      "controller_event_rows": 300,
+      "both_accept_coverage": 0.5966666666666667
+    }
+  ]
+}

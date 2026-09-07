@@ -1,0 +1,52 @@
+{
+  "schema": "piperx-four-mount-composite-v3",
+  "trajectory": "8-11/Seal_Bag/161504",
+  "output_sha256": "ed2dd18d84dbc7fccb11de2e3fc1c7a10885ad47b6f84d65cb9af8f494bf20dd",
+  "frame_count": 132,
+  "fps": 30.0,
+  "duration_s": 4.4,
+  "width": 1280,
+  "height": 720,
+  "panels": {
+    "baseline": {
+      "sha256": "3c61a2e67dbf1c1a656371b9d47f18e1b51c0f4fdce3e458b67e0f61ec40693c",
+      "provenance_sha256": "07998eb067275d7717708c3e2bd4c13496b9de5c0d567aedfb3df07dedeea2f0",
+      "evidence": {
+        "schema": "piperx-four-mount-panel-v4-per-mode-camera",
+        "summary_sha256": "b6821a473e4f0062886ab80980226d3cb5f6b8eacfa19bd84af66e89a3ddfeff",
+        "trajectory_sha256": "abd38ca8a9d7f1f38d38fb8b7e357c42b52925ffd096744a66e4a1ea0c99d6f1",
+        "scene_sha256": "5488d0c31ce23e39e708fd68a8006a792de0b2c58e71198ce4804e9b1e7654f4"
+      }
+    },
+    "upright_table": {
+      "sha256": "2826e3bd0fe0f1210d02a8dcf27f554b89dce826a80ba5d191f47e378b5fb953",
+      "provenance_sha256": "df23892deca17f960dd8b519a013d51be55eb946d792ef43a4ddec3b383c0862",
+      "evidence": {
+        "schema": "piperx-four-mount-panel-v4-per-mode-camera",
+        "summary_sha256": "fda1b19bcd4a10496876ab2d5df1021bee905f1e1bfd7e1ca2c1780f9b052031",
+        "trajectory_sha256": "91b944c644bc78037b7fc43e2112b8741a5a8689eefa768b8e5f84c11339c479",
+        "scene_sha256": "4ea20e5bd852087c5fc2d4a36031122bcebab0a95b051c85956490e80ab8152b"
+      }
+    },
+    "horizontal_wall": {
+      "sha256": "deead0f2af85bea2f829b96d02e90bb3616307c961d8983c29cf0e6e9aeea39d",
+      "provenance_sha256": "29a89eae8515f8219fdc76a5ec0187c288a533406497ca5e5f29a51642ddb672",
+      "evidence": {
+        "schema": "piperx-four-mount-panel-v4-per-mode-camera",
+        "summary_sha256": "7a88719164c30351186a22eca90abc95999192938d66a3311b964d10484e6034",
+        "trajectory_sha256": "7d776a1eb7d1a7fe7c4ad6b1b2d6c103c9d451b3224e248971987308ff40b478",
+        "scene_sha256": "5097d7c8e2b04feecad1b42927719e7079b908e87581afa6779701c4d88b6743"
+      }
+    },
+    "inverted": {
+      "sha256": "a237f9e0ae63e12464158baf877c80dd4d0853d60c40984c4960f1c3ab731f60",
+      "provenance_sha256": "0ff02ee65bc643164f3a05974c58cb0d9e9bd6ba923626397fe0533cb1fac7ad",
+      "evidence": {
+        "schema": "piperx-four-mount-panel-v4-per-mode-camera",
+        "summary_sha256": "ebc5f64cda13c05b62fda3249bfaf6acadac10d030958662e98aa4e82f1249c3",
+        "trajectory_sha256": "00c5594f7008da1a7d5c2bc8ec71711c1fc1732bb27e30330f841372e4609f48",
+        "scene_sha256": "4e21ec9cc4481cb821017d50726d986cdc96e7698e67b321927c5f50a6c5b777"
+      }
+    }
+  }
+}

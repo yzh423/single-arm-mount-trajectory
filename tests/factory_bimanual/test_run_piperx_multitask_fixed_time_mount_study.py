@@ -129,6 +129,33 @@ def test_family_target_preparation_applies_configured_tcp_translation():
     assert hasattr(prepared, "right_wrist_adaptation_angle_deg")
 
 
+def test_raw_target_contract_disables_time_varying_wrist_adaptation():
+    from factory_bimanual.multitask_fixed_time_study import (
+        discover_dual_hand_trajectories,
+    )
+    from scripts.run_piperx_multitask_fixed_time_mount_study import (
+        ROOT,
+        _load_registered_spec,
+    )
+
+    specs = discover_dual_hand_trajectories(ROOT / "data/factory")
+    spec = next(item for item in specs
+                if item.key == "8-11/Fold_Box/161044")
+    raw, _registration = _load_registered_spec(
+        spec, timing_mode="controller_updates")
+
+    prepared, _mapped, audit = prepare_family_follow_targets(
+        spec, raw, apply_conditioning=False,
+        apply_wrist_adaptation=False)
+
+    assert prepared.timing_source == "paired_controller_receive"
+    assert len(prepared.time_s) < spec.row_count
+    np.testing.assert_allclose(
+        prepared.right_wrist_adaptation_angle_deg, 0.0)
+    assert audit.maximum_position_deviation_m == 0.0
+    assert audit.maximum_orientation_deviation_rad == 0.0
+
+
 def test_family_mount_search_uses_configured_representative_take():
     base = _spec(0)
     specs = tuple(replace(base, take=f"{index:06d}") for index in range(3))

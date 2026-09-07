@@ -26,8 +26,17 @@ from factory_bimanual.video import (
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = ROOT / "reports/piperx_multitask_fixed_time_mount_study"
-PANEL_RENDER_PROTOCOL = "piperx-four-mount-panel-v2-content-addressed"
-COMPOSITE_RENDER_PROTOCOL = "piperx-four-mount-composite-v1"
+PANEL_RENDER_PROTOCOL = "piperx-four-mount-panel-v4-per-mode-camera"
+COMPOSITE_RENDER_PROTOCOL = "piperx-four-mount-composite-v3"
+
+
+def _camera_for_mode(mode):
+    return {
+        "baseline": (225.0, -22.0, 1.48),
+        "upright_table": (225.0, -22.0, 1.48),
+        "horizontal_wall": (305.0, -8.0, 1.35),
+        "inverted": (45.0, 0.0, 1.35),
+    }[mode]
 
 
 def _sha256(path):
@@ -142,11 +151,14 @@ def render_panel(summary_path, output_path):
     collision = (np.asarray(arrays["collision"], dtype=bool)
                  | np.asarray(arrays["edge_collision"], dtype=bool))
     reasons = np.asarray(arrays["paired_failure_reason"], dtype=str)
+    source_rows = np.asarray(
+        arrays.get("source_poll_row_index", np.arange(len(accept))),
+        dtype=int)
     diagnostics = []
     for index, timestamp in enumerate(arrays["source_time_s"]):
         reason = "ok" if accept[index] else str(reasons[index])
         diagnostics.append(FrameDiagnostics(
-            source_row_index=index,
+            source_row_index=int(source_rows[index]),
             source_time_s=float(timestamp),
             left_failure_reason=reason,
             right_failure_reason=reason,
@@ -161,6 +173,7 @@ def render_panel(summary_path, output_path):
             incoming_transition_collision=bool(
                 arrays["edge_collision"][index]),
         ))
+    camera_azimuth, camera_elevation, camera_scale = _camera_for_mode(mode)
     return render_mujoco_mp4(
         scene, output_path, arrays["source_time_s"],
         qpos=arrays["qpos"], diagnostics=diagnostics,
@@ -171,9 +184,9 @@ def render_panel(summary_path, output_path):
         config=VideoRenderConfig(
             width=640, height=360, fps=30,
             interpolate_states=True,
-            camera_azimuth_deg=225.0,
-            camera_elevation_deg=-22.0,
-            camera_distance_scale=1.48,
+            camera_azimuth_deg=camera_azimuth,
+            camera_elevation_deg=camera_elevation,
+            camera_distance_scale=camera_scale,
             title=f"{MOUNT_LABELS[mode]} | fixed source time",
         ))
 

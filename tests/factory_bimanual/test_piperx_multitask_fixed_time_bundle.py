@@ -9,8 +9,10 @@ from factory_bimanual.multitask_fixed_time_study import TrajectorySpec
 from factory_bimanual.task_family import TaskFamily
 
 from scripts.build_piperx_multitask_fixed_time_bundle import (
+    _bounded_safe_pair_step,
     _piperx_collision_checker_kwargs,
     _select_collision_safe_pair,
+    _within_reach_upper_bound,
     aggregate_shard,
     build_shard_arrays,
     validate_manifest,
@@ -189,6 +191,41 @@ def test_recovery_step_requires_collision_and_mount_topology_safety():
         checker=checker, maximum_step_rad=.30)
 
     assert step is None
+
+
+def test_dynamic_pair_step_uses_nearest_safe_point_inside_fixed_time_limits():
+    class Checker:
+        @staticmethod
+        def state(left, right):
+            return SimpleNamespace(valid=max(left[0], right[0]) <= .03)
+
+        @staticmethod
+        def transition(previous, current):
+            return Checker.state(*current)
+
+    result = _bounded_safe_pair_step(
+        previous=(np.asarray([0.0]), np.asarray([0.0])),
+        desired=(np.asarray([1.0]), np.asarray([1.0])),
+        previous_velocity=(np.asarray([0.0]), np.asarray([0.0])),
+        dt_s=.1, previous_dt_s=.1,
+        velocity_limit_rad_s=1.0,
+        acceleration_limit_rad_s2=10.0,
+        checker=Checker())
+
+    assert result is not None
+    q, velocity, limited = result
+    np.testing.assert_allclose(q[0], [.025])
+    np.testing.assert_allclose(q[1], [.025])
+    np.testing.assert_allclose(velocity[0], [.25])
+    assert limited
+
+
+def test_absolute_reach_prefilter_only_rejects_targets_beyond_upper_bound():
+    base = np.asarray([0.0, 0.0, 0.0])
+
+    assert _within_reach_upper_bound(base, np.asarray([.9, 0, 0]), .91)
+    assert not _within_reach_upper_bound(
+        base, np.asarray([.911001, 0, 0]), .91)
 
 
 def test_recovery_waits_until_preinitialized_follow_segment_begins():

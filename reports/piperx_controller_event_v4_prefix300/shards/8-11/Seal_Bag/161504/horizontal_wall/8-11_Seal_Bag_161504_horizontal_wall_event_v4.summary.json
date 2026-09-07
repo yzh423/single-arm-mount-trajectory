@@ -1,0 +1,88 @@
+{
+  "schema": "piperx-controller-event-v4-summary-v1",
+  "solver_protocol": "piperx-controller-event-raw-fixed-time-v4",
+  "formal_fingerprint": "13ab9db4ec6fe6ce3a548f1b7c5be6d55a0501dd97cf87b32193c9f6d8b0f5c6",
+  "trajectory": "8-11/Seal_Bag/161504",
+  "family": "8-11/Seal_Bag",
+  "take": "161504",
+  "mode": "horizontal_wall",
+  "source_sha256": "d500c9a124a5e6f55a505a197f1a0e1db8912d470eac178aa4aec46d07e43c52",
+  "timing_mode": "fixed_controller_event_time",
+  "timing_source": "paired_controller_receive",
+  "retiming_applied": false,
+  "source_poll_rows": 2439,
+  "controller_event_rows": 300,
+  "controller_event_rows_total": 1872,
+  "duplicate_poll_rows_removed": 567,
+  "controller_events_not_solved": 1572,
+  "source_poll_row_index_preserved": true,
+  "target_contract": {
+    "tool_transform": "configured fixed SE(3)",
+    "conditioning": "none",
+    "time_varying_wrist_adaptation": false,
+    "position_tolerance_mm": 1.0,
+    "orientation_tolerance_deg": 0.5
+  },
+  "dynamics_enforced": false,
+  "official_dynamics_limits": {
+    "maximum_velocity_rad_s": 3.0,
+    "maximum_acceleration_rad_s2": 5.0
+  },
+  "target_audit": {
+    "maximum_position_deviation_m": 0.0,
+    "maximum_orientation_deviation_rad": 0.0
+  },
+  "mount": {
+    "xy": {
+      "left": [
+        0.2793703557467907,
+        0.3878090053574037
+      ],
+      "right": [
+        0.313214067874523,
+        -0.38944210263635154
+      ]
+    },
+    "yaw": {
+      "left": -80.0,
+      "right": 100.0
+    },
+    "shared_base_z_m": 1.138034314207034,
+    "mode": "horizontal_wall",
+    "base_z_m": {
+      "left": 1.138034314207034,
+      "right": 1.138034314207034
+    }
+  },
+  "scene": "reports\\piperx_controller_event_v4_prefix300\\shards\\8-11\\Seal_Bag\\161504\\horizontal_wall\\8-11_Seal_Bag_161504_horizontal_wall_event_v4.scene.xml",
+  "trajectory_artifact": "reports\\piperx_controller_event_v4_prefix300\\shards\\8-11\\Seal_Bag\\161504\\horizontal_wall\\8-11_Seal_Bag_161504_horizontal_wall_event_v4.trajectory.npz",
+  "artifacts": {
+    "scene_xml": {
+      "path": "reports\\piperx_controller_event_v4_prefix300\\shards\\8-11\\Seal_Bag\\161504\\horizontal_wall\\8-11_Seal_Bag_161504_horizontal_wall_event_v4.scene.xml"
+    },
+    "trajectory_npz": {
+      "path": "reports\\piperx_controller_event_v4_prefix300\\shards\\8-11\\Seal_Bag\\161504\\horizontal_wall\\8-11_Seal_Bag_161504_horizontal_wall_event_v4.trajectory.npz"
+    }
+  },
+  "source_frames": 300,
+  "left_accept_frames": 0,
+  "right_accept_frames": 0,
+  "both_accept_frames": 0,
+  "left_accept_coverage": 0.0,
+  "right_accept_coverage": 0.0,
+  "both_accept_coverage": 0.0,
+  "source_valid_pair_frames": 300,
+  "invalid_source_frames": 0,
+  "both_accept_coverage_valid_source": 0.0,
+  "collision_frames": 0,
+  "edge_collision_frames": 0,
+  "topology_invalid_frames": 0,
+  "longest_hold_frames": 300,
+  "longest_hold_ratio": 1.0,
+  "maximum_position_error_mm": 545.0832643119829,
+  "maximum_orientation_error_deg": 157.77865679785063,
+  "maximum_accepted_position_error_mm": null,
+  "maximum_accepted_orientation_error_deg": null,
+  "maximum_velocity_rad_s": 0.0,
+  "maximum_acceleration_rad_s2": 0.0
+}

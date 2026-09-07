@@ -130,10 +130,10 @@ def study_status_path(output, mode):
     return Path(output) / f"study_status{suffix}.json"
 
 
-def _load_registered_spec(spec: TrajectorySpec):
+def _load_registered_spec(spec: TrajectorySpec, *, timing_mode="host_poll"):
     source = load_factory_task(
         spec.path, spec.family.key, max_translation_jump_m=0.20,
-        repair_invalid_pose_rows=True)
+        repair_invalid_pose_rows=True, timing_mode=timing_mode)
     points = np.vstack((source.left_position_m, source.right_position_m))
     translation = np.asarray((
         -points[:, 0].mean(), -points[:, 1].mean(),
@@ -156,7 +156,9 @@ def _prefix_task(task, rows):
     return SimpleNamespace(**{**task.__dict__, **values})
 
 
-def prepare_family_follow_targets(spec, task, *, apply_conditioning=True):
+def prepare_family_follow_targets(
+        spec, task, *, apply_conditioning=True,
+        apply_wrist_adaptation=True):
     """Apply the v3.1 family TCP, wrist, and conditioning contract once."""
     config = load_recommended_config()
     mount_spec = config.mounts[spec.family.key]
@@ -174,7 +176,8 @@ def prepare_family_follow_targets(spec, task, *, apply_conditioning=True):
             "left": mount_spec.left_tool_translation_m,
             "right": mount_spec.right_tool_translation_m,
         },
-        wrist_adaptation=mount_spec.wrist_adaptation,
+        wrist_adaptation=(mount_spec.wrist_adaptation
+                          if apply_wrist_adaptation else None),
         apply_conditioning=apply_conditioning,
     )
 

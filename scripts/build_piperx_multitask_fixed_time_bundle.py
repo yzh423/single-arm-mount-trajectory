@@ -15,6 +15,7 @@ from factory_bimanual.mount_topology import (
     MountTopologyConfig,
     MuJoCoMountTopologyChecker,
 )
+from factory_bimanual.fixed_time_tracking import bounded_joint_step
 from factory_bimanual.mujoco_collision_adapter import (
     MuJoCoPairedCollisionChecker,
 )
@@ -48,6 +49,33 @@ FORMAL_SOLVER_PROTOCOL = "piperx-fixed-time-paired-topology-safe-recovery-v3"
 def _piperx_collision_checker_kwargs():
     """Return the single collision contract shared with the final audit."""
     return {"transition_steps": 5, "clearance_margin_m": .015}
+
+
+def _within_reach_upper_bound(base_position_m, target_position_m,
+                              reach_upper_bound_m):
+    distance = float(np.linalg.norm(
+        np.asarray(target_position_m, dtype=float)
+        - np.asarray(base_position_m, dtype=float)))
+    return distance <= float(reach_upper_bound_m) + 1e-12
+
+
+def _kinematic_reach_upper_bound(model, side):
+    """Conservative serial-chain length from base link to TCP site."""
+    site_id = mujoco.mj_name2id(
+        model, mujoco.mjtObj.mjOBJ_SITE, f"{side}_tcp")
+    if site_id < 0:
+        raise ValueError(f"missing {side} TCP site")
+    reach = float(np.linalg.norm(model.site_pos[site_id]))
+    body_id = int(model.site_bodyid[site_id])
+    base_name = f"{side}_base_link"
+    while body_id > 0:
+        name = mujoco.mj_id2name(
+            model, mujoco.mjtObj.mjOBJ_BODY, body_id)
+        if name == base_name:
+            return reach
+        reach += float(np.linalg.norm(model.body_pos[body_id]))
+        body_id = int(model.body_parentid[body_id])
+    raise ValueError(f"{side} TCP is not descended from {base_name}")
 
 
 class _ConjunctivePairChecker:
@@ -260,6 +288,65 @@ def _select_collision_safe_pair(candidate_lists, *, previous, checker,
     return selected[-2], selected[-1]
 
 
+def _bounded_safe_pair_step(
+        *, previous, desired, previous_velocity, dt_s, previous_dt_s,
+        velocity_limit_rad_s, acceleration_limit_rad_s2, checker,
+        joint_lower=None, joint_upper=None):
+    """Track a desired pair inside fixed-time dynamics and safety gates."""
+    lowers = ((None, None) if joint_lower is None else joint_lower)
+    uppers = ((None, None) if joint_upper is None else joint_upper)
+    try:
+        bounded = tuple(
+            bounded_joint_step(
+                previous_q=old,
+                desired_q=target,
+                previous_velocity_rad_s=old_velocity,
+                dt_s=dt_s,
+                previous_dt_s=previous_dt_s,
+                velocity_limit_rad_s=velocity_limit_rad_s,
+                acceleration_limit_rad_s2=acceleration_limit_rad_s2,
+                lower_rad=lower, upper_rad=upper,
+            )
+            for old, target, old_velocity, lower, upper in zip(
+                previous, desired, previous_velocity, lowers, uppers)
+        )
+        braking = tuple(
+            bounded_joint_step(
+                previous_q=old,
+                desired_q=old,
+                previous_velocity_rad_s=old_velocity,
+                dt_s=dt_s,
+                previous_dt_s=previous_dt_s,
+                velocity_limit_rad_s=velocity_limit_rad_s,
+                acceleration_limit_rad_s2=acceleration_limit_rad_s2,
+                lower_rad=lower, upper_rad=upper,
+            )
+            for old, old_velocity, lower, upper in zip(
+                previous, previous_velocity, lowers, uppers)
+        )
+    except ValueError as error:
+        if "no dynamically feasible joint step" in str(error):
+            return None
+        raise
+    for scale in (1.0, .75, .5, .25, 0.0):
+        velocity = tuple(
+            stop.velocity_rad_s
+            + scale * (move.velocity_rad_s - stop.velocity_rad_s)
+            for move, stop in zip(bounded, braking)
+        )
+        current = tuple(
+            old + value * float(dt_s)
+            for old, value in zip(previous, velocity)
+        )
+        if (checker.state(*current).valid
+                and checker.transition(previous, current).valid):
+            limited = (
+                scale < 1.0
+                or any(item.limited for item in bounded))
+            return current, velocity, limited
+    return None
+
+
 def _select_safe_recovery_step(candidate_lists, *, previous, checker,
                                maximum_step_rad):
     """Take one bounded collision-free step toward the nearest safe pair."""
@@ -334,8 +421,15 @@ def _recovery_allowed(row, *, initialization_row):
 
 def _solve_candidate_dls_hold(model, task, mapped, *,
                               branch_guard_rad=0.30,
-                              initializer_rows=None):
+                              initializer_rows=None,
+                              velocity_limit_rad_s=None,
+                              acceleration_limit_rad_s2=None,
+                              absolute_reach_prefilter=False):
     """Paired pre-initialization, warm-start, safe recovery, and HOLD."""
+    dynamics_enabled = velocity_limit_rad_s is not None
+    if dynamics_enabled != (acceleration_limit_rad_s2 is not None):
+        raise ValueError(
+            "velocity and acceleration limits must be enabled together")
     data = mujoco.MjData(model)
     contract = ROBOT_CONTRACTS["piperx"]
     names = {side: {
@@ -373,11 +467,15 @@ def _solve_candidate_dls_hold(model, task, mapped, *,
     safety_checker = _ConjunctivePairChecker(
         collision_checker, topology_checker)
     qids = {}
+    joint_bounds = {}
     for side in ("left", "right"):
         joint_ids = [mujoco.mj_name2id(
             model, mujoco.mjtObj.mjOBJ_JOINT, name)
             for name in names[side]["joints"]]
         qids[side] = np.asarray(model.jnt_qposadr[joint_ids], dtype=int)
+        _joint_ids, _ranges, _limited, lower, upper = (
+            generators[side]._joint_limits(side))
+        joint_bounds[side] = (lower, upper)
     count = len(task.time_s)
     qpos = np.repeat(model.qpos0[None, :], count, axis=0)
     actual = {side: np.zeros((count, 7), dtype=float)
@@ -395,6 +493,22 @@ def _solve_candidate_dls_hold(model, task, mapped, *,
     last_rescue = {"left": -20, "right": -20}
     data.qpos[:] = model.qpos0
     mujoco.mj_forward(model, data)
+    reach_upper_bound = {
+        side: _kinematic_reach_upper_bound(model, side)
+        for side in ("left", "right")}
+    base_position = {}
+    for side in ("left", "right"):
+        body_id = mujoco.mj_name2id(
+            model, mujoco.mjtObj.mjOBJ_BODY, f"{side}_base_link")
+        base_position[side] = data.xpos[body_id].copy()
+
+    def target_reachable(side, row):
+        return (not absolute_reach_prefilter
+                or _within_reach_upper_bound(
+            base_position[side],
+            getattr(task, f"{side}_position_m")[row],
+            reach_upper_bound[side]))
+
     initialization_row = None
     initial_pair = None
     probe_rows = ([0] if initializer_rows is None
@@ -404,11 +518,12 @@ def _solve_candidate_dls_hold(model, task, mapped, *,
             continue
         candidate_lists = {}
         for side in ("left", "right"):
-            candidate_lists[side] = generators[side].generate_target(
-                side,
-                getattr(task, f"{side}_position_m")[probe_row],
-                mapped[side][probe_row],
-                force_stratified=True)
+            candidate_lists[side] = ([] if not target_reachable(
+                side, probe_row) else generators[side].generate_target(
+                    side,
+                    getattr(task, f"{side}_position_m")[probe_row],
+                    mapped[side][probe_row],
+                    force_stratified=True))
         initial_pair = _select_collision_safe_pair(
             candidate_lists, previous=None, checker=safety_checker,
             branch_guard_rad=branch_guard_rad)
@@ -420,6 +535,9 @@ def _solve_candidate_dls_hold(model, task, mapped, *,
             mujoco.mj_forward(model, data)
             break
     initialized = initial_pair is not None
+    previous_velocity = {
+        side: np.zeros(len(qids[side]), dtype=float)
+        for side in ("left", "right")}
     for row in range(count):
         previous = {side: data.qpos[qids[side]].copy()
                     for side in ("left", "right")}
@@ -427,6 +545,11 @@ def _solve_candidate_dls_hold(model, task, mapped, *,
         for side in ("left", "right"):
             target_p = getattr(task, f"{side}_position_m")[row]
             target_q = mapped[side][row]
+            if not target_reachable(side, row):
+                selected[side] = None
+                mode[row, side_index[side]] = "out_of_reach"
+                data.qpos[qids[side]] = previous[side]
+                continue
             if row == 0:
                 candidates = generators[side].generate_target(
                     side, target_p, target_q, force_stratified=True)
@@ -479,9 +602,10 @@ def _solve_candidate_dls_hold(model, task, mapped, *,
             rescue_lists = {}
             for side in ("left", "right"):
                 target_p = getattr(task, f"{side}_position_m")[row]
-                rescue_lists[side] = generators[side].generate_target(
-                    side, target_p, mapped[side][row],
-                    force_stratified=True)
+                rescue_lists[side] = ([] if not target_reachable(
+                    side, row) else generators[side].generate_target(
+                        side, target_p, mapped[side][row],
+                        force_stratified=True))
                 if selected.get(side) is not None:
                     rescue_lists[side].append(selected[side])
             safe_pair = _select_collision_safe_pair(
@@ -509,6 +633,41 @@ def _solve_candidate_dls_hold(model, task, mapped, *,
                     selected[side] = item
                     mode[row, side_index[side]] = "collision_rescue"
                 initialized = True
+        if dynamics_enabled and row > 0:
+            desired_pair = tuple(
+                data.qpos[qids[side]].copy()
+                for side in ("left", "right"))
+            dt_s = float(task.time_s[row] - task.time_s[row - 1])
+            previous_dt_s = (dt_s if row == 1 else float(
+                task.time_s[row - 1] - task.time_s[row - 2]))
+            bounded = _bounded_safe_pair_step(
+                previous=previous_pair,
+                desired=desired_pair,
+                previous_velocity=tuple(
+                    previous_velocity[side]
+                    for side in ("left", "right")),
+                dt_s=dt_s,
+                previous_dt_s=previous_dt_s,
+                velocity_limit_rad_s=velocity_limit_rad_s,
+                acceleration_limit_rad_s2=acceleration_limit_rad_s2,
+                checker=safety_checker,
+                joint_lower=tuple(
+                    joint_bounds[side][0] for side in ("left", "right")),
+                joint_upper=tuple(
+                    joint_bounds[side][1] for side in ("left", "right")),
+            )
+            if bounded is None:
+                raise RuntimeError(
+                    "no collision-safe dynamics-bounded step exists at "
+                    f"source row {row}")
+            else:
+                bounded_q, bounded_velocity, limited = bounded
+                for side, value, velocity in zip(
+                        ("left", "right"), bounded_q, bounded_velocity):
+                    data.qpos[qids[side]] = value
+                    previous_velocity[side] = velocity
+                    if limited:
+                        mode[row, side_index[side]] = "dynamic_limited"
         data.qvel[:] = 0.0
         mujoco.mj_forward(model, data)
         for side in ("left", "right"):
@@ -534,10 +693,15 @@ def _solve_candidate_dls_hold(model, task, mapped, *,
                 "anchor", "warm_start", "rescue", "collision_rescue")),
             "ok", np.where(mode == "hold", "dls_exhausted", mode)),
         "solve_mode": mode,
-        "protocol": "v3.3_paired_preinit_collision_topology_safe_recovery",
+        "protocol": (
+            "v4_controller_event_fixed_time_tracking"
+            if dynamics_enabled or absolute_reach_prefilter else
+            "v3.3_paired_preinit_collision_topology_safe_recovery"),
         "maximum_iterations": 200,
         "branch_guard_rad": branch_guard_rad,
         "initialization_source_row": initialization_row,
+        "velocity_limit_rad_s": velocity_limit_rad_s,
+        "acceleration_limit_rad_s2": acceleration_limit_rad_s2,
     }
     return (qpos, actual, position_error, orientation_error, strict,
             discontinuity, diagnostics)

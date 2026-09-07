@@ -1,0 +1,88 @@
+{
+  "schema": "piperx-controller-event-v4-summary-v1",
+  "solver_protocol": "piperx-controller-event-raw-fixed-time-v4",
+  "formal_fingerprint": "7660b1d7ee4b59b6605a26c8fa1871ce807ef8fb3159733d6605fcab55f4c373",
+  "trajectory": "8-11/Fold_Box/161044",
+  "family": "8-11/Fold_Box",
+  "take": "161044",
+  "mode": "upright_table",
+  "source_sha256": "98ac81447effe2d447058c952990d46d4f11d2f1fefade41bcbd8e8df4ae782d",
+  "timing_mode": "fixed_controller_event_time",
+  "timing_source": "paired_controller_receive",
+  "retiming_applied": false,
+  "source_poll_rows": 1478,
+  "controller_event_rows": 300,
+  "controller_event_rows_total": 755,
+  "duplicate_poll_rows_removed": 723,
+  "controller_events_not_solved": 455,
+  "source_poll_row_index_preserved": true,
+  "target_contract": {
+    "tool_transform": "configured fixed SE(3)",
+    "conditioning": "none",
+    "time_varying_wrist_adaptation": false,
+    "position_tolerance_mm": 1.0,
+    "orientation_tolerance_deg": 0.5
+  },
+  "dynamics_enforced": false,
+  "official_dynamics_limits": {
+    "maximum_velocity_rad_s": 3.0,
+    "maximum_acceleration_rad_s2": 5.0
+  },
+  "target_audit": {
+    "maximum_position_deviation_m": 0.0,
+    "maximum_orientation_deviation_rad": 0.0
+  },
+  "mount": {
+    "xy": {
+      "left": [
+        -0.2724727299402403,
+        0.3894510104922647
+      ],
+      "right": [
+        -0.21427637669372313,
+        -0.27177344718539675
+      ]
+    },
+    "yaw": {
+      "left": -45.0,
+      "right": 90.0
+    },
+    "shared_base_z_m": 0.81,
+    "mode": "upright_table",
+    "base_z_m": {
+      "left": 0.81,
+      "right": 0.81
+    }
+  },
+  "scene": "reports\\piperx_controller_event_v4_prefix300\\shards\\8-11\\Fold_Box\\161044\\upright_table\\8-11_Fold_Box_161044_upright_table_event_v4.scene.xml",
+  "trajectory_artifact": "reports\\piperx_controller_event_v4_prefix300\\shards\\8-11\\Fold_Box\\161044\\upright_table\\8-11_Fold_Box_161044_upright_table_event_v4.trajectory.npz",
+  "artifacts": {
+    "scene_xml": {
+      "path": "reports\\piperx_controller_event_v4_prefix300\\shards\\8-11\\Fold_Box\\161044\\upright_table\\8-11_Fold_Box_161044_upright_table_event_v4.scene.xml"
+    },
+    "trajectory_npz": {
+      "path": "reports\\piperx_controller_event_v4_prefix300\\shards\\8-11\\Fold_Box\\161044\\upright_table\\8-11_Fold_Box_161044_upright_table_event_v4.trajectory.npz"
+    }
+  },
+  "source_frames": 300,
+  "left_accept_frames": 132,
+  "right_accept_frames": 125,
+  "both_accept_frames": 125,
+  "left_accept_coverage": 0.44,
+  "right_accept_coverage": 0.4166666666666667,
+  "both_accept_coverage": 0.4166666666666667,
+  "source_valid_pair_frames": 300,
+  "invalid_source_frames": 0,
+  "both_accept_coverage_valid_source": 0.4166666666666667,
+  "collision_frames": 0,
+  "edge_collision_frames": 0,
+  "topology_invalid_frames": 0,
+  "longest_hold_frames": 59,
+  "longest_hold_ratio": 0.19666666666666666,
+  "maximum_position_error_mm": 187.0587256908246,
+  "maximum_orientation_error_deg": 52.41799314287492,
+  "maximum_accepted_position_error_mm": 0.9991331919108997,
+  "maximum_accepted_orientation_error_deg": 0.4999999999999752,
+  "maximum_velocity_rad_s": 13.18893906500107,
+  "maximum_acceleration_rad_s2": 882.7987726127848
+}
