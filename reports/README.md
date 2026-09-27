@@ -10,6 +10,7 @@
 - [四构型 bundle manifest](piperx_controller_event_v4_prefix300/bundle_manifest.json)
 - [Seal_Bag 四构型 MuJoCo 视频](piperx_controller_event_v4_prefix300/videos/comparisons/8-11_Seal_Bag_161504_four_mount_fixed_time.mp4)
 - [Fold_Box 四构型 MuJoCo 视频](piperx_controller_event_v4_prefix300/videos/comparisons/8-11_Fold_Box_161044_four_mount_fixed_time.mp4)
+- [Fold_Box 网站展示视频（完整原始时间轴）](piperx_controller_event_v4/portfolio/fold-box-piperx-fixed-time.mp4)及[逐项来源记录](piperx_controller_event_v4/portfolio/fold-box-piperx-fixed-time.provenance.json)。该版本仅改善视角、照明和标注，不改变求解结果；可运行 `python -m scripts.render_piperx_portfolio_video --summary reports/piperx_controller_event_v4/shards/8-11/Fold_Box/161044/baseline/8-11_Fold_Box_161044_baseline_event_v4.summary.json --output reports/piperx_controller_event_v4/portfolio/fold-box-piperx-fixed-time.mp4 --poster reports/piperx_controller_event_v4/portfolio/fold-box-piperx-fixed-time-poster.png` 复现。
 
 完整 baseline 的双手严格几何覆盖率为 Seal_Bag 100.00%、Fold_Box 94.83%。当前发布轨迹的 `collision_frames`、`edge_collision_frames`、`topology_invalid_frames` 均为零，但 `dynamics_enforced=false`，关节速度和加速度也超过 Piper SDK V2 的 3 rad/s、5 rad/s² 配置上限，因此不能直接下发实机。
 

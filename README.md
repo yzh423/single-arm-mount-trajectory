@@ -520,7 +520,7 @@ The remaining [scripts](scripts/) include study-specific figure/PDF builders, ca
 
 ### Public API inventory
 
-When you need an exact class or function name beyond the worked examples, use this source-module index. It lists 926 public top-level class/function definitions across 256 first-party modules (673 distinct names); repeated names such as `main` are listed under each defining module. Class methods are represented by their owning class. These names cover the current and historical workflows above, so an entry alone does not establish a v4 execution contract.
+When you need an exact class or function name beyond the worked examples, use this source-module index. It lists 928 public top-level class/function definitions across 257 first-party modules (673 distinct names); repeated names such as `main` are listed under each defining module. Class methods are represented by their owning class. These names cover the current and historical workflows above, so an entry alone does not establish a v4 execution contract.
 
 <details>
 <summary>design_optimization: 31 modules, 147 definitions</summary>
@@ -719,6 +719,7 @@ When you need an exact class or function name beyond the worked examples, use th
 | [render_fold_box_piperx_front_view.py](scripts/render_fold_box_piperx_front_view.py) | `front_azimuth_from_mount`, `main` |
 | [render_model_assembly_qa.py](scripts/render_model_assembly_qa.py) | `main` |
 | [render_piperx_multitask_mount_comparisons.py](scripts/render_piperx_multitask_mount_comparisons.py) | `render_panel`, `compose_four_panel`, `render_trajectory`, `main` |
+| [render_piperx_portfolio_video.py](scripts/render_piperx_portfolio_video.py) | `render`, `main` |
 | [render_result_frame.py](scripts/render_result_frame.py) | `main` |
 | [render_seal_bag_front_view.py](scripts/render_seal_bag_front_view.py) | `report_directory_for_robot`, `main` |
 | [render_strict_single_arm_task.py](scripts/render_strict_single_arm_task.py) | `playback_frame_count`, `interpolated_failure_reason`, `path_render_indices`, `interpolate_joint_positions`, `interpolate_quaternion_wxyz`, `font`, `sphere`, `connector`, `orientation_triad`, `configure_visual_only_render`, `main` |

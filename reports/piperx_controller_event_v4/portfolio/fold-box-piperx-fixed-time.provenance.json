@@ -1,0 +1,23 @@
+{
+  "schema": "piperx-v4-portfolio-full-timeline-v1",
+  "trajectory": "8-11/Fold_Box/161044",
+  "mode": "baseline",
+  "source_summary": "reports/piperx_controller_event_v4/shards/8-11/Fold_Box/161044/baseline/8-11_Fold_Box_161044_baseline_event_v4.summary.json",
+  "source_summary_sha256": "12ceacde59e5b017cdcb820c6a86bfc3004bd7612b29e7f390ec9881c5e3681d",
+  "trajectory_sha256": "649fca61bf1ed8ab747757f3cb416ad06e4969d2a86072f5e0abb3100c74d533",
+  "scene_sha256": "00690ed7f308c714b520939fc9f1648ad90bebd0043141ec3581db083180e736",
+  "video_sha256": "771e53ad716309174db873ab98245cfd870ff9cb9c82a6653e22b29f6fa918ee",
+  "poster_sha256": "eaedb87dd3d926adeee2fea44ea2c13b601bfcdf10f232d90e6fe979afdd08eb",
+  "controller_event_count": 755,
+  "source_duration_s": 17.638781582994852,
+  "encoded_duration_s": 17.633333333333333,
+  "frame_count": 530,
+  "fps": 30.0,
+  "strict_paired_coverage": 0.9483443708609272,
+  "collision_frames": 0,
+  "edge_collision_frames": 0,
+  "topology_invalid_frames": 0,
+  "retiming_applied": false,
+  "playback_speed": 1.0,
+  "dynamics_enforced": false
+}
