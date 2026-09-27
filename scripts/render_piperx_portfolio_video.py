@@ -1,7 +1,7 @@
-"""Render a legible portfolio cut from a source-bound PiperX v4 shard.
+"""Render original tool targets and executed PiperX TCP paths in MuJoCo.
 
 The complete controller-event timeline is retained.  This script changes only
-the camera, lighting, trail length, and editorial overlay of a MuJoCo render.
+the camera, lighting, trace styling, and editorial overlay of a MuJoCo render.
 """
 
 from __future__ import annotations
@@ -28,8 +28,7 @@ HEIGHT = 720
 FPS = 30
 SCENE_TOP = 62
 SCENE_HEIGHT = 592
-TRAIL_SECONDS = 1.7
-RENDER_PROTOCOL = "piperx-v4-portfolio-full-timeline-v1"
+RENDER_PROTOCOL = "piperx-v4-portfolio-target-vs-actual-v2"
 
 
 def _repo_artifact(relative_path: str) -> Path:
@@ -65,6 +64,41 @@ def _load_validated_shard(summary_path: Path):
     return summary, arrays, scene_path, trajectory_path
 
 
+def _extract_tracks(arrays: dict) -> dict[str, tuple[np.ndarray, np.ndarray]]:
+    """Return (raw target position, executed TCP position) for each hand."""
+    count = len(arrays["source_time_s"])
+    tracks = {}
+    for side in ("left", "right"):
+        target = np.asarray(arrays[f"{side}_target_position_m"], dtype=float)
+        actual_pose = np.asarray(arrays[f"{side}_actual_tcp"], dtype=float)
+        if target.shape != (count, 3) or actual_pose.shape != (count, 7):
+            raise ValueError(f"{side} target/actual TCP shapes do not match event count")
+        if not np.isfinite(target).all() or not np.isfinite(actual_pose).all():
+            raise ValueError(f"{side} target/actual TCP must be finite")
+        tracks[side] = target, actual_pose[:, :3]
+    return tracks
+
+
+def _trace_segments(points: np.ndarray, times: np.ndarray, time_s: float, *,
+                    full_path: bool, dashed: bool,
+                    current_point: np.ndarray | None = None) -> np.ndarray:
+    """Select source-bound path geometry without drawing future executed motion."""
+    relative_times = np.asarray(times, dtype=float) - float(times[0])
+    end = len(relative_times) if full_path else int(np.searchsorted(
+        relative_times, time_s, side="right"))
+    if end == 0:
+        return np.empty((0, 2, 3), dtype=float)
+    path = np.asarray(points, dtype=float)[:end]
+    if not full_path and current_point is not None and time_s > relative_times[end - 1] + 1e-9:
+        path = np.vstack((path, np.asarray(current_point, dtype=float)))
+    if len(path) < 2:
+        return np.empty((0, 2, 3), dtype=float)
+    segments = np.stack((path[:-1], path[1:]), axis=1)
+    if dashed:
+        segments = segments[np.arange(len(segments)) % 3 != 2]
+    return segments
+
+
 def _camera(targets: np.ndarray, model: mujoco.MjModel) -> mujoco.MjvCamera:
     camera = mujoco.MjvCamera()
     low = targets.min(axis=0)
@@ -97,24 +131,48 @@ def _style_model(model: mujoco.MjModel) -> None:
             model.geom_rgba[geom_index] = (0.75, 0.69, 0.59, 1)
 
 
-def _draw_trail(scene, points: np.ndarray, times: np.ndarray, time_s: float,
-                color: tuple[float, float, float, float]) -> None:
-    end = int(np.searchsorted(times, time_s, side="right"))
-    start = int(np.searchsorted(times, time_s - TRAIL_SECONDS, side="left"))
-    if end - start < 2:
-        return
-    selected = np.unique(np.linspace(start, end - 1, min(end - start, 65)).round().astype(int))
+def _draw_path(scene, segments: np.ndarray,
+               color: tuple[float, float, float, float], radius: float) -> None:
     connector = getattr(mujoco, "mjv_connector", None) or mujoco.mjv_makeConnector
-    for first, second in zip(selected[:-1], selected[1:]):
+    for first, second in segments:
+        if np.linalg.norm(second - first) < 1e-7:
+            continue
         if scene.ngeom >= scene.maxgeom:
-            break
+            raise RuntimeError("MuJoCo trace geometry capacity exceeded")
         geom = scene.geoms[scene.ngeom]
         mujoco.mjv_initGeom(geom, mujoco.mjtGeom.mjGEOM_CAPSULE,
                             np.zeros(3), np.zeros(3), np.zeros(9),
                             np.asarray(color, np.float32))
-        connector(geom, mujoco.mjtGeom.mjGEOM_CAPSULE, 0.004,
-                  points[first], points[second])
+        connector(geom, mujoco.mjtGeom.mjGEOM_CAPSULE, radius, first, second)
         scene.ngeom += 1
+
+
+def _draw_tcp_marker(scene, point: np.ndarray,
+                     color: tuple[float, float, float, float]) -> None:
+    if scene.ngeom >= scene.maxgeom:
+        raise RuntimeError("MuJoCo TCP marker capacity exceeded")
+    geom = scene.geoms[scene.ngeom]
+    mujoco.mjv_initGeom(geom, mujoco.mjtGeom.mjGEOM_SPHERE,
+                        np.full(3, 0.012), point, np.eye(3).ravel(),
+                        np.asarray(color, np.float32))
+    scene.ngeom += 1
+
+
+def _draw_comparison_legend(canvas: np.ndarray) -> None:
+    cv2.rectangle(canvas, (22, SCENE_TOP + 14), (470, SCENE_TOP + 92),
+                  (40, 45, 49), -1)
+    for y, label, original, actual in (
+            (SCENE_TOP + 44, "LEFT", (255, 217, 107), (235, 119, 41)),
+            (SCENE_TOP + 77, "RIGHT", (178, 107, 249), (53, 171, 255))):
+        cv2.putText(canvas, label, (36, y + 5), cv2.FONT_HERSHEY_SIMPLEX,
+                    0.52, (230, 235, 238), 1, cv2.LINE_AA)
+        for x in (106, 122, 138):
+            cv2.line(canvas, (x, y), (x + 9, y), original, 3, cv2.LINE_AA)
+        cv2.putText(canvas, "ORIGINAL", (163, y + 5), cv2.FONT_HERSHEY_SIMPLEX,
+                    0.45, (205, 215, 222), 1, cv2.LINE_AA)
+        cv2.line(canvas, (284, y), (317, y), actual, 4, cv2.LINE_AA)
+        cv2.putText(canvas, "ACTUAL TCP", (327, y + 5), cv2.FONT_HERSHEY_SIMPLEX,
+                    0.45, (205, 215, 222), 1, cv2.LINE_AA)
 
 
 def _blend_background(rgb: np.ndarray) -> np.ndarray:
@@ -132,19 +190,25 @@ def _blend_background(rgb: np.ndarray) -> np.ndarray:
 
 def _draw_editorial_frame(scene_bgr: np.ndarray, *, time_s: float,
                           duration_s: float, following: bool,
-                          coverage: float) -> np.ndarray:
+                          coverage: float,
+                          position_error_mm: dict[str, float]) -> np.ndarray:
     canvas = np.full((HEIGHT, WIDTH, 3), (32, 35, 36), dtype=np.uint8)
     canvas[SCENE_TOP:SCENE_TOP + SCENE_HEIGHT] = scene_bgr
+    _draw_comparison_legend(canvas)
     cv2.putText(canvas, "FOLD BOX  /  PIPERX DUAL ARM", (34, 40),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.73, (241, 243, 244), 2, cv2.LINE_AA)
-    cv2.putText(canvas, "FULL RECORDING  |  FIXED CONTROLLER TIME", (810, 40),
+    cv2.putText(canvas, "MUJOCO KINEMATIC REPLAY  |  FIXED SOURCE TIME", (730, 40),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.48, (189, 202, 209), 1, cv2.LINE_AA)
     cv2.rectangle(canvas, (0, HEIGHT - 66), (WIDTH, HEIGHT), (32, 35, 36), -1)
     dot_color = (92, 211, 129) if following else (76, 176, 239)
     cv2.circle(canvas, (43, HEIGHT - 35), 7, dot_color, -1, cv2.LINE_AA)
     cv2.putText(canvas, "FOLLOWING" if following else "SAFE HOLD", (61, HEIGHT - 27),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.60, (241, 243, 244), 1, cv2.LINE_AA)
-    cv2.putText(canvas, f"{coverage * 100:.1f}% strict pose coverage", (242, HEIGHT - 27),
+    cv2.putText(canvas, f"L {position_error_mm['left']:.1f} mm", (244, HEIGHT - 27),
+                cv2.FONT_HERSHEY_SIMPLEX, 0.52, (235, 119, 41), 1, cv2.LINE_AA)
+    cv2.putText(canvas, f"R {position_error_mm['right']:.1f} mm", (440, HEIGHT - 27),
+                cv2.FONT_HERSHEY_SIMPLEX, 0.52, (53, 171, 255), 1, cv2.LINE_AA)
+    cv2.putText(canvas, f"{coverage * 100:.1f}% pose coverage", (671, HEIGHT - 27),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.52, (188, 202, 210), 1, cv2.LINE_AA)
     cv2.putText(canvas, f"{time_s:05.2f} / {duration_s:05.2f} s", (1060, HEIGHT - 27),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.55, (241, 243, 244), 1, cv2.LINE_AA)
@@ -161,17 +225,19 @@ def render(summary_path: Path, output_path: Path, poster_path: Path) -> dict:
     times = np.asarray(arrays["source_time_s"], dtype=float)
     timing = build_realtime_timing(times, FPS)
     qpos = np.asarray(arrays["qpos"], dtype=float)
-    left = np.asarray(arrays["left_target_position_m"], dtype=float)
-    right = np.asarray(arrays["right_target_position_m"], dtype=float)
+    tracks = _extract_tracks(arrays)
+    left, right = tracks["left"][0], tracks["right"][0]
     accepted = np.asarray(arrays["both_accept"], dtype=bool)
     model = mujoco.MjModel.from_xml_path(str(scene_path))
     _style_model(model)
     model.vis.global_.offwidth = max(model.vis.global_.offwidth, WIDTH)
     model.vis.global_.offheight = max(model.vis.global_.offheight, SCENE_HEIGHT)
     data = mujoco.MjData(model)
-    camera = _camera(np.vstack((left, right)), model)
+    camera = _camera(np.vstack((left, right, tracks["left"][1],
+                                tracks["right"][1])), model)
     left_mocap = int(model.body_mocapid[model.body("left_target").id])
     right_mocap = int(model.body_mocapid[model.body("right_target").id])
+    tcp_sites = {side: model.site(f"{side}_tcp").id for side in tracks}
     output_path = Path(output_path)
     poster_path = Path(poster_path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -185,7 +251,7 @@ def render(summary_path: Path, output_path: Path, poster_path: Path) -> dict:
     poster_frame_index = round(timing.source_duration_s * 0.38 * FPS)
     try:
         with mujoco.Renderer(model, width=WIDTH, height=SCENE_HEIGHT,
-                             max_geom=1024) as renderer:
+                             max_geom=4096) as renderer:
             for frame_index, encoded_time in enumerate(timing.encoded_time_s):
                 lower, upper, alpha = interpolation_sample(times, float(encoded_time))
                 data.qpos[:] = (1 - alpha) * qpos[lower] + alpha * qpos[upper]
@@ -193,10 +259,24 @@ def render(summary_path: Path, output_path: Path, poster_path: Path) -> dict:
                 data.mocap_pos[right_mocap] = (1 - alpha) * right[lower] + alpha * right[upper]
                 mujoco.mj_forward(model, data)
                 renderer.update_scene(data, camera=camera)
-                _draw_trail(renderer.scene, left, times, float(encoded_time),
-                            (0.12, 0.54, 0.95, 0.84))
-                _draw_trail(renderer.scene, right, times, float(encoded_time),
-                            (0.95, 0.31, 0.67, 0.84))
+                actual_now = {side: data.site_xpos[site_id].copy()
+                              for side, site_id in tcp_sites.items()}
+                target_now = {"left": data.mocap_pos[left_mocap].copy(),
+                              "right": data.mocap_pos[right_mocap].copy()}
+                for side, color in (("left", (0.42, 0.85, 1.0, 0.66)),
+                                    ("right", (0.98, 0.42, 0.70, 0.66))):
+                    original, _ = tracks[side]
+                    segments = _trace_segments(original, times, float(encoded_time),
+                                               full_path=True, dashed=True)
+                    _draw_path(renderer.scene, segments, color, 0.003)
+                for side, color in (("left", (0.16, 0.47, 0.92, 1.0)),
+                                    ("right", (1.0, 0.67, 0.21, 1.0))):
+                    _, actual = tracks[side]
+                    segments = _trace_segments(actual, times, float(encoded_time),
+                                               full_path=False, dashed=False,
+                                               current_point=actual_now[side])
+                    _draw_path(renderer.scene, segments, color, 0.006)
+                    _draw_tcp_marker(renderer.scene, actual_now[side], color)
                 scene_bgr = _blend_background(renderer.render())
                 # An interpolated frame inherits the incoming edge's acceptance.
                 audit_index = upper if alpha > 1e-12 else lower
@@ -204,7 +284,10 @@ def render(summary_path: Path, output_path: Path, poster_path: Path) -> dict:
                     scene_bgr, time_s=float(encoded_time),
                     duration_s=timing.source_duration_s,
                     following=bool(accepted[audit_index]),
-                    coverage=float(summary["both_accept_coverage"]))
+                    coverage=float(summary["both_accept_coverage"]),
+                    position_error_mm={side: float(np.linalg.norm(
+                        actual_now[side] - target_now[side]) * 1000)
+                        for side in tracks})
                 if frame_index == poster_frame_index:
                     if not cv2.imwrite(str(poster_path), frame):
                         raise RuntimeError("could not write portfolio poster")
@@ -246,6 +329,12 @@ def render(summary_path: Path, output_path: Path, poster_path: Path) -> dict:
         "retiming_applied": False,
         "playback_speed": 1.0,
         "dynamics_enforced": bool(summary["dynamics_enforced"]),
+        "original_track_arrays": {side: f"{side}_target_position_m"
+                                  for side in tracks},
+        "actual_track_arrays": {side: f"{side}_actual_tcp[:,:3]"
+                                for side in tracks},
+        "actual_cursor": "MuJoCo forward-kinematics TCP of interpolated saved qpos",
+        "render_mode": "MuJoCo kinematic replay of saved joint states; no forward dynamics",
     }
     output_path.with_suffix(".provenance.json").write_text(
         json.dumps(provenance, indent=2, ensure_ascii=False) + "\n",
