@@ -3,7 +3,7 @@ import pytest
 import mujoco
 
 from scripts.render_piperx_portfolio_video import (
-    _extract_tracks, _load_validated_shard, _trace_segments,
+    _extract_tracks, _load_validated_shard, _trace_segments, _trajectory_layers,
 )
 from scripts.run_piperx_controller_event_v4 import ROOT
 
@@ -74,6 +74,18 @@ def test_local_actual_trail_never_shows_future_executed_positions():
     assert trail[:, :, 0].min() >= 0.55 - 1e-9
     np.testing.assert_allclose(trail[-1, 1], [2.05, 0., 0.])
     assert trail[:, :, 0].max() <= 2.05 + 1e-9
+
+
+def test_trajectory_layers_show_complete_actual_and_local_elapsed_motion():
+    times = np.arange(0., 5.1, 0.1)
+    points = np.column_stack((times, np.zeros_like(times), np.zeros_like(times)))
+    complete, local = _trajectory_layers(
+        points, times, 2.05, history_s=1.5,
+        current_point=np.array([2.05, 0., 0.]))
+    assert len(complete) == len(times) - 1
+    np.testing.assert_allclose(complete[-1, 1], [5., 0., 0.])
+    assert local[:, :, 0].max() <= 2.05 + 1e-9
+    np.testing.assert_allclose(local[-1, 1], [2.05, 0., 0.])
 
 
 def test_extract_tracks_rejects_nonfinite_actual_tcp():

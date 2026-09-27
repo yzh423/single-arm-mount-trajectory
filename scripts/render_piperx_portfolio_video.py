@@ -28,7 +28,7 @@ HEIGHT = 720
 FPS = 30
 SCENE_TOP = 62
 SCENE_HEIGHT = 592
-RENDER_PROTOCOL = "piperx-v4-portfolio-target-vs-actual-v3"
+RENDER_PROTOCOL = "piperx-v4-portfolio-target-vs-actual-v4"
 TARGET_HISTORY_S = 1.0
 TARGET_FUTURE_S = 0.4
 ACTUAL_HISTORY_S = 1.5
@@ -107,6 +107,20 @@ def _trace_segments(points: np.ndarray, times: np.ndarray, time_s: float, *,
     if dashed:
         segments = segments[np.arange(len(segments)) % 3 != 2]
     return segments
+
+
+def _trajectory_layers(points: np.ndarray, times: np.ndarray, time_s: float, *,
+                       history_s: float, future_s: float = 0.0,
+                       current_point: np.ndarray | None = None,
+                       dashed: bool = False) -> tuple[np.ndarray, np.ndarray]:
+    """Return the complete archived path and its local playback emphasis."""
+    complete = _trace_segments(points, times, time_s,
+                               full_path=True, dashed=dashed)
+    local = _trace_segments(points, times, time_s,
+                            full_path=False, dashed=dashed,
+                            history_s=history_s, future_s=future_s,
+                            current_point=current_point)
+    return complete, local
 
 
 def _camera(targets: np.ndarray, model: mujoco.MjModel) -> mujoco.MjvCamera:
@@ -188,10 +202,10 @@ def _draw_comparison_legend(canvas: np.ndarray) -> None:
 def _draw_xy_path_overview(canvas: np.ndarray, *, tracks: dict,
                            times: np.ndarray, time_s: float,
                            target_now: dict, actual_now: dict) -> None:
-    """Show the full XY target and only the already-executed XY TCP path."""
+    """Show both complete XY paths and emphasize the elapsed actual segment."""
     cv2.rectangle(canvas, (22, SCENE_TOP + 112), (470, SCENE_TOP + 306),
                   (40, 45, 49), -1)
-    cv2.putText(canvas, "XY PATH OVERVIEW  /  TARGET vs EXECUTED", (36, SCENE_TOP + 137),
+    cv2.putText(canvas, "COMPLETE XY PATHS  /  TARGET vs ACTUAL", (36, SCENE_TOP + 137),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.43, (205, 215, 222), 1, cv2.LINE_AA)
     colors = {
         "left": ((255, 217, 107), (235, 119, 41)),
@@ -220,9 +234,15 @@ def _draw_xy_path_overview(canvas: np.ndarray, *, tracks: dict,
                                        full_path=True, dashed=True):
             cv2.line(canvas, project(segment[0]), project(segment[1]),
                      target_color, 1, cv2.LINE_AA)
-        for segment in _trace_segments(actual, times, time_s,
-                                       full_path=False, dashed=False,
-                                       current_point=actual_now[side]):
+        complete_actual, elapsed_actual = _trajectory_layers(
+            actual, times, time_s, history_s=time_s,
+            current_point=actual_now[side])
+        subdued_color = tuple(round(0.60 * channel + 0.40 * background)
+                              for channel, background in zip(actual_color, (40, 45, 49)))
+        for segment in complete_actual:
+            cv2.line(canvas, project(segment[0]), project(segment[1]),
+                     subdued_color, 1, cv2.LINE_AA)
+        for segment in elapsed_actual:
             cv2.line(canvas, project(segment[0]), project(segment[1]),
                      actual_color, 2, cv2.LINE_AA)
         cv2.circle(canvas, project(target_now[side]), 4, target_color, 1, cv2.LINE_AA)
@@ -324,19 +344,23 @@ def render(summary_path: Path, output_path: Path, poster_path: Path) -> dict:
                 for side, color in (("left", (0.42, 0.85, 1.0, 0.66)),
                                     ("right", (0.98, 0.42, 0.70, 0.66))):
                     original, _ = tracks[side]
-                    segments = _trace_segments(original, times, float(encoded_time),
-                                               full_path=False, dashed=True,
-                                               history_s=TARGET_HISTORY_S,
-                                               future_s=TARGET_FUTURE_S)
-                    _draw_path(renderer.scene, segments, color, 0.003)
+                    complete, local = _trajectory_layers(
+                        original, times, float(encoded_time), dashed=True,
+                        history_s=TARGET_HISTORY_S,
+                        future_s=TARGET_FUTURE_S)
+                    _draw_path(renderer.scene, complete,
+                               (*color[:3], 0.16), 0.0014)
+                    _draw_path(renderer.scene, local, color, 0.003)
                 for side, color in (("left", (0.16, 0.47, 0.92, 1.0)),
                                     ("right", (1.0, 0.67, 0.21, 1.0))):
                     _, actual = tracks[side]
-                    segments = _trace_segments(actual, times, float(encoded_time),
-                                               full_path=False, dashed=False,
-                                               current_point=actual_now[side],
-                                               history_s=ACTUAL_HISTORY_S)
-                    _draw_path(renderer.scene, segments, color, 0.006)
+                    complete, local = _trajectory_layers(
+                        actual, times, float(encoded_time),
+                        history_s=ACTUAL_HISTORY_S,
+                        current_point=actual_now[side])
+                    _draw_path(renderer.scene, complete,
+                               (*color[:3], 0.18), 0.0017)
+                    _draw_path(renderer.scene, local, color, 0.006)
                     _draw_tcp_marker(renderer.scene, actual_now[side], color)
                 scene_bgr = _blend_background(renderer.render())
                 # An interpolated frame inherits the incoming edge's acceptance.
@@ -399,7 +423,8 @@ def render(summary_path: Path, output_path: Path, poster_path: Path) -> dict:
         "actual_cursor": "MuJoCo forward-kinematics TCP of interpolated saved qpos",
         "target_trail_window_s": [TARGET_HISTORY_S, TARGET_FUTURE_S],
         "actual_trail_history_s": ACTUAL_HISTORY_S,
-        "xy_path_overview": "full XY target versus elapsed XY executed TCP; bounds use complete recording",
+        "xy_path_overview": "complete XY target and actual TCP; elapsed actual path highlighted",
+        "complete_3d_paths": "full archived target and actual TCP traces shown faintly in MuJoCo",
         "render_mode": "MuJoCo kinematic replay of saved joint states; no forward dynamics",
     }
     output_path.with_suffix(".provenance.json").write_text(
