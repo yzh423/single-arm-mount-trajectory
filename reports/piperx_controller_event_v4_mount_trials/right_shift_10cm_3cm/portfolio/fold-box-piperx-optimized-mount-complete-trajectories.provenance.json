@@ -1,0 +1,40 @@
+{
+  "schema": "piperx-v4-portfolio-target-vs-actual-v4",
+  "trajectory": "8-11/Fold_Box/161044",
+  "mode": "baseline",
+  "source_summary": "reports/piperx_controller_event_v4_mount_trials/right_shift_10cm_3cm/full/shards/8-11/Fold_Box/161044/baseline/8-11_Fold_Box_161044_baseline_event_v4.summary.json",
+  "source_summary_sha256": "606165b645d4cba01489aa0ae17e724949127906ed02cc0a194e66bf7ba7f9ef",
+  "trajectory_sha256": "15cb565f5024f4b3c40b66d2e6a32201b2674e0c27b05de30ea140afef697e24",
+  "scene_sha256": "e98b381a32f3a0b103e3794dc6f0e2d4e2768be97c8edae76eb5635fc5d74dce",
+  "video_sha256": "c79b1583895ef579fc0ae4e999482f798836c59100eb770e7efaed24b73b21a0",
+  "poster_sha256": "6b0feb06bad1b36f265b30b0e9474055f90ba9475d9ce2a06938b0d91b5f3605",
+  "controller_event_count": 755,
+  "source_duration_s": 17.638781582994852,
+  "encoded_duration_s": 17.633333333333333,
+  "frame_count": 530,
+  "fps": 30.0,
+  "strict_paired_coverage": 0.9788079470198675,
+  "collision_frames": 0,
+  "edge_collision_frames": 0,
+  "topology_invalid_frames": 0,
+  "retiming_applied": false,
+  "playback_speed": 1.0,
+  "dynamics_enforced": false,
+  "original_track_arrays": {
+    "left": "left_target_position_m",
+    "right": "right_target_position_m"
+  },
+  "actual_track_arrays": {
+    "left": "left_actual_tcp[:,:3]",
+    "right": "right_actual_tcp[:,:3]"
+  },
+  "actual_cursor": "MuJoCo forward-kinematics TCP of interpolated saved qpos",
+  "target_trail_window_s": [
+    1.0,
+    0.4
+  ],
+  "actual_trail_history_s": 1.5,
+  "xy_path_overview": "complete XY target and actual TCP; elapsed actual path highlighted",
+  "complete_3d_paths": "full archived target and actual TCP traces shown faintly in MuJoCo",
+  "render_mode": "MuJoCo kinematic replay of saved joint states; no forward dynamics"
+}

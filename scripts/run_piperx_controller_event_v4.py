@@ -24,7 +24,10 @@ from scripts import run_piperx_multitask_fixed_time_mount_study as study
 from scripts.render_factory_dual_xarm6_se3_follow import (
     audit_bimanual_collisions,
 )
-from scripts.search_fold_box_piperx_paired_mount import _scene_mount_kwargs
+from scripts.search_fold_box_piperx_paired_mount import (
+    _scene_mount_kwargs,
+    _valid_mount,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -183,6 +186,26 @@ def _checkpoint(source_root, spec, mode):
             / spec.family.task / spec.take / f"{mode}.json")
 
 
+def resolve_mount(state, *, override=None):
+    """Use a physical mount override without changing the saved checkpoint."""
+    mount = state.get("selected_mount") if override is None else override
+    if not mount:
+        raise ValueError("selected mount is unavailable")
+    if override is not None:
+        try:
+            valid = _valid_mount(mount)
+        except (KeyError, TypeError, ValueError) as error:
+            raise ValueError("mount override is malformed") from error
+        if not valid:
+            raise ValueError("mount override is outside physical bounds")
+    return mount, ("checkpoint" if override is None else "explicit_override")
+
+
+def repo_relative_artifact_path(path):
+    """Record an artifact path independent of relative/absolute CLI spelling."""
+    return Path(path).resolve().relative_to(ROOT).as_posix()
+
+
 def _joint_addresses(model):
     addresses = []
     for side in ("left", "right"):
@@ -218,12 +241,13 @@ def _fingerprint(spec, mode, mount, *, source_prefix, enforce_dynamics):
 
 def solve_event_shard(
         spec, mode, *, source_root=DEFAULT_SOURCE, output=DEFAULT_OUTPUT,
-        source_prefix=None, enforce_dynamics=False):
+        source_prefix=None, enforce_dynamics=False, mount_override=None):
     checkpoint = _checkpoint(source_root, spec, mode)
     state = json.loads(checkpoint.read_text(encoding="utf-8"))
-    mount = state.get("selected_mount")
-    if not mount:
-        raise ValueError(f"{spec.key}/{mode}: selected mount is unavailable")
+    mount, mount_source = resolve_mount(state, override=mount_override)
+    if (mount_override is not None
+            and Path(output).resolve() == DEFAULT_OUTPUT.resolve()):
+        raise ValueError("mount override requires a separate output root")
     task, _registration = study._load_registered_spec(
         spec, timing_mode="controller_updates")
     task, mapped, target_audit = study.prepare_family_follow_targets(
@@ -358,11 +382,12 @@ def solve_event_shard(
                 target_audit.maximum_orientation_deviation_rad),
         },
         "mount": mount,
-        "scene": str(scene.relative_to(ROOT)),
-        "trajectory_artifact": str(trajectory.relative_to(ROOT)),
+        "mount_source": mount_source,
+        "scene": repo_relative_artifact_path(scene),
+        "trajectory_artifact": repo_relative_artifact_path(trajectory),
         "artifacts": {
-            "scene_xml": {"path": str(scene.relative_to(ROOT))},
-            "trajectory_npz": {"path": str(trajectory.relative_to(ROOT))},
+            "scene_xml": {"path": repo_relative_artifact_path(scene)},
+            "trajectory_npz": {"path": repo_relative_artifact_path(trajectory)},
         },
         **metrics,
         "maximum_velocity_rad_s": float(np.max(np.abs(velocity))),
@@ -392,6 +417,8 @@ def main(argv=None):
     parser.add_argument("--mode", choices=STUDY_MODES, required=True)
     parser.add_argument("--source-prefix", type=int)
     parser.add_argument("--enforce-official-dynamics", action="store_true")
+    parser.add_argument("--mount-json", type=Path,
+                        help="Explicit mount JSON; requires a separate --output")
     args = parser.parse_args(argv)
     specs = discover_dual_hand_trajectories(ROOT / "data/factory")
     matches = [spec for spec in specs if spec.key == args.trajectory]
@@ -400,7 +427,9 @@ def main(argv=None):
     solve_event_shard(
         matches[0], args.mode, source_root=args.source_root,
         output=args.output, source_prefix=args.source_prefix,
-        enforce_dynamics=args.enforce_official_dynamics)
+        enforce_dynamics=args.enforce_official_dynamics,
+        mount_override=(None if args.mount_json is None else json.loads(
+            args.mount_json.read_text(encoding="utf-8"))))
 
 
 if __name__ == "__main__":

@@ -1,0 +1,95 @@
+{
+  "schema": "piperx-controller-event-v4-summary-v1",
+  "solver_protocol": "piperx-controller-event-raw-fixed-time-v4",
+  "formal_fingerprint": "038c09632a55867b35a7217b27daedbe28044c2822ca5e45f5a10a9e66fd456e",
+  "trajectory": "8-11/Fold_Box/161044",
+  "family": "8-11/Fold_Box",
+  "take": "161044",
+  "mode": "baseline",
+  "source_sha256": "98ac81447effe2d447058c952990d46d4f11d2f1fefade41bcbd8e8df4ae782d",
+  "timing_mode": "fixed_controller_event_time",
+  "timing_source": "paired_controller_receive",
+  "retiming_applied": false,
+  "source_poll_rows": 1478,
+  "controller_event_rows": 300,
+  "controller_event_rows_total": 755,
+  "duplicate_poll_rows_removed": 723,
+  "controller_events_not_solved": 455,
+  "source_poll_row_index_preserved": true,
+  "target_contract": {
+    "tool_transform": "configured fixed SE(3)",
+    "conditioning": "none",
+    "time_varying_wrist_adaptation": false,
+    "position_tolerance_mm": 1.0,
+    "orientation_tolerance_deg": 0.5
+  },
+  "dynamics_enforced": false,
+  "official_dynamics_limits": {
+    "maximum_velocity_rad_s": 3.0,
+    "maximum_acceleration_rad_s2": 5.0
+  },
+  "target_audit": {
+    "maximum_position_deviation_m": 0.0,
+    "maximum_orientation_deviation_rad": 0.0
+  },
+  "mount": {
+    "family": "8-11/Fold_Box",
+    "morphology": "bottom_table",
+    "mode": "upright_table",
+    "xy": {
+      "left": [
+        -0.24857021833998647,
+        0.429238866791272
+      ],
+      "right": [
+        -0.44857021833998645,
+        -0.14076113320872802
+      ]
+    },
+    "yaw": {
+      "left": 0.0,
+      "right": 0.0
+    },
+    "shared_base_z_m": 0.7570900119999999,
+    "base_z_m": {
+      "left": 0.7570900119999999,
+      "right": 0.7570900119999999
+    },
+    "base_distance_m": 0.6040695324217469,
+    "source_take": "161044",
+    "coordinate_domain": "registered_world",
+    "selection_method": "v4 raw-event strict right-only local paired-mount probe"
+  },
+  "mount_source": "explicit_override",
+  "scene": "reports/piperx_controller_event_v4_mount_trials/right_shift_10cm_3cm/prefix300/shards/8-11/Fold_Box/161044/baseline/8-11_Fold_Box_161044_baseline_event_v4.scene.xml",
+  "trajectory_artifact": "reports/piperx_controller_event_v4_mount_trials/right_shift_10cm_3cm/prefix300/shards/8-11/Fold_Box/161044/baseline/8-11_Fold_Box_161044_baseline_event_v4.trajectory.npz",
+  "artifacts": {
+    "scene_xml": {
+      "path": "reports/piperx_controller_event_v4_mount_trials/right_shift_10cm_3cm/prefix300/shards/8-11/Fold_Box/161044/baseline/8-11_Fold_Box_161044_baseline_event_v4.scene.xml"
+    },
+    "trajectory_npz": {
+      "path": "reports/piperx_controller_event_v4_mount_trials/right_shift_10cm_3cm/prefix300/shards/8-11/Fold_Box/161044/baseline/8-11_Fold_Box_161044_baseline_event_v4.trajectory.npz"
+    }
+  },
+  "source_frames": 300,
+  "left_accept_frames": 284,
+  "right_accept_frames": 284,
+  "both_accept_frames": 284,
+  "left_accept_coverage": 0.9466666666666667,
+  "right_accept_coverage": 0.9466666666666667,
+  "both_accept_coverage": 0.9466666666666667,
+  "source_valid_pair_frames": 300,
+  "invalid_source_frames": 0,
+  "both_accept_coverage_valid_source": 0.9466666666666667,
+  "collision_frames": 0,
+  "edge_collision_frames": 0,
+  "topology_invalid_frames": 0,
+  "longest_hold_frames": 15,
+  "longest_hold_ratio": 0.05,
+  "maximum_position_error_mm": 44.84066270628313,
+  "maximum_orientation_error_deg": 12.894349943275182,
+  "maximum_accepted_position_error_mm": 0.9989725266937254,
+  "maximum_accepted_orientation_error_deg": 0.4981565624422293,
+  "maximum_velocity_rad_s": 9.759611324670193,
+  "maximum_acceleration_rad_s2": 703.6104663004921
+}

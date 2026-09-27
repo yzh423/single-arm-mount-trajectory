@@ -1,0 +1,19 @@
+{
+  "family": "8-11/Fold_Box",
+  "morphology": "bottom_table",
+  "mode": "upright_table",
+  "xy": {
+    "left": [-0.24857021833998647, 0.429238866791272],
+    "right": [-0.44857021833998645, -0.14076113320872802]
+  },
+  "yaw": {"left": 0.0, "right": 0.0},
+  "shared_base_z_m": 0.7570900119999999,
+  "base_z_m": {
+    "left": 0.7570900119999999,
+    "right": 0.7570900119999999
+  },
+  "base_distance_m": 0.6040695324217469,
+  "source_take": "161044",
+  "coordinate_domain": "registered_world",
+  "selection_method": "v4 raw-event strict right-only local paired-mount probe"
+}

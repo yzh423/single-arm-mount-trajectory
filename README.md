@@ -51,6 +51,7 @@ The [v4 runner](scripts/run_piperx_controller_event_v4.py) calls `solve_event_sh
 | `--output` | Destination root; defaults to `reports/piperx_controller_event_v4` |
 | `--source-prefix` | Event-count window, with a minimum of two events and a maximum of the available sequence |
 | `--enforce-official-dynamics` | Opt in to the runner's 3 rad/s velocity and 5 rad/s² acceleration bounds |
+| `--mount-json` | Use an explicit physical mount for an isolated v4 trial; requires a separate `--output` root and leaves the checkpoint unchanged |
 
 > **Caution:** The runner consumes an existing `selected_mount` from `checkpoints/<date>/<task>/<take>/<mode>.json` and fails when it is unavailable; solving a v4 shard does not perform a fresh v4 mount optimization.
 
@@ -72,6 +73,25 @@ For whole-recording conclusions, use the four summaries under [reports/piperx_co
 | `8-11/Fold_Box/161044` | 1,478 | 755 | 94.834% | 76.159% |
 
 All four full runs have `collision_frames = 0`, `edge_collision_frames = 0`, and `topology_invalid_frames = 0`. They all record `dynamics_enforced=false`. The directory does not contain complete `horizontal_wall` or `inverted` runs for these recordings, so it does not establish a full four-mount comparison.
+
+### Fold_Box raw-event mount refinement
+
+The [Fold_Box mount/IK addendum](output/pdf/PiperX_Fold_Box_Fixed_Time_mount_IK_优化核验报告.pdf) compares the old full baseline with a separately archived [right-base-only mount trial](reports/piperx_controller_event_v4_mount_trials/right_shift_10cm_3cm/). Both solve the same 755 synchronized events, unchanged raw targets, 1 mm / 0.5° gate, fixed source time, and 15 mm paired clearance:
+
+| Full Fold_Box/161044 | Both arms accepted | Paired coverage | Collision / swept / topology |
+|---|---:|---:|---:|
+| Existing baseline | 716/755 | 94.834% | 0 / 0 / 0 |
+| Right-base-only trial | 739/755 | 97.881% | 0 / 0 / 0 |
+
+The left base stays fixed; the right base moves -0.10 m in registered-world X and +0.03 m in Y. The recovered 23 events are the previously held start. The remaining failures are event 64 and events 98–112. The reproducible [rigid-target clearance certificate](reports/piperx_controller_event_v4_mount_trials/right_shift_10cm_3cm/target_clearance_certificate.json) proves that at least events 99–107 cannot satisfy both raw TCP targets and the 15 mm gripper-base gap, even within the allowed pose tolerances; strict safe coverage is therefore bounded above by 746/755 (98.808%). This is an upper bound, not a claim that the other events have a feasible continuous or dynamic IK solution.
+
+The [complete MuJoCo video](reports/piperx_controller_event_v4_mount_trials/right_shift_10cm_3cm/portfolio/fold-box-piperx-optimized-mount-complete-trajectories.mp4) shows both full original and actual TCP paths at the original 17.639 s event span, including safe HOLD. All 530 encoded-time interpolated poses also passed independent collision/clearance and topology checks. This remains a kinematic replay: dynamics enforcement is off, and the recorded peak 9.760 rad/s and 703.610 rad/s² exceed the Piper SDK V2 configured reference ceilings.
+
+To reproduce the full trial without overwriting baseline evidence:
+
+```powershell
+python -m scripts.run_piperx_controller_event_v4 --trajectory 8-11/Fold_Box/161044 --mode baseline --mount-json reports/piperx_controller_event_v4_mount_trials/right_shift_10cm_3cm/mount.json --output reports/piperx_controller_event_v4_mount_trials/right_shift_10cm_3cm/full
+```
 
 Read the evidence directly without starting a solver:
 
