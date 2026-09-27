@@ -56,6 +56,26 @@ def test_solid_trace_preserves_every_recorded_event_segment():
     np.testing.assert_array_equal(segments[127], points[127:129])
 
 
+def test_local_target_trail_shows_nearby_reference_without_full_path_clutter():
+    times = np.arange(0., 5.1, 0.1)
+    points = np.column_stack((times, np.zeros_like(times), np.zeros_like(times)))
+    trail = _trace_segments(points, times, 2.0, full_path=False, dashed=False,
+                            history_s=1.0, future_s=0.4)
+    assert len(trail) > 0
+    assert trail[:, :, 0].min() >= 1.0 - 1e-9
+    assert trail[:, :, 0].max() <= 2.4 + 1e-9
+
+
+def test_local_actual_trail_never_shows_future_executed_positions():
+    times = np.arange(0., 5.1, 0.1)
+    points = np.column_stack((times, np.zeros_like(times), np.zeros_like(times)))
+    trail = _trace_segments(points, times, 2.05, full_path=False, dashed=False,
+                            history_s=1.5, current_point=np.array([2.05, 0., 0.]))
+    assert trail[:, :, 0].min() >= 0.55 - 1e-9
+    np.testing.assert_allclose(trail[-1, 1], [2.05, 0., 0.])
+    assert trail[:, :, 0].max() <= 2.05 + 1e-9
+
+
 def test_extract_tracks_rejects_nonfinite_actual_tcp():
     arrays = {
         "source_time_s": np.array([0., 1.]),

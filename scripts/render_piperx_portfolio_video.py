@@ -28,7 +28,10 @@ HEIGHT = 720
 FPS = 30
 SCENE_TOP = 62
 SCENE_HEIGHT = 592
-RENDER_PROTOCOL = "piperx-v4-portfolio-target-vs-actual-v2"
+RENDER_PROTOCOL = "piperx-v4-portfolio-target-vs-actual-v3"
+TARGET_HISTORY_S = 1.0
+TARGET_FUTURE_S = 0.4
+ACTUAL_HISTORY_S = 1.5
 
 
 def _repo_artifact(relative_path: str) -> Path:
@@ -81,15 +84,22 @@ def _extract_tracks(arrays: dict) -> dict[str, tuple[np.ndarray, np.ndarray]]:
 
 def _trace_segments(points: np.ndarray, times: np.ndarray, time_s: float, *,
                     full_path: bool, dashed: bool,
-                    current_point: np.ndarray | None = None) -> np.ndarray:
+                    current_point: np.ndarray | None = None,
+                    history_s: float | None = None,
+                    future_s: float = 0.0) -> np.ndarray:
     """Select source-bound path geometry without drawing future executed motion."""
     relative_times = np.asarray(times, dtype=float) - float(times[0])
+    if (history_s is not None and history_s < 0) or future_s < 0:
+        raise ValueError("trace windows must be nonnegative")
+    start = 0 if full_path or history_s is None else int(np.searchsorted(
+        relative_times, time_s - history_s, side="left"))
     end = len(relative_times) if full_path else int(np.searchsorted(
-        relative_times, time_s, side="right"))
-    if end == 0:
+        relative_times, time_s + future_s, side="right"))
+    if end <= start:
         return np.empty((0, 2, 3), dtype=float)
-    path = np.asarray(points, dtype=float)[:end]
-    if not full_path and current_point is not None and time_s > relative_times[end - 1] + 1e-9:
+    path = np.asarray(points, dtype=float)[start:end]
+    if (not full_path and current_point is not None and future_s == 0
+            and time_s > relative_times[end - 1] + 1e-9):
         path = np.vstack((path, np.asarray(current_point, dtype=float)))
     if len(path) < 2:
         return np.empty((0, 2, 3), dtype=float)
@@ -175,6 +185,50 @@ def _draw_comparison_legend(canvas: np.ndarray) -> None:
                     0.45, (205, 215, 222), 1, cv2.LINE_AA)
 
 
+def _draw_xy_path_overview(canvas: np.ndarray, *, tracks: dict,
+                           times: np.ndarray, time_s: float,
+                           target_now: dict, actual_now: dict) -> None:
+    """Show the full XY target and only the already-executed XY TCP path."""
+    cv2.rectangle(canvas, (22, SCENE_TOP + 112), (470, SCENE_TOP + 306),
+                  (40, 45, 49), -1)
+    cv2.putText(canvas, "XY PATH OVERVIEW  /  TARGET vs EXECUTED", (36, SCENE_TOP + 137),
+                cv2.FONT_HERSHEY_SIMPLEX, 0.43, (205, 215, 222), 1, cv2.LINE_AA)
+    colors = {
+        "left": ((255, 217, 107), (235, 119, 41)),
+        "right": ((178, 107, 249), (53, 171, 255)),
+    }
+    for side, left_x in (("left", 36), ("right", 252)):
+        target, actual = tracks[side]
+        target_color, actual_color = colors[side]
+        x0, x1 = left_x, left_x + 202
+        y0, y1 = SCENE_TOP + 166, SCENE_TOP + 290
+        cv2.rectangle(canvas, (x0, y0), (x1, y1), (61, 68, 73), 1)
+        cv2.putText(canvas, side.upper(), (x0 + 7, y0 + 17),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.42, (221, 229, 233), 1, cv2.LINE_AA)
+        bounds = np.vstack((target[:, :2], actual[:, :2]))
+        low = bounds.min(axis=0)
+        high = bounds.max(axis=0)
+        extent = np.maximum(high - low, 1e-9)
+        scale = min((x1 - x0 - 22) / extent[0], (y1 - y0 - 22) / extent[1])
+        center = (low + high) / 2
+
+        def project(point: np.ndarray) -> tuple[int, int]:
+            return (round((x0 + x1) / 2 + (point[0] - center[0]) * scale),
+                    round((y0 + y1) / 2 - (point[1] - center[1]) * scale))
+
+        for segment in _trace_segments(target, times, time_s,
+                                       full_path=True, dashed=True):
+            cv2.line(canvas, project(segment[0]), project(segment[1]),
+                     target_color, 1, cv2.LINE_AA)
+        for segment in _trace_segments(actual, times, time_s,
+                                       full_path=False, dashed=False,
+                                       current_point=actual_now[side]):
+            cv2.line(canvas, project(segment[0]), project(segment[1]),
+                     actual_color, 2, cv2.LINE_AA)
+        cv2.circle(canvas, project(target_now[side]), 4, target_color, 1, cv2.LINE_AA)
+        cv2.circle(canvas, project(actual_now[side]), 3, actual_color, -1, cv2.LINE_AA)
+
+
 def _blend_background(rgb: np.ndarray) -> np.ndarray:
     """Replace only the unlit scene background with a muted studio gradient."""
     bgr = cv2.cvtColor(rgb, cv2.COLOR_RGB2BGR)
@@ -191,10 +245,14 @@ def _blend_background(rgb: np.ndarray) -> np.ndarray:
 def _draw_editorial_frame(scene_bgr: np.ndarray, *, time_s: float,
                           duration_s: float, following: bool,
                           coverage: float,
-                          position_error_mm: dict[str, float]) -> np.ndarray:
+                          position_error_mm: dict[str, float],
+                          tracks: dict, times: np.ndarray,
+                          target_now: dict, actual_now: dict) -> np.ndarray:
     canvas = np.full((HEIGHT, WIDTH, 3), (32, 35, 36), dtype=np.uint8)
     canvas[SCENE_TOP:SCENE_TOP + SCENE_HEIGHT] = scene_bgr
     _draw_comparison_legend(canvas)
+    _draw_xy_path_overview(canvas, tracks=tracks, times=times, time_s=time_s,
+                           target_now=target_now, actual_now=actual_now)
     cv2.putText(canvas, "FOLD BOX  /  PIPERX DUAL ARM", (34, 40),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.73, (241, 243, 244), 2, cv2.LINE_AA)
     cv2.putText(canvas, "MUJOCO KINEMATIC REPLAY  |  FIXED SOURCE TIME", (730, 40),
@@ -267,14 +325,17 @@ def render(summary_path: Path, output_path: Path, poster_path: Path) -> dict:
                                     ("right", (0.98, 0.42, 0.70, 0.66))):
                     original, _ = tracks[side]
                     segments = _trace_segments(original, times, float(encoded_time),
-                                               full_path=True, dashed=True)
+                                               full_path=False, dashed=True,
+                                               history_s=TARGET_HISTORY_S,
+                                               future_s=TARGET_FUTURE_S)
                     _draw_path(renderer.scene, segments, color, 0.003)
                 for side, color in (("left", (0.16, 0.47, 0.92, 1.0)),
                                     ("right", (1.0, 0.67, 0.21, 1.0))):
                     _, actual = tracks[side]
                     segments = _trace_segments(actual, times, float(encoded_time),
                                                full_path=False, dashed=False,
-                                               current_point=actual_now[side])
+                                               current_point=actual_now[side],
+                                               history_s=ACTUAL_HISTORY_S)
                     _draw_path(renderer.scene, segments, color, 0.006)
                     _draw_tcp_marker(renderer.scene, actual_now[side], color)
                 scene_bgr = _blend_background(renderer.render())
@@ -287,7 +348,9 @@ def render(summary_path: Path, output_path: Path, poster_path: Path) -> dict:
                     coverage=float(summary["both_accept_coverage"]),
                     position_error_mm={side: float(np.linalg.norm(
                         actual_now[side] - target_now[side]) * 1000)
-                        for side in tracks})
+                        for side in tracks},
+                    tracks=tracks, times=times,
+                    target_now=target_now, actual_now=actual_now)
                 if frame_index == poster_frame_index:
                     if not cv2.imwrite(str(poster_path), frame):
                         raise RuntimeError("could not write portfolio poster")
@@ -334,6 +397,9 @@ def render(summary_path: Path, output_path: Path, poster_path: Path) -> dict:
         "actual_track_arrays": {side: f"{side}_actual_tcp[:,:3]"
                                 for side in tracks},
         "actual_cursor": "MuJoCo forward-kinematics TCP of interpolated saved qpos",
+        "target_trail_window_s": [TARGET_HISTORY_S, TARGET_FUTURE_S],
+        "actual_trail_history_s": ACTUAL_HISTORY_S,
+        "xy_path_overview": "full XY target versus elapsed XY executed TCP; bounds use complete recording",
         "render_mode": "MuJoCo kinematic replay of saved joint states; no forward dynamics",
     }
     output_path.with_suffix(".provenance.json").write_text(

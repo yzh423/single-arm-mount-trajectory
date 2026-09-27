@@ -1,0 +1,39 @@
+{
+  "schema": "piperx-v4-portfolio-target-vs-actual-v3",
+  "trajectory": "8-11/Fold_Box/161044",
+  "mode": "baseline",
+  "source_summary": "reports/piperx_controller_event_v4/shards/8-11/Fold_Box/161044/baseline/8-11_Fold_Box_161044_baseline_event_v4.summary.json",
+  "source_summary_sha256": "12ceacde59e5b017cdcb820c6a86bfc3004bd7612b29e7f390ec9881c5e3681d",
+  "trajectory_sha256": "649fca61bf1ed8ab747757f3cb416ad06e4969d2a86072f5e0abb3100c74d533",
+  "scene_sha256": "00690ed7f308c714b520939fc9f1648ad90bebd0043141ec3581db083180e736",
+  "video_sha256": "fb27a493476cd2adb855af32e6cdcf7372dbdfa5d8e1abd36cbd99692a82736d",
+  "poster_sha256": "da4d8705470013aa93c855695630bff9ed7114ed2579bef89e32208e1f270363",
+  "controller_event_count": 755,
+  "source_duration_s": 17.638781582994852,
+  "encoded_duration_s": 17.633333333333333,
+  "frame_count": 530,
+  "fps": 30.0,
+  "strict_paired_coverage": 0.9483443708609272,
+  "collision_frames": 0,
+  "edge_collision_frames": 0,
+  "topology_invalid_frames": 0,
+  "retiming_applied": false,
+  "playback_speed": 1.0,
+  "dynamics_enforced": false,
+  "original_track_arrays": {
+    "left": "left_target_position_m",
+    "right": "right_target_position_m"
+  },
+  "actual_track_arrays": {
+    "left": "left_actual_tcp[:,:3]",
+    "right": "right_actual_tcp[:,:3]"
+  },
+  "actual_cursor": "MuJoCo forward-kinematics TCP of interpolated saved qpos",
+  "target_trail_window_s": [
+    1.0,
+    0.4
+  ],
+  "actual_trail_history_s": 1.5,
+  "xy_path_overview": "full XY target versus elapsed XY executed TCP; bounds use complete recording",
+  "render_mode": "MuJoCo kinematic replay of saved joint states; no forward dynamics"
+}
